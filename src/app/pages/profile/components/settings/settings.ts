@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 
 @Component({
-  selector: 'app-assigned-prgm',
+  selector: 'app-settings',
   imports: [MatDivider],
-  templateUrl: './assigned-prgm.html',
-  styleUrl: './assigned-prgm.css',
+  templateUrl: './settings.html',
+  styleUrl: './settings.css',
 })
-export class AssignedPrgm {}
+export class Settings {}

@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 
 @Component({
-  selector: 'app-profile-info',
+  selector: 'app-settings',
   imports: [MatDivider],
-  templateUrl: './profile-info.html',
-  styleUrl: './profile-info.css',
+  templateUrl: './settings.html',
+  styleUrl: './settings.css',
 })
-export class ProfileInfo {}
+export class Settings {}

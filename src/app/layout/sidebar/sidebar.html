@@ -1,9 +1,32 @@
 <div class="sidebar">
-    <div class="logo">
+    <div class="logo d-flex align-items-center gap-2 mb-5">
         <img src="/main/logo.png" alt="Logo" />
-        <div>
-            <p>Mallu Cafe Radio USA</p>
-            <p>99.5 FM</p>
+
+        <div class="logo-text">
+            <p class="mb-0 fw-semibold">Mallu Cafe Radio USA</p>
+            <p class="mb-0 fw-semibold">99.5 FM</p>
         </div>
+    </div>
+
+    <div class="overview">
+        <h6 class="fw-semibold mb-4">OVERVIEW</h6>
+        <div class="overview-options">
+            @for (item of sidebarItems; track item.title) {
+            <div class="menu-item d-flex align-items-center gap-3 mb-4" [routerLink]="item.link"
+                [class.active]="isActive(item.link)">
+                <img [src]="isActive(item.link) ? item.activeIcon : item.icon" alt="" class="menu-icon" />
+                <span>{{ item.title }}</span>
+            </div>
+            }
+        </div>
+    </div>
+
+    <div class="sidebar-bottom">
+        @for(item of sidebarBottomItems; track item.title){
+        <div class="menu-item d-flex align-items-center gap-3 mb-4" [routerLink]="item.link">
+            <img [src]="item.icon" alt="" class="menu-icon" />
+            <span>{{ item.title }}</span>
+        </div>
+        }
     </div>
 </div>

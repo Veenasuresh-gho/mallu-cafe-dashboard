@@ -1,1 +1,18 @@
-<p>summary works!</p>
+<div class="summary">
+    <div class="summary-content p-3 ">
+        <h6>Today’s Automation Summary</h6>
+        <p>Real time status of program execution, file readiness and scheduled advertisements.</p>
+    </div>
+
+    @for(item of summary; track item){
+    <div>
+        <div>
+            <div>
+                <img src={{item.image}}/>
+            </div>
+        </div>
+    </div>
+    }
+
+
+</div>

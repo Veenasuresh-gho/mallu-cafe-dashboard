@@ -13,3 +13,7 @@ body {
     --muted-text: #9A9A9A;
     --primary-text: #312F2F;
 }
+
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}

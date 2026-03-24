@@ -1,0 +1,16 @@
+.summary{
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+}
+
+.summary-content p{
+    font-weight: 400;
+    font-size: 10px;
+}
+
+.summary-content h6{
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 12px;
+}

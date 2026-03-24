@@ -4,3 +4,12 @@
   background: #ffffff;   
   padding: 20px;
 }
+
+.logo{
+  
+}
+
+.logo img {
+  max-width: 40px;   
+  height: auto;
+}

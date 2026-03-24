@@ -11,6 +11,7 @@ export class Sidebar {
 
   constructor(public router: Router) { }
 
+
   sidebarItems = [
     {
       title: "Dashboard",
@@ -66,4 +67,5 @@ export class Sidebar {
   isActive(link: string): boolean {
     return this.router.url === link;
   }
+
 }

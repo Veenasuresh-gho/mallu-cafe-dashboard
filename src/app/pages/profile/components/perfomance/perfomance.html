@@ -1,21 +1,26 @@
 <div class="row gap-2">
-    <div class="col-md-3 justify-content-start">
-        <p class="fw-bold mb-1">Performance Overview</p>
-        <small class="text-muted">
-            Insights from your shows and listener interactions.
-        </small>
+    <div class="col-md-3">
+        <div class="d-flex flex-column justify-content-start">
+            <p class="mainHead mb-1 ">Performance Overview</p>
+            <small class="subHeading">
+                Insights from your shows and listener interactions.
+            </small>
+        </div>
     </div>
     <div class="col-md-8">
        <ul class="list-unstyled d-flex gap-3 mb-0 mt-2 flex-wrap">
 
   @for (item of stats; track item) {
-    <li class="d-flex align-items-center gap-1 text-[20px]">
+    <li class="d-flex align-items-center gap-1 ">
 
       <span class="material-symbols-outlined">
         {{ item.icon }}
       </span>
 
-     <span>{{ item.label }}</span>
+    <div class="d-flex">
+       <span class="PerformanceData">{{ item.label }}:  </span>
+     <span class="countData">{{ item.count }}</span>
+    </div>
 
       @if (item.trendIcon) {
         <span class="material-symbols-outlined" [ngClass]="item.trendColor">

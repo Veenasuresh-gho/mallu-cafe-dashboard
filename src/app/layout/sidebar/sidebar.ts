@@ -46,7 +46,7 @@ export class Sidebar {
     {
       title: "Profile",
       icon: "/main/sidebar/user-muted.png",
-      link: "#",
+      link: "/profile",
       activeIcon: "/main/sidebar/user.png"
     },
   ]

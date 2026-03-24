@@ -1,0 +1,16 @@
+.mainHead{
+    font-weight: 600;
+    font-size: 14px;
+    color: #000000;
+}
+.subHeading{
+    font-weight: 400;
+    font-size: 10px;
+   
+}
+.PerformanceData{
+    font-weight: 500;
+    font-size: 12px;
+    font-family: Red Hat Display;
+    color: #636363;
+}

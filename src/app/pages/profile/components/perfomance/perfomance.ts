@@ -4,29 +4,36 @@ import { MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'app-perfomance',
-  imports: [MatDivider,CommonModule],
+  imports: [MatDivider, CommonModule],
   templateUrl: './perfomance.html',
   styleUrl: './perfomance.css',
 })
 export class Perfomance {
   stats = [
-  {
-    icon: 'mic',
-    label: 'Shows Hosted: 120'
-  },
-  {
-    icon: 'headphones',
-    label: 'Listener Engagement: 85%',
-    trendIcon: 'trending_up',
-    trendColor: 'text-success'
-  },
-  {
-    icon: 'favorite',
-    label: 'Favourites: 1450'
-  },
-  {
-    icon: 'call',
-    label: 'Calls Received: 310'
-  }
-];
+    {
+      icon: 'mic',
+      label: 'Shows Hosted',
+      count: '120'
+    },
+    {
+      icon: 'headphones',
+      label: 'Listener Engagement ',
+      count: '85%',
+
+      trendIcon: 'trending_up',
+      trendColor: 'text-success'
+    },
+    {
+      icon: 'favorite',
+      label: 'Favourites ',
+      count: '1450',
+
+    },
+    {
+      icon: 'call',
+      label: 'Calls Received',
+      count: '310',
+
+    }
+  ];
 }

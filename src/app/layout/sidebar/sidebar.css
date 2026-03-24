@@ -1,15 +1,45 @@
 .sidebar {
-  width: 200px;
+  width: 280px;
   height: 100vh;
-  background: #ffffff;   
+  background: #ffffff;
   padding: 20px;
+
+  display: flex;
+  flex-direction: column;
 }
 
-.logo{
-  
+.sidebar-bottom {
+  margin-top: auto;
 }
 
 .logo img {
-  max-width: 40px;   
+  max-width: 50px;
   height: auto;
+}
+
+.logo-text p {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.overview h6 {
+  color: var(--muted-text);
+}
+
+.menu-item img {
+  width: 30px;
+}
+
+.menu-item span {
+  color: var(--primary-text)
+}
+
+.menu-item {
+  cursor: pointer;
+}
+
+.menu-item.active span {
+  color: var(--primary-color);
+  font-weight: 600;
 }

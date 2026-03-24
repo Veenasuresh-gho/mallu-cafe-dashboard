@@ -1,0 +1,96 @@
+    .date-btn {
+        border: 2px solid #C6C6C6;
+        font-size: 12px;
+        cursor: pointer;
+        font-family: 'Red Hat Display', sans-serif;
+        font-weight: 700;
+    }
+
+    .program-schedules h6 {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 12px;
+    }
+
+    .program-schedules p {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 14px;
+    }
+
+    .on-air p {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+    }
+
+    .on-air-text {
+        color: #00AA45;
+        font-weight: 400;
+    }
+
+    .rjImage img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .song-name {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 10px;
+    }
+
+    .time {
+        font-size: 10px;
+        color: #9A9A9A;
+        /* line-height: 10px; */
+    }
+
+    .name span {
+        color: var(--primary-color);
+        font-size: 10px;
+    }
+
+    .name img{
+        width:  10px;
+    }
+
+    .schedules-content{
+        border: 1px solid #E4E4E4;
+        border-radius: 20px;
+    }
+
+    .on-air-content{
+        background-color: #FFFFFF;
+    }
+
+
+    .on-air-content {
+  background: #fff;
+  border-radius: 10px;
+}
+
+.rjImage img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.headphone-icon {
+  width: 14px;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #eee;
+}
+
+.listeners{
+    font-size: 12px;
+}
+
+.files{
+    font-size: 10px;
+}

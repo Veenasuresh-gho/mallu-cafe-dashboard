@@ -6,4 +6,14 @@ import { Component } from '@angular/core';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar {}
+export class Navbar {
+  currentSong = {
+    title: 'Om Shanti Om',
+    status: 'On Air'
+  };
+
+  nextSong = {
+    title: 'Bollywood Rewind',
+    status: 'Next'
+  };
+}

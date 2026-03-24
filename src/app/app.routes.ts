@@ -17,7 +17,14 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
-      }
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./pages/profile/profile')
+            .then(m => m.Profile)
+      },
+      
     ]
   }
 ];

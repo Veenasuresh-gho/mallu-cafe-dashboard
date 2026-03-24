@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 
 @Component({
-  selector: 'app-profile-info',
+  selector: 'app-permission',
   imports: [MatDivider],
-  templateUrl: './profile-info.html',
-  styleUrl: './profile-info.css',
+  templateUrl: './permission.html',
+  styleUrl: './permission.css',
 })
-export class ProfileInfo {}
+export class Permission {}

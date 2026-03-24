@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 
 @Component({
-  selector: 'app-profile-info',
+  selector: 'app-assigned-prgm',
   imports: [MatDivider],
-  templateUrl: './profile-info.html',
-  styleUrl: './profile-info.css',
+  templateUrl: './assigned-prgm.html',
+  styleUrl: './assigned-prgm.css',
 })
-export class ProfileInfo {}
+export class AssignedPrgm {}

@@ -6,35 +6,27 @@
         </small>
     </div>
     <div class="col-md-8">
-        <ul class="list-unstyled d-flex gap-4 mb-0 mt-2">
+       <ul class="list-unstyled d-flex gap-3 mb-0 mt-2 flex-wrap">
 
-            <li class="d-flex gap-1">
-                <span class="material-symbols-outlined">
-                    mic
-                </span>
-                <span>Shows Hosted: 120</span>
-            </li>
-            <li class="d-flex gap-1">
-                <span class="material-symbols-outlined">
-                    headphones
-                </span>
-                <span>Listener Engagement: 85%</span>
-                <span class="material-symbols-outlined text-success">
-                    trending_up
-                </span>
-            </li>
-            <li class="d-flex gap-1">
-                <span class="material-symbols-outlined"> favorite</span>
-                <span>Favourites: 1450</span>
-            </li>
-            <li class="d-flex gap-1">
-                <span class="material-symbols-outlined">
-                    call
-                </span>
-                <span>Calls Received: 310</span>
-            </li>
+  @for (item of stats; track item) {
+    <li class="d-flex align-items-center gap-1 text-[20px]">
 
-        </ul>
+      <span class="material-symbols-outlined">
+        {{ item.icon }}
+      </span>
+
+     <span>{{ item.label }}</span>
+
+      @if (item.trendIcon) {
+        <span class="material-symbols-outlined" [ngClass]="item.trendColor">
+          {{ item.trendIcon }}
+        </span>
+      }
+
+    </li>
+  }
+
+</ul>
     </div>
 
 </div>

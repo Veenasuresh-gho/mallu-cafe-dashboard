@@ -5,3 +5,10 @@ body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
 }
+
+:root {
+    --primary-color: #D80905;
+    --secondary-color: #F37127;
+    --muted-text: #9A9A9A;
+    --primary-text: #312F2F;
+}

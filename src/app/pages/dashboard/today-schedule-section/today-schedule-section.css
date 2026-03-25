@@ -1,6 +1,6 @@
     .date-btn {
         border: 2px solid #C6C6C6;
-        font-size: 12px;
+        font-size: 10px;
         cursor: pointer;
         font-family: 'Red Hat Display', sans-serif;
         font-weight: 700;
@@ -13,9 +13,10 @@
     }
 
     .program-schedules p {
-        font-size: 12px;
+        font-size: 10px;
         font-weight: 400;
         line-height: 14px;
+        width: 250px;
     }
 
     .on-air p {
@@ -69,7 +70,7 @@
 
     .on-air-content {
   background: #fff;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .rjImage img {
@@ -94,3 +95,22 @@
 .files{
     font-size: 10px;
 }
+
+.view span{
+    font-size: 10px;
+}
+
+.border-b {
+  border-bottom: 1px solid #E4E4E4;
+}
+
+.scroll-container {
+  height: 650px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: none;
+
+  -ms-overflow-style: none;
+}
+

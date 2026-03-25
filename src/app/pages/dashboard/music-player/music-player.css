@@ -20,6 +20,11 @@
   font-weight: 600;
   color: #000000;
 }
+.media-file{
+  font-size: 12px;
+  font-weight: 400;
+  color: #312F2F;
+}
 
 .sub-heading {
   font-family: Poppins;
@@ -83,6 +88,12 @@
   font-family: Red Hat Display;
   font-weight: 500;
   font-size: 12px;
+  line-height: 12px;
+}
+.extraData2 {
+  font-family: Red Hat Display;
+  font-weight: 400;
+  font-size: 10px;
   line-height: 12px;
 }
 

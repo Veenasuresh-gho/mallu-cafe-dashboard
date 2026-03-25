@@ -6,29 +6,25 @@
         </small>
     </div>
     <div class="col-md-8">
-        <ul class="list-unstyled d-flex gap-4 mb-0 mt-2">
+        <ul class="list-unstyled d-flex gap-4 mb-0 mt-2 flex-wrap">
 
-            <li class="d-flex gap-2">
-                <span class="material-symbols-outlined">
-                    podcasts
-                </span>
-                <span>Podcasts: 14</span>
-            </li>
-            <li class="d-flex gap-2">
-                <span class="material-symbols-outlined">
-                    videocam
-                </span>
-                <span>Featured: 6</span>
-            </li>
-            <li class="d-flex gap-2">
-                <span class="material-symbols-outlined bg-black text-white rounded-circle">
-                    arrow_right
-                </span>
-                <span>Shorts: 2</span>
-            </li>
+  @for (item of mediaStats; track item) {
+    <li class="d-flex align-items-center gap-2">
+      <span
+        class="material-symbols-outlined d-flex align-items-center justify-content-center"
+        [ngClass]="item.isCircle ? 'bg-dark text-white rounded-circle' : ''"
+        [style.width]="item.isCircle ? '24px' : null"
+        [style.height]="item.isCircle ? '24px' : null"
+        [style.fontSize]="item.isCircle ? '16px' : null"
+      >
+        {{ item.icon }}
+      </span>
+      <span>{{ item.label }}</span>
 
+    </li>
+  }
 
-        </ul>
+</ul>
     </div>
 
 </div>

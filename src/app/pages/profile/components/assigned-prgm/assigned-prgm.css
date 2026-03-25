@@ -1,0 +1,27 @@
+.mainHead{
+    font-weight: 600;
+    font-size: 14px;
+    color: #000000;
+}
+.subHeading{
+    font-weight: 400;
+    font-size: 10px;  
+}
+.active-btn{
+    font-weight: 400;
+    font-size: 12px;
+    font-family: Poppins;
+    color: #00AA45;
+}
+.radio-btn{
+    font-weight: 700;
+    font-style: bold;
+    font-family:Red Hat Display ;
+    font-size: 12px;
+}
+.timing{
+     font-weight: 400;
+    font-size: 12px;
+    font-family: Poppins;
+    color: #9A9A9A;
+}

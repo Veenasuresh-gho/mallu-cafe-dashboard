@@ -12,15 +12,19 @@ export class MediaContribution {
   mediaStats = [
   {
     icon: 'podcasts',
-    label: 'Podcasts: 14'
+    label: 'Podcasts',
+    count:'14',
+
   },
   {
     icon: 'videocam',
-    label: 'Featured: 6'
+    label: 'Featured',
+    count: '6',
   },
   {
     icon: 'arrow_right',
-    label: 'Shorts: 2',
+    label: 'Shorts',
+    count:'2',
     isCircle: true 
   }
 ];

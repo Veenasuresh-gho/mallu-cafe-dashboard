@@ -1,0 +1,139 @@
+.main-body {
+  background-color: #FFFFFF;
+  padding: 2%;
+}
+
+.schedules-content {
+  border: 1px solid #E4E4E4;
+  border-radius: 20px;
+}
+
+.time {
+  font-size: 10px;
+  color: #9A9A9A;
+}
+
+.main-Heading {
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: SemiBold;
+  font-weight: 600;
+  color: #000000;
+}
+
+.sub-heading {
+  font-family: Poppins;
+  font-size: 10px;
+  font-style: Regular;
+  font-weight: 400;
+  color: #312F2F;
+}
+
+.onAir {
+  font-family: Poppins;
+  font-size: 12px;
+  font-style: SemiBold;
+  font-weight: 400;
+  color: #00AA45;
+}
+
+.card-title {
+  font-family: Red Hat Display;
+  font-size: 16px;
+  font-style: bold;
+  font-weight: 700;
+  height: 21px;
+}
+
+.card-subtitle {
+  font-family: Red Hat Display;
+  font-size: 12px;
+  font-weight: 500;
+  height: 20px;
+
+}
+
+.duration {
+  font-family: Red Hat Display;
+  font-size: 10px;
+  font-weight: 500;
+  color: #FFA4A4;
+}
+
+.playAd {
+  font-family: Red Hat Display;
+  font-size: 12px;
+  font-style: bold;
+  font-weight: 700;
+  color: #CE111F;
+  margin: 10px;
+  border-radius: 20px;
+
+}
+
+.card-OnAir {
+  background-color: #39B54A;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 12px;
+  font-family: Red Hat Display;
+}
+
+.extraData {
+  font-family: Red Hat Display;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.custom-range {
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+}
+
+.custom-range::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  margin-top: -5px;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.custom-range::-moz-range-track {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.custom-range::-moz-range-thumb {
+  height: 12px;
+  width: 12px;
+  background: #ffffff;
+  border: none;
+  border-radius: 50%;
+}
+
+.gotoFile {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  color: #757575;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  padding: 8px;
+}

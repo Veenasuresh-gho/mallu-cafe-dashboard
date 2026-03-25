@@ -1,9 +1,11 @@
 <div class="row gap-2">
-    <div class="col-md-3 justify-content-start">
-        <p class="fw-bold mb-1">Permissions</p>
-        <small class="text-muted">
-            Access rights and system privileges.
-        </small>
+        <div class="col-md-3">
+        <div class="d-flex flex-column justify-content-start">
+            <p class="mainHead mb-1 ">Permissions</p>
+            <small class="subHeading">
+                Access rights and system privileges.
+            </small>
+        </div>
     </div>
 <div class="col-md-8">
   <ul class="list-unstyled d-flex gap-3 mb-0 flex-wrap">
@@ -12,11 +14,11 @@
       <li class="d-flex gap-1 align-items-center">
         <span
           class="material-symbols-outlined bg-dark text-white rounded d-flex align-items-center justify-content-center"
-          style="width: 20px; height: 20px; font-size: 14px;">
+          style="width: 16px; height: 16px; font-size: 16px;">
           {{ item.icon }}
         </span>
 
-        <span>{{ item.name }}</span>
+        <span class="PerformanceData">{{ item.name }}</span>
       </li>
     }
   </ul>

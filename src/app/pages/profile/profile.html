@@ -1,8 +1,8 @@
 <div class="main-body ">
-    <div class="d-flex  gap-4 rounded">
+    <!-- <div class="d-flex  gap-4 rounded">
         <div class="d-flex flex-column justify-content-start">
-            <h6 class="fw-bold mb-1">Profile Photo</h6>
-            <small class="text-muted">
+            <p class="mainHead mb-1 ">Profile Photo</p>
+            <small class="subHeading">
                 Upload or update your profile picture.
             </small>
         </div>
@@ -15,13 +15,13 @@
 
             <div class="d-flex gap-2 justify-content-end align-items-end mb-0">
 
-                <label class="btn btn-outline-secondary mb-0 d-flex align-items-center gap-2">
+                <label class="btn btn-outline-secondary upload-btn mb-0 d-flex align-items-center gap-2">
                     <span class="material-symbols-outlined">upload</span>
                     Upload new image
                     <input type="file" class="d-none">
                 </label>
 
-                <button class="btn btn-light border d-flex align-items-center gap-2">
+                <button class="btn btn-light delete-btn border d-flex align-items-center gap-2">
                     <span class="material-symbols-outlined text-muted">delete</span>
                     Delete
                 </button>
@@ -30,7 +30,53 @@
 
         </div>
 
+    </div> -->
+    <div class="row align-items-center">
+
+  <!-- LEFT: Text -->
+  <div class="col-md-3">
+    <div class="d-flex flex-column">
+      <p class="mainHead mb-1">Profile Photo</p>
+      <small class="subHeading">
+        Upload or update your profile picture.
+      </small>
     </div>
+  </div>
+
+  <!-- RIGHT: Image + Actions -->
+  <div class="col-md-9">
+    <div class="d-flex align-items-center gap-3 flex-wrap">
+
+      <!-- Image -->
+      <div>
+        <img src="/profile/profile-pic.png"
+          alt="profile"
+          class="rounded"
+          width="80"
+          height="80"
+          style="object-fit: cover;" />
+      </div>
+
+      <!-- Actions -->
+      <div class="d-flex gap-2 align-items-end">
+
+        <label class="btn btn-outline-secondary upload-btn mb-0 d-flex align-items-center gap-2">
+          <span class="material-symbols-outlined">upload</span>
+          Upload new image
+          <input type="file" class="d-none">
+        </label>
+
+        <button class="btn btn-light delete-btn border d-flex align-items-center gap-2">
+          <span class="material-symbols-outlined text-muted">delete</span>
+          Delete
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
     <mat-divider class="text-muted my-4"></mat-divider>
     <div>
         <app-profile-info></app-profile-info>

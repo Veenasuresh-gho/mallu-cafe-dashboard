@@ -25,7 +25,10 @@ export class Programs {
 
   openModal() {
     this.dialog.open(AddNewProgram, {
-      width: '600px',
+       width: '600px',
+  height: '644px',
+  maxWidth: '90vw',   
+  maxHeight: '90vh',
       disableClose: true
     });
   }

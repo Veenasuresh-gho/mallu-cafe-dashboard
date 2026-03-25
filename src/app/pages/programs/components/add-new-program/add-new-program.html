@@ -1,24 +1,124 @@
-<h2 mat-dialog-title>Add New Program</h2>
+<div class="dialog-box p-3">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <div>
+            <p class="main-title">Add New Program</p>
+            <p class="main-subtitle">Create and schedule a new program</p>
+        </div>
+        <button (click)="close()" class="btn-close mx-2" aria-label="Close">&times;</button>
+    </div>
+    <hr />
 
-<mat-dialog-content>
-  <form>
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Program Name</mat-label>
-      <input matInput />
-    </mat-form-field>
+    <!-- Form -->
+    <form>
+        <div class="form-group">
+            <label class="input-label" for="program-name">Program Details</label>
+            <input class="input-field" style="width: 552px;" type="text" placeholder="Enter program name" />
+        </div>
 
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Host</mat-label>
-      <mat-select>
-        <mat-option value="rj1">RJ 1</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <div class="form-group">
+            <label class="input-label" for="host">Host / RJ</label>
+            <select id="host" class="input-field" style="width: 552px;">
+                <option disabled selected>Select program host</option>
+                <option>RJ Anjali</option>
+                <option>RJ Raj</option>
+            </select>
+        </div>
 
-    <!-- Add rest of your fields -->
-  </form>
-</mat-dialog-content>
+        <div class="form-group">
+            <label class="input-label" for="category">Category</label>
+            <select id="category" class="input-field" style="width: 552px;">
+                <option disabled selected>Select program category</option>
+                <option>Music</option>
+                <option>Talk Show</option>
+            </select>
+        </div>
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="close()">Cancel</button>
-  <button mat-raised-button color="primary">Create</button>
-</mat-dialog-actions>
+        <div class="form-group schedule-group" style="width: 552px;">
+            <label class="input-label">Schedule</label>
+            <div class="file-upload">
+
+                <div class="input-group-container ">
+                    <input class="static-label" type="text" value="Schedule Day" readonly />
+
+                    <select class="dynamic-select">
+                        <option disabled selected>Select Day</option>
+                        <option>Sunday</option>
+                        <option>Monday</option>
+                        <option>Saturday</option>
+                    </select>
+                </div>
+                <span class="arrow">→</span>
+                <select class="input-field">
+                    <option disabled selected>Schedule Day</option>
+                    <option class="input-field">Sunday</option>
+                    <option class="input-field">Monday</option>
+                    <option class="input-field">Saturday</option>
+                </select>
+            </div>
+            <div class="file-upload my-2 ">
+
+                <div class="input-group-container">
+                    <input class="static-label" type="text" value="Schedule Time" readonly />
+
+                    <select class="dynamic-select">
+                        <option disabled selected class="">Schedule Time</option>
+                        <option>10:00 AM</option>
+                        <option>11:00 AM</option>
+                        <option>11:30 AM</option>
+                    </select>
+                </div>
+                <span class="arrow">→</span>
+                <select class="input-field ">
+                    <option disabled selected>Schedule Time</option>
+                    <option>10:00 AM</option>
+                    <option>11:00 AM</option>
+                    <option>11:30 AM</option>
+                </select>
+            </div>
+
+
+        </div>
+
+        
+        <div class="form-group">
+            <label class="input-label" for="thumbnail">Thumbnail</label>
+
+            <div class="file-upload">
+                <label class="upload-btn d-flex gap-1">
+                    <input id="thumbnail" type="file" hidden />
+                    <span class="material-symbols-outlined">
+                        upload
+                    </span>
+                    <p class="pt-3"> Upload Image
+                    </p>
+                </label>
+
+                <span class="file-name">- No file uploaded -</span>
+            </div>
+        </div>
+
+        <div class="form-group listener-interaction">
+            <label class="input-label my-2">Listener Interaction</label>
+            <div>
+                <label><input type="radio" name="interaction" value="allow" /> Allow calls</label>
+                <label><input type="radio" name="interaction" value="disable" checked /> <span
+                        class="disable-text">Disable Calls</span></label>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="dialog-actions d-flex justify-content-end mt-4 mx-3 gap-2">
+            <button type="button" class="btn-cancel d-flex gap-1" (click)="close()">
+                <span class="material-symbols-outlined small pt-1">
+cancel
+</span>
+                <span> Cancel</span>
+            </button>
+            <button type="submit" class="btn-create d-flex">
+  <img src="/dash/cloud-connection.svg" alt="">
+  <span>Create new program</span>
+</button>
+        </div>
+    </form>
+</div>

@@ -1,18 +1,29 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-new-program',
-  imports: [MatDialogRef],
-  standalone:true,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule
+  ],
   templateUrl: './add-new-program.html',
   styleUrl: './add-new-program.css',
 })
 export class AddNewProgram {
-   constructor(private dialogRef: MatDialogRef<AddNewProgram>) {}
+  constructor(private dialogRef: MatDialogRef<AddNewProgram>) {}
 
-   close() {
+  close() {
     this.dialogRef.close();
   }
 }

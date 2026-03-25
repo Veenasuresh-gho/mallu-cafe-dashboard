@@ -137,3 +137,34 @@
   border-radius: 4px;
   padding: 8px;
 }
+.custom-card-bg {
+  position: relative; /* creates a stacking context */
+  overflow: hidden;
+    background: linear-gradient(to right, #B84141, #950000);
+  border-radius: 16px;
+  z-index: 0; /* base layer */
+}
+.custom-card-bg::after { /* Big soft circle */
+  content: "";
+  position: absolute;
+  width: 252.87px;
+  height: 252.87px;
+  background: linear-gradient(to left, #A01717, #B52626);
+  border-radius: 50%;
+  top: -80px;
+  left: -80px;
+  z-index: -1;
+  box-shadow: #c43434;
+}
+
+.custom-card-bg::before { /* Smaller circle */
+  content: "";
+  position: absolute;
+  width: 89.41px;
+  height: 89.41px;
+  background: linear-gradient(to right, #B52626, #A01717);
+  border-radius: 50%;
+  top: 12px;
+  left: 130px;
+  z-index: -1;
+}

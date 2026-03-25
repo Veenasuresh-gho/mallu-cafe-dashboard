@@ -1,31 +1,33 @@
-<div class="row gap-2">
-    <div class="col-md-3 justify-content-start">
-        <p class="fw-bold mb-1">Media Contributions</p>
-        <small class="text-muted">
-            Content you've created and shared with the audience.
-        </small>
+<div class="row">
+  <div class="col-md-3">
+    <div class="d-flex flex-column justify-content-start">
+      <p class="mainHead mb-1 ">Media Contributions</p>
+      <small class="subHeading">
+        Content you've created and shared with the audience.
+      </small>
     </div>
-    <div class="col-md-8">
-        <ul class="list-unstyled d-flex gap-4 mb-0 mt-2 flex-wrap">
+  </div>
 
-  @for (item of mediaStats; track item) {
-    <li class="d-flex align-items-center gap-2">
-      <span
-        class="material-symbols-outlined d-flex align-items-center justify-content-center"
-        [ngClass]="item.isCircle ? 'bg-dark text-white rounded-circle' : ''"
-        [style.width]="item.isCircle ? '24px' : null"
-        [style.height]="item.isCircle ? '24px' : null"
-        [style.fontSize]="item.isCircle ? '16px' : null"
-      >
-        {{ item.icon }}
-      </span>
-      <span>{{ item.label }}</span>
+  <div class="col-md-8">
+    <ul class="list-unstyled d-flex gap-4 mb-0 mt-2 flex-wrap">
 
-    </li>
-  }
+      @for (item of mediaStats; track item) {
+      <li class="d-flex align-items-center gap-2">
+        <div class="d-flex gap-1">
+          <span class="material-symbols-outlined d-flex align-items-center justify-content-center"
+            [ngClass]="item.isCircle ? 'bg-dark text-white rounded-circle' : ''"
+            [style.width]="item.isCircle ? '20px' : null" [style.height]="item.isCircle ? '20px' : null"
+            [style.fontSize]="item.isCircle ? '16px' : null">
+            {{ item.icon }}</span>
+         
+          <span class="PerformanceData">{{ item.label }}:</span>
+           <span class="countData">{{ item.count }}</span>
+        </div>
+      </li>
+      }
 
-</ul>
-    </div>
+    </ul>
+  </div>
 
 </div>
 <mat-divider class="text-secondary bg-muted my-4"></mat-divider>

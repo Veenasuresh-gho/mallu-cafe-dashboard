@@ -48,6 +48,7 @@
 .input-field {
   font-weight:400;
   font-size: 12px;
+  border: 1px solid #CFCFCF;
   font-family: Poppins;
   margin-bottom: 6px;
   color: #757575;
@@ -60,7 +61,7 @@ input[type="file"] {
   width: 100%;
   padding: 8px 12px;
   font-size: 14px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   border-radius: 6px;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
@@ -81,6 +82,15 @@ input[type="file"] {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.combined-field {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 36px;
 }
 
 .schedule-group select {
@@ -160,12 +170,20 @@ input[type="file"] {
   .static-label {
     width: 140px;
     padding: 10px 15px;
-    border: none;
+    border:1px solid #CFCFCF;
     color: #666;
     outline: none;
+    font-size: 12px;
     cursor: default;
   }
-
+.single-select {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  height: 36px;
+  padding: 8px 12px;
+  min-width: 140px;
+  color: #666;
+}
   .dynamic-select {
     padding: 10px 15px;
     border: none;

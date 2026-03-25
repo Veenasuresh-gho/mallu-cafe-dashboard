@@ -22,7 +22,7 @@ export class Sidebar {
     {
       title: "Programs",
       icon: "/main/sidebar/radio-muted.png",
-      link: "#",
+      link: "programs",
       activeIcon: "/main/sidebar/radio.png"
     },
     {

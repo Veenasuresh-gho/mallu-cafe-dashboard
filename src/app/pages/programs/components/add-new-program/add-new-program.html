@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Add New Program</h2>
+
+<mat-dialog-content>
+  <form>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Program Name</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Host</mat-label>
+      <mat-select>
+        <mat-option value="rj1">RJ 1</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Add rest of your fields -->
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-raised-button color="primary">Create</button>
+</mat-dialog-actions>

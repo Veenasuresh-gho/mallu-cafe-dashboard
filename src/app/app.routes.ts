@@ -1,6 +1,12 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+      {
+        path: 'sign-in',
+        loadComponent: () =>
+          import('./pages/dashboard/auth/sign-in/sign-in')
+            .then(m => m.SignIn)
+      },
   {
     path: '',
     loadComponent: () =>

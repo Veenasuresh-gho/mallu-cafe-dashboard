@@ -40,10 +40,10 @@
   font-weight: 500;
   font-size: 12px;
   font-family: Poppins;
-  margin-bottom: 6px;
+  /* margin-bottom: 6px; */
   display: block;
   color: #636363;
-  line-height: 16px;
+  margin-top: 3px;
 }
 .input-field {
   font-weight:400;

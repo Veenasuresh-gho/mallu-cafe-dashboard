@@ -30,6 +30,12 @@ export const routes: Routes = [
           import('./pages/profile/profile')
             .then(m => m.Profile)
       },
+      {
+        path: 'programs',
+        loadComponent: () =>
+          import('./pages/programs/programs')
+            .then(m => m.Programs)
+      },
       
     ]
   }

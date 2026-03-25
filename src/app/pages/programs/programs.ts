@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { AddNewProgram } from './components/add-new-program/add-new-program';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-programs',
@@ -15,6 +17,17 @@ import { FormsModule } from '@angular/forms';
 })
 export class Programs {
 
+  constructor(private dialog: MatDialog) {} 
+
+  openModal() {
+    this.dialog.open(AddNewProgram, {
+       width: '600px',
+  height: '644px',
+  maxWidth: '90vw',   
+  maxHeight: '90vh',
+      disableClose: true
+    });
+  }
   searchText = '';
   status = 'all';
   category = 'all';

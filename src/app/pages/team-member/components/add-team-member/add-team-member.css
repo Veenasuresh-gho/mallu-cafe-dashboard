@@ -11,7 +11,7 @@
 
 .btn-close {
     border: none;
-    font-size: 14px;
+    font-size: 12px;
     color: #757575;
     cursor: pointer;
     margin-top: 10px;
@@ -184,9 +184,10 @@
 
 .country-code {
     border: none;
-    background: #f5f5f5;
+    /* background: #f5f5f5; */
     padding: 10px;
     outline: none;
+    color: #757575;
     font-size: 14px;
     cursor: pointer;
 }
@@ -212,89 +213,116 @@
 }
 
 .assigned-programs {
-    width: 100% !important;
-    max-width: 544px;
-    
+  width: 100% !important;
+  max-width: 544px;
 }
 
-::ng-deep .mat-mdc-select-trigger {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    /* keep chips in one line */
-    align-items: center;
-    width: 100% !important;
-    height: auto;
-    overflow-x: auto;
-    white-space: nowrap;
-    gap: 6px;
-
-}
-
-/* Chips style */
+/* Chips */
 ::ng-deep .mat-mdc-chip {
-    background-color: #ffffff;
-    color: #d32f2f;
-    font-size: 11px;
-    height: 22px;
-    border-radius: 12px;
-    height: 22px !important;
-    flex-shrink: 0 !important;
+  background-color: #fdecea;
+  color: #d32f2f;
+  height: 22px !important;
+  border-radius: 12px;
+  padding: 0 6px;
 }
+
+/* ✅ THIS is the important one (text inside chip) */
+::ng-deep .mat-mdc-chip .mdc-evolution-chip__text-label {
+  font-size: 11px !important;
+  font-family: 'Poppins', sans-serif;
+  line-height: 16px;
+  
+}
+
 ::ng-deep .mat-mdc-chip button {
-    font-size: 10px;
-    
+  font-size: 10px;
+  margin-left: 4px;
 }
-::ng-deep .mat-mdc-option.mdc-list-item--selected {
-    color: #d32f2f;
-    font-size: 12px;
-    font-weight: 400;
-}
-
-::ng-deep .assigned-programs .mat-mdc-text-field-wrapper {
-    height: auto;
-    min-height: 36px;
-    border: 1px solid #CFCFCF;
-    border-radius: 6px;
-    padding: 0 10px;
-    background-color: #fff;
-    display: flex;
-    align-items: center;
+/* OPTION CONTAINER */
+.custom-select-panel .mat-mdc-option {
+  min-height: 32px !important;   /* controls height */
+  padding: 4px 12px !important;  /* spacing */
+  display: flex;
+  align-items: center;
 }
 
-::ng-deep .mat-mdc-select-trigger {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    overflow: hidden;
-    white-space: nowrap;
+/* ✅ TEXT inside option (IMPORTANT) */
+.custom-select-panel .mdc-list-item__primary-text {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important;     /* 👈 change size here */
+  font-weight: 400 !important;
+  line-height: 16px !important;
+  letter-spacing: 0 !important;
 }
 
-::ng-deep .mat-mdc-chip {
-    height: 22px;
-    font-size: 11px;
-    border-radius: 12px;
-    padding: 0 6px;
-    background-color: #fdecea;
-}
-::ng-deep .mat-mdc-chip button {
-    font-size: 10px;
-    margin-left: 4px;
-}
-
-::ng-deep .mat-mdc-chip-set {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    overflow: hidden;
-    max-width: 100%;
-}
-
+/* Hide checkbox icon */
 ::ng-deep .mat-pseudo-checkbox {
-    display: none !important;
+  display: none !important;
 }
 
-::ng-deep .mat-mdc-option {
-    font-size: 10px;
-    /* padding: 8px 12px; */
+.custom-select-panel .mat-mdc-option.mdc-list-item--selected {
+  background-color: #fdecea !important;
+}
+
+.custom-select-panel .mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text {
+  color: #d32f2f !important;
+}
+
+/* Hover background */
+.custom-select-panel .mat-mdc-option:hover {
+  background-color: #fdecea !important;
+}
+
+/* Hover text color */
+.custom-select-panel .mat-mdc-option:hover .mdc-list-item__primary-text {
+  color: #d32f2f !important;
+}
+/* 4th data */
+.toggle-txt{
     font-weight: 400;
+    font-size: 12px;
     color: #312F2F;
+}
+.access-txt {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px; 
+}
+.checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+input[type="checkbox"] {
+  accent-color: black;
+}
+.btn-cancel {
+    border: none;
+    font-size: 12px;
+    color: #636363;
+    cursor: pointer;
+    margin-top: 10px;
+    line-height: 1;
+    padding: 0;
+}
+.btn-create {
+  background: #D809051A;
+  color: #D80905;
+  font-weight: 700;
+  font-size: 12px;
+  height: 36px;
+  border-radius: 6px;
+  border: 1px solid #D80905;
+  font-family: 'Red Hat Display', sans-serif;
+  align-items: center;   
+  justify-content: center; 
+  gap: 8px; 
+  width: 114px;
+  height: 36px;             
+  padding: 8px 10px;       
+  cursor: pointer;
 }

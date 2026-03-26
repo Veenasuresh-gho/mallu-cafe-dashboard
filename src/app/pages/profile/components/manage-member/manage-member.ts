@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger } from '@angular/material/select';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { DeleteProgram } from '../delete-program/delete-program';
 
 @Component({
   selector: 'app-manage-member',
@@ -15,7 +16,9 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 })
 export class ManageMember {
 
-        constructor(private dialogRef: MatDialogRef<ManageMember>) {}
+  constructor(private dialogRef: MatDialogRef<ManageMember>,private dialog: MatDialog ) {}
+  
+
 
 programs = [
   { program: 'Om Shanti Om' },
@@ -50,6 +53,12 @@ remove(item: any) {
 
   close() {
     this.dialogRef.close();
+  }
+  openModalDelete(){
+       this.dialog.open(DeleteProgram, {
+      width: '600px',
+      disableClose: true
+    });
   }
 
 }

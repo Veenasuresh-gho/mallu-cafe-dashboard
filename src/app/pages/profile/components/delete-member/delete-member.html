@@ -1,0 +1,28 @@
+<div class="p-4">
+<div class="d-flex justify-content-center align-items-center">
+    <img src="/profile/delete.svg" alt="">
+</div>
+  <p class="title text-center" mat-dialog-title>
+ Delete this member?
+</p>
+
+<mat-dialog-content class="subtitle text-center">
+This will permanently remove this member from the system, including their profile, assigned programs, and access permissions. This action cannot be undone.</mat-dialog-content>
+
+  <div class="d-flex justify-content-between flex-column flex-sm-row gap-2 mx-5">
+
+  <!-- CANCEL BUTTON -->
+  <button class="btn-cancel-box d-flex align-items-center justify-content-center gap-1" (click)="close()">
+    <span class="material-symbols-outlined icon">close</span>
+    Cancel
+  </button>
+
+  <!-- DELETE BUTTON -->
+  <button class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
+    <span class="material-symbols-outlined icon">delete</span>
+    Delete Member
+  </button>
+
+</div>
+
+</div>

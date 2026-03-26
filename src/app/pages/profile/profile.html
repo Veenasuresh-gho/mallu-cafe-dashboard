@@ -33,50 +33,46 @@
     </div> -->
     <div class="row align-items-center">
 
-  <!-- LEFT: Text -->
-  <div class="col-md-3">
-    <div class="d-flex flex-column">
-      <p class="mainHead mb-1">Profile Photo</p>
-      <small class="subHeading">
-        Upload or update your profile picture.
-      </small>
+        <!-- LEFT: Text -->
+        <div class="col-md-3">
+            <div class="d-flex flex-column">
+                <p class="mainHead mb-1">Profile Photo</p>
+                <small class="subHeading">
+                    Upload or update your profile picture.
+                </small>
+            </div>
+        </div>
+
+        <!-- RIGHT: Image + Actions -->
+        <div class="col-md-9">
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+
+                <!-- Image -->
+                <div>
+                    <img src="/profile/profile-pic.png" alt="profile" class="rounded" width="80" height="80"
+                        style="object-fit: cover;" />
+                </div>
+
+                <!-- Actions -->
+                <div class="d-flex gap-2 align-items-end">
+
+                    <label class="btn btn-outline-secondary upload-btn mb-0 d-flex align-items-center gap-2">
+                        <span class="material-symbols-outlined">upload</span>
+                        Upload new image
+                        <input type="file" class="d-none">
+                    </label>
+
+                    <button class="btn btn-light delete-btn border d-flex align-items-center gap-2">
+                        <span class="material-symbols-outlined text-muted">delete</span>
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+
     </div>
-  </div>
-
-  <!-- RIGHT: Image + Actions -->
-  <div class="col-md-9">
-    <div class="d-flex align-items-center gap-3 flex-wrap">
-
-      <!-- Image -->
-      <div>
-        <img src="/profile/profile-pic.png"
-          alt="profile"
-          class="rounded"
-          width="80"
-          height="80"
-          style="object-fit: cover;" />
-      </div>
-
-      <!-- Actions -->
-      <div class="d-flex gap-2 align-items-end">
-
-        <label class="btn btn-outline-secondary upload-btn mb-0 d-flex align-items-center gap-2">
-          <span class="material-symbols-outlined">upload</span>
-          Upload new image
-          <input type="file" class="d-none">
-        </label>
-
-        <button class="btn btn-light delete-btn border d-flex align-items-center gap-2">
-          <span class="material-symbols-outlined text-muted">delete</span>
-          Delete
-        </button>
-
-      </div>
-
-    </div>
-  </div>
-
-</div>
     <mat-divider class="text-muted my-4"></mat-divider>
     <div>
         <app-profile-info></app-profile-info>
@@ -96,4 +92,24 @@
     <div>
         <app-settings></app-settings>
     </div>
+
+
+</div>
+
+<div class="main-body my-3 d-flex justify-content-between">
+    <div>
+        <p class="mainHead mb-1">Manage Member</p>
+        <p class="subHeading">Make changes to profile details, program assignments, or remove this member.</p>
+    </div>
+<div class="d-flex gap-2">
+<button class="btn-manage-member d-flex align-items-center justify-content-center" (click)="openModal()">
+  <span class="material-symbols-outlined icon">border_color</span>
+  Manage Member
+</button>
+
+  <button class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
+    <span class="material-symbols-outlined">delete</span>
+    Delete Member
+  </button>
+</div>
 </div>

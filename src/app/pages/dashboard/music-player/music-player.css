@@ -154,7 +154,7 @@
     background: linear-gradient(to right, #B84141, #950000);
   border-radius: 16px;
   z-index: 0; 
-   height: 300px; 
+   
 }
 .custom-card-bg::after { 
   content: "";

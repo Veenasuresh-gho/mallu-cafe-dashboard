@@ -8,6 +8,7 @@ import { Settings } from './components/settings/settings';
 import { Permission } from './components/permission/permission';
 import { MatDialog } from '@angular/material/dialog';
 import { ManageMember } from './components/manage-member/manage-member';
+import { DeleteMember } from './components/delete-member/delete-member';
 // import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
@@ -23,6 +24,12 @@ export class Profile {
   openModal() {
     this.dialog.open(ManageMember, {
       width: '800px',
+      disableClose: true
+    });
+  }
+  openModalDeleteMember() {
+    this.dialog.open(DeleteMember, {
+      width: '600px',
       disableClose: true
     });
   }

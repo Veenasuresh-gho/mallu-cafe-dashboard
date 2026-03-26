@@ -37,7 +37,7 @@ export const routes: Routes = [
             .then(m => m.Programs)
       },
       {
-        path: 'media',
+        path: 'media-library',
         loadComponent: () =>
           import('./pages/media-library/media-library')
             .then(m => m.MediaLibrary)

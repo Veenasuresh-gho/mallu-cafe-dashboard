@@ -149,13 +149,14 @@
   padding: 8px;
 }
 .custom-card-bg {
-  position: relative; /* creates a stacking context */
+  position: relative; 
   overflow: hidden;
     background: linear-gradient(to right, #B84141, #950000);
   border-radius: 16px;
-  z-index: 0; /* base layer */
+  z-index: 0; 
+   height: 300px; 
 }
-.custom-card-bg::after { /* Big soft circle */
+.custom-card-bg::after { 
   content: "";
   position: absolute;
   width: 252.87px;

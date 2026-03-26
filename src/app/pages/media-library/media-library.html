@@ -11,7 +11,7 @@
                 Upload new file
             </button>
         </div>
-        
+
 
         <div class="divider mb-2"></div>
 
@@ -92,11 +92,13 @@
 
         <ng-container matColumnDef="media">
             <th mat-header-cell *matHeaderCellDef>Uploaded File</th>
-            <td mat-cell *matCellDef="let row" class="media-cell">
-                <img [src]="row.avatar" class="avatar" />
-                <div>
-                    <p class="media-name mb-0">{{ row.name }}</p>
-                    <p class="mb-0 media-size">{{row.mediaSize}}</p>
+            <td mat-cell *matCellDef="let row">
+                <div class="media-cell">
+                    <img [src]="row.avatar" class="avatar" />
+                    <div>
+                        <p class="media-name mb-0">{{ row.name }}</p>
+                        <p class="mb-0 media-size">{{ row.mediaSize }}</p>
+                    </div>
                 </div>
             </td>
         </ng-container>

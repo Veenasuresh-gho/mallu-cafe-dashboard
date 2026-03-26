@@ -1,1 +1,133 @@
-<button (click)="openModal()">add</button>
+<!-- <button (click)="openModal()">add</button> -->
+
+
+<div class="programs ">
+    <div class="p-3">
+        <div class="header d-flex justify-content-between align-items-center ">
+            <div>
+                <h4>Programs</h4>
+                <p>Manage, upload and schedule broadcast programs.</p>
+            </div>
+
+            <button class="d-flex align-items-center gap-1" (click)="openModal()">
+                <img src="/main/add.svg">
+                Add new program
+            </button>
+        </div>
+
+        <div class="divider mb-2"></div>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="filter-container">
+                <mat-form-field appearance="outline" class="search-field">
+                    <span matPrefix class="search-icon">
+                        <img src="/main/searchIcon.svg" alt="search" />
+                    </span>
+                    <input matInput placeholder="Search here..." [(ngModel)]="searchText" />
+                </mat-form-field>
+
+                <!-- Dropdowns -->
+                <mat-form-field appearance="outline" class="status-drop-down">
+                    <mat-select placeholder="All Status" [(value)]="status">
+                        <mat-option value="all">All Status</mat-option>
+                        <mat-option value="active">Active</mat-option>
+                        <mat-option value="inactive">Inactive</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="All Category" [(value)]="category">
+                        <mat-option value="all">All Category</mat-option>
+                        <mat-option value="music">Music</mat-option>
+                        <mat-option value="news">News</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="All Host" [(value)]="host">
+                        <mat-option value="all">All Host</mat-option>
+                        <mat-option value="host1">Host 1</mat-option>
+                        <mat-option value="host2">Host 2</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="All Programs" [(value)]="program">
+                        <mat-option value="all">All Programs</mat-option>
+                        <mat-option value="program1">Program 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="d-flex align-items-center gap-1">
+                <p style="font-size: 12px; font-weight: 500; color: #757575;">Clear filters</p>
+                <mat-icon style="font-size: 12px; color: #757575; cursor: pointer;" class="mb-1">cancel</mat-icon>
+            </div>
+        </div>
+
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="custom-table">
+
+        <ng-container matColumnDef="program">
+            <th mat-header-cell *matHeaderCellDef>Program Title</th>
+            <td mat-cell *matCellDef="let row">
+                <div class="program-cell">
+                    <img [src]="row.avatar" class="avatar" />
+                    <div class="program-name">{{ row.name }}</div>
+                </div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
+            <td mat-cell *matCellDef="let row">
+                <span class="category" [ngClass]="row.categoryClass">
+                    {{ row.category }}
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="host">
+            <th mat-header-cell *matHeaderCellDef>Host</th>
+            <td mat-cell *matCellDef="let row">
+                <div class="user">{{ row.host }}</div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="duration">
+            <th mat-header-cell *matHeaderCellDef>Duration</th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.duration }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dayTime">
+            <th mat-header-cell *matHeaderCellDef>Schedule Day → Time</th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.dayTime }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="interaction">
+            <th mat-header-cell *matHeaderCellDef>Listener Interaction</th>
+            <td mat-cell *matCellDef="let row">
+                <span class="interaction" [ngClass]="row.interactionClass">
+
+                    <mat-icon *ngIf="row.interactionClass === 'allow'">check_circle</mat-icon>
+
+                    <mat-icon *ngIf="row.interactionClass === 'disabled'">info</mat-icon>
+
+                    {{ row.interaction }}
+                </span>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+
+    </table>
+
+    <!-- <mat-paginator [length]="22" [pageSize]="7" [pageSizeOptions]="[7]" showFirstLastButtons>
+    </mat-paginator> -->
+
+</div>

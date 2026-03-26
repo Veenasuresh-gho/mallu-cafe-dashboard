@@ -34,7 +34,7 @@ export class Sidebar {
     {
       title: "Team members",
       icon: "/main/sidebar/people-muted.png",
-      link: "#",
+      link: "team-members",
       activeIcon: "/main/sidebar/people.png"
     },
     {

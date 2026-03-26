@@ -1,5 +1,6 @@
 
 import { Component } from '@angular/core';
+import { UploadNewFileModal } from './components/upload-new-file-modal/upload-new-file-modal';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
@@ -19,6 +20,13 @@ export class MediaLibrary {
 
   constructor(private dialog: MatDialog) { }
 
+  openModal() {
+    this.dialog.open(UploadNewFileModal, {
+      //  width: '700px',
+      disableClose: true
+    });
+  }
+  
   searchText = '';
   status = 'all';
   category = 'all';

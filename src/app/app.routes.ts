@@ -42,6 +42,12 @@ export const routes: Routes = [
           import('./pages/media-library/media-library')
             .then(m => m.MediaLibrary)
       },
+      {
+        path: 'team-members',
+        loadComponent: () =>
+          import('./pages/team-member/team-member')
+            .then(m => m.TeamMember)
+      },
       
     ]
   }

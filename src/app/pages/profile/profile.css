@@ -1,6 +1,7 @@
 .main-body{
     background-color: white;
     padding: 2%;
+    border-radius: 6px;
 }
 .mainHead{
     font-weight: 600;
@@ -26,5 +27,27 @@
 .trash-btn{
     width: 16px;
     height: 16px;
+}
+.btn-manage-member {
+  border: 1px solid #CFCFCF;
+  color: #312F2F;
+  font-weight: 400;
+  font-size: 12px;
+  height: 38px;
+  border-radius: 6px;
+  flex: 1; /* ✅ equal width */
+  background-color: #fff;
+}
+
+.btn-delete-member {
+  border: 1px solid #D80905;
+  color: #D80905;
+  background-color: #D809051A;
+
+  font-weight: 700;
+  font-size: 12px;
+  height: 38px;
+  border-radius: 6px;
+  flex: 1;
 }
 

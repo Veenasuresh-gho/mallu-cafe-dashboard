@@ -76,17 +76,22 @@
 
 /* Upload box */
 .upload-photo {
-    width: 150px;
-    height: 160px;
-    border-radius: 10px;
-    border: 1px dashed #E4E4E4;
-    /* dashed border */
-    background-color: #F8F8F8;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  position: relative;
+  width: 150px;  /* adjust as needed */
+  height: 150px;
+
+  background-image: url('/profile/profile-pic.png'); /* 👈 your bg image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 /* Image */
@@ -326,4 +331,16 @@ input[type="checkbox"] {
   height: 36px;             
   padding: 8px 10px;       
   cursor: pointer;
+}
+
+.btn-delete-member {
+  border: 1px solid #D80905;
+  color: #D80905;
+  background-color: #D809051A;
+
+  font-weight: 400;
+  font-size: 12px;
+  height: 34px;
+  border-radius: 10px;
+  flex: 1;
 }

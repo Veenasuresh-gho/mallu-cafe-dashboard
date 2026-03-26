@@ -1,2 +1,154 @@
-<p>media-library works!</p>
-<button>upload</button>
+<div class="media ">
+    <div class="p-3">
+        <div class="header d-flex justify-content-between align-items-center ">
+            <div>
+                <h4>Station Media Hub</h4>
+                <p>Upload and monitor all broadcast-ready content in one place.</p>
+            </div>
+
+            <button class="d-flex align-items-center gap-1">
+                <img src="/main/add.svg">
+                Upload new file
+            </button>
+        </div>
+
+        <div class="divider mb-2"></div>
+
+        <div class="total d-flex mb-2">
+            <div class="total-contents">
+                <img src="/main/video-play-filled.png" alt="">
+                <p class="mb-0">Total Videos: </p>
+                <span>86</span>
+            </div>
+            <div class="total-contents">
+                <img src="/main/music-library-filled.png" alt="">
+                <p class="mb-0">Total Audio: </p>
+                <span>140</span>
+            </div>
+            <div class="total-contents">
+                <img src="/main/cloud-connection-filled.png" alt="">
+                <p class="mb-0">Published: </p>
+                <span>128</span>
+            </div>
+            <div class="total-contents">
+                <img src="/main/bag-tick-filled.png" alt="">
+                <p class="mb-0">Private: </p>
+                <span>6</span>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="filter-container">
+                <mat-form-field appearance="outline" class="search-field">
+                    <span matPrefix class="search-icon">
+                        <img src="/main/searchIcon.svg" alt="search" />
+                    </span>
+                    <input matInput placeholder="Search videos.." [(ngModel)]="searchText" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="status-drop-down">
+                    <mat-select placeholder="All upload status" [(value)]="status">
+                        <mat-option value="all">All upload status</mat-option>
+                        <mat-option value="active">Active</mat-option>
+                        <mat-option value="inactive">Inactive</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="All Category" [(value)]="category">
+                        <mat-option value="all">All Category</mat-option>
+                        <mat-option value="music">Music</mat-option>
+                        <mat-option value="news">News</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="All members " [(value)]="members">
+                        <mat-option value="all">All members</mat-option>
+                        <mat-option value="host1">Host 1</mat-option>
+                        <mat-option value="host2">Host 2</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Last 30 days" [(value)]="period">
+                        <mat-option value="all">Last 30 days</mat-option>
+                        <mat-option value="program1">Program 1</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="d-flex align-items-center gap-1">
+                <p style="font-size: 12px; font-weight: 500; color: #757575;">Clear filters</p>
+                <mat-icon style="font-size: 12px; color: #757575; cursor: pointer;" class="mb-1">cancel</mat-icon>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <table mat-table [dataSource]="dataSource" class="custom-table">
+
+        <ng-container matColumnDef="media">
+            <th mat-header-cell *matHeaderCellDef>Uploaded File</th>
+            <td mat-cell *matCellDef="let row" class="media-cell">
+                <img [src]="row.avatar" class="avatar" />
+                <div>
+                    <p class="media-name mb-0">{{ row.name }}</p>
+                    <p class="mb-0 media-size">{{row.mediaSize}}</p>
+                </div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
+            <td mat-cell *matCellDef="let row">
+                <span class="category" [ngClass]="row.categoryClass">
+                    {{ row.category }}
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="member">
+            <th mat-header-cell *matHeaderCellDef>Uploaded by</th>
+            <td mat-cell *matCellDef="let row">
+                <div>
+                    <p class="user mb-0">{{ row.member }}</p>
+                    <p class="mb-0 user-time">{{row.time}}</p>
+
+                </div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="likes">
+            <th mat-header-cell *matHeaderCellDef>Likes</th>
+            <td mat-cell *matCellDef="let row" class="likes-cell">
+                <mat-icon class="like-icon ">favorite</mat-icon>
+                {{ row.likes }}
+            </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Upload Status</th>
+            <td mat-cell *matCellDef="let row">
+                <span class="uploadStatus" [ngClass]="row.statusClass">
+
+                    <mat-icon *ngIf="row.statusClass === 'published'">check_circle</mat-icon>
+
+                    <mat-icon *ngIf="row.statusClass === 'draft'">info</mat-icon>
+
+                    {{ row.uploadStatus }}
+                </span>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+
+    </table>
+
+    <!-- <mat-paginator [length]="22" [pageSize]="7" [pageSizeOptions]="[7]" showFirstLastButtons>
+    </mat-paginator> -->
+
+</div>

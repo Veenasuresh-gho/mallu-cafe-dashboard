@@ -28,7 +28,7 @@ export class Sidebar {
     {
       title: "Media Library",
       icon: "/main/sidebar/video-play-muted.png",
-      link: "#",
+      link: "media",
       activeIcon: "/main/sidebar/video-play.png"
     },
     {

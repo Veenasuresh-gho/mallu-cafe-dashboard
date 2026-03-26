@@ -36,6 +36,12 @@ export const routes: Routes = [
           import('./pages/programs/programs')
             .then(m => m.Programs)
       },
+      {
+        path: 'media',
+        loadComponent: () =>
+          import('./pages/media-library/media-library')
+            .then(m => m.MediaLibrary)
+      },
       
     ]
   }

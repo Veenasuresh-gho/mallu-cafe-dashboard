@@ -58,6 +58,10 @@
   color: var(--primary-text);
 }
 
+.nav-right{
+  padding-right: 2px;
+}
+
 .notification {
   width: 40px;
   height: 40px;
@@ -75,9 +79,6 @@
   width: 18px;
   height: 18px;
 }
-
-
-
 
 .live-icon {
   color: var(--success);

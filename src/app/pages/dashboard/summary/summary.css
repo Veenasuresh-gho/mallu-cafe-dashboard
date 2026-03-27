@@ -108,7 +108,6 @@
 .mat-mdc-card-content {
     margin-top: 0 !important;
     padding-top: 0px !important;
-    background-color: #FFFFFF;
 }
 
 mat-card {
@@ -116,16 +115,16 @@ mat-card {
     border-radius: 4px;
     flex-direction: column;
     overflow: hidden;
-    width: 160;
-height: 125;
-border-radius: 4px;
-opacity: 1;
-
+    border-radius: 4px;
+    opacity: 1;
+    background-color: #FFFFFF;
+    
 }
 
 .mat-mdc-card-content {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    padding: 4px 10px !important;
     gap: 12px;
 }

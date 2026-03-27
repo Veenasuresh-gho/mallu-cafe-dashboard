@@ -20,7 +20,8 @@
   font-weight: 600;
   color: #000000;
 }
-.media-file{
+
+.media-file {
   font-size: 12px;
   font-weight: 400;
   color: #312F2F;
@@ -50,12 +51,31 @@
   height: 21px;
 }
 
+.card-title-movies {
+  font-family: Red Hat Display;
+  font-size: 12px;
+  font-style: bold;
+  font-weight: 500;
+  height: 21px;
+}
+
 .card-subtitle {
   font-family: Red Hat Display;
   font-size: 12px;
   font-weight: 500;
   height: 20px;
 
+}
+
+.files {
+  font-weight: 400;
+  font-size: 12px;
+  color: #312F2F;
+}
+
+.play-btn {
+  width: 45px;
+  height: 45px;
 }
 
 .duration {
@@ -71,7 +91,7 @@
   font-style: bold;
   font-weight: 700;
   color: #CE111F;
-  margin: 10px;
+  /* margin: 10px; */
   border-radius: 20px;
 
 }
@@ -90,6 +110,7 @@
   font-size: 12px;
   line-height: 12px;
 }
+
 .extraData2 {
   font-family: Red Hat Display;
   font-weight: 400;
@@ -143,25 +164,53 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
-  color: #757575;
   border: 1px solid #D9D9D9;
+  color: var(--muted-input);
   border-radius: 4px;
-  padding: 8px;
+  padding: 9px;
 }
+
+.gotoFile-movies {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  color: var(--muted-input);
+  background: #D9D9D94D;
+  border-radius: 4px;
+  padding: 9px;
+}
+
+mat-slider {
+  width: 100%;
+  color: white;
+}
+
 .custom-card-bg {
-  position: relative; 
+  position: relative;
   overflow: hidden;
-    background: linear-gradient(to right, #B84141, #950000);
+  background: linear-gradient(to right, #B84141, #950000);
   border-radius: 16px;
-  z-index: 0; 
-   
+  z-index: 0;
+
 }
-.custom-card-bg::after { 
+
+.custom-card-bg-movies {
+  overflow: hidden;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.749) 100%),
+    url('/dash/bg-movies.jpg');
+  background-position-y: 20%;
+  background-size: cover;
+}
+
+.custom-card-bg::after {
   content: "";
   position: absolute;
   width: 252.87px;
   height: 252.87px;
-  background: linear-gradient(to left, #A01717, #B52626);
+  background: linear-gradient(to left, #B52626, #A01717);
   border-radius: 50%;
   top: -80px;
   left: -80px;
@@ -169,12 +218,13 @@
   box-shadow: #c43434;
 }
 
-.custom-card-bg::before { /* Smaller circle */
+.custom-card-bg::before {
+  /* Smaller circle */
   content: "";
   position: absolute;
   width: 89.41px;
   height: 89.41px;
-  background: linear-gradient(to right, #B52626, #A01717);
+  background: linear-gradient(to left, #B52626, #A01717);
   border-radius: 50%;
   top: 12px;
   left: 130px;

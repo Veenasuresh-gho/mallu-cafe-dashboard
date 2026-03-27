@@ -13,8 +13,7 @@
 
 .header p {
     font-size: 10px;
-    color: #757575;
-}
+color: var(--muted-input);}
 
 .header button {
     color: var(--primary-color);

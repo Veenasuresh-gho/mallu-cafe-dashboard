@@ -50,4 +50,10 @@
   border-radius: 6px;
   flex: 1;
 }
-
+/* make buttons full width on mobile */
+@media (max-width: 768px) {
+  .btn-manage-member,
+  .btn-delete-member {
+    width: 100%;
+  }
+}

@@ -28,7 +28,7 @@
     }
 
     .on-air-text {
-        color: #00AA45;
+        color: var(--success);
         font-weight: 400;
     }
 
@@ -92,7 +92,7 @@
 
     .files {
         font-size: 10px;
-        color: #00AA45;
+        color: var(--success);
     }
 
     .view span {
@@ -105,7 +105,7 @@
 
     .scroll-container {
         min-height: 0px;
-        max-height: 650px;
+        max-height: 600px;
         overflow-y: auto;
         overflow-x: hidden;
 
@@ -115,5 +115,5 @@
     }
 
     .meterial-icons{
-        color: #00AA45;
+        color: var(--success);
     }

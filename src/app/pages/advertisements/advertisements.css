@@ -92,7 +92,7 @@
 
 .adStatus.active,
 .adStatus.published {
-    color: #00AA45;
+    color: var(--success);
 }
 
 .adStatus.waiting {

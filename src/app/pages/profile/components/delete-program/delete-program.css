@@ -34,9 +34,9 @@
 
 /* DELETE BUTTON */
 .btn-delete-member {
-  border: 1px solid #D80905;
-  color: #D80905;
-  background-color: #D809051A;
+  border: 1px solid var( --primary-color);
+  color: var( --primary-color);
+  background-color: var( --primary-color)1A;
   font-weight: 700;
 }
 

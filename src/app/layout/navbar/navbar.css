@@ -33,7 +33,7 @@
 }
 
 .current .status {
-  color: #00AA45;
+  color: var(--success);
 }
 
 .profile {
@@ -80,7 +80,7 @@
 
 
 .live-icon {
-  color: #00AA45;
+  color: var(--success);
   animation: pulse 1.5s infinite;
 }
 

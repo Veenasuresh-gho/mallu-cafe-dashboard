@@ -18,5 +18,5 @@
     font-weight: 500;
     font-size: 12px;
     font-family: Red Hat Display;
-    color: #D80905;
+    color: var( --primary-color);
 }

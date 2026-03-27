@@ -91,7 +91,7 @@
 }
 
 .interaction.allow {
-    color: #00AA45;
+    color: var(--success);
 }
 
 .interaction.disabled {

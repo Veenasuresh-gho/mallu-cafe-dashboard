@@ -27,7 +27,7 @@ export class Summary {
     },
     {
       show: "",
-      color: "#00AA45",
+      color: "var(--success)",
       image: "/main/headphone.png",
       title: "Ads Overview",
       statistics: "22 <span>Scheduled Today<span/>",

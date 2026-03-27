@@ -91,6 +91,7 @@
 
     .files {
         font-size: 10px;
+        color: #00AA45;
     }
 
     .view span {
@@ -109,4 +110,8 @@
         scrollbar-width: none;
 
         -ms-overflow-style: none;
+    }
+
+    .meterial-icons{
+        color: #00AA45;
     }

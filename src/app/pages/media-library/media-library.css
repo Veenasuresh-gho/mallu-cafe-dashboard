@@ -43,10 +43,10 @@
     font-size: 12px;
     font-weight: 400;
     color: var(--primary-text);
-    border:1px solid white ;
+    border: 1px solid white;
     background: #F8F8F8;
-    padding: 3px 10px;   
-    height: 36px;       
+    padding: 3px 10px;
+    height: 36px;
 }
 
 .custom-table td {
@@ -75,7 +75,8 @@
     font-weight: 400;
 }
 
-.media-size,.user-time {
+.media-size,
+.user-time {
     font-size: 10px;
     font-weight: 500;
     color: #9A9A9A;
@@ -83,24 +84,24 @@
 }
 
 .like-icon {
-  color: #636363;
-  font-size: 14px;
-  padding-top: 12px;
+    color: #636363;
+    font-size: 14px;
+    padding-top: 12px;
 }
 
 .category.pre {
-  color: #F37127;
+    color: #F37127;
 }
 
 .category.shorts {
     color: #1B517D;
 }
 
-.category.podcast{
+.category.podcast {
     color: #00AA45;
 }
 
-.category.featured{
+.category.featured {
     color: #4375FF;
 }
 
@@ -133,11 +134,15 @@
 ::ng-deep .mat-mdc-paginator {
     display: flex;
     justify-content: center;
+    background-color: #ffffff !important;
+
 }
 
 ::ng-deep .mat-mdc-paginator-container {
     justify-content: center !important;
+    background-color: #ffffff !important;
 }
+
 
 :host ::ng-deep .mat-mdc-input-element,
 :host ::ng-deep .mat-mdc-select-value,
@@ -213,7 +218,7 @@
     height: 36px !important;
 }
 
-.total{
+.total {
     background-color: #F8F8F8;
     padding: 15px 20px;
     border-radius: 6px;
@@ -221,24 +226,24 @@
     gap: 20px;
 }
 
-.total img{
+.total img {
     width: 16px;
     height: 16px;
 }
 
-.total p{
+.total p {
     font-weight: 500;
     font-size: 12px;
     color: #636363;
 }
 
-.total span{
+.total span {
     font-weight: 700;
     font-size: 12px;
     color: var(--primary-text);
 }
 
-.total-contents{
+.total-contents {
     display: flex;
     gap: 8px;
 }

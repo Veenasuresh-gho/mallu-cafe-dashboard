@@ -24,7 +24,7 @@
 .media-file {
   font-size: 12px;
   font-weight: 400;
-  color: #312F2F;
+  color: var( --primary-text);
 }
 
 .sub-heading {
@@ -32,7 +32,7 @@
   font-size: 10px;
   font-style: Regular;
   font-weight: 400;
-  color: #312F2F;
+  color: var( --primary-text);
 }
 
 .onAir {
@@ -40,7 +40,7 @@
   font-size: 12px;
   font-style: SemiBold;
   font-weight: 400;
-  color: #00AA45;
+  color: var(--success);
 }
 
 .card-title {

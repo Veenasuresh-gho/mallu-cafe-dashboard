@@ -1,9 +1,11 @@
     .date-btn {
         border: 2px solid #C6C6C6;
-        font-size: 10px;
+        font-size: 12px;
         cursor: pointer;
         font-family: 'Red Hat Display', sans-serif;
         font-weight: 700;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     .program-schedules h6 {
@@ -26,7 +28,7 @@
     }
 
     .on-air-text {
-        color: #00AA45;
+        color: var(--success);
         font-weight: 400;
     }
 
@@ -46,7 +48,6 @@
     .time {
         font-size: 10px;
         color: #9A9A9A;
-        /* line-height: 10px; */
     }
 
     .name span {
@@ -54,63 +55,80 @@
         font-size: 10px;
     }
 
-    .name img{
-        width:  10px;
+    .name img {
+        width: 10px;
     }
 
-    .schedules-content{
+    .schedules-content {
         border: 1px solid #E4E4E4;
-        border-radius: 20px;
+        border-radius: 10px;
+        overflow: hidden;
     }
-
-    .on-air-content{
-        background-color: #FFFFFF;
-    }
-
 
     .on-air-content {
-  background: #fff;
-  border-radius: 5px;
-}
+        background-color: #FFFFFF;
+        border: none !important;
+        border-bottom: 1px solid #E4E4E4 !important;
+    }
 
-.rjImage img {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  object-fit: cover;
-}
+    .on-air-section {
+        background-color: #FFFFFF;
+        border: none !important;
+        border-bottom: 1px solid #E4E4E4 !important;
+    }
 
-.headphone-icon {
-  width: 14px;
-}
+    .on-air-content:first-child {
+        border-bottom: none !important;
+    }
 
-.border-bottom {
-  border-bottom: 1px solid #eee;
-}
+    .on-air-content:last-child {
+        border-bottom: none !important;
+    }
 
-.listeners{
-    font-size: 12px;
-}
+    .rjImage img {
+        width: 50px;
+        height: 50px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
 
-.files{
-    font-size: 10px;
-}
+    .headphone-icon {
+        width: 14px;
+    }
 
-.view span{
-    font-size: 10px;
-}
+    .border-bottom {
+        border-bottom: 1px solid #eee;
+    }
 
-.border-b {
-  border-bottom: 1px solid #E4E4E4;
-}
+    .listeners {
+        font-size: 12px;
+        font-family: var(--secondary-font);
+        color: #636363;
+    }
 
-.scroll-container {
-  height: 650px;
-  overflow-y: auto;
-  overflow-x: hidden;
+    .files {
+        font-size: 10px;
+        color: var(--success);
+    }
 
-  scrollbar-width: none;
+    .view span {
+        font-size: 10px;
+    }
 
-  -ms-overflow-style: none;
-}
+    .border-b {
+        border-bottom: 1px solid #E4E4E4;
+    }
 
+    .scroll-container {
+        min-height: 0px;
+        max-height: 600px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-width: none;
+
+        -ms-overflow-style: none;
+    }
+
+    .meterial-icons {
+        color: var(--success);
+    }

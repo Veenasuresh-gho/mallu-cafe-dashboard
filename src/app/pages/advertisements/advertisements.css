@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap');
-
-.media {
+.advertisement {
     background-color: #fff;
     border-radius: 10px;
     border: 1px solid #0000001A;
@@ -14,7 +12,8 @@
 
 .header p {
     font-size: 10px;
-color: var(--muted-input);}
+    color: #757575;
+}
 
 .header button {
     color: var(--primary-color);
@@ -37,8 +36,9 @@ color: var(--muted-input);}
 .custom-table {
     width: 100%;
     font-family: 'Poppins', sans-serif;
+     border-radius: 10px;
+    overflow: hidden;
 }
-
 .custom-table th {
     font-size: 12px;
     font-weight: 400;
@@ -49,6 +49,7 @@ color: var(--muted-input);}
     height: 36px;
 }
 
+
 .custom-table td {
     font-size: 12px;
     /* padding: 8px; */
@@ -56,11 +57,10 @@ color: var(--muted-input);}
     background-color: #ffffff;
 }
 
-.media-cell {
+.advertisement-cell {
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: #ffffff;
 }
 
 .avatar {
@@ -70,39 +70,9 @@ color: var(--muted-input);}
     object-fit: cover;
 }
 
-.media-name {
+.advertisement-name {
     font-size: 12px;
     font-weight: 400;
-}
-
-.media-size,
-.user-time {
-    font-size: 10px;
-    font-weight: 500;
-    color: #9A9A9A;
-    font-family: 'Red Hat Display', sans-serif;
-}
-
-.like-icon {
-    color: #636363;
-    font-size: 14px;
-    padding-top: 12px;
-}
-
-.category.pre {
-    color: #F37127;
-}
-
-.category.shorts {
-    color: #1B517D;
-}
-
-.category.podcast {
-    color: var(--success);
-}
-
-.category.featured {
-    color: #4375FF;
 }
 
 .user {
@@ -110,32 +80,36 @@ color: var(--muted-input);}
     font-size: 12px;
 }
 
-.uploadStatus {
+.adStatus {
     display: flex;
     align-items: center;
     gap: 6px;
     font-size: 12px;
 }
 
-.uploadStatus mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
+.adStatus mat-icon {
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
 }
 
-.uploadStatus.published {
+.adStatus.active,
+.adStatus.published {
     color: var(--success);
 }
 
-.uploadStatus.draft {
-    color: var(--primary-color);
+.adStatus.waiting {
+    color: #FFA800;
+}
+
+.adStatus.expired {
+    color: #9A9A9A;
 }
 
 ::ng-deep .mat-mdc-paginator {
     display: flex;
     justify-content: center;
     background-color: #ffffff !important;
-
 }
 
 ::ng-deep .mat-mdc-paginator-container {
@@ -143,13 +117,11 @@ color: var(--muted-input);}
     background-color: #ffffff !important;
 }
 
-
 :host ::ng-deep .mat-mdc-input-element,
 :host ::ng-deep .mat-mdc-select-value,
 :host ::ng-deep .mdc-floating-label {
     font-size: 12px !important;
 }
-
 
 :host ::ng-deep .mat-mdc-form-field {
     margin-bottom: 16px !important;
@@ -180,6 +152,9 @@ color: var(--muted-input);}
     width: 300px !important;
 }
 
+.status-drop-down {
+    width: 120px !important;
+}
 
 :host ::ng-deep .mat-mdc-text-field-wrapper {
     border: 1px solid #CFCFCF !important;
@@ -200,6 +175,7 @@ color: var(--muted-input);}
     line-height: 24px;
 }
 
+/* Label */
 :host ::ng-deep .mdc-floating-label {
     font-size: 12px !important;
     top: 50% !important;
@@ -228,33 +204,3 @@ color: var(--muted-input);}
     height: 36px !important;
 }
 
-.total {
-    background-color: #F8F8F8;
-    padding: 15px 20px;
-    margin-top: 16px;
-    border-radius: 6px;
-    display: flex;
-    gap: 20px;
-}
-
-.total img {
-    width: 16px;
-    height: 16px;
-}
-
-.total p {
-    font-weight: 500;
-    font-size: 12px;
-    color: #636363;
-}
-
-.total span {
-    font-weight: 700;
-    font-size: 12px;
-    color: var(--primary-text);
-}
-
-.total-contents {
-    display: flex;
-    gap: 8px;
-}

@@ -35,7 +35,15 @@ export class TodayScheduleSection {
       image: "/main/rj4.png",
       time: "05:00 pm - 08:00 pm",
       name: "RJ Neena",
+    },
+    {
+      status: "",
+      song: "Talk with Stars",
+      image: "/main/rj4.png",
+      time: "05:00 pm - 08:00 pm",
+      name: "RJ Neena",
     }
+
 
   ]
 }

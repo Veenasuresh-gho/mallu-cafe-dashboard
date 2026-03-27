@@ -12,12 +12,12 @@
         </div>
     </div>
 
-    <div class="schedules-content mt-1 scroll-container">
-        <div class=" d-flex flex-column gap-3 p-3 on-air-content border">
-            <div class="on-air d-flex align-items-center gap-2">
-                <p class="mb-0 small">🟢 Broadcast Status</p>
-                <p class="mb-0 d-flex align-items-center gap-1">
-                    <span class="material-icons text-success" style="font-size:16px;">
+    <div class="schedules-content  scroll-container">
+        <div class=" d-flex flex-column gap-2 px-3 py-2 on-air-content border">
+            <div class="on-air d-flex align-items-center mt-2 gap-2">
+                <p class="mb-2 small">🟢 Broadcast Status</p>
+                <p class="mb-2 d-flex align-items-center gap-1">
+                    <span class="material-icons" style="font-size:16px;color: var(--success);">
                         radio_button_checked
                     </span>
                     <span class="on-air-text small ">On Air</span>
@@ -39,10 +39,11 @@
             </div>
 
             <div class="d-flex justify-content-between align-items-center">
-                <p class="listeners">Current Active Listeners : <span class="fw-bold">400+</span> </p>
-                <p>
+                <p class="listeners mb-0">Current Active Listeners: <span class="fw-bold"
+                        style="color: var(--primary-text);">400+</span> </p>
+                <p class="mb-0">
                     <img src="/main/tick.svg" />
-                    <span class="files px-1 text-success">Files Uploaded</span>
+                    <span class="files px-1">Files Uploaded</span>
                 </p>
             </div>
 
@@ -51,7 +52,7 @@
         <div class="pt-1 ">
             @for(item of schedules; track item){
 
-            <div class="d-flex flex-column gap-3 p-3 on-air-content border-b">
+            <div class="d-flex flex-column gap-2 px-3 py-2 on-air-section border-b">
                 <p class="mb-0 status d-flex align-items-center gap-1">
 
                     @if(item.status === 'next') {
@@ -87,16 +88,14 @@
                     </div>
 
 
-                    <p>
+                    <p class="mb-0">
                         <img src="/main/tick.svg" />
-                        <span class="files px-1 text-success">Files Uploaded</span>
+                        <span class="files px-1 ">Files Uploaded</span>
                     </p>
                 </div>
 
             </div>
-
             }
-
         </div>
 
     </div>

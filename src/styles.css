@@ -2,10 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap');
 
 body {
-    background-color: #F5F5F5;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
+  background-color: #F5F5F5;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
 }
+
+
 
 :root {
     --primary-color: #D80905;
@@ -14,6 +16,13 @@ body {
     --primary-text: #312F2F;
     --muted-label: #636363;
     --muted-input: #757575;
+  --primary-color: #D80905;
+  --secondary-color: #F37127;
+  --muted-text: #9A9A9A;
+  --primary-text: #312F2F;
+  --success: #00AA45;
+  --border-color: #0000001F;
+  --secondary-font:'Red Hat Display',sans-serif;
 }
 
 .scroll-container::-webkit-scrollbar {
@@ -28,8 +37,8 @@ body {
 .mat-mdc-form-field,
 .mat-mdc-card,
 .mat-mdc-dialog-container {
-    font-family: 'Poppins', sans-serif !important;
-    color: var(--primary-text);
+  font-family: 'Poppins', sans-serif !important;
+  color: var(--primary-text);
 }
 
 .mat-mdc-form-field,

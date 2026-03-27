@@ -1,12 +1,24 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+  {
+    path: 'sign-in',
+    loadComponent: () =>
+      import('./pages/dashboard/auth/sign-in/sign-in')
+        .then(m => m.SignIn)
+  },
+    {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./pages/dashboard/auth/forgot-password/forgot-password')
+        .then(m => m.ForgotPassword)
+  },
       {
-        path: 'sign-in',
-        loadComponent: () =>
-          import('./pages/dashboard/auth/sign-in/sign-in')
-            .then(m => m.SignIn)
-      },
+    path: 'set-new-password',
+    loadComponent: () =>
+      import('./pages/dashboard/auth/set-new-password/set-new-password')
+        .then(m => m.SetNewPassword)
+  },
   {
     path: '',
     loadComponent: () =>
@@ -48,7 +60,13 @@ export const routes: Routes = [
           import('./pages/team-member/team-member')
             .then(m => m.TeamMember)
       },
-      
+      {
+        path: 'advertisements',
+        loadComponent: () =>
+          import('./pages/advertisements/advertisements')
+            .then(m => m.Advertisements)
+      },
+
     ]
   }
 ];

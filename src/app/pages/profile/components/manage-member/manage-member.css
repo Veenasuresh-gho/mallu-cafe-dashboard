@@ -24,7 +24,7 @@ color: var(--muted-input);
     font-size: 12px;
     font-style: bold;
     font-family: Red Hat Display;
-    color: #312F2F;
+    color: var( --primary-text);
 }
 
 ::ng-deep .mat-mdc-dialog-content {
@@ -105,7 +105,7 @@ color: var(--muted-input);
     background: #FFFFFF;
     border: 1px solid #CFCFCF;
     border-radius: 6px;
-    color: #312F2F;
+    color: var( --primary-text);
     padding: 4px 10px;
     font-size: 12px;
     cursor: pointer;
@@ -287,7 +287,7 @@ color: var(--muted-input);
 .toggle-txt{
     font-weight: 400;
     font-size: 12px;
-    color: #312F2F;
+    color: var( --primary-text);
 }
 .access-txt {
   font-family: 'Poppins', sans-serif;
@@ -316,13 +316,13 @@ input[type="checkbox"] {
     padding: 0;
 }
 .btn-create {
-  background: #D809051A;
-  color: #D80905;
+  background: var( --primary-color)1A;
+  color: var( --primary-color);
   font-weight: 700;
   font-size: 12px;
   height: 36px;
   border-radius: 6px;
-  border: 1px solid #D80905;
+  border: 1px solid var( --primary-color);
   font-family: 'Red Hat Display', sans-serif;
   align-items: center;   
   justify-content: center; 
@@ -334,9 +334,9 @@ input[type="checkbox"] {
 }
 
 .btn-delete-member {
-  border: 1px solid #D80905;
-  color: #D80905;
-  background-color: #D809051A;
+  border: 1px solid var( --primary-color);
+  color: var( --primary-color);
+  background-color: var( --primary-color)1A;
 
   font-weight: 400;
   font-size: 12px;

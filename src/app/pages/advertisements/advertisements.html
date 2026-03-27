@@ -1,14 +1,14 @@
-<div class="programs ">
+<div class="advertisement ">
     <div class="p-3">
         <div class="header d-flex justify-content-between align-items-center ">
             <div>
-                <h4 class="mb-0">Programs</h4>
-                <p>Manage, upload and schedule broadcast programs.</p>
+                <h4 class="mb-0">Advertisements</h4>
+                <p>Manage advertiser campaigns, upload ad files and schedule broadcast slots.</p>
             </div>
 
-            <button class="d-flex align-items-center gap-1" (click)="openModal()">
-                <img src="/main/add.svg">
-                Add new program
+            <button class="d-flex align-items-center gap-1">
+                <img src="/main/upload-icon.svg">
+                Upload ad file
             </button>
         </div>
 
@@ -28,8 +28,7 @@
                     <mat-select placeholder="All Status" [(value)]="status">
                         <mat-option value="all">All Status</mat-option>
                         <mat-option value="active">Active</mat-option>
-                        <mat-option value="upcoming">Upcoming</mat-option>
-                         <mat-option value="completed">Completed</mat-option>
+                        <mat-option value="inactive">Inactive</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -42,19 +41,13 @@
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="All Host" [(value)]="host">
+                    <mat-select placeholder="Today" [(value)]="day">
                         <mat-option value="all">All Host</mat-option>
                         <mat-option value="host1">Host 1</mat-option>
                         <mat-option value="host2">Host 2</mat-option>
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-select placeholder="All Programs" [(value)]="program">
-                        <mat-option value="all">All Programs</mat-option>
-                        <mat-option value="program1">Program 1</mat-option>
-                    </mat-select>
-                </mat-form-field>
             </div>
             <div class="d-flex align-items-center gap-1">
                 <p style="font-size: 12px; font-weight: 500; color: #757575;">Clear filters</p>
@@ -66,57 +59,83 @@
 
     <table mat-table [dataSource]="dataSource" class="custom-table">
 
-        <ng-container matColumnDef="program">
-            <th mat-header-cell *matHeaderCellDef>Program Title</th>
+        <ng-container matColumnDef="advertisements">
+            <th mat-header-cell *matHeaderCellDef>Ads</th>
             <td mat-cell *matCellDef="let row">
-                <div class="program-cell">
+                <div class="advertisement-cell">
                     <img [src]="row.avatar" class="avatar" />
-                    <div class="program-name">{{ row.name }}</div>
+                    <div class="advertisement-name">{{ row.name }}</div>
                 </div>
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef>Category</th>
+        <ng-container matColumnDef="advertiser">
+            <th mat-header-cell *matHeaderCellDef>Advertiser</th>
             <td mat-cell *matCellDef="let row">
-                <span class="category" [ngClass]="row.categoryClass">
-                    {{ row.category }}
+                <div class="user">{{ row.advertiser }}</div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="adType">
+            <th mat-header-cell *matHeaderCellDef>Ad Type</th>
+            <td mat-cell *matCellDef="let row">
+                <div class="advertisement-cell">
+                    <img [src]="getAdTypeIcon(row.adTypeClass)" />
+                    <div class="advertisement-name">{{ row.adType }}</div>
+                </div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="adPlayCount">
+            <th mat-header-cell *matHeaderCellDef>Ad Play Count</th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.adPlayCount }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="adStatus">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let row">
+                <span class="adStatus" [ngClass]="row.adStatusClass">
+
+                    <mat-icon *ngIf="row.adStatusClass === 'active'">
+                        fiber_manual_record
+                    </mat-icon>
+                    <mat-icon *ngIf="row.adStatusClass === 'waiting'">warning</mat-icon>
+                    <mat-icon *ngIf="row.adStatusClass === 'published'">check_circle</mat-icon>
+                    <mat-icon *ngIf="row.adStatusClass === 'expired'">info</mat-icon>
+
+                    {{ row.adStatus }}
                 </span>
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="host">
-            <th mat-header-cell *matHeaderCellDef>Host</th>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+
             <td mat-cell *matCellDef="let row">
-                <div class="user">{{ row.host }}</div>
-            </td>
-        </ng-container>
 
-        <ng-container matColumnDef="duration">
-            <th mat-header-cell *matHeaderCellDef>Duration</th>
-            <td mat-cell *matCellDef="let row">
-                {{ row.duration }}
-            </td>
-        </ng-container>
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_horiz</mat-icon> <!-- ✅ horizontal dots -->
+                </button>
 
-        <ng-container matColumnDef="dayTime">
-            <th mat-header-cell *matHeaderCellDef>Schedule Day → Time</th>
-            <td mat-cell *matCellDef="let row">
-                {{ row.dayTime }}
-            </td>
-        </ng-container>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                    </button>
 
-        <ng-container matColumnDef="interaction">
-            <th mat-header-cell *matHeaderCellDef>Listener Interaction</th>
-            <td mat-cell *matCellDef="let row">
-                <span class="interaction" [ngClass]="row.interactionClass">
+                    <button mat-menu-item >
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
 
-                    <mat-icon *ngIf="row.interactionClass === 'allow'">check_circle</mat-icon>
+                    <button mat-menu-item>
+                        <mat-icon>visibility</mat-icon>
+                        <span>View</span>
+                    </button>
+                </mat-menu>
 
-                    <mat-icon *ngIf="row.interactionClass === 'disabled'">info</mat-icon>
-
-                    {{ row.interaction }}
-                </span>
             </td>
         </ng-container>
 

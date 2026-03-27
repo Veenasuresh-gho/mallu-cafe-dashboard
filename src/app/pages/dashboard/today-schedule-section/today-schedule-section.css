@@ -62,14 +62,28 @@
     .schedules-content {
         border: 1px solid #E4E4E4;
         border-radius: 10px;
-         overflow: hidden; 
+        overflow: hidden;
     }
 
     .on-air-content {
         background-color: #FFFFFF;
-        border-radius: 0px;
+        border: none !important;
+        border-bottom: 1px solid #E4E4E4 !important;
     }
 
+    .on-air-section {
+        background-color: #FFFFFF;
+        border: none !important;
+        border-bottom: 1px solid #E4E4E4 !important;
+    }
+
+    .on-air-content:first-child {
+        border-bottom: none !important;
+    }
+
+    .on-air-content:last-child {
+        border-bottom: none !important;
+    }
 
     .rjImage img {
         width: 50px;
@@ -88,6 +102,8 @@
 
     .listeners {
         font-size: 12px;
+        font-family: var(--secondary-font);
+        color: #636363;
     }
 
     .files {
@@ -108,12 +124,11 @@
         max-height: 600px;
         overflow-y: auto;
         overflow-x: hidden;
-
         scrollbar-width: none;
 
         -ms-overflow-style: none;
     }
 
-    .meterial-icons{
+    .meterial-icons {
         color: var(--success);
     }

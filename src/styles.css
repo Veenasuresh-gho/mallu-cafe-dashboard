@@ -7,12 +7,16 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+
+
 :root {
   --primary-color: #D80905;
   --secondary-color: #F37127;
   --muted-text: #9A9A9A;
   --primary-text: #312F2F;
   --success: #00AA45;
+  --border-color: #0000001F;
+  --secondary-font:'Red Hat Display',sans-serif;
 }
 
 .scroll-container::-webkit-scrollbar {

@@ -2,6 +2,7 @@
     background-color: #fff;
     border-radius: 10px;
     border: 1px solid #0000001A;
+    overflow: hidden;
 }
 
 .header h4 {
@@ -43,13 +44,13 @@
     color: var(--primary-text);
     border: 1px solid white;
     background: #F8F8F8;
-    padding: 3px 10px;
+    /* padding: 3px 10px; */
     height: 36px;
 }
 
 .custom-table td {
     font-size: 12px;
-    padding: 8px;
+    /* padding: 8px; */
     border-bottom: 1px solid #eeeeee;
     background-color: #ffffff;
 }
@@ -115,11 +116,24 @@
     font-size: 12px !important;
 }
 
+:host ::ng-deep .mat-mdc-form-field {
+    margin-bottom: 16px !important;
+}
+
+:host ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
+.p-3 {
+    padding-bottom: 0px !important;
+}
+
 .filter-container {
     display: flex;
     gap: 2px;
     align-items: center;
     flex-wrap: wrap;
+    margin-top: 16px;
 }
 
 .filter-container mat-form-field {

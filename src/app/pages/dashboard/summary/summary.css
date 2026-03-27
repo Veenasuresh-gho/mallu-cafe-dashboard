@@ -51,15 +51,13 @@
     font-weight: 400;
     font-size: 10px;
     line-height: 10px;
-    color: #757575;
-}
+color: var(--muted-input);}
 
 ::ng-deep .stats span {
     font-weight: 400;
     font-size: 10px;
     line-height: 10px;
-    color: #757575;
-}
+color: var(--muted-input);}
 
 ::ng-deep .info span {
     font-weight: 700;

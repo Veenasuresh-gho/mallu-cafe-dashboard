@@ -1,4 +1,4 @@
-<div class="main-body schedules-content" >
+<!-- <div class="main-body schedules-content" >
   <div class="d-flex justify-content-between">
     <div>
       <h6 class="main-Heading">Om Shanti Om</h6>
@@ -23,9 +23,8 @@
       </div>
     </div>
     <div class="audio-player-container d-flex align-items-center gap-3 py-3">
-      <span class="material-symbols-outlined bg-white text-danger rounded-circle p-2 cursor-pointer">
-        play_arrow
-      </span>
+       <img src="/dash/play-btn.png" class="play-btn" alt="">
+
       <div class="flex-grow-1">
         <input type="range" class="custom-range" min="0" max="100" value="15">
         <div class="d-flex justify-content-between duration mt-1">
@@ -49,23 +48,19 @@
           <p class="duration mb-0">Hosted by</p>
           <p class="card-subtitle text-white mb-0">RJ Anjali</p>
         </div>
-
       </div>
-
     </div>
   </div>
   <div>
-    <p class="d-flex gap-1 text-danger">
-      <span class="material-symbols-outlined ">
-        favorite
-      </span>
+    <p class="d-flex gap-1 text-danger py-1">
+      <img src="/dash/heart-circle.svg"  alt="">
       <span class="extraData pt-1">Favourited by 455 listeners</span>
     </p>
   </div>
   <div class="d-flex justify-content-between">
     <div class="text-success">
       
-      <p class="extraData2 pt-1">Pre-Scheduled</p>
+      <p class="extraData2 ">Pre-Scheduled</p>
     
       <div class="d-flex px-2 py-2 gap-1 border text-[var( --primary-text)]">
         <img src="/dash/files.svg" alt="">
@@ -73,8 +68,105 @@
       </div>
     </div>
     <div class="gotoFile-box mb-4">
-      <p class="gotoFile">Go to File Manager</p>
+      <p class="gotoFile ">Go to File Manager</p>
     </div>
 
+  </div>
+</div> -->
+<!-- movies -->
+
+<div class="main-body schedules-content" >
+  <div class="d-flex justify-content-between">
+    <div>
+      <h6 class="main-Heading">Cinema Stories from Script to Screen (EP 22)</h6>
+      <p class="sub-heading"> Monday - Friday 08:00 - 09:00 am </p>
+    </div>
+    <div class="onAir">
+      ⦿ On Air
+    </div>
+  </div>
+  <div class="p-4 rounded my-2 custom-card-bg-movies">
+    <div class="d-flex justify-content-between">
+      <div class="text-white">
+        <div class="d-flex gap-2">
+
+          <p class="card-title-movies">#Movies: Reviews, Insights and Behind-the-Scenes Moments</p>
+        </div>
+      </div>
+      <div class="">
+        <span class="card-OnAir px-2 py-1 rounded"> ON AIR</span>
+      </div>
+    </div>
+    <div class="audio-player-container d-flex align-items-center gap-3 py-3">
+
+      <img src="/dash/play-btn.png" class="play-btn" alt="">
+      <div class="flex-grow-1">
+
+<div class="pt-3">
+           <mat-slider>
+  <input matSliderThumb >
+</mat-slider>
+</div>
+        <div class="d-flex justify-content-between duration mt-1">
+          <span class="">00:00</span>
+          <span>52:36</span>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center my-3">
+      <div>
+        <p class="playAd bg-white px-2 py-1 mb-0 d-flex gap-1">
+          <span class="material-symbols-outlined">
+            movie_info
+          </span>
+          <span class="pt-1"> Play Ad</span>
+        </p>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <img src="/dash/rjImg.png" class="rounded-circle" width="40" height="40" alt="" style="object-fit: cover;" />
+        <div>
+          <p class="duration mb-0">Hosted by</p>
+          <p class="card-subtitle text-white mb-0">RJ Anjali</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="d-flex gap-2">
+    <p class="d-flex gap-1 text-danger py-1">
+      <img src="/dash/bell.png" width="16px" height="16px"  alt="">
+      <span class="extraData pt-1"> 2901 Subscribers </span>
+    </p>
+        <p class="d-flex gap-1 text-primary py-1">
+      <img src="/dash/eye.png"  alt="">
+      <span class="extraData pt-1"> 12290 Viewers </span>
+    </p>
+        <p class="d-flex gap-1 text-success py-1">
+      <img src="/dash/like.png"  alt="">
+      <span class="extraData pt-1"> 1928 Likes </span>
+    </p>
+    </div>
+
+  </div>
+  <div class="d-flex justify-content-between">
+    <div class="text-success">
+      
+      <p class="extraData2 ">Podcast</p>
+    
+      <div class="d-flex gap-1 text-[#312F2F]">
+        <div class="d-flex gap-1 p-2 files border h-50 rounded" >
+          <img src="/dash/files.svg" width="16px" height="16px" alt="">
+        <span class="media-file">CinemaStoriesfromscri.....mp3 •  108 MB</span>
+        </div>
+        <p class="gotoFile-movies"> 
+          <img src="/dash/video-play.png" alt="">
+          Go to media library</p>
+
+      </div>
+    </div>
+    <div class="d-flex">
+      <p class="media-file p-3 mt-4">Auto Play</p>
+      <p class="pt-2 mt-4"><mat-slide-toggle></mat-slide-toggle></p>
+    </div>
   </div>
 </div>

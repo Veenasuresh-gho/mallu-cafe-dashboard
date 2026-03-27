@@ -10,6 +10,12 @@ body {
 
 
 :root {
+    --primary-color: #D80905;
+    --secondary-color: #F37127;
+    --muted-text: #9A9A9A;
+    --primary-text: #312F2F;
+    --muted-label: #636363;
+    --muted-input: #757575;
   --primary-color: #D80905;
   --secondary-color: #F37127;
   --muted-text: #9A9A9A;
@@ -41,4 +47,21 @@ body {
 .mat-mdc-option,
 .mdc-floating-label {
   font-family: 'Poppins', sans-serif !important;
+}
+
+/* .mat-mdc-slider {
+  --mdc-slider-handle-color: white;
+  --mdc-slider-focus-handle-color: white;
+  --mdc-slider-hover-handle-color: white;
+  --mdc-slider-active-track-color: white;
+  --mdc-slider-inactive-track-color: rgba(243, 238, 238, 0.3);
+} */
+
+.mat-mdc-radio-button .mdc-radio__inner-circle {
+  background-color: red !important;
+}
+
+.mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__outer-circle {
+  border-color: red !important;
+  
 }

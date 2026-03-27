@@ -7,6 +7,18 @@ export const routes: Routes = [
       import('./pages/dashboard/auth/sign-in/sign-in')
         .then(m => m.SignIn)
   },
+    {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./pages/dashboard/auth/forgot-password/forgot-password')
+        .then(m => m.ForgotPassword)
+  },
+      {
+    path: 'set-new-password',
+    loadComponent: () =>
+      import('./pages/dashboard/auth/set-new-password/set-new-password')
+        .then(m => m.SetNewPassword)
+  },
   {
     path: '',
     loadComponent: () =>

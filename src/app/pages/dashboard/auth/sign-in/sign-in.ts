@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
 })
 export class SignIn {
   hide = true;
-  submitted = false; // ✅ important
+  submitted = false; // ✅ importan
 
   loginForm!: FormGroup;
 

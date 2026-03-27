@@ -22,7 +22,7 @@ export class Summary {
       color: "#F37127",
       image: "/main/folder-open.png",
       title: "Upload Readiness",
-      statistics: "<p>13 <span>of</span> 14 <span>Files Uploaded</span>",
+      statistics: "13 <span>of</span> 14 <span>Files Uploaded</span>",
       info: "<span>1</span> Upload Pending"
     },
     {

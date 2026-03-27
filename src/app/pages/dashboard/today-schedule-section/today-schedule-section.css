@@ -61,12 +61,13 @@
 
     .schedules-content {
         border: 1px solid #E4E4E4;
-        border-radius: 20px;
+        border-radius: 10px;
+         overflow: hidden; 
     }
 
     .on-air-content {
         background-color: #FFFFFF;
-        border-radius: 5px;
+        border-radius: 0px;
     }
 
 
@@ -103,7 +104,8 @@
     }
 
     .scroll-container {
-        height: 650px;
+        min-height: 0px;
+        max-height: 650px;
         overflow-y: auto;
         overflow-x: hidden;
 

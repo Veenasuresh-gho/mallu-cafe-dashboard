@@ -13,8 +13,8 @@
     </div>
 
     <div class="schedules-content  scroll-container">
-        <div class=" d-flex flex-column gap-3 p-3 on-air-content border">
-            <div class="on-air d-flex align-items-center gap-2">
+        <div class=" d-flex flex-column gap-2 px-3 py-2 on-air-content border">
+            <div class="on-air d-flex align-items-center mt-2 gap-2">
                 <p class="mb-0 small">🟢 Broadcast Status</p>
                 <p class="mb-0 d-flex align-items-center gap-1">
                     <span class="material-icons" style="font-size:16px;color: #00AA45;">
@@ -51,7 +51,7 @@
         <div class="pt-1 ">
             @for(item of schedules; track item){
 
-            <div class="d-flex flex-column gap-3 p-3 on-air-content border-b">
+            <div class="d-flex flex-column gap-2 px-3 py-2 on-air-content border-b">
                 <p class="mb-0 status d-flex align-items-center gap-1">
 
                     @if(item.status === 'next') {

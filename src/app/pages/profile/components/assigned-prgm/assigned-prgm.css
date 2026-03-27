@@ -11,7 +11,7 @@
     font-weight: 400;
     font-size: 12px;
     font-family: Poppins;
-    color: #00AA45;
+    color: var(--success);
 }
 .radio-btn{
     font-weight: 700;

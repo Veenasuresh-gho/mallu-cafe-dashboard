@@ -98,7 +98,7 @@
 }
 
 .category.podcast {
-    color: #00AA45;
+    color: var(--success);
 }
 
 .category.featured {
@@ -124,7 +124,7 @@
 }
 
 .uploadStatus.published {
-    color: #00AA45;
+    color: var(--success);
 }
 
 .uploadStatus.draft {

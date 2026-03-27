@@ -19,7 +19,7 @@
 .main-subtitle {
   font-weight: 400;
   font-size: 12px;
-  color: #312F2F;
+  color: var( --primary-text);
   margin: 0;
 }
 .content-title{

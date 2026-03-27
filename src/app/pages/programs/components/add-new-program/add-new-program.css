@@ -91,6 +91,8 @@ input[type="file"] {
   border-radius: 6px;
   overflow: hidden;
   height: 36px;
+    font-size: 12px !important;
+
 }
 
 .schedule-group select {
@@ -168,13 +170,12 @@ input[type="file"] {
   }
 
   .static-label {
-    width: 140px;
-    padding: 10px 15px;
     border:1px solid #CFCFCF;
-    color: #666;
+    color: #757575;
     outline: none;
     font-size: 12px;
     cursor: default;
+    font-family: Poppins;
   }
 .single-select {
   border: 1px solid #ccc;
@@ -203,6 +204,8 @@ input[type="file"] {
 
 .input-label {
   font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins;
 }
 
 .file-upload {

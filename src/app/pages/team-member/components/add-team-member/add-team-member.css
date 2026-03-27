@@ -218,13 +218,97 @@ color: var(--muted-input);
   max-width: 544px;
 }
 
-/* Chips */
+/* Default outline color (when not focused) to match other inputs */
+::ng-deep .assigned-programs:not(.mat-focused) .mdc-notched-outline__leading,
+::ng-deep .assigned-programs:not(.mat-focused) .mdc-notched-outline__notch,
+::ng-deep .assigned-programs:not(.mat-focused) .mdc-notched-outline__trailing {
+    border-color: #CFCFCF !important;
+    border-width: 1px !important;
+}
+
+/* Red outline border ONLY when clicked/focused */
+::ng-deep .assigned-programs.mat-focused .mdc-notched-outline__leading,
+::ng-deep .assigned-programs.mat-focused .mdc-notched-outline__notch,
+::ng-deep .assigned-programs.mat-focused .mdc-notched-outline__trailing {
+    border-color: #D80905 !important;
+    border-width: 1px !important;
+}
+
+/* Apply 6px border radius to match other inputs */
+::ng-deep .assigned-programs .mdc-notched-outline__leading {
+    border-top-left-radius: 6px !important;
+    border-bottom-left-radius: 6px !important;
+}
+::ng-deep .assigned-programs .mdc-notched-outline__trailing {
+    border-top-right-radius: 6px !important;
+    border-bottom-right-radius: 6px !important;
+}
+
+/* Remove default subscript space and reduce padding of the content */
+::ng-deep .assigned-programs .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+}
+::ng-deep .assigned-programs .mat-mdc-form-field-infix {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    min-height: 36px !important;
+}
+/* 1. Remove the large default padding inside the form field wrapper */
+::ng-deep .assigned-programs .mat-mdc-text-field-wrapper {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* 2. Tighten the flex container that holds the chips and arrow */
+::ng-deep .assigned-programs .mat-mdc-form-field-flex {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    align-items: center !important;
+}
+
+/* 3. Reset the infix (where the chips live) to allow a smaller height */
+::ng-deep .assigned-programs .mat-mdc-form-field-infix {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    min-height: unset !important; /* Removes the 56px default height */
+    width: auto !important;
+}
+
+/* 4. Ensure the chip-set doesn't add its own internal margins */
+::ng-deep .assigned-programs mat-chip-set {
+    margin: 0 !important;
+}
+
+/* 5. Adjust the select-trigger to prevent it from pushing boundaries */
+::ng-deep .assigned-programs .mat-mdc-select-trigger {
+    display: flex;
+    align-items: center;
+}
+/* The Select Arrow (Red Triangle) pointing UP */
+::ng-deep .assigned-programs .mat-mdc-select-arrow svg {
+    display: none !important; 
+}
+::ng-deep .assigned-programs .mat-mdc-select-arrow {
+    width: 0 !important;
+    height: 0 !important;
+    border-left: 4px solid transparent !important;
+    border-right: 4px solid transparent !important;
+    border-bottom: 5px solid #d32f2f !important;
+    border-top: none !important;
+    margin-top: -2px; 
+}
+::ng-deep .assigned-programs .mat-mdc-select-arrow-wrapper {
+    transform: none !important;
+}
+
+/* Chips (Selected options) */
 ::ng-deep .mat-mdc-chip {
-  background-color: #fdecea;
-  color: #d32f2f;
-  height: 22px !important;
+  background-color: #fdecea !important;
+  color: #d32f2f !important;
+  min-height: 24px !important; /* flexible height */
+  height: auto !important;
   border-radius: 12px;
-  padding: 0 6px;
+  border: 1px solid #636363 !important; 
 }
 
 /* ✅ THIS is the important one (text inside chip) */
@@ -232,25 +316,32 @@ color: var(--muted-input);
   font-size: 11px !important;
   font-family: 'Poppins', sans-serif;
   line-height: 16px;
-  
+  color: #d32f2f !important;
 }
 
 ::ng-deep .mat-mdc-chip button {
   font-size: 10px;
   margin-left: 4px;
+  color: #d32f2f;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
 }
 /* OPTION CONTAINER */
-.custom-select-panel .mat-mdc-option {
+::ng-deep .custom-select-panel .mat-mdc-option {
   min-height: 32px !important;   /* controls height */
-  padding: 4px 12px !important;  /* spacing */
   display: flex;
   align-items: center;
 }
 
 /*  TEXT inside option (IMPORTANT) */
-.custom-select-panel .mdc-list-item__primary-text {
+::ng-deep .custom-select-panel .mdc-list-item__primary-text {
   font-family: 'Poppins', sans-serif !important;
-  font-size: 12px !important;     /* 👈 change size here */
+  font-size: 12px !important;     
   font-weight: 400 !important;
   line-height: 16px !important;
   letter-spacing: 0 !important;
@@ -261,21 +352,17 @@ color: var(--muted-input);
   display: none !important;
 }
 
-.custom-select-panel .mat-mdc-option.mdc-list-item--selected {
-  background-color: #fdecea !important;
-}
-
-.custom-select-panel .mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text {
+::ng-deep .custom-select-panel .mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text {
   color: #d32f2f !important;
 }
 
 /* Hover background */
-.custom-select-panel .mat-mdc-option:hover {
-  background-color: #fdecea !important;
+::ng-deep .custom-select-panel .mat-mdc-option:hover {
+  background-color: transparent !important;
 }
 
 /* Hover text color */
-.custom-select-panel .mat-mdc-option:hover .mdc-list-item__primary-text {
+::ng-deep .custom-select-panel .mat-mdc-option:hover .mdc-list-item__primary-text {
   color: #d32f2f !important;
 }
 

@@ -23,6 +23,7 @@ export class MediaLibrary {
   openModal() {
     this.dialog.open(UploadNewFileModal, {
        width: '600px',
+       
       disableClose: true
     });
   }

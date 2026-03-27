@@ -1,0 +1,88 @@
+.dialog-box {
+  background: #fff;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.main-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #000;
+  font-style: semibold;
+  margin: 0 0 4px 0;
+}
+.main-subtitle {
+  font-weight: 400;
+  font-size: 10px;
+  color: #312F2F;
+  margin: 0;
+}
+
+.content-title {
+  font-weight: 700;
+  font-size: 12px;
+  font-style: bold;
+  font-family: Red Hat Display;
+  color: #312F2F;
+}
+::ng-deep .mat-mdc-dialog-content {
+  padding: 10px 0px !important;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-label {
+  font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins;
+  color: var(--muted-label);
+}
+
+.input-field {
+  font-weight: 400;
+  font-size: 12px;
+  border-radius: 6px;
+  height: 36px;
+  border: 1px solid #CFCFCF;
+  font-family: Poppins;
+  background-color: #FFFFFF;
+  color: var(--muted-input);
+  line-height: 16px;
+}
+.helper-text {
+  font-size: 10px;
+  color: var(--muted-input);
+  font-weight: 400;
+  font-family: Poppins;
+  height: 1px;
+}
+.btn-cancel {
+  background: transparent;
+  color: #636363;
+  font-weight: 500;
+  font-size: 12px;
+  border: none;
+}
+.btn-create {
+  background: #D8090533;
+  color: #D80905;
+  font-weight: 700;
+  border: 1px solid #D80905;
+  font-size: 12px;
+  height: 36px;
+  font-family: Poppins;
+  display: flex;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 12px;
+  border: none;
+}

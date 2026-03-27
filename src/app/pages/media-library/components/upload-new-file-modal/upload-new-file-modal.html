@@ -25,10 +25,11 @@
 
                 <p class="upload-subtxt">Drag & drop your file here, or click to browse</p>
                 <div>
-                    <button type="submit" class="btn-create d-flex">
+                    <label class="btn-create d-flex">
                         <img src="/dash/cloud-connection.svg" alt="">
                         <span> Choose File</span>
-                    </button>
+                        <input type="file" hidden (change)="onFileSelected($event)">
+                    </label>
                 </div>
                 <p class="upload-subtxt">MP3, MP4 • Max size: 1.5 GB</p>
             </div>
@@ -50,7 +51,7 @@
             <div class="form-group">
                 <label class="input-label" for="host">Program Category *</label>
                 <select id="host" class="input-field px-2" [(ngModel)]="selectedProgramCategory">
-                    <option  value="" disabled>- Select Program Category -</option>
+                    <option value="" disabled>- Select Program Category -</option>
                     <option value="pre">Pre - Scheduled</option>
                     <option value="featured">Featured Videos</option>
                     <option value="shorts">Shorts</option>
@@ -63,9 +64,10 @@
 
                 <div class="d-flex align-items-center gap-2">
 
-                    <input type="text" class="input-field px-2 w-100" placeholder="e.g., Music / Entertainment / Sports" />
+                    <input type="text" class="input-field px-2 w-100"
+                        placeholder="e.g., Music / Entertainment / Sports" />
 
-                    <button class="add-btn">+</button>
+                    <button class="add-btn" (click)="openModalAddPodcast()">+</button>
 
                 </div>
 
@@ -106,7 +108,7 @@
             <p class="content-title mb-0"> Rename File </p>
         </div>
 
-        <div class="d-flex gap-3 px-3 py-2">
+        <div class="d-flex gap-3 px-2 my-2">
             <!-- Radios -->
             <mat-radio-group [(ngModel)]="selectedType" class="d-flex gap-3 ">
 
@@ -166,7 +168,54 @@
             </div>
         </div>
         <hr class="px-4 my-3">
+                <div class="d-flex align-items-center gap-2 section-title px-3">
+            <div class="step-badge">5</div>
+            <p class="content-title mb-0"> Public App Content </p>
+        </div>
 
+        <div class="form-row px-3 my-2">
+            <div class="form-group">
+                <label class="input-label" for="fullname">Title *</label>
+                <input class="input-field p-1" type="text" placeholder="eg. Celebrity Talk – Exclusive Interview with Actor Nivin Pauly" />
+            </div>
+        </div>
+        <div class="form-row px-3">
+            <div class="form-group">
+                <label class="input-label" for="fullname">Subtitle *</label>
+<textarea 
+  class="input-field-textArea p-1" 
+  cols="3" 
+  placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects">
+</textarea>
+            </div>
+            <p class="helper-text">Keep it short and engaging for listeners.</p>
+
+        </div>
+
+        <hr class="px-4 my-3">
+
+        <div class="dialog-actions d-flex justify-content-between my-3 mx-3 gap-2">
+            <button type="button" class="btn-cancel d-flex gap-1 pt-2" (click)="close()">
+                <span class="material-symbols-outlined small pt-1">
+                    cancel
+                </span>
+                <span> Cancel</span>
+            </button>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn-save d-flex">
+                    <img src="/upload/save-icon.svg" alt="">
+                    <span>Save it as private</span>
+                </button>
+                <button type="submit" class="btn-publish d-flex">
+                    <img src="/upload/public-icon.svg" alt="">
+                    <span>Publish</span>
+                </button>
+                <button type="submit" class="btn-create d-flex">
+                    <img src="/upload/tick-circle.svg" alt="">
+                    <span>Upload File</span>
+                </button>
+            </div>
+        </div>
 
     </mat-dialog-content>
 </div>

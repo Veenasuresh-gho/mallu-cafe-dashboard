@@ -82,9 +82,9 @@
         </div>
         <mat-label class="input-label px-4">Assigned Programs</mat-label>
 
-        <mat-form-field class=" assigned-programs px-4">
+        <mat-form-field class="assigned-programs px-4" appearance="outline">
 
-            <mat-select multiple [(value)]="selectedPrograms">
+            <mat-select multiple [(value)]="selectedPrograms" panelClass="custom-select-panel">
 
                 <mat-select-trigger class="bg-white px-4">
                     <mat-chip-set>
@@ -134,9 +134,7 @@
         </div>
 
         <hr class="">
-    </mat-dialog-content>
-    <!-- footer -->
-    <mat-dialog-actions align="end" class="d-flex justify-content-between p-4">
+        <mat-dialog-actions align="end" class="d-flex justify-content-between px-4">
         <div class="d-flex" (click)="close()">
             <button  class="btn-close mx-2" aria-label="Close"></button>
             <span class="btn-cancel">Cancel</span>
@@ -147,4 +145,7 @@
             <span>Add Member</span>
         </button>
     </mat-dialog-actions>
+    </mat-dialog-content>
+    <!-- footer -->
+    
 </div>

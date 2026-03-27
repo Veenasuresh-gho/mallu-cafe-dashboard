@@ -1,6 +1,6 @@
 .dialog-box {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 10px;
   font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
   display: flex;
@@ -98,10 +98,39 @@
   border: 1px solid #D80905;
   font-size: 12px;
   height: 36px;
-  font-family: 'Red Hat Display', sans-serif;
+  font-family: Poppins;
   display: flex;
   border-radius: 10px;
   align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 12px;
+  border: none;
+}
+.btn-publish {
+  font-weight: 400;
+  font-size: 12px;
+  border: 1px solid #CFCFCF;
+  height: 36px;
+  background-color: transparent;
+  font-family: Poppins;
+  display: flex;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 12px;
+  border: none;
+}
+.btn-save {
+  font-weight: 400;
+  font-size: 12px;
+  height: 36px;
+  font-family: Poppins;
+  display: flex;
+  border-radius: 10px;
+  align-items: center;
+  background-color: transparent;
   justify-content: center;
   gap: 4px;
   padding: 0 12px;
@@ -136,6 +165,18 @@
   font-size: 12px;
   border-radius: 6px;
   height: 36px;
+  border: 1px solid #CFCFCF;
+  font-family: Poppins;
+  margin-bottom: 6px;
+  background-color: #FFFFFF;
+  color: var(--muted-input);
+  line-height: 16px;
+}
+.input-field-textArea {
+  font-weight: 400;
+  font-size: 12px;
+  border-radius: 6px;
+  height: 57px;
   border: 1px solid #CFCFCF;
   font-family: Poppins;
   margin-bottom: 6px;
@@ -199,3 +240,10 @@ border: 1px solid #E4E4E4;
 background-color: #FFFFFF;
 }
 
+.btn-cancel {
+  background: transparent;
+  color: #636363;
+  font-weight: 500;
+  font-size: 12px;
+  border: none;
+}

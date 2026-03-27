@@ -1,0 +1,38 @@
+<div class="dialog-box">
+    <div class="d-flex justify-content-between align-items-center mb-1"
+        style="padding-top: 24px;padding-left: 24px;padding-right: 24px;">
+        <div>
+            <p class="main-title">Upload Broadcast Media</p>
+            <p class="main-subtitle">Upload audio or video content for your program and prepare it for publishing in the
+                Mallu Cafe Radio App.</p>
+        </div>
+        <button (click)="close()" class="btn-close small" aria-label="Close"></button>
+    </div>
+    <hr />
+    <mat-dialog-content class="dialog-content ">
+
+        <div class="form-row px-3 py-2">
+            <div class="form-group">
+                <label class="input-label" for="fullname">Podcast Category Name*</label>
+                <input class="input-field p-1" type="text" placeholder="e.g. Music, Sports, Movies" />
+                <p class="helper-text">Once added, this category can be selected while creating podcast episodes.</p>
+            </div>
+        </div>
+
+        <div class="dialog-actions d-flex justify-content-between my-3 mx-3 gap-2">
+            <button type="button" class="btn-cancel d-flex gap-1 pt-2" (click)="close()">
+                <span class="material-symbols-outlined small pt-1">
+                    cancel
+                </span>
+                <span> Cancel</span>
+            </button>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn-create d-flex">
+                    <img src="/dash/cloud-connection.svg" alt="">
+                    <span> Add Category </span>
+                </button>
+            </div>
+        </div>
+
+    </mat-dialog-content>
+</div>

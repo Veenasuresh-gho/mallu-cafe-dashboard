@@ -42,6 +42,30 @@ export const routes: Routes = [
           import('./pages/profile/profile')
             .then(m => m.Profile)
       },
+      {
+        path: 'programs',
+        loadComponent: () =>
+          import('./pages/programs/programs')
+            .then(m => m.Programs)
+      },
+      {
+        path: 'media-library',
+        loadComponent: () =>
+          import('./pages/media-library/media-library')
+            .then(m => m.MediaLibrary)
+      },
+      {
+        path: 'team-members',
+        loadComponent: () =>
+          import('./pages/team-member/team-member')
+            .then(m => m.TeamMember)
+      },
+      {
+        path: 'advertisements',
+        loadComponent: () =>
+          import('./pages/advertisements/advertisements')
+            .then(m => m.Advertisements)
+      },
 
     ]
   }

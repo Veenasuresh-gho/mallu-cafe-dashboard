@@ -38,9 +38,8 @@
 
 .menu-item span {
   color: var(--primary-text);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 12px;
-
 }
 
 .menu-item {
@@ -49,7 +48,8 @@
 
 .menu-item.active span {
   color: var(--primary-color);
-  font-weight: 600;
+  font-weight: 700;
+  font-style: bold;
 }
 
 @media (max-width: 992px) {

@@ -13,3 +13,27 @@ body {
     --muted-text: #9A9A9A;
     --primary-text: #312F2F;
 }
+
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.mat-mdc-table,
+.mat-mdc-header-cell,
+.mat-mdc-cell,
+.mat-mdc-paginator,
+.mat-mdc-button,
+.mat-mdc-form-field,
+.mat-mdc-card,
+.mat-mdc-dialog-container {
+    font-family: 'Poppins', sans-serif !important;
+    color: var(--primary-text);
+}
+
+.mat-mdc-form-field,
+.mat-mdc-input-element,
+.mat-mdc-select-value,
+.mat-mdc-option,
+.mdc-floating-label {
+  font-family: 'Poppins', sans-serif !important;
+}

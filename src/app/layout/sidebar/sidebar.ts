@@ -22,25 +22,25 @@ export class Sidebar {
     {
       title: "Programs",
       icon: "/main/sidebar/radio-muted.png",
-      link: "#",
+      link: "/programs",
       activeIcon: "/main/sidebar/radio.png"
     },
     {
       title: "Media Library",
       icon: "/main/sidebar/video-play-muted.png",
-      link: "#",
+      link: "/media-library",
       activeIcon: "/main/sidebar/video-play.png"
     },
     {
       title: "Team members",
       icon: "/main/sidebar/people-muted.png",
-      link: "#",
+      link: "/team-members",
       activeIcon: "/main/sidebar/people.png"
     },
     {
       title: "Advertisements",
       icon: "/main/sidebar/headphone-muted.png",
-      link: "#",
+      link: "/advertisements",
       activeIcon: "/main/sidebar/headphone.png"
     },
     {

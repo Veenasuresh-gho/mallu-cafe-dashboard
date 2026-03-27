@@ -1,0 +1,150 @@
+<div class="">
+
+    <div class="d-flex justify-content-between fixed px-4 pt-4">
+        <div>
+            <h2 mat-dialog-title class="main-title">Add Team Member</h2>
+            <p class="main-subtitle">
+                Add a new team member to manage programs, host shows or assist with station operations.
+            </p>
+        </div>
+
+        <button (click)="close()" class="btn-close mx-2" aria-label="Close"></button>
+    </div>
+
+    <mat-dialog-content class="dialog-content ">
+
+        <div class="d-flex align-items-center gap-2 section-title px-4">
+            <div class="step-badge">1</div>
+            <p class="subtitle mb-0">Profile Information</p>
+        </div>
+
+        <div class="d-flex gap-3 px-4">
+            <div class="upload-wrapper">
+                <div class="upload-photo">
+                    <img src="/team/profile-circle.svg" alt="user" class="profile-img">
+                    <label class="upload-btn">
+                        <input type="file" hidden />
+                        <span>Upload Photo</span>
+                    </label>
+                </div>
+                <p class="helper-text py-1">Supported formats: JPG, PNG</p>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label class="input-label" for="fullname">Full Name *</label>
+                    <input class="input-field p-1" type="text" placeholder="eg. Shabin B Joe" />
+                </div>
+                <div class="form-group">
+                    <label class="input-label " for="role">Role / Designation *</label>
+                    <select id="host" class="input-field p-1">
+                        <option disabled selected>- Select Role -</option>
+                        <option>Radio Jockey (RJ)</option>
+                        <option>Admin</option>
+                    </select>
+                </div>
+                <p class="helper-text py-1">This role defines the member’s responsibility in the station.</p>
+            </div>
+        </div>
+        <hr class="px-4">
+
+        <div class="d-flex align-items-center px-4 gap-2 section-title">
+            <div class="step-badge">2</div>
+            <p class="subtitle mb-0">Contact Information</p>
+        </div>
+
+        <div class="form-row px-4">
+            <div class="form-group mobile-group">
+                <label class="input-label">Mobile Number *</label>
+
+                <div class="phone-input">
+                    <select class="country-code">
+                        <option value="+1">+1</option>
+                        <option value="+44">+44</option>
+                        <option value="+91">+91</option>
+                    </select>
+
+                    <input type="text" class="phone-number" placeholder="000 000 0000" />
+                </div>
+
+                <small class="helper-text">Used for internal communication.</small>
+            </div>
+
+            <div class="form-group email-group">
+                <label class="input-label">Email *</label>
+                <input class="input-field email-input px-2" type="text" placeholder="e.g., smithjohn55@gmail.com" />
+            </div>
+        </div>
+        <hr class="px-4">
+
+        <div class="d-flex align-items-center gap-2 section-title px-4">
+            <div class="step-badge">3</div>
+            <p class="subtitle mb-0">Program Assignment</p>
+        </div>
+        <mat-label class="input-label px-4">Assigned Programs</mat-label>
+
+        <mat-form-field class=" assigned-programs px-4">
+
+            <mat-select multiple [(value)]="selectedPrograms">
+
+                <mat-select-trigger class="bg-white px-4">
+                    <mat-chip-set>
+                        @for (item of selectedPrograms; track item) {
+                        <mat-chip [removable]="true" (removed)="remove(item)">
+
+                            {{ item.program }}
+                            <button matChipRemove class="small">✕</button>
+
+                        </mat-chip>
+                        }
+                    </mat-chip-set>
+                </mat-select-trigger>
+
+                <!--  Dropdown options -->
+                @for (item of programs; track item) {
+                <mat-option [value]="item">
+                    {{ item.program }}
+                </mat-option>
+                }
+
+            </mat-select>
+        </mat-form-field>
+
+        <p class="helper-text px-4">Multiple programs can be assigned.</p>
+        <hr class="px-4">
+
+        <div class="d-flex align-items-center gap-2 px-4 section-title">
+            <div class="step-badge">4</div>
+            <p class="subtitle mb-0">Account Access & Permissions *</p>
+        </div>
+        <p class="my-2 px-4">
+            <mat-slide-toggle class="toggle-btn" color="warn" [(ngModel)]="isFullAccess" (change)="onToggleChange()">
+
+                <span class="toggle-txt">Allow system access</span>
+            </mat-slide-toggle>
+        </p>
+        <p class="helper-text px-4">Switch this on to allow full access — all permissions will be selected for you.</p>
+        <p class="input-label px-4">Access rights and system privilages </p>
+        <div class="checkbox-container">
+            <span class="px-4 py-1" *ngFor="let item of permissions">
+                <label class="access-txt">
+                    <input type="checkbox" [(ngModel)]="item.checked" name="permission-{{item.name}}" />
+                    {{ item.name }}
+                </label>
+            </span>
+        </div>
+
+        <hr class="">
+    </mat-dialog-content>
+    <!-- footer -->
+    <mat-dialog-actions align="end" class="d-flex justify-content-between p-4">
+        <div class="d-flex" (click)="close()">
+            <button  class="btn-close mx-2" aria-label="Close"></button>
+            <span class="btn-cancel">Cancel</span>
+
+        </div>
+        <button mat-raised-button class="btn-create" [mat-dialog-close]="true">
+           <img src="/team/add-square.svg" alt="">
+            <span>Add Member</span>
+        </button>
+    </mat-dialog-actions>
+</div>

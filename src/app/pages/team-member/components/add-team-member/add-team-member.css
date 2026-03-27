@@ -1,0 +1,329 @@
+.main-title {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.main-subtitle {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 2px;
+}
+
+.btn-close {
+    border: none;
+    font-size: 12px;
+    color: #757575;
+    cursor: pointer;
+    margin-top: 10px;
+    line-height: 1;
+    padding: 0;
+}
+
+.subtitle {
+    font-weight: 700;
+    font-size: 12px;
+    font-style: bold;
+    font-family: Red Hat Display;
+    color: #312F2F;
+}
+
+::ng-deep .mat-mdc-dialog-content {
+    padding: 0 !important;
+}
+
+::ng-deep .mat-mdc-dialog-title {
+    margin-bottom: 0 !important;
+}
+
+.step-badge {
+    width: 28px;
+    height: 28px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Remove extra Material spacing */
+::ng-deep .mat-mdc-dialog-content {
+    padding: 16px 0px !important;
+}
+
+/* Title row */
+.section-title {
+    gap: 10px;
+    /* exact from your design */
+    margin-bottom: 8px;
+    /* controls space between sections */
+}
+
+/* Remove default p margin */
+.subtitle {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* Upload container spacing */
+.upload-wrapper {
+    margin-top: 0;
+    /* keep tight like design */
+}
+
+/* Upload box */
+.upload-photo {
+    width: 150px;
+    height: 160px;
+    border-radius: 10px;
+    border: 1px dashed #E4E4E4;
+    /* dashed border */
+    background-color: #F8F8F8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Image */
+.profile-img {
+    width: 65px;
+    height: 65px;
+}
+
+/* Button */
+.upload-btn {
+    background: #FFFFFF;
+    border: 1px solid #CFCFCF;
+    border-radius: 6px;
+    color: #312F2F;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.footer-info {
+    font-weight: 400;
+    color: #757575;
+    font-size: 10px;
+}
+
+/* form */
+.input-label {
+    font-weight: 500;
+    font-size: 12px;
+    font-family: Poppins;
+    display: block;
+    color: #636363;
+}
+
+.input-field {
+    font-weight: 400;
+    font-size: 12px;
+    border: 1px solid #CFCFCF;
+    font-family: Poppins;
+    margin-bottom: 6px;
+    color: #757575;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 330px;
+}
+
+.phone-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid #CFCFCF;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.country-code {
+    border: none;
+    background: #F5F5F5;
+    padding: 0 10px;
+    height: 100%;
+    font-size: 12px;
+    outline: none;
+}
+
+.phone-number {
+    flex: 1;
+    border: none;
+    padding: 0 10px;
+    font-size: 12px;
+    outline: none;
+}
+
+.form-row {
+    width: 100%;
+    max-width: 544px;
+    display: flex;
+    gap: 16px;
+}
+
+.mobile-group,
+.email-group {
+    width: 264px;
+}
+
+.input-field,
+.phone-input {
+    height: 36px;
+}
+
+.country-code {
+    border: none;
+    /* background: #f5f5f5; */
+    padding: 10px;
+    outline: none;
+    color: #757575;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.phone-number {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    outline: none;
+}
+
+.phone-number::placeholder {
+    color: #aaa;
+}
+
+.helper-text {
+    font-size: 10px;
+    color: #757575;
+    font-weight: 400;
+    font-family: Poppins;
+    margin-top: 4px;
+}
+
+.assigned-programs {
+  width: 100% !important;
+  max-width: 544px;
+}
+
+/* Chips */
+::ng-deep .mat-mdc-chip {
+  background-color: #fdecea;
+  color: #d32f2f;
+  height: 22px !important;
+  border-radius: 12px;
+  padding: 0 6px;
+}
+
+/* ✅ THIS is the important one (text inside chip) */
+::ng-deep .mat-mdc-chip .mdc-evolution-chip__text-label {
+  font-size: 11px !important;
+  font-family: 'Poppins', sans-serif;
+  line-height: 16px;
+  
+}
+
+::ng-deep .mat-mdc-chip button {
+  font-size: 10px;
+  margin-left: 4px;
+}
+/* OPTION CONTAINER */
+.custom-select-panel .mat-mdc-option {
+  min-height: 32px !important;   /* controls height */
+  padding: 4px 12px !important;  /* spacing */
+  display: flex;
+  align-items: center;
+}
+
+/*  TEXT inside option (IMPORTANT) */
+.custom-select-panel .mdc-list-item__primary-text {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important;     /* 👈 change size here */
+  font-weight: 400 !important;
+  line-height: 16px !important;
+  letter-spacing: 0 !important;
+}
+
+/* Hide checkbox icon */
+::ng-deep .mat-pseudo-checkbox {
+  display: none !important;
+}
+
+.custom-select-panel .mat-mdc-option.mdc-list-item--selected {
+  background-color: #fdecea !important;
+}
+
+.custom-select-panel .mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text {
+  color: #d32f2f !important;
+}
+
+/* Hover background */
+.custom-select-panel .mat-mdc-option:hover {
+  background-color: #fdecea !important;
+}
+
+/* Hover text color */
+.custom-select-panel .mat-mdc-option:hover .mdc-list-item__primary-text {
+  color: #d32f2f !important;
+}
+
+/* 4th data */
+.toggle-txt{
+    font-weight: 400;
+    font-size: 12px;
+    color: #312F2F;
+}
+.access-txt {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px; 
+}
+.checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+input[type="checkbox"] {
+  accent-color: black;
+}
+.btn-cancel {
+    border: none;
+    font-size: 12px;
+    color: #636363;
+    cursor: pointer;
+    margin-top: 10px;
+    line-height: 1;
+    padding: 0;
+}
+.btn-create {
+  background: #D809051A;
+  color: #D80905;
+  font-weight: 700;
+  font-size: 12px;
+  height: 36px;
+  border-radius: 6px;
+  border: 1px solid #D80905;
+  font-family: 'Red Hat Display', sans-serif;
+  align-items: center;   
+  justify-content: center; 
+  gap: 8px; 
+  width: 114px;
+  height: 36px;             
+  padding: 8px 10px;       
+  cursor: pointer;
+}

@@ -20,6 +20,11 @@
   font-weight: 600;
   color: #000000;
 }
+.media-file{
+  font-size: 12px;
+  font-weight: 400;
+  color: #312F2F;
+}
 
 .sub-heading {
   font-family: Poppins;
@@ -85,6 +90,12 @@
   font-size: 12px;
   line-height: 12px;
 }
+.extraData2 {
+  font-family: Red Hat Display;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+}
 
 .cursor-pointer {
   cursor: pointer;
@@ -136,4 +147,36 @@
   border: 1px solid #D9D9D9;
   border-radius: 4px;
   padding: 8px;
+}
+.custom-card-bg {
+  position: relative; 
+  overflow: hidden;
+    background: linear-gradient(to right, #B84141, #950000);
+  border-radius: 16px;
+  z-index: 0; 
+   
+}
+.custom-card-bg::after { 
+  content: "";
+  position: absolute;
+  width: 252.87px;
+  height: 252.87px;
+  background: linear-gradient(to left, #A01717, #B52626);
+  border-radius: 50%;
+  top: -80px;
+  left: -80px;
+  z-index: -1;
+  box-shadow: #c43434;
+}
+
+.custom-card-bg::before { /* Smaller circle */
+  content: "";
+  position: absolute;
+  width: 89.41px;
+  height: 89.41px;
+  background: linear-gradient(to right, #B52626, #A01717);
+  border-radius: 50%;
+  top: 12px;
+  left: 130px;
+  z-index: -1;
 }

@@ -40,7 +40,7 @@ export class Sidebar {
     {
       title: "Advertisements",
       icon: "/main/sidebar/headphone-muted.png",
-      link: "#",
+      link: "/advertisements",
       activeIcon: "/main/sidebar/headphone.png"
     },
     {

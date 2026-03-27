@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-      {
-        path: 'sign-in',
-        loadComponent: () =>
-          import('./pages/dashboard/auth/sign-in/sign-in')
-            .then(m => m.SignIn)
-      },
+  {
+    path: 'sign-in',
+    loadComponent: () =>
+      import('./pages/dashboard/auth/sign-in/sign-in')
+        .then(m => m.SignIn)
+  },
   {
     path: '',
     loadComponent: () =>
@@ -48,7 +48,13 @@ export const routes: Routes = [
           import('./pages/team-member/team-member')
             .then(m => m.TeamMember)
       },
-      
+      {
+        path: 'advertisements',
+        loadComponent: () =>
+          import('./pages/advertisements/advertisements')
+            .then(m => m.Advertisements)
+      },
+
     ]
   }
 ];

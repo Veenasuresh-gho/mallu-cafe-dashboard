@@ -9,11 +9,12 @@ import { FormsModule } from '@angular/forms';
 import { AddNewProgram } from './components/add-new-program/add-new-program';
 import { MatDialog } from '@angular/material/dialog';
 import { PrimaryButton } from '../../components/primary-button/primary-button';
+import { SelectDropDown } from '../../components/select-drop-down/select-drop-down';
 
 @Component({
   selector: 'app-programs',
   standalone: true,
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton],
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown],
   templateUrl: './programs.html',
   styleUrl: './programs.css',
 })

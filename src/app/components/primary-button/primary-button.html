@@ -1,0 +1,19 @@
+<button
+  mat-button
+  disableRipple
+  class="custom-btn d-flex align-items-center gap-1"
+  [ngClass]="{
+    'mat-stroked-button': type === 'stroked',
+    'mat-flat-button': type === 'flat',
+    'mat-raised-button': type === 'raised'
+  }"
+  (click)="onClick()"
+>
+  <!-- Material icon -->
+  <mat-icon *ngIf="icon && !iconSrc">{{ icon }}</mat-icon>
+
+  <!-- Image icon -->
+  <img *ngIf="iconSrc" [src]="iconSrc" class="btn-icon" />
+
+  {{ label }}
+</button>

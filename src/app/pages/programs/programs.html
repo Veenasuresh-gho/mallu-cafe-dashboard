@@ -6,10 +6,8 @@
                 <p>Manage, upload and schedule broadcast programs.</p>
             </div>
 
-            <button class="d-flex align-items-center gap-1" (click)="openModal()">
-                <img src="/main/add.svg">
-                Add new program
-            </button>
+            <app-primary-button label="Add new program" iconSrc="/main/add.svg"
+                (clicked)="openModal()"></app-primary-button>
         </div>
 
         <div class="divider"></div>
@@ -23,15 +21,14 @@
                     <input matInput placeholder="Search here..." [(ngModel)]="searchText" />
                 </mat-form-field>
 
-                <!-- Dropdowns -->
-                <mat-form-field appearance="outline" class="status-drop-down">
-                    <mat-select placeholder="All Status" [(value)]="status">
-                        <mat-option value="all">All Status</mat-option>
-                        <mat-option value="active">Active</mat-option>
-                        <mat-option value="upcoming">Upcoming</mat-option>
-                         <mat-option value="completed">Completed</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <app-select-drop-down placeholder="All Status" [(value)]="status" [options]="[
+    { label: 'All Status', value: 'all' },
+    { label: 'Active', value: 'active' },
+    { label: 'Upcoming', value: 'upcoming' },
+    { label: 'Completed', value: 'completed' }
+  ]">
+
+                </app-select-drop-down>
 
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="All Category" [(value)]="category">

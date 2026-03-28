@@ -10,16 +10,17 @@ body {
 
 
 :root {
-    --primary-color: #D80905;
-    --secondary-color: #F37127;
-    --muted-text: #9A9A9A;
-    --primary-text: #312F2F;
-    --muted-label: #636363;
-    --muted-input: #757575;
+  --primary-color: #D80905;
+  --secondary-color: #F37127;
+  --muted-text: #9A9A9A;
+  --primary-text: #312F2F;
+  --muted-label: #636363;
+  --muted-input: #757575;
   --success: #00AA45;
   --success-dark: #39B54A;
   --border-color: #0000001F;
-  --secondary-font:'Red Hat Display',sans-serif;
+  --border: #E4E4E4;
+  --secondary-font: 'Red Hat Display', sans-serif;
 }
 
 .scroll-container::-webkit-scrollbar {
@@ -46,6 +47,7 @@ body {
   font-family: 'Poppins', sans-serif !important;
 }
 
+
 /* .mat-mdc-slider {
   --mdc-slider-handle-color: white;
   --mdc-slider-focus-handle-color: white;
@@ -60,5 +62,5 @@ body {
 
 .mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__outer-circle {
   border-color: red !important;
-  
+
 }

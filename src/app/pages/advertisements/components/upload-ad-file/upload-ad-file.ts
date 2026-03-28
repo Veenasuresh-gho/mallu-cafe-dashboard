@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MatFormField } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
+import { MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-upload-ad-file',
-  imports: [MatDialogContent,MatRadioGroup, FormsModule,MatRadioButton],
+  imports: [MatDialogContent,MatRadioGroup, FormsModule,MatRadioButton,MatFormField,MatSelect,MatOption,MatIcon],
   templateUrl: './upload-ad-file.html',
   styleUrl: './upload-ad-file.css',
 })
@@ -22,6 +25,7 @@ export class UploadAdFile {
       this.playsPerDay--;
     }
   }
+  
   close() {
     this.dialogRef.close();
   }

@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { PrimaryButton } from '../../components/primary-button/primary-button';
+import { UploadAdFile } from './components/upload-ad-file/upload-ad-file';
 
 @Component({
   selector: 'app-advertisements',

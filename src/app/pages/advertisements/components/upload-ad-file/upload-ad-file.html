@@ -1,6 +1,6 @@
 <div class="dialog-box ">
     <div class="heading d-flex justify-content-between ">
-        <div >
+        <div>
             <p class="main-title">Add New Advertisement</p>
             <p class="main-subtitle">Upload and schedule your ad campaign</p>
         </div>
@@ -20,7 +20,7 @@
             <div class="form-group">
                 <label class="input-label" for="fullname">Ad Title / File Name *</label>
                 <input class="input-field p-1" type="text" placeholder="eg. Onam Special Offer Ad" />
-                <p class="helper-text" >Internal name for easy identification</p>
+                <p class="helper-text">Internal name for easy identification</p>
             </div>
             <div class="form-group" style="padding-top: 16px;">
                 <label class="input-label" for="fullname">Advertiser Name</label>
@@ -40,7 +40,7 @@
                 <div class="upload-txt">
                     Upload Advertisement File
                 </div>
-<p class="drag-drop">Drag & drop your file here, or click to browse</p>
+                <p class="drag-drop">Drag & drop your file here, or click to browse</p>
                 <div>
                     <label class="btn-create d-flex">
                         <img src="/dash/cloud-connection.svg" width="16px" alt="">
@@ -55,7 +55,26 @@
             <span class="">File Preview
             </span>
         </p>
-    <div class="custom-line-sub "></div>
+
+        <div class="upload-container" >
+
+            <div class="d-flex gap-2 file-preview">
+                <img src="/dash/file-preview.svg" alt="">
+
+                <div>
+                    <p class="title">
+                        No file selected
+                    </p>
+                    <p class="subtitle">
+                        Upload an audio, video or image file to continue
+                    </p>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="custom-line-sub "></div>
 
 
         <!-- Divider -->
@@ -68,43 +87,69 @@
 
         <div class="px-4 mb-4">
             <label class="input-label mb-2">Schedule</label>
+            <div class="schedule-row">
 
-            <div class="d-flex align-items-center gap-3 mb-2">
-                <div class="schedule-input-group d-flex align-items-center">
-                    <span class="schedule-label">Schedule Date </span>
-                    <input type="text" class="schedule-input" placeholder="24 Apr 2026" />
-                    <i class="material-symbols-outlined schedule-icon">calendar_today</i>
+                <!-- LEFT BOX -->
+                <div class="schedule-box">
+                    <div class="label" style="width: 139px;">Schedule Date</div>
+
+                    <div class="divider"></div>
+
+                    <div class="value d-flex justify-content-between">
+                        <span class="input-value">24 Apr 2026</span>
+                        <mat-icon>calendar_today</mat-icon>
+                    </div>
                 </div>
 
-                <span class="material-symbols-outlined text-muted">arrow_forward</span>
+                <!-- ARROW -->
+                <mat-icon class="arrow">arrow_forward</mat-icon>
 
-                <div class="schedule-input-group d-flex align-items-center">
-                    <input type="text" class="schedule-input full-width" placeholder="27 Apr 2026" />
-                    <i class="material-symbols-outlined schedule-icon">calendar_today</i>
+                <!-- RIGHT BOX -->
+                <div class="schedule-box-right">
+                    <div class="value d-flex justify-content-between">
+                        <span class="input-value">27 Apr 2026</span>
+                        <mat-icon>calendar_today</mat-icon>
+                    </div>
                 </div>
+
+            </div>
+            <div class="schedule-row" style="padding-top: 8px;">
+
+                <!-- LEFT BOX -->
+                <div class="schedule-box">
+                    <div class="label" style="width: 139px;">Schedule Time Slot</div>
+
+                    <div class="divider"></div>
+
+                    <div class="value d-flex justify-content-between">
+                        <span class="input-value">10:00 AM</span>
+                        <span class="material-symbols-outlined">
+                            arrow_drop_down
+                        </span>
+                    </div>
+                </div>
+
+                <!-- ARROW -->
+                <mat-icon class="arrow">arrow_forward</mat-icon>
+
+                <!-- RIGHT BOX -->
+                <div class="schedule-box-right">
+                    <div class="value ">
+                        <span class="input-value">11:30 AM</span>
+                        <span class="material-symbols-outlined">
+                            arrow_drop_down
+                        </span>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="d-flex align-items-center gap-3 mb-1">
-                <div class="schedule-input-group d-flex align-items-center">
-                    <span class="schedule-label">Schedule Time Slot</span>
-                    <select class="schedule-input schedule-select">
-                        <option>10:00 AM</option>
-                    </select>
-                </div>
 
-                <span class="material-symbols-outlined text-muted">arrow_forward</span>
-
-                <div class="schedule-input-group d-flex align-items-center">
-                    <select class="schedule-input schedule-select full-width">
-                        <option>11:30 AM</option>
-                    </select>
-                </div>
-            </div>
 
             <p class="helper-text">(Schedule time slot is optional. Leave empty for 24/7 streaming.)</p>
         </div>
 
-    <div class="custom-line-sub px-4"></div>
+        <div class="custom-line-sub px-4"></div>
 
         <!-- Step 4: Playback Settings -->
         <div class="d-flex align-items-center gap-2 section-title px-4 mb-3">
@@ -141,7 +186,7 @@
             </div>
         </div>
 
-    <div class="custom-line-sub px-4"></div>
+        <div class="custom-line-sub px-4"></div>
 
         <!-- Step 5: Status -->
         <div class="d-flex align-items-center gap-2 section-title px-4 mb-3">
@@ -160,6 +205,8 @@
                         </div>
                         <div>
                             <div class="d-flex align-items-center gap-2 mb-2">
+                                <!-- Green Dot -->
+                                <span class="dot success"></span>
                                 <span class="status-title active-color">Active</span>
                                 <span class="status-chip active-chip">Start Immediately</span>
                             </div>

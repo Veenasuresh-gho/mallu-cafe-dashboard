@@ -16,9 +16,9 @@ export const appConfig = {
     provideRouter(routes),
     provideAnimations(),
     provideToastr({
-      positionClass: 'toast-bottom-right',
-      timeOut: 3000,
-      preventDuplicates: true,
-    }),
+  positionClass: 'toast-bottom-center',
+  timeOut: 3000,
+  preventDuplicates: true,
+}),
   ],
 };

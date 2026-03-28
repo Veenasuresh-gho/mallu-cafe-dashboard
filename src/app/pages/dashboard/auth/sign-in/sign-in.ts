@@ -85,7 +85,7 @@ loginclick(): void {
       this.srv.setsession('tkn', u['Token']);
       this.srv.setsession('id', u['ID']);
 
-      this.toastr.success('Login successful! 🎉');
+      this.toastr.success('Login successful! ');
 
       this.router.navigate(['/dashboard']);
 

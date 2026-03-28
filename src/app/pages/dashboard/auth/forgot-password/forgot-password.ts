@@ -9,6 +9,9 @@ import { GHOUtitity } from '../../../../services/utilities';
 import { catchError, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToastrService } from 'ngx-toastr';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-forgot-password',
@@ -17,7 +20,7 @@ import { ToastrService } from 'ngx-toastr';
     CommonModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule, MatIconModule, MatButtonModule, MatInputModule
   ],
   templateUrl: './forgot-password.html',
   styleUrl: './forgot-password.css',
@@ -25,13 +28,19 @@ import { ToastrService } from 'ngx-toastr';
 export class ForgotPassword implements OnDestroy {
 
   loginForm: FormGroup;
+  passwordForm: FormGroup;
   submitted = false;
   isOtpScreen = false;
+  isOtpVerified = false;
+  hidePassword = true;
+  hideConfirmPassword = true;
+  hideConfirm = true;
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
   snack = inject(MatSnackBar);
   otpId: string = '';
+   otpToken: string = '';
   private cdr = inject(ChangeDetectorRef);
 
   tv: tags[] = [];
@@ -44,6 +53,16 @@ export class ForgotPassword implements OnDestroy {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
+    this.passwordForm = this.fb.group({
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', Validators.required],
+    }, { validators: this.passwordMatchValidator });
+  }
+
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('password')?.value;
+    const confirm = form.get('confirmPassword')?.value;
+    return password === confirm ? null : { mismatch: true };
   }
 
   // ================= OTP =================
@@ -152,41 +171,84 @@ export class ForgotPassword implements OnDestroy {
   }
 
 
-verifyOtp() {
+  verifyOtp() {
 
-  const otp = this.otpValues.join('');
-  if (otp.length !== 6) {
-    this.toastr.warning('Enter complete OTP');
-    return;
+    const otp = this.otpValues.join('');
+    if (otp.length !== 6) {
+      this.toastr.warning('Enter complete OTP');
+      return;
+    }
+
+    this.tv = [
+      { T: 'dk1', V: this.otpId },
+      { T: 'dk2', V: otp },
+      { T: 'c10', V: '7' }
+    ];
+
+    this.srv.getdata('teammember', this.tv).pipe(
+      catchError(err => {
+        this.toastr.error('Something went wrong!');
+        return of(null);
+      })
+
+    ).subscribe((r: any) => {
+
+      if (!r) return;
+
+      if (r.Status === 1) {
+        const u = r.Data[0][0];
+        this.otpToken = u.Token;
+        this.toastr.success('OTP verified successfully!');
+        this.isOtpVerified = true;
+        this.cdr.detectChanges();
+        
+
+      } else {
+        this.toastr.error(r.Info || 'Invalid OTP');
+      }
+    });
   }
 
-  this.tv = [
-    { T: 'dk1', V: this.otpId },
-    { T: 'dk2', V: otp },
-    { T: 'c10', V: '7' }
-  ];
+  resetPassword() {
+    this.submitted = true;
 
-  this.srv.getdata('teammember', this.tv).pipe(
-    catchError(err => {
-      this.toastr.error('Something went wrong!');
-      return of(null);
-    })
+    if (this.passwordForm.invalid) return;
 
-  ).subscribe((r: any) => {
+    const password = this.passwordForm.get('password')?.value;
+    const confirmPassword = this.passwordForm.get('confirmPassword')?.value;
 
-    if (!r) return;
-
-    if (r.Status === 1) {
-
-      this.toastr.success('OTP verified successfully!');
-
-      this.router.navigate(['/set-new-password']);
-
-    } else {
-      this.toastr.error(r.Info || 'Invalid OTP');
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      return;
     }
-  });
-}
+    this.tv = [
+      { T: 'dk1', V: this.otpToken },
+      { T: 'dk2', V: password },
+      { T: 'c10', V: '8' }
+    ];
+
+    this.srv.getdata('teammember', this.tv).pipe(
+      catchError(err => {
+        this.toastr.error('Something went wrong!');
+        return of(null);
+      })
+
+    ).subscribe((r: any) => {
+
+      if (!r) return;
+
+      if (r.Status === 1) {
+               this.toastr.success('Password reset successful');
+        this.isOtpVerified = true;
+        this.cdr.detectChanges();
+         this.router.navigate(['/sign-in']);
+
+      } else {
+        this.toastr.error(r.Info || 'Invalid OTP');
+      }
+    });
+
+  }
 
   ngOnDestroy() {
     clearInterval(this.intervalId);

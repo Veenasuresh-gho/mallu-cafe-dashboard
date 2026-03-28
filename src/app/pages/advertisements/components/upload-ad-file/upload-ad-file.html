@@ -1,0 +1,218 @@
+<div class="dialog-box ">
+    <div class="heading d-flex justify-content-between ">
+        <div >
+            <p class="main-title">Add New Advertisement</p>
+            <p class="main-subtitle">Upload and schedule your ad campaign</p>
+        </div>
+        <button class="close-btn btn-cancel " (click)="close()">
+            <i class="material-symbols-outlined action-icon">cancel</i>
+        </button>
+    </div>
+    <div class="custom-line "></div>
+    <mat-dialog-content class="dialog-content">
+
+        <div class="d-flex align-items-center gap-2 section-title1 ">
+            <div class="step-badge">1</div>
+            <p class="content-title mb-0 "> Advertisement Details </p>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="input-label" for="fullname">Ad Title / File Name *</label>
+                <input class="input-field p-1" type="text" placeholder="eg. Onam Special Offer Ad" />
+                <p class="helper-text" >Internal name for easy identification</p>
+            </div>
+            <div class="form-group" style="padding-top: 16px;">
+                <label class="input-label" for="fullname">Advertiser Name</label>
+                <input class="input-field p-1" type="text" placeholder="eg. Kerala Spice Restaurant" />
+            </div>
+        </div>
+        <div class="custom-line-sub"></div>
+
+        <div class="d-flex align-items-center gap-2 section-title px-4">
+            <div class="step-badge">2</div>
+            <p class="content-title mb-0">Upload Media</p>
+        </div>
+        <div class="px-4">
+            <div class="upload-box d-flex flex-column align-items-center justify-content-center px-4 ">
+                <img src="/dash/cloud-connection.png" alt="">
+
+                <div class="upload-txt">
+                    Upload Advertisement File
+                </div>
+<p class="drag-drop">Drag & drop your file here, or click to browse</p>
+                <div>
+                    <label class="btn-create d-flex">
+                        <img src="/dash/cloud-connection.svg" alt="">
+                        <span> Choose File</span>
+                        <input type="file" hidden>
+                    </label>
+                </div>
+                <p class="upload-subtxt">MP3, MP4 • Max size: 1.5 GB</p>
+            </div>
+        </div>
+        <p class="d-flex gap-1 pt-2 pb-3 helper-text px-4 ">
+            <span class="">File Preview
+            </span>
+        </p>
+
+        <hr class="px-4 my-3">
+        <!-- Divider -->
+        <hr class="px-4 my-3">
+
+        <!-- Step 3: Schedule Advertisement -->
+        <div class="d-flex align-items-center gap-2 section-title px-4 mb-3">
+            <div class="step-badge">3</div>
+            <p class="content-title mb-0">Schedule Advertisement</p>
+        </div>
+
+        <div class="px-4 mb-4">
+            <label class="input-label mb-2">Schedule</label>
+
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="schedule-input-group d-flex align-items-center">
+                    <span class="schedule-label">Schedule Date</span>
+                    <input type="text" class="schedule-input" placeholder="24 Apr 2026" />
+                    <i class="material-symbols-outlined schedule-icon">calendar_today</i>
+                </div>
+
+                <span class="material-symbols-outlined text-muted">arrow_forward</span>
+
+                <div class="schedule-input-group d-flex align-items-center">
+                    <input type="text" class="schedule-input full-width" placeholder="27 Apr 2026" />
+                    <i class="material-symbols-outlined schedule-icon">calendar_today</i>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3 mb-1">
+                <div class="schedule-input-group d-flex align-items-center">
+                    <span class="schedule-label">Schedule Time Slot</span>
+                    <select class="schedule-input schedule-select">
+                        <option>10:00 AM</option>
+                    </select>
+                </div>
+
+                <span class="material-symbols-outlined text-muted">arrow_forward</span>
+
+                <div class="schedule-input-group d-flex align-items-center">
+                    <select class="schedule-input schedule-select full-width">
+                        <option>11:30 AM</option>
+                    </select>
+                </div>
+            </div>
+
+            <p class="helper-text">(Schedule time slot is optional. Leave empty for 24/7 streaming.)</p>
+        </div>
+
+        <hr class="px-4 my-3">
+
+        <!-- Step 4: Playback Settings -->
+        <div class="d-flex align-items-center gap-2 section-title px-4 mb-3">
+            <div class="step-badge">4</div>
+            <p class="content-title mb-0">Playback Settings</p>
+        </div>
+
+        <div class="px-4 mb-4 d-flex justify-content-between align-items-start gap-4">
+            <div class="w-50">
+                <label class="input-label mb-2">No. of Plays per Day *</label>
+                <div class="counter-input-group d-flex align-items-center mb-1">
+                    <button class="counter-btn" (click)="decrementPlays()">
+                        <i class="material-symbols-outlined">remove</i>
+                    </button>
+                    <input type="number" class="counter-input text-center" [(ngModel)]="playsPerDay" min="0" />
+                    <button class="counter-btn" (click)="incrementPlays()">
+                        <i class="material-symbols-outlined">add</i>
+                    </button>
+                </div>
+                <p class="helper-text">How many times to play daily</p>
+            </div>
+
+            <div class="w-50">
+                <div class="est-plays-box d-flex gap-3 align-items-center p-3">
+                    <div class="est-icon-box">
+                        <i class="material-symbols-outlined">bar_chart</i>
+                    </div>
+                    <div>
+                        <p class="est-title mb-0">Est. Total Plays</p>
+                        <p class="est-value mb-0">18 Plays</p>
+                        <p class="est-subtitle mb-0">14 days x 5 plays/day</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="px-4 my-3">
+
+        <!-- Step 5: Status -->
+        <div class="d-flex align-items-center gap-2 section-title px-4 mb-3">
+            <div class="step-badge">5</div>
+            <p class="content-title mb-0">Status</p>
+        </div>
+
+        <div class="px-4 mb-4">
+            <div class="d-flex gap-3">
+                <!-- Active Status Card -->
+                <div class="status-card active-card w-50 p-3" [class.selected]="selectedStatus === 'active'"
+                    (click)="selectedStatus = 'active'">
+                    <div class="d-flex gap-2">
+                        <div class="radio-circle" [class.checked]="selectedStatus === 'active'">
+                            <div class="radio-inner" *ngIf="selectedStatus === 'active'"></div>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="status-title active-color">Active</span>
+                                <span class="status-chip active-chip">Start Immediately</span>
+                            </div>
+                            <p class="status-desc mb-0">Go live as per schedule</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Waiting List Card -->
+                <div class="status-card waiting-card w-50 p-3" [class.selected]="selectedStatus === 'waiting'"
+                    (click)="selectedStatus = 'waiting'">
+                    <div class="d-flex gap-2">
+                        <div class="radio-circle flex-shrink-0" [class.checked]="selectedStatus === 'waiting'">
+                            <div class="radio-inner" *ngIf="selectedStatus === 'waiting'"></div>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="status-title waiting-color flex-shrink-0">Waiting List</span>
+                                <span class="status-chip waiting-chip">Review Needed</span>
+                            </div>
+                            <p class="status-desc mb-0">Admin approval required</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Notes -->
+        <div class="px-4 mb-4">
+            <label class="input-label mb-2">Additional Notes *</label>
+            <textarea class="textarea-field w-100 p-2" rows="3"
+                placeholder="eg. any special instructions, terms or notes for this advertisement."></textarea>
+            <p class="helper-text mt-1">Optional: Add any specific requirements or comments.</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="dialog-footer px-4 py-3 d-flex justify-content-between align-items-center">
+            <button class="footer-btn btn-cancel d-flex gap-1 align-items-center" (click)="close()">
+                <i class="material-symbols-outlined action-icon">cancel</i>
+                <span>Cancel</span>
+            </button>
+
+            <div class="d-flex gap-3">
+                <button class="footer-btn btn-wait d-flex gap-1 align-items-center">
+                    <i class="material-symbols-outlined action-icon">check_circle</i>
+                    <span>Add to Waiting List</span>
+                </button>
+
+                <button class="footer-btn btn-publish d-flex gap-1 align-items-center">
+                    <i class="material-symbols-outlined action-icon">cloud_upload</i>
+                    <span>Publish Advertisement</span>
+                </button>
+            </div>
+        </div>
+    </mat-dialog-content>
+</div>

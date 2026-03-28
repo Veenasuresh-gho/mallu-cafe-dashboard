@@ -1,0 +1,463 @@
+.dialog-box {
+    background: #fff;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.heading {
+    padding: 24px;
+}
+
+.btn-close {
+    font-size: 12px;
+    height: 4.72px;
+    width: 4.72px;
+    color: var(--muted-input);
+    cursor: pointer;
+    border: 1.2px solid var(--muted-input);
+    border-radius: 50%;
+    line-height: 1;
+    padding: 7.64px;
+}
+
+.main-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #000;
+    font-style: semibold;
+    margin: 0 0 4px 0;
+}
+
+.custom-line {
+    border-top: 1px solid #E4E4E4;
+    width: 100%;
+    margin: 0;
+    top: 65px;
+}
+
+.custom-line-sub {
+    border-top: 1px solid #E4E4E4;
+    margin: 0px 24px;
+}
+
+.main-subtitle {
+    font-weight: 400;
+    font-size: 10px;
+    color: #312F2F;
+    margin: 0;
+}
+
+.section-title1 {
+  padding-left: 24px;
+  padding-top: 16px;
+}
+.section-title{
+    padding: 16px 24px;
+}
+
+.content-title {
+    font-weight: 700;
+    font-size: 12px;
+    font-style: bold;
+    font-family: Red Hat Display;
+    color: #312F2F;
+}
+
+.form-row {
+    padding: 14px 24px;
+}
+
+.step-badge {
+    width: 24px;
+    height: 24px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 24px;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+::ng-deep .mat-mdc-dialog-content {
+    padding: 10px 0px !important;
+    top: 65px;
+}
+
+.upload-box {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid #E4E4E4;
+    background: #F8F8F8;
+    margin-top: 6px;
+    display: flex;
+    padding: 24px 0px 24px 0px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-sizing: border-box;
+}
+.drag-drop{
+font-family: Poppins;
+font-weight: 500;
+font-style: Medium;
+font-size: 10px;
+columns: #9A9A9A;
+line-height: 10px;
+
+}
+.upload-txt {
+    font-weight: 600;
+    font-size: 12px;
+    color: #000000;
+    line-height: 16px;
+    font-family: Poppins;
+
+}
+
+.upload-subtxt {
+    font-weight: 500;
+    font-size: 10px;
+    color: #9A9A9A;
+    font-family: Poppins;
+    line-height: 10px;
+}
+
+.file-name {
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #666;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.btn-create {
+    background: #D8090533;
+    color: #D80905;
+    font-weight: 700;
+    border: 1px solid #D80905;
+    font-size: 12px;
+    height: 36px;
+    font-family: Poppins;
+    display: flex;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 21px 12px;
+    border: none;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-label {
+    font-weight: 500;
+    font-size: 12px;
+    font-family: Poppins;
+    color: var(--muted-label);
+}
+
+.input-field {
+    font-weight: 400;
+    font-size: 12px;
+    border-radius: 6px;
+    height: 36px;
+    border: 1px solid #CFCFCF;
+    font-family: Poppins;
+    background-color: #FFFFFF;
+    color: var(--muted-input);
+    line-height: 16px;
+}
+
+.helper-text {
+    font-size: 10px;
+    color: var(--muted-input);
+    font-weight: 400;
+    font-family: Poppins;
+    height: 14px;
+}
+
+/* Step 3: Schedule */
+.schedule-input-group {
+    border: 1px solid #E4E4E4;
+    border-radius: 6px;
+    height: 40px;
+    background: #FFFFFF;
+    flex: 1;
+    overflow: hidden;
+}
+
+.schedule-label {
+    background: #F8F8F8;
+    color: #666;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0 12px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #E4E4E4;
+    white-space: nowrap;
+}
+
+.schedule-input {
+    border: none;
+    outline: none;
+    padding: 0 12px;
+    font-size: 13px;
+    color: #333;
+    flex: 1;
+    height: 100%;
+    background: transparent;
+}
+
+.schedule-input.full-width {
+    width: 100%;
+}
+
+.schedule-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.schedule-icon {
+    font-size: 18px;
+    color: #333;
+    padding-right: 12px;
+}
+
+/* Step 4: Playback Settings */
+.counter-input-group {
+    border: 1px solid #E4E4E4;
+    border-radius: 6px;
+    height: 40px;
+    overflow: hidden;
+    background: #FFFFFF;
+}
+
+.counter-btn {
+    background: #F8F8F8;
+    border: none;
+    height: 100%;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #666;
+}
+
+.counter-btn:hover {
+    background: #EEEEEE;
+}
+
+.counter-input {
+    flex: 1;
+    border: none;
+    border-left: 1px solid #E4E4E4;
+    border-right: 1px solid #E4E4E4;
+    text-align: center;
+    height: 100%;
+    font-size: 14px;
+    outline: none;
+}
+
+/* Hide number input spinners */
+.counter-input::-webkit-outer-spin-button,
+.counter-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.counter-input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.est-plays-box {
+    background: #FFF8E1;
+    border-radius: 6px;
+    height: 100%;
+}
+
+.est-icon-box {
+    background: #333;
+    color: #FFF;
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.est-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+}
+
+.est-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #D80905;
+}
+
+.est-subtitle {
+    font-size: 10px;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* Step 5: Status */
+.status-card {
+    border: 1px solid #E4E4E4;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.status-card.active-card.selected {
+    border-color: #FFCDD2;
+    background: #FFF0F1;
+}
+
+.status-card.waiting-card.selected {
+    border-color: #E4E4E4;
+    background: #FFFFFF;
+}
+
+.radio-circle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+}
+
+.radio-circle.checked {
+    border-color: #D80905;
+}
+
+.radio-inner {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #D80905;
+}
+
+.status-title {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status-title.active-color {
+    color: #D80905;
+}
+
+.status-chip {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.active-chip {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.waiting-chip {
+    background: #FFF8E1;
+    color: #F57F17;
+}
+
+.status-desc {
+    font-size: 11px;
+    color: #666;
+}
+
+/* Textarea styling */
+.textarea-field {
+    border: 1px solid #CFCFCF;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: Poppins;
+    resize: none;
+    outline: none;
+}
+
+.textarea-field:focus {
+    border-color: #aaa;
+}
+
+/* Footer styling */
+.dialog-footer {
+    border-top: 1px solid #E4E4E4;
+}
+
+.footer-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+.close-btn {
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
+.btn-cancel {
+    color: #666;
+}
+
+.btn-wait {
+    border: 1px solid #E4E4E4;
+    color: #333;
+}
+
+.btn-publish {
+    background: #FFF0F1;
+    color: #D80905;
+    font-weight: 600;
+    border: 1px solid transparent;
+    /* To match other buttons' height */
+}
+
+.action-icon {
+    font-size: 18px;
+}
+
+/* Fix helper text margins if needed */
+.helper-text {
+    margin-bottom: 0;
+}
+
+.custom-dialog-container .mat-dialog-container {
+    border-radius: 10px !important;
+}

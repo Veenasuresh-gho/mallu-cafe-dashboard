@@ -45,6 +45,11 @@ body {
 .mdc-floating-label {
   font-family: 'Poppins', sans-serif !important;
 }
+/* Force ALL dialogs to have border radius */
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 10px !important;
+  overflow: hidden;
+}
 
 /* .mat-mdc-slider {
   --mdc-slider-handle-color: white;

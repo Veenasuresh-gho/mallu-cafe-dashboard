@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { UploadNewFileModal } from '../media-library/components/upload-new-file-modal/upload-new-file-modal';
+import { UploadAdFile } from './components/upload-ad-file/upload-ad-file';
 
 @Component({
   selector: 'app-advertisements',
@@ -21,15 +23,14 @@ export class Advertisements {
 
   constructor(private dialog: MatDialog) { }
 
-  // openModal() {
-  //   this.dialog.open(AddNewProgram, {
-  //      width: '600px',
-  // height: '644px',
-  // maxWidth: '90vw',   
-  // maxHeight: '90vh',
-  //     disableClose: true
-  //   });
-  // }
+openModal() {
+  this.dialog.open(UploadAdFile, {
+    width: '600px',
+    disableClose: true,
+    panelClass: 'custom-dialog-container'
+  });
+}
+
   searchText = '';
   status = '';
   category = '';

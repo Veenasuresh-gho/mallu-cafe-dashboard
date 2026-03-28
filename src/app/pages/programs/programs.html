@@ -6,10 +6,8 @@
                 <p>Manage, upload and schedule broadcast programs.</p>
             </div>
 
-            <button class="d-flex align-items-center gap-1" (click)="openModal()">
-                <img src="/main/add.svg">
-                Add new program
-            </button>
+            <app-primary-button label="Add new program" iconSrc="/main/add.svg"
+                (clicked)="openModal()"></app-primary-button>
         </div>
 
         <div class="divider"></div>
@@ -29,7 +27,7 @@
                         <mat-option value="all">All Status</mat-option>
                         <mat-option value="active">Active</mat-option>
                         <mat-option value="upcoming">Upcoming</mat-option>
-                         <mat-option value="completed">Completed</mat-option>
+                        <mat-option value="completed">Completed</mat-option>
                     </mat-select>
                 </mat-form-field>
 

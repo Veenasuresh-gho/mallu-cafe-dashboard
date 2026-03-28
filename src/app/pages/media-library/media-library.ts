@@ -9,10 +9,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { PrimaryButton } from '../../components/primary-button/primary-button';
 
 @Component({
   selector: 'app-media-library',
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule],
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton],
   templateUrl: './media-library.html',
   styleUrl: './media-library.css',
 })
@@ -22,12 +23,12 @@ export class MediaLibrary {
 
   openModal() {
     this.dialog.open(UploadNewFileModal, {
-       width: '600px',
-       
+      width: '600px',
+
       disableClose: true
     });
   }
-  
+
   searchText = '';
   status = 'all';
   category = 'all';

@@ -8,23 +8,25 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { AddNewProgram } from './components/add-new-program/add-new-program';
 import { MatDialog } from '@angular/material/dialog';
+import { PrimaryButton } from '../../components/primary-button/primary-button';
 
 @Component({
   selector: 'app-programs',
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule,FormsModule],
+  standalone: true,
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton],
   templateUrl: './programs.html',
   styleUrl: './programs.css',
 })
 export class Programs {
 
-  constructor(private dialog: MatDialog) {} 
+  constructor(private dialog: MatDialog) { }
 
   openModal() {
     this.dialog.open(AddNewProgram, {
-       width: '600px',
-  height: '644px',
-  maxWidth: '90vw',   
-  maxHeight: '90vh',
+      width: '600px',
+      height: '644px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
       disableClose: true
     });
   }

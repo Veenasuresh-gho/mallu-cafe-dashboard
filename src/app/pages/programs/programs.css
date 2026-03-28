@@ -15,17 +15,6 @@
 color: var(--muted-input);
 }
 
-.header button {
-    color: var(--primary-color);
-    font-weight: 700;
-    font-size: 12px;
-    height: 36px;
-    padding: 0 10px;
-    border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
-    border-radius: 4px;
-    background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
-}
-
 .divider {
     height: 1px;
     margin-bottom: 16px;

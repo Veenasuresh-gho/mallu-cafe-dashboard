@@ -39,14 +39,13 @@ body {
   color: var(--primary-text);
 }
 
-.mat-mdc-form-field,
-.mat-mdc-input-element,
-.mat-mdc-select-value,
-.mat-mdc-option,
-.mdc-floating-label {
+.mat-mdc-select-value,             
+.mdc-floating-label,                
+.mat-mdc-option .mdc-label,         
+.mat-mdc-radio-button .mdc-label {  
+  font-size: 12px;
   font-family: 'Poppins', sans-serif !important;
 }
-
 
 /* .mat-mdc-slider {
   --mdc-slider-handle-color: white;

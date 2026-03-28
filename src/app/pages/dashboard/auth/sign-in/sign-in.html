@@ -13,69 +13,55 @@
             <img src="/auth/mike.svg" alt="">
           </div>
 
-          <div class="text-center pt-3 mb-5">
+          <div class="text-center pt-3 mb-4">
             <p class="welcome-head">Welcome Back!</p>
             <p class="welcome-text">Login in to your dashboard</p>
           </div>
-
           <div class="form-container">
+            <form [formGroup]="loginForm" (ngSubmit)="loginclick()" novalidate>
 
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
-              <div class="form-group">
+              <div class="form-group pb-4">
                 <label>Email Address</label>
-                <input
-                  type="email"
-                  placeholder="e.g. smithjohn45@gmail.com"
-                  class="form-input"
-                  formControlName="email"
-                />
 
-                <small class="error"
-                  *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || submitted)">
+                <mat-form-field appearance="outline" class="full-width custom-mat-field">
+                  <input matInput type="email" placeholder="e.g. smithjohn45@gmail.com" formControlName="email" />
 
-                  <span *ngIf="loginForm.get('email')?.errors?.['required']">
-                    Email is required
-                  </span>
+                  @if (loginForm.get('email')?.hasError('required')) {
+                  <mat-error>Email is required</mat-error>
+                  }
+                  @if (loginForm.get('email')?.hasError('email')) {
+                  <mat-error>Invalid email format</mat-error>
+                  }
+                </mat-form-field>
 
-                  <span *ngIf="loginForm.get('email')?.errors?.['email']">
-                    Invalid email format
-                  </span>
-                </small>
+
               </div>
 
-              <div class="form-group password-wrapper">
+              <div class="form-group">
                 <label>Password</label>
 
-                <div class="input-with-icon">
-                  <input
-                    [type]="hide ? 'password' : 'text'"
-                    placeholder="Enter your password"
-                    class="form-input"
-                    formControlName="password"
-                  />
-                  <span class="toggle-icon" (click)="hide = !hide">
+                <mat-form-field appearance="outline" class="full-width custom-mat-field">
+
+                  <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter your password"
+                    formControlName="password" />
+
+                  <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
                     <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-                  </span>
-                </div>
+                  </button>
 
-                <small class="error"
-                  *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || submitted)">
-                  Password is required
-                </small>
-
-                <div class="text-end">
+                  @if (loginForm.get('password')?.hasError('required')) {
+                  <mat-error>Password is required</mat-error>
+                  }
+                </mat-form-field>
+                <div class="text-end ">
                   <a href="/forgot-password" class="forgot-link">Forgot Password?</a>
                 </div>
               </div>
-              <button
-                class="login-btn mt-2"
-                type="submit"
-                [disabled]="loginForm.invalid"
-              >
+              <button class="login-btn mt-4" type="submit" [disabled]="loginForm.invalid">
                 Log In
               </button>
-              <div class="help-text">
-                Need help? <a href="#">Contact Support</a>
+              <div class="help-text pt-3">
+                Need help?<a href="#">Contact Support</a>
               </div>
             </form>
           </div>

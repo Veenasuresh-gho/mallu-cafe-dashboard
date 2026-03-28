@@ -121,7 +121,7 @@
 
     .scroll-container {
         min-height: 0px;
-        max-height: 650px;
+        max-height: 652px;
         overflow-y: auto;
         overflow-x: hidden;
         scrollbar-width: none;

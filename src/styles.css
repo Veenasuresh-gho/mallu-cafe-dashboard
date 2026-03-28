@@ -10,16 +10,17 @@ body {
 
 
 :root {
-    --primary-color: #D80905;
-    --secondary-color: #F37127;
-    --muted-text: #9A9A9A;
-    --primary-text: #312F2F;
-    --muted-label: #636363;
-    --muted-input: #757575;
+  --primary-color: #D80905;
+  --secondary-color: #F37127;
+  --muted-text: #9A9A9A;
+  --primary-text: #312F2F;
+  --muted-label: #636363;
+  --muted-input: #757575;
   --success: #00AA45;
   --success-dark: #39B54A;
   --border-color: #0000001F;
-  --secondary-font:'Red Hat Display',sans-serif;
+  --border: #E4E4E4;
+  --secondary-font: 'Red Hat Display', sans-serif;
 }
 
 .scroll-container::-webkit-scrollbar {
@@ -38,11 +39,11 @@ body {
   color: var(--primary-text);
 }
 
-.mat-mdc-form-field,
-.mat-mdc-input-element,
-.mat-mdc-select-value,
-.mat-mdc-option,
-.mdc-floating-label {
+.mat-mdc-select-value,             
+.mdc-floating-label,                
+.mat-mdc-option .mdc-label,         
+.mat-mdc-radio-button .mdc-label {  
+  font-size: 12px;
   font-family: 'Poppins', sans-serif !important;
 }
 /* Force ALL dialogs to have border radius */
@@ -58,5 +59,5 @@ body {
 
 .mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__outer-circle {
   border-color: red !important;
-  
+
 }

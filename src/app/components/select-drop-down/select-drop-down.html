@@ -1,0 +1,14 @@
+<mat-form-field appearance="outline" class="custom-select">
+    <mat-select [value]="value" (selectionChange)="valueChange.emit($event.value)" [placeholder]="placeholder"
+        panelClass="no-tick-panel" hideSingleSelectionIndicator>
+        <mat-option *ngFor="let opt of options" [value]="opt.value">
+
+            <div class="option-with-radio">
+                <mat-radio-button [checked]="value === opt.value" disableRipple>
+                    {{ opt.label }}
+                </mat-radio-button>
+            </div>
+
+        </mat-option>
+    </mat-select>
+</mat-form-field>

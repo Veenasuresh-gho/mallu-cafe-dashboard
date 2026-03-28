@@ -6,10 +6,8 @@
                 <p>Upload and monitor all broadcast-ready content in one place.</p>
             </div>
 
-            <button class="d-flex align-items-center gap-1" (click)="openModal()">
-                <img src="/main/add.svg">
-                Upload new file
-            </button>
+            <app-primary-button label="Upload new file" iconSrc="/main/add.svg"
+                (clicked)="openModal()"></app-primary-button>
         </div>
 
 

@@ -10,12 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { UploadNewFileModal } from '../media-library/components/upload-new-file-modal/upload-new-file-modal';
-import { UploadAdFile } from './components/upload-ad-file/upload-ad-file';
+import { PrimaryButton } from '../../components/primary-button/primary-button';
 
 @Component({
   selector: 'app-advertisements',
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, MatButtonModule, MatMenuModule],
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, MatButtonModule, MatMenuModule, PrimaryButton],
   templateUrl: './advertisements.html',
   styleUrl: './advertisements.css',
 })

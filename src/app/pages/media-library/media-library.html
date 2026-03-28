@@ -6,16 +6,14 @@
                 <p>Upload and monitor all broadcast-ready content in one place.</p>
             </div>
 
-            <button class="d-flex align-items-center gap-1" (click)="openModal()">
-                <img src="/main/add.svg">
-                Upload new file
-            </button>
+            <app-primary-button label="Upload new file" iconSrc="/main/add.svg"
+                (clicked)="openModal()"></app-primary-button>
         </div>
 
 
-        <div class="divider mb-2"></div>
+        <div class="divider"></div>
 
-        <div class="total d-flex mb-2">
+        <div class="total d-flex">
             <div class="total-contents">
                 <img src="/main/video-play-filled.png" alt="">
                 <p class="mb-0">Total Videos: </p>

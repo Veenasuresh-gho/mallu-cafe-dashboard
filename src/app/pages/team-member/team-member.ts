@@ -9,10 +9,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { AddTeamMember } from './components/add-team-member/add-team-member';
 import { MatDialog } from '@angular/material/dialog';
+import { PrimaryButton } from '../../components/primary-button/primary-button';
 
 @Component({
   selector: 'app-team-member',
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule],
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton],
   templateUrl: './team-member.html',
   styleUrl: './team-member.css',
 })
@@ -94,7 +95,7 @@ export class TeamMember {
       role: "RJ",
       assignedPrograms: "Retro Beats",
       mobile: "+1 503 555 0158",
-      email:"rjresh@gmail.com"
+      email: "rjresh@gmail.com"
     }
   ];
 }

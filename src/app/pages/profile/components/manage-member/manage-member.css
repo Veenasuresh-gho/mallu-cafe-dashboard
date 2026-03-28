@@ -12,7 +12,7 @@
 .btn-close {
     border: none;
     font-size: 12px;
-    color: #757575;
+color: var(--muted-input);
     cursor: pointer;
     margin-top: 10px;
     line-height: 1;
@@ -24,7 +24,7 @@
     font-size: 12px;
     font-style: bold;
     font-family: Red Hat Display;
-    color: #312F2F;
+    color: var( --primary-text);
 }
 
 ::ng-deep .mat-mdc-dialog-content {
@@ -105,7 +105,7 @@
     background: #FFFFFF;
     border: 1px solid #CFCFCF;
     border-radius: 6px;
-    color: #312F2F;
+    color: var( --primary-text);
     padding: 4px 10px;
     font-size: 12px;
     cursor: pointer;
@@ -113,7 +113,7 @@
 
 .footer-info {
     font-weight: 400;
-    color: #757575;
+color: var(--muted-input);
     font-size: 10px;
 }
 
@@ -132,7 +132,7 @@
     border: 1px solid #CFCFCF;
     font-family: Poppins;
     margin-bottom: 6px;
-    color: #757575;
+color: var(--muted-input);
     border-radius: 6px;
     background-color: #fff;
 }
@@ -192,7 +192,7 @@
     /* background: #f5f5f5; */
     padding: 10px;
     outline: none;
-    color: #757575;
+color: var(--muted-input);
     font-size: 14px;
     cursor: pointer;
 }
@@ -211,7 +211,7 @@
 
 .helper-text {
     font-size: 10px;
-    color: #757575;
+color: var(--muted-input);
     font-weight: 400;
     font-family: Poppins;
     margin-top: 4px;
@@ -287,7 +287,7 @@
 .toggle-txt{
     font-weight: 400;
     font-size: 12px;
-    color: #312F2F;
+    color: var( --primary-text);
 }
 .access-txt {
   font-family: 'Poppins', sans-serif;
@@ -316,13 +316,13 @@ input[type="checkbox"] {
     padding: 0;
 }
 .btn-create {
-  background: #D809051A;
-  color: #D80905;
+  background: var( --primary-color)1A;
+  color: var( --primary-color);
   font-weight: 700;
   font-size: 12px;
   height: 36px;
   border-radius: 6px;
-  border: 1px solid #D80905;
+  border: 1px solid var( --primary-color);
   font-family: 'Red Hat Display', sans-serif;
   align-items: center;   
   justify-content: center; 
@@ -334,9 +334,9 @@ input[type="checkbox"] {
 }
 
 .btn-delete-member {
-  border: 1px solid #D80905;
-  color: #D80905;
-  background-color: #D809051A;
+  border: 1px solid var( --primary-color);
+  color: var( --primary-color);
+  background-color: var( --primary-color)1A;
 
   font-weight: 400;
   font-size: 12px;

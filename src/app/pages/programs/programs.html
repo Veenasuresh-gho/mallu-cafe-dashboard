@@ -6,13 +6,11 @@
                 <p>Manage, upload and schedule broadcast programs.</p>
             </div>
 
-            <button class="d-flex align-items-center gap-1" (click)="openModal()">
-                <img src="/main/add.svg">
-                Add new program
-            </button>
+            <app-primary-button label="Add new program" iconSrc="/main/add.svg"
+                (clicked)="openModal()"></app-primary-button>
         </div>
 
-        <div class="divider mb-2"></div>
+        <div class="divider"></div>
 
         <div class="d-flex justify-content-between align-items-center">
             <div class="filter-container">
@@ -23,37 +21,40 @@
                     <input matInput placeholder="Search here..." [(ngModel)]="searchText" />
                 </mat-form-field>
 
-                <!-- Dropdowns -->
-                <mat-form-field appearance="outline" class="status-drop-down">
-                    <mat-select placeholder="All Status" [(value)]="status">
-                        <mat-option value="all">All Status</mat-option>
-                        <mat-option value="active">Active</mat-option>
-                        <mat-option value="inactive">Inactive</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <app-select-drop-down placeholder="All Status" [(value)]="status" [options]="[
+    { label: 'All Status', value: 'all' },
+    { label: 'Active', value: 'active' },
+    { label: 'Upcoming', value: 'upcoming' },
+    { label: 'Completed', value: 'completed' }
+  ]">
+                </app-select-drop-down>
 
-                <mat-form-field appearance="outline">
-                    <mat-select placeholder="All Category" [(value)]="category">
-                        <mat-option value="all">All Category</mat-option>
-                        <mat-option value="music">Music</mat-option>
-                        <mat-option value="news">News</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <app-select-drop-down placeholder="All Category" [(value)]="category" [options]="[
+    { label: 'All Category', value: 'all' },
+    { label: 'Pre-Scheduled', value: 'pre_scheduled' },
+    { label: 'Podcast', value: 'podcast' },
+    { label: 'Live', value: 'live' }
+  ]">
+                </app-select-drop-down>
 
-                <mat-form-field appearance="outline">
-                    <mat-select placeholder="All Host" [(value)]="host">
-                        <mat-option value="all">All Host</mat-option>
-                        <mat-option value="host1">Host 1</mat-option>
-                        <mat-option value="host2">Host 2</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <app-select-drop-down placeholder="All host" [(value)]="host" [options]="[
+                 { label: 'All host', value: 'all' },
+    { label: 'RJ Anjali', value: 'anjali' },
+    { label: 'RJ Neena', value: 'neena' },
+    { label: 'RJ Priyanka', value: 'priyanka' },
+    { label: 'RJ Reeva', value: 'reeva' }
+  ]">
+                </app-select-drop-down>
 
-                <mat-form-field appearance="outline">
-                    <mat-select placeholder="All Programs" [(value)]="program">
-                        <mat-option value="all">All Programs</mat-option>
-                        <mat-option value="program1">Program 1</mat-option>
-                    </mat-select>
-                </mat-form-field>
+        
+
+                 <app-select-drop-down placeholder="All Programs" [(value)]="program" [options]="[
+                 { label: 'All Programs', value: 'all' },
+    { label: 'Today', value: 'today' },
+    { label: 'Tomorrow', value: 'tomorrow' },
+    { label: 'Custom date', value: 'date' },
+  ]">
+                </app-select-drop-down>
             </div>
             <div class="d-flex align-items-center gap-1">
                 <p style="font-size: 12px; font-weight: 500; color: #757575;">Clear filters</p>

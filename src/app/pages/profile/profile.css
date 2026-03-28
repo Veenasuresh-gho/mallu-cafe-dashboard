@@ -22,7 +22,7 @@
     font-family: Poppins;
     font-weight: 500;
     font-size: 12px;
-    color: #757575;
+color: var(--muted-input);
 }
 .trash-btn{
     width: 16px;
@@ -30,7 +30,7 @@
 }
 .btn-manage-member {
   border: 1px solid #CFCFCF;
-  color: #312F2F;
+  color: var( --primary-text);
   font-weight: 400;
   font-size: 12px;
   height: 38px;
@@ -40,9 +40,9 @@
 }
 
 .btn-delete-member {
-  border: 1px solid #D80905;
-  color: #D80905;
-  background-color: #D809051A;
+  border: 1px solid var( --primary-color);
+  color: var( --primary-color);
+  background-color: var( --primary-color)1A;
 
   font-weight: 700;
   font-size: 12px;

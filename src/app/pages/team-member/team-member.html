@@ -1,4 +1,3 @@
-
 <div class="team-members ">
     <div class="p-3">
         <div class="header d-flex justify-content-between align-items-center ">
@@ -7,13 +6,11 @@
                 <p>Manage radio hosts and staff involved in programs and live shows.</p>
             </div>
 
-            <button class="d-flex align-items-center gap-1" (click)="openModal()">
-                <img src="/main/add.svg">
-                Add new member
-            </button>
+            <app-primary-button label="Add new member" iconSrc="/main/add.svg"
+                (clicked)="openModal()"></app-primary-button>
         </div>
 
-        <div class="divider mb-2"></div>
+        <div class="divider"></div>
 
         <div class="d-flex justify-content-between align-items-center">
             <div class="filter-container">

@@ -2,6 +2,7 @@
     background-color: #fff;
     border-radius: 10px;
     border: 1px solid #0000001A;
+    overflow: hidden;
 }
 
 .header h4 {
@@ -11,23 +12,12 @@
 
 .header p {
     font-size: 10px;
-    color: #757575;
+color: var(--muted-input);
 }
 
-.header button {
-    color: var(--primary-color);
-    font-weight: 700;
-    font-size: 12px;
-    height: 36px;
-    padding: 0 10px;
-    border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
-    border-radius: 4px;
-    background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
-}
-
-/* DIVIDER */
 .divider {
     height: 1px;
+    margin-bottom: 16px;
     background-color: #E4E4E4;
 
 }
@@ -43,13 +33,13 @@
     color: var(--primary-text);
     border: 1px solid white;
     background: #F8F8F8;
-    padding: 3px 10px;
+    padding: 3px 16px;
     height: 36px;
 }
 
 .custom-table td {
     font-size: 12px;
-    padding: 8px;
+    padding: 16px;
     border-bottom: 1px solid #eeeeee;
     background-color: #ffffff;
 }
@@ -91,7 +81,7 @@
 }
 
 .interaction.allow {
-    color: #00AA45;
+    color: var(--success);
 }
 
 .interaction.disabled {
@@ -109,11 +99,6 @@
     background-color: #ffffff !important;
 }
 
-:host ::ng-deep .mat-mdc-input-element,
-:host ::ng-deep .mat-mdc-select-value,
-:host ::ng-deep .mdc-floating-label {
-    font-size: 12px !important;
-}
 
 .filter-container {
     display: flex;
@@ -131,13 +116,25 @@
     width: 300px !important;
 }
 
-.status-drop-down {
-    width: 120px !important;
-}
-
 :host ::ng-deep .mat-mdc-text-field-wrapper {
     border: 1px solid #CFCFCF !important;
     border-radius: 6px !important;
+}
+
+:host ::ng-deep .mat-mdc-form-field {
+    margin-bottom: 16px !important;
+}
+
+:host ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
+.p-3 {
+    padding-bottom: 0px !important;
+}
+
+.filter-container {
+    margin-bottom: 0;
 }
 
 :host ::ng-deep .mat-mdc-form-field-infix {
@@ -154,19 +151,16 @@
     line-height: 24px;
 }
 
-/* Label */
 :host ::ng-deep .mdc-floating-label {
     font-size: 12px !important;
     top: 50% !important;
     transform: translateY(-50%) scale(1) !important;
 }
 
-/* Fix select arrow alignment */
 :host ::ng-deep .mat-mdc-select-arrow {
     margin-top: 0px;
 }
 
-/* Icon styling */
 .search-icon {
     display: flex;
     align-items: center;

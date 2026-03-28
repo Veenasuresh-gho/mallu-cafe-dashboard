@@ -99,12 +99,6 @@ color: var(--muted-input);
     background-color: #ffffff !important;
 }
 
-:host ::ng-deep .mat-mdc-input-element,
-:host ::ng-deep .mat-mdc-select-value,
-:host ::ng-deep .mdc-floating-label {
-    font-size: 12px !important;
-}
-
 
 .filter-container {
     display: flex;
@@ -120,10 +114,6 @@ color: var(--muted-input);
 
 .search-field {
     width: 300px !important;
-}
-
-.status-drop-down {
-    width: 120px !important;
 }
 
 :host ::ng-deep .mat-mdc-text-field-wrapper {

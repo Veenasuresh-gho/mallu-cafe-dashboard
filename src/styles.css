@@ -51,13 +51,6 @@ body {
   overflow: hidden;
 }
 
-/* .mat-mdc-slider {
-  --mdc-slider-handle-color: white;
-  --mdc-slider-focus-handle-color: white;
-  --mdc-slider-hover-handle-color: white;
-  --mdc-slider-active-track-color: white;
-  --mdc-slider-inactive-track-color: rgba(243, 238, 238, 0.3);
-} */
 
 .mat-mdc-radio-button .mdc-radio__inner-circle {
   background-color: red !important;

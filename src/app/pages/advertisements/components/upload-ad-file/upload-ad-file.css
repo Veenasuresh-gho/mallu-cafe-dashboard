@@ -142,7 +142,7 @@ line-height: 10px;
 }
 
 .btn-create {
-    background: #D8090533;
+    /* background: #D8090533;
     color: #D80905;
     font-weight: 700;
     border: 1px solid #D80905;
@@ -155,7 +155,15 @@ line-height: 10px;
     justify-content: center;
     gap: 4px;
     padding: 21px 12px;
-    border: none;
+    border: none; */
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 12px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
+    border-radius: 4px;
+    background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
 
 .form-group {
@@ -203,15 +211,16 @@ line-height: 10px;
 
 .schedule-label {
     background: #F8F8F8;
-    color: #666;
+    color: #757575;
+    font-family: Poppins;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 400;
     padding: 0 12px;
     height: 100%;
     display: flex;
     align-items: center;
     border-right: 1px solid #E4E4E4;
-    white-space: nowrap;
+    white-space: nowrap; 
 }
 
 .schedule-input {
@@ -219,7 +228,7 @@ line-height: 10px;
     outline: none;
     padding: 0 12px;
     font-size: 13px;
-    color: #333;
+    color: #757575;
     flex: 1;
     height: 100%;
     background: transparent;
@@ -445,7 +454,7 @@ line-height: 10px;
     background: #FFF0F1;
     color: #D80905;
     font-weight: 600;
-    border: 1px solid transparent;
+    border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
     /* To match other buttons' height */
 }
 

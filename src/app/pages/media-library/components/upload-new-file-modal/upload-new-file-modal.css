@@ -1,11 +1,14 @@
 .dialog-box {
+   width: 600px;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
   font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  overflow-y: auto;
+  font-family: Poppins;
 }
 
 .main-title {
@@ -50,7 +53,7 @@
 
 .upload-box {
   width: 100%;
-  height: auto;
+  height: 180px;
   border-radius: 10px;
   border: 1px solid #E4E4E4;
   background: #F8F8F8;
@@ -72,13 +75,17 @@
   font-family: Poppins;
 
 }
-
+.helper-text-icon{
+  font-size: 12px;
+  padding-top: 4px;
+}
 .upload-subtxt {
   font-weight: 500;
   font-size: 10px;
   color: #9A9A9A;
   font-family: Poppins;
   line-height: 10px;
+  margin-bottom: 2px;
 }
 
 .file-name {
@@ -90,22 +97,42 @@
   text-overflow: ellipsis;
   white-space: nowrap; 
 }
+.close-btn {
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  border: none;
 
+  display: inline-flex;       /* make flex container */
+  align-items: center;        /* vertically center items */
+  gap: 4px;                   /* space between img and text */
+}
+
+.btn-cancel {
+  color: #666;
+  margin: 0;                  /* remove default margins from <p> */
+}
+
+.close-btn p {
+  margin: 0;                  /* remove block margin */
+}
 .btn-create {
-  background: #D8090533;
-  color: #D80905;
+  color: var(--primary-color);
   font-weight: 700;
-  border: 1px solid #D80905;
   font-size: 12px;
   height: 36px;
-  font-family: Poppins;
+  font-family: 'Red Hat Display', sans-serif;
   display: flex;
-  border-radius: 10px;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 0 12px;
-  border: none;
+  padding: 8px 10px;
+  cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent) !important;
+  border-radius: 4px;
+  background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
 .btn-publish {
   font-weight: 400;
@@ -115,12 +142,16 @@
   background-color: transparent;
   font-family: Poppins;
   display: flex;
-  border-radius: 10px;
+  border-radius: 4px;
   align-items: center;
   justify-content: center;
   gap: 4px;
   padding: 0 12px;
-  border: none;
+  border: 1px solid #CFCFCF;
+}
+.custom-line-sub {
+  border-top: 1px solid #E4E4E4;
+  margin: 0px 24px;
 }
 .btn-save {
   font-weight: 400;
@@ -181,9 +212,10 @@
   font-family: Poppins;
   margin-bottom: 6px;
   background-color: #FFFFFF;
-  color: var(--muted-input);
+  color: #757575;
   line-height: 16px;
 }
+
 option:checked {
   color: var(--primary-color);
 }
@@ -223,10 +255,25 @@ option:checked {
   font-weight: 400 !important;
 }
 ::ng-deep .radio-btn.mat-mdc-radio-checked .mdc-label {
-  color: red;
+  color: var(--primary-color);
   font-size: 12px;
   font-family: Poppins;
 }
+::ng-deep .custom-select-panel .mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text {
+  color: #d32f2f !important;
+}
+
+/* Hover background */
+::ng-deep .custom-select-panel .mat-mdc-option:hover {
+  background-color: transparent !important;
+}
+
+/* Hover text color */
+::ng-deep .custom-select-panel .mat-mdc-option:hover .mdc-list-item__primary-text {
+  color: #d32f2f !important;
+}
+
+
 .upload-content{
   width: 73%;
 }

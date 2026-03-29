@@ -5,13 +5,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { MatRadioButton, MatRadioGroup, MatRadioModule } from '@angular/material/radio';
 
 @Component({
   selector: 'app-add-new-program',
   standalone: true,
   imports: [
-    CommonModule,
-    MatDialogModule,
+    CommonModule,FormsModule,
+    MatRadioModule,
+    MatDialogModule,MatIcon,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -23,7 +27,16 @@ import { CommonModule } from '@angular/common';
 export class AddNewProgram {
   constructor(private dialogRef: MatDialogRef<AddNewProgram>) {}
 
+
+
   close() {
     this.dialogRef.close();
   }
+  selectedHost: string = ''; 
+  selectedCategory: string = ''; 
+  
+ selectedType:string = '';
+
+
+  
 }

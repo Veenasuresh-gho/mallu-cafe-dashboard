@@ -105,6 +105,10 @@
     gap: 10px;
     box-sizing: border-box;
 }
+.upload-box .img{
+    width: 16px;
+    height: 16px;
+}
 .drag-drop{
 font-family: Poppins;
 font-weight: 500;
@@ -161,6 +165,7 @@ line-height: 10px;
     font-size: 12px;
     height: 36px;
     padding: 0 10px;
+    font-family: Poppins;
     border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
     border-radius: 4px;
     background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
@@ -433,16 +438,25 @@ line-height: 10px;
     border: none;
 }
 .close-btn {
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    background: transparent;
-    border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+
+  display: inline-flex;       /* make flex container */
+  align-items: center;        /* vertically center items */
+  gap: 4px;                   /* space between img and text */
 }
 
 .btn-cancel {
-    color: #666;
+  color: #666;
+  margin: 0;                  /* remove default margins from <p> */
+}
+
+.close-btn p {
+  margin: 0;                  /* remove block margin */
 }
 
 .btn-wait {
@@ -598,14 +612,27 @@ line-height: 10px;
 .upload-container{
     width: 100%;
     height: 50px;
-    border-radius: 10px;
-    border: 1px solid #E4E4E4;
-    background: #F8F8F8;
-    margin-top: 6px;
-    display: flex;
+    
+    padding: 6px 24px;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     gap: 10px;
     box-sizing: border-box;
+}
+.file-preview{
+    border: 1px solid #E4E4E4;
+    background: #F8F8F8;
+        border-radius: 10px;
+        padding: 13px 16px;
+
+}
+
+.file-preview .title{
+    color: #312F2F;
+    font-size: 12px;
+    font-weight: 700;
+}
+.file-preview .subtitle{
+    color: #9A9A9A;
+    font-size: 10px;
+    font-weight: 500;
 }

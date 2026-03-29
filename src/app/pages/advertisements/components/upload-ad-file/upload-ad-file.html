@@ -4,9 +4,12 @@
             <p class="main-title">Add New Advertisement</p>
             <p class="main-subtitle">Upload and schedule your ad campaign</p>
         </div>
-        <button class="close-btn btn-cancel " (click)="close()">
-            <i class="material-symbols-outlined action-icon">cancel</i>
+        <button class="close-btn btn-cancel" (click)="close()">
+            <img src="/program/close-circle.svg" alt="">
         </button>
+        <!-- <button>
+            <img src="/program/close-circle.svg" alt="">
+        </button> -->
     </div>
     <div class="custom-line "></div>
     <mat-dialog-content class="dialog-content">
@@ -43,7 +46,7 @@
                 <p class="drag-drop">Drag & drop your file here, or click to browse</p>
                 <div>
                     <label class="btn-create d-flex">
-                        <img src="/dash/cloud-connection.svg" width="16px" alt="">
+                        <img src="/dash/cloud-connection.svg" width="16px" height="16px" alt="">
                         <span class="pt-2"> Choose File</span>
                         <input type="file" hidden>
                     </label>
@@ -57,11 +60,10 @@
         </p>
 
         <div class="upload-container" >
-
             <div class="d-flex gap-2 file-preview">
-                <img src="/dash/file-preview.svg" alt="">
+                <img src="/dash/file-preview.svg" width="24px" height="24px" alt="">
 
-                <div>
+                <div style="gap: 5px;">
                     <p class="title">
                         No file selected
                     </p>
@@ -70,11 +72,8 @@
                     </p>
                 </div>
             </div>
-
-
-
         </div>
-        <div class="custom-line-sub "></div>
+        <div class="custom-line-sub" style="padding-top: 16px;"></div>
 
 
         <!-- Divider -->
@@ -244,9 +243,9 @@
 
         <!-- Footer -->
         <div class="dialog-footer px-4 py-3 d-flex justify-content-between align-items-center">
-            <button class="footer-btn btn-cancel d-flex gap-1 align-items-center" (click)="close()">
-                <i class="material-symbols-outlined action-icon">cancel</i>
-                <span>Cancel</span>
+             <button class="close-btn btn-cancel d-flex" (click)="close()">
+                <img src="/program/close-circle.svg" width="16px" alt="">
+                <p class="">Cancel</p>
             </button>
 
             <div class="d-flex gap-3">

@@ -19,7 +19,7 @@ export class MusicPlayer {
   
   // Dummy Data variables
   facebookUrl: string = 'https://www.facebook.com/Ma..';
-  isAutoPlay: boolean = true;
+  isAutoPlay: boolean = false;
   favoriteCount: number = 455;
   liveTime: string = '00:36';
   

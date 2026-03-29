@@ -21,13 +21,14 @@ export class MediaLibrary {
 
   constructor(private dialog: MatDialog) { }
 
-  openModal() {
-    this.dialog.open(UploadNewFileModal, {
-      width: '600px',
-
-      disableClose: true
-    });
-  }
+openModal() {
+  this.dialog.open(UploadNewFileModal, {
+    width: '90%',          // responsive width
+    maxWidth: '600px',     // max width cap
+    maxHeight: '95vh',     // prevent overflowing viewport height
+    disableClose: true
+  });
+}
 
   searchText = '';
   status = 'all';

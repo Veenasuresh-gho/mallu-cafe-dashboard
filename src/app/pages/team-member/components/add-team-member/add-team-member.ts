@@ -48,6 +48,7 @@ onToggleChange() {
 remove(item: any) {
   this.selectedPrograms = this.selectedPrograms.filter(p => p !== item);
 }
+  isAutoPlay: boolean = true;
 
   close() {
     this.dialogRef.close();

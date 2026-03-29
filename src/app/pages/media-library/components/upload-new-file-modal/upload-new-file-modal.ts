@@ -4,13 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { AddPodcast } from '../add-podcast/add-podcast';
+import { MatSelect } from '@angular/material/select';
+import { SelectDropDown } from '../../../../components/select-drop-down/select-drop-down';
 
 @Component({
   selector: 'app-upload-new-file-modal',
   standalone: true,
   imports: [
-    CommonModule,
-    FormsModule,
+    CommonModule,SelectDropDown,
+    FormsModule,MatSelect,
     MatDialogContent,
     MatRadioGroup,
     MatRadioButton
@@ -25,6 +27,7 @@ export class UploadNewFileModal {
     this.dialogRef.close();
   }
   fileName = '';
+  status = 'all';
 
 onFileSelected(event: any) {
   const file = event.target.files[0];
@@ -39,9 +42,15 @@ openModalAddPodcast() {
       disableClose: true
     });
   }
+programCategories = [
+  { value: 'pre', label: 'Pre - Scheduled' },
+  { value: 'featured', label: 'Featured Videos' },
+  { value: 'shorts', label: 'Shorts' },
+  { value: 'podcast', label: 'Podcast' }
+];
 
-selectedType: string = ''; // default selected  
 selectedProgramCategory: string = '';
+selectedType: string = ''; // default selected  
 
 
 }

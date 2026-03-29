@@ -6,7 +6,9 @@
             <p class="main-subtitle">Upload audio or video content for your program and prepare it for publishing in the
                 Mallu Cafe Radio App.</p>
         </div>
-        <button (click)="close()" class="btn-close small" aria-label="Close"></button>
+          <button class="close-btn btn-cancel" (click)="close()">
+            <img src="/program/close-circle.svg" alt="">
+        </button>
     </div>
     <hr />
     <mat-dialog-content class="dialog-content ">
@@ -25,7 +27,7 @@
 
                 <p class="upload-subtxt">Drag & drop your file here, or click to browse</p>
                 <div>
-                    <label class="btn-create d-flex">
+                    <label class="btn-create  d-flex">
                         <img src="/dash/cloud-connection.svg" alt="">
                         <span> Choose File</span>
                         <input type="file" hidden (change)="onFileSelected($event)">
@@ -41,22 +43,29 @@
             <span class="">Supported formats: MP3, WAV, MP4
             </span>
         </p>
-        <hr class="px-4 my-3">
-        <div class="d-flex align-items-center gap-2 section-title px-3">
+                <div class="custom-line-sub my-3"></div>
+
+        <div class="d-flex align-items-center gap-2 section-title px-4">
             <div class="step-badge">2</div>
             <p class="content-title mb-0">Program Information</p>
         </div>
 
-        <div class="form-row px-3">
+        <div class="form-row px-4">
             <div class="form-group">
                 <label class="input-label" for="host">Program Category *</label>
-                <select id="host" class="input-field px-2" [(ngModel)]="selectedProgramCategory">
-                    <option value="" disabled>- Select Program Category -</option>
-                    <option value="pre">Pre - Scheduled</option>
-                    <option value="featured">Featured Videos</option>
-                    <option value="shorts">Shorts</option>
-                    <option value="podcast">Podcast</option>
-                </select>
+             
+                <select 
+  class="input-field px-2" panelClass="custom-select-panel"
+  (change)="selectedProgramCategory = $any($event.target).value"
+>
+  <option value="" disabled selected >- Select Program Category -</option>
+
+  @for (item of programCategories; track item) {
+    <option [value]="item.value">
+      {{ item.label }}
+    </option>
+  }
+</select>
             </div>
             <div *ngIf="selectedProgramCategory === 'podcast'" class="mt-2">
 
@@ -73,42 +82,41 @@
 
             </div>
         </div>
-        <div class="form-row px-3">
+        <div class="form-row px-4">
 
         </div>
-        <div class="form-row px-3">
+        <div class="form-row px-4">
             <div class="form-group">
                 <label class="input-label" for="host">Program Name *</label>
                 <select id="host" class="input-field px-2">
                     <option disabled selected>- Select Program Name -</option>
                     <option>Om Shanti Om</option>
-                    <option>Om Shanti Om</option>
-                    <option>Om Shanti Om</option>
+                   
 
                 </select>
             </div>
         </div>
-        <hr class="px-4 my-3">
-        <div class="d-flex align-items-center gap-2 section-title px-3">
+                <div class="custom-line-sub my-3"></div>
+        <div class="d-flex align-items-center gap-2 section-title px-4">
             <div class="step-badge">3</div>
             <p class="content-title mb-0"> Rename File </p>
         </div>
 
-        <div class="form-row px-3">
+        <div class="form-row px-4">
             <div class="form-group">
                 <label class="input-label" for="fullname">Full Name *</label>
-                <input class="input-field p-1" type="text" placeholder="ProgramName//160326.mp3" />
+                <input class="input-field py-1 px-2" type="text" placeholder="ProgramName//160326.mp3" />
                 <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
             </div>
         </div>
 
-        <hr class="px-4 my-3">
-        <div class="d-flex align-items-center gap-2 section-title px-3">
+                <div class="custom-line-sub my-3"></div>
+        <div class="d-flex align-items-center gap-2 section-title px-4">
             <div class="step-badge">4</div>
-            <p class="content-title mb-0"> Rename File </p>
+            <p class="content-title mb-0"> Thumbnail </p>
         </div>
 
-        <div class="d-flex gap-3 px-2 my-2">
+        <div class="d-flex gap-3 px-3 my-2">
             <!-- Radios -->
             <mat-radio-group [(ngModel)]="selectedType" class="d-flex gap-3 ">
 
@@ -124,11 +132,11 @@
         </div>
 
         <!-- Content -->
-        <div *ngIf="selectedType === 'program'" class=" mt-3 px-3">
+        <div *ngIf="selectedType === 'program'" class=" mt-3 px-4">
             <img src="/upload/file-img.png" width="100%" class="upload-img">
         </div>
 
-        <div *ngIf="selectedType === 'custom'" class=" px-3">
+        <div *ngIf="selectedType === 'custom'" class=" px-4">
             <div class="form-group">
                 <label class="input-label" for="thumbnail">Custom Thumbnail</label>
 
@@ -167,8 +175,7 @@
                 </div>
             </div>
         </div>
-        <hr class="px-4 my-3">
-                <div class="d-flex align-items-center gap-2 section-title px-3">
+                <!-- <div class="d-flex align-items-center gap-2 section-title px-3">
             <div class="step-badge">5</div>
             <p class="content-title mb-0"> Public App Content </p>
         </div>
@@ -190,16 +197,49 @@
             </div>
             <p class="helper-text">Keep it short and engaging for listeners.</p>
 
-        </div>
+        </div> -->
+        <div *ngIf="selectedProgramCategory === 'featured' || selectedProgramCategory === 'shorts'">
+    
+                <div class="custom-line-sub my-3"></div>
 
-        <hr class="px-4 my-3">
+    <div class="d-flex align-items-center gap-2 section-title px-4">
+        <div class="step-badge">5</div>
+        <p class="content-title mb-0"> Public App Content </p>
+    </div>
+
+    <div class="form-row px-4 my-2">
+        <div class="form-group">
+            <label class="input-label">Title *</label>
+            <input class="input-field py-1 px-2" type="text"
+                placeholder="eg. Celebrity Talk – Exclusive Interview with Actor Nivin Pauly" />
+        </div>
+    </div>
+
+    <div class="form-row px-4">
+        <div class="form-group" *ngIf="selectedProgramCategory === 'featured' ">
+            <label class="input-label">Subtitle *</label>
+            <textarea 
+                class="input-field-textArea input-field p-1" 
+                cols="3"
+                placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects">
+            </textarea>
+        </div>
+        <p class="helper-text">Keep it short and engaging for listeners.</p>
+    </div>
+
+</div>
+
 
         <div class="dialog-actions d-flex justify-content-between my-3 mx-3 gap-2">
-            <button type="button" class="btn-cancel d-flex gap-1 pt-2" (click)="close()">
+            <!-- <button type="button" class="btn-cancel d-flex gap-1 pt-2" (click)="close()">
                 <span class="material-symbols-outlined small pt-1">
                     cancel
                 </span>
                 <span> Cancel</span>
+            </button> -->
+            <button class="close-btn btn-cancel d-flex" (click)="close()">
+                <img src="/program/close-circle.svg" width="16px" alt="">
+                <p>Cancel</p>
             </button>
             <div class="d-flex gap-2">
                 <button type="submit" class="btn-save d-flex">

@@ -1,4 +1,4 @@
-<div class="form-group">
+<!-- <div class="form-group">
   <label class="input-label">{{ label }} *</label>
 
   <div class="select-wrapper">
@@ -8,13 +8,36 @@
       [name]="name"
       [ngClass]="{'selected': model}"  
     >
-      <!-- Use placeholder input if passed, fallback to label -->
       <option value="" disabled hidden>
         {{ placeholder || 'Select ' + label }}
       </option>
 
       <option *ngFor="let item of options" [value]="item">{{ item }}</option>
     </select>
+
+    <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
+  </div>
+</div> -->
+
+<div class="form-group">
+  <label class="input-label">{{ label }} *</label>
+
+  <div class="select-wrapper">
+    
+    <!-- Selected display -->
+    <div class="input-field" (click)="toggleDropdown()">
+      {{ model || placeholder || ('Select ' + label) }}
+    </div>
+
+    <!-- Dropdown -->
+    <div class="dropdown" *ngIf="open">
+      <div
+        class="option"
+        *ngFor="let item of options"
+        (click)="select(item)">
+        {{ item }}
+      </div>
+    </div>
 
     <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
   </div>

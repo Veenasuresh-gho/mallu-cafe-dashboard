@@ -65,7 +65,6 @@
     </div>
 
     <table mat-table [dataSource]="dataSource" class="custom-table">
-
         <ng-container matColumnDef="program">
             <th mat-header-cell *matHeaderCellDef>Program Title</th>
             <td mat-cell *matCellDef="let row">
@@ -125,7 +124,7 @@
 
     </table>
 
-    <mat-paginator [length]="22" [pageSize]="7" [pageSizeOptions]="[7]" showFirstLastButtons>
+    <mat-paginator *ngIf="showPaginator" [pageSize]="7" [pageSizeOptions]="[7, 14, 21]" showFirstLastButtons>
     </mat-paginator>
 
 </div>

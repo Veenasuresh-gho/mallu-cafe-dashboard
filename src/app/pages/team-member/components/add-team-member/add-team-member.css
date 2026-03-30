@@ -11,12 +11,16 @@
   font-family: Poppins;
 
 }
+
 ::ng-deep .mat-dialog-container {
   display: flex;
   flex-direction: column;
-  height: 95vh; /* total dialog height */
-  padding: 0;   /* optional: remove default padding */
+  height: 95vh;
+  /* total dialog height */
+  padding: 0;
+  /* optional: remove default padding */
 }
+
 .heading-box {
   padding: 24px 24px 16px 24px;
 }
@@ -43,19 +47,25 @@
   background: transparent;
   border: none;
 
-  display: inline-flex;       /* make flex container */
-  align-items: center;        /* vertically center items */
-  gap: 4px;                   /* space between img and text */
+  display: inline-flex;
+  /* make flex container */
+  align-items: center;
+  /* vertically center items */
+  gap: 4px;
+  /* space between img and text */
 }
 
 .btn-cancel {
   color: #666;
-  margin: 0;                  /* remove default margins from <p> */
+  margin: 0;
+  /* remove default margins from <p> */
 }
 
 .close-btn p {
-  margin: 0;                  /* remove block margin */
+  margin: 0;
+  /* remove block margin */
 }
+
 .custom-line {
   border-top: 1px solid #E4E4E4;
   width: 100%;
@@ -65,7 +75,7 @@
 
 .custom-line-sub {
   border-top: 1px solid #E4E4E4;
-  margin: 0px 24px;
+  margin: 10px 24px;
 }
 
 form {
@@ -83,8 +93,7 @@ form {
 
 input[type="text"],
 select,
-input[type="file"]
- {
+input[type="file"] {
   width: 100%;
   padding: 10px;
   font-size: 12px;
@@ -108,9 +117,9 @@ input[type="file"]
   color: #312F2F;
   font-family: Poppins;
 }
+
 .dialog-actions button {
   padding: 8px 20px;
-  font-size: 14px;
   border-radius: 6px;
   cursor: pointer;
   border: none;
@@ -173,15 +182,18 @@ input:checked+.slider:before {
 }
 
 .input-field::placeholder {
-  color: var( --muted-input) !important;   /* light gray */
+  color: var(--muted-input) !important;
+  /* light gray */
 }
 
 select {
   color: #312F2F;
 }
-select:invalid{
+
+select:invalid {
   color: var(--muted-input) !important;
 }
+
 .select-wrapper {
   position: relative;
   width: 100%;
@@ -192,7 +204,8 @@ select:invalid{
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding-right: 35px; /* space for icon */
+  padding-right: 35px;
+  /* space for icon */
 }
 
 /* Custom icon */
@@ -201,141 +214,143 @@ select:invalid{
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none; /* click passes to select */
+  pointer-events: none;
+  /* click passes to select */
   font-size: 20px;
   color: #666;
 }
 
 ::ng-deep .mat-mdc-dialog-content {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 ::ng-deep .mat-mdc-dialog-title {
-    margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .step-badge {
-    width: 24px;
-    height: 24px;
-    background-color: #000;
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 600;
+  width: 24px;
+  height: 24px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 /* Remove extra Material spacing */
 ::ng-deep .mat-mdc-dialog-content {
-    padding: 16px 0px !important;
+  padding: 16px 0px !important;
 }
 
 /* Title row */
 .section-title {
-    /* exact from your design */
-   padding: 8px 0px 8px 0px;
-    /* controls space between sections */
+  /* exact from your design */
+  padding: 8px 0px 8px 0px;
+  /* controls space between sections */
 }
 
 /* Remove default p margin */
 .subtitle {
-    margin: 0;
-    font-size: 12px;
-    font-weight: 700;
-    font-family: Red Hat Display;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: Red Hat Display;
 }
 
 /* Upload container spacing */
 .upload-wrapper {
-    margin-top: 0;
-    /* keep tight like design */
+  margin-top: 0;
+  /* keep tight like design */
 }
 
 /* Upload box */
 .upload-photo {
-    width: 150px;
-    height: 160px;
-    border-radius: 10px;
-    border: 1px dashed #E4E4E4;
-    /* dashed border */
-    background-color: #F8F8F8;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  width: 150px;
+  height: 160px;
+  border-radius: 10px;
+  border: 1px dashed #E4E4E4;
+  /* dashed border */
+  background-color: #F8F8F8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 /* Image */
 .profile-img {
-    width: 65px;
-    height: 65px;
+  width: 65px;
+  height: 65px;
 }
 
 /* Button */
 .upload-btn {
-    background: #FFFFFF;
-    border: 1px solid #CFCFCF;
-    border-radius: 6px;
-    color: var( --primary-text);
-    padding: 4px 10px;
-    font-size: 12px;
-    cursor: pointer;
+  background: #FFFFFF;
+  border: 1px solid #CFCFCF;
+  border-radius: 6px;
+  color: var(--primary-text);
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .footer-info {
-    font-weight: 400;
-color: var(--muted-input);
-    font-size: 10px;
+  font-weight: 400;
+  color: var(--muted-input);
+  font-size: 10px;
 }
 
 /* form */
 .input-label {
-    font-weight: 500;
-    font-size: 12px;
-    font-family: Poppins;
-    display: block;
-    color: #636363;
+  font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins;
+  display: block;
+  color: #636363;
 }
 
 .input-field {
-    font-weight: 400;
-    font-size: 12px;
-    height: 36px;
-    border: 1px solid #CFCFCF;
-    font-family: Poppins;
-    margin-bottom: 6px;
-color: var(--muted-input);
-    border-radius: 6px;
-    background-color: #fff;
+  font-weight: 400;
+  font-size: 12px;
+  height: 36px;
+  border: 1px solid #CFCFCF;
+  font-family: Poppins;
+  margin-bottom: 6px;
+  color: var(--muted-input);
+  border-radius: 6px;
+  background-color: #fff;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    width: 265px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 265px;
 }
 
 .phone-input {
-    display: flex;
-    align-items: center;
-    border: 1px solid #CFCFCF;
-    border-radius: 6px;
-    overflow: hidden;
-    background-color: #fff;
+  display: flex;
+  align-items: center;
+  border: 1px solid #CFCFCF;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #fff;
 }
 
 .country-code {
-    border: none;
-    background: #F5F5F5;
-    padding: 0 10px;
-    height: 100%;
-    font-size: 12px;
-    outline: none;
+  border: none;
+  background: #F5F5F5;
+  padding: 0 10px;
+  height: 100%;
+  font-size: 12px;
+  outline: none;
 }
+
 .dialog-box {
   width: 600px;
   background: #fff;
@@ -347,115 +362,119 @@ color: var(--muted-input);
   justify-content: flex-start;
   overflow-y: auto;
   font-family: Poppins;
-
 }
+
 .phone-number {
-    flex: 1;
-    border: none;
-    padding: 0 10px;
-    font-size: 12px;
-    outline: none;
+  flex: 1;
+  border: none;
+  padding: 0 10px;
+  font-size: 12px;
+  outline: none;
 }
 
 .form-row {
-  width: 544.36px;          /* exact design width */
-  height: 94px;   
-  margin-left: 24px;        /* left offset */
-  box-sizing: border-box;   /* include padding/border in width */
+  width: 544.36px;
+  height: 94px;
+  margin-left: 24px;
+  box-sizing: border-box;
 }
 
 .mobile-group,
 .email-group {
-    width: 264px;
+  width: 264px;
 }
-.countrycode{
-gap: 4px;
-padding: 8px;
-font-size: 12px;
-font-weight: 400;
-font-family: Poppins;
-color: #757575;
+
+.countrycode {
+  gap: 4px;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: Poppins;
+  color: #757575;
 }
 
 .input-field,
 .phone-input {
-    height: 36px;
-    gap: 4px;
+  height: 36px;
+  gap: 4px;
 }
 
 .country-code {
-    border: none;
-    /* background: #f5f5f5; */
-    padding: 10px;
-    outline: none;
-color: var(--muted-input);
-    font-size: 14px;
-    cursor: pointer;
+  border: none;
+  /* background: #f5f5f5; */
+  padding: 10px;
+  outline: none;
+  color: var(--muted-input);
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .phone-number {
-    flex: 1;
-    border: none;
-    padding: 10px;
-    font-size: 14px;
-    outline: none;
+  flex: 1;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  outline: none;
 }
 
 .phone-number::placeholder {
-    color: #aaa;
+  color: #aaa;
 }
 
 .helper-text {
-    font-size: 10px;
-color: var(--muted-input);  
+  font-size: 10px;
+  color: var(--muted-input);
   font-weight: 400;
   line-height: 14px;
-    font-family: Poppins;
+  font-family: Poppins;
 }
 
-.assigned-programs{
-    width: 100%;
+.assigned-programs {
+  width: 100%;
 }
 
 /* Default outline color (when not focused) to match other inputs */
 ::ng-deep .assigned-programs:not(.mat-focused) .mdc-notched-outline__leading,
 ::ng-deep .assigned-programs:not(.mat-focused) .mdc-notched-outline__notch,
 ::ng-deep .assigned-programs:not(.mat-focused) .mdc-notched-outline__trailing {
-    border-color: #CFCFCF !important;
-    border-width: 1px !important;
+  border-color: #CFCFCF !important;
+  border-width: 1px !important;
 }
 
 /* Red outline border ONLY when clicked/focused */
 ::ng-deep .assigned-programs.mat-focused .mdc-notched-outline__leading,
 ::ng-deep .assigned-programs.mat-focused .mdc-notched-outline__notch,
 ::ng-deep .assigned-programs.mat-focused .mdc-notched-outline__trailing {
-    border-color: #D80905 !important;
-    border-width: 1px !important;
+  border-color: #D80905 !important;
+  border-width: 1px !important;
 }
 
 /* Apply 6px border radius to match other inputs */
 ::ng-deep .assigned-programs .mdc-notched-outline__leading {
-    border-top-left-radius: 6px !important;
-    border-bottom-left-radius: 6px !important;
+  border-top-left-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
 }
+
 ::ng-deep .assigned-programs .mdc-notched-outline__trailing {
-    border-top-right-radius: 6px !important;
-    border-bottom-right-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
 }
 
 /* Remove default subscript space and reduce padding of the content */
 ::ng-deep .assigned-programs .mat-mdc-form-field-subscript-wrapper {
-    display: none !important;
+  display: none !important;
 }
+
 ::ng-deep .assigned-programs .mat-mdc-form-field-infix {
-    min-height: auto !important;
+  min-height: auto !important;
   padding-top: 4px !important;
   padding-bottom: 4px !important;
 }
+
 /* 1. Remove the large default padding inside the form field wrapper */
 ::ng-deep .assigned-programs .mat-mdc-text-field-wrapper {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 /* 2. Tighten the flex container that holds the chips and arrow */
@@ -466,19 +485,20 @@ color: var(--muted-input);
 
 /* 3. Reset the infix (where the chips live) to allow a smaller height */
 ::ng-deep .assigned-programs .mat-mdc-form-field-infix {
-    padding: 0 !important;
+  padding: 0 !important;
   min-height: unset !important;
 }
 
 /* 4. Ensure the chip-set doesn't add its own internal margins */
 ::ng-deep .assigned-programs mat-chip-set {
-     display: flex;
+  display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 4px;
   margin: 0 !important;
   padding: 0 !important;
 }
+
 ::ng-deep .assigned-programs .mat-mdc-chip {
   border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent) !important;
 }
@@ -489,31 +509,35 @@ color: var(--muted-input);
   margin: 0 !important;
   line-height: normal !important;
 }
+
 /* The Select Arrow (Red Triangle) pointing UP */
 ::ng-deep .assigned-programs .mat-mdc-select-arrow svg {
-    display: none !important; 
+  display: none !important;
 }
+
 ::ng-deep .assigned-programs .mat-mdc-select-arrow {
-    width: 0 !important;
-    height: 0 !important;
-    border-left: 4px solid transparent !important;
-    border-right: 4px solid transparent !important;
-    border-bottom: 5px solid #d32f2f !important;
-    border-top: none !important;
-    margin-top: -2px; 
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 4px solid transparent !important;
+  border-right: 4px solid transparent !important;
+  border-bottom: 5px solid #d32f2f !important;
+  border-top: none !important;
+  margin-top: -2px;
 }
+
 ::ng-deep .assigned-programs .mat-mdc-select-arrow-wrapper {
-    transform: none !important;
+  transform: none !important;
 }
 
 /* Chips (Selected options) */
 ::ng-deep .mat-mdc-chip {
   background-color: #fdecea !important;
   color: #d32f2f !important;
-  min-height: 24px !important; /* flexible height */
+  min-height: 24px !important;
+  /* flexible height */
   height: auto !important;
   border-radius: 12px;
-  border: 1px solid #636363 !important; 
+  border: 1px solid #636363 !important;
 }
 
 /* ✅ THIS is the important one (text inside chip) */
@@ -536,9 +560,11 @@ color: var(--muted-input);
   justify-content: center;
   outline: none;
 }
+
 /* OPTION CONTAINER */
 ::ng-deep .custom-select-panel .mat-mdc-option {
-  min-height: 32px !important;   /* controls height */
+  min-height: 32px !important;
+  /* controls height */
   display: flex;
   align-items: center;
 }
@@ -546,7 +572,7 @@ color: var(--muted-input);
 /*  TEXT inside option (IMPORTANT) */
 ::ng-deep .custom-select-panel .mdc-list-item__primary-text {
   font-family: 'Poppins', sans-serif !important;
-  font-size: 12px !important;     
+  font-size: 12px !important;
   font-weight: 400 !important;
   line-height: 16px !important;
   letter-spacing: 0 !important;
@@ -572,11 +598,12 @@ color: var(--muted-input);
 }
 
 /* 4th data */
-.toggle-txt{
-    font-weight: 400;
-    font-size: 12px;
-    color: var( --primary-text);
+.toggle-txt {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--primary-text);
 }
+
 .access-txt {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
@@ -585,38 +612,23 @@ color: var(--muted-input);
   letter-spacing: 0;
   display: flex;
   align-items: center;
-  gap: 6px; 
+  gap: 6px;
 }
+
 .checkbox-container {
   display: flex;
   flex-wrap: wrap;
 }
+
 input[type="checkbox"] {
   accent-color: black;
 }
-.btn-cancel {
-    border: none;
-    font-size: 12px;
-    color: #636363;
-    cursor: pointer;
-    margin-top: 10px;
-    line-height: 1;
-    padding: 0;
-}
 
-.btn-create {
-  color: var(--primary-color);
-  font-weight: 700;
+.btn-cancel {
+  font-weight: 500;
+  font-style: Medium;
   font-size: 12px;
-  height: 36px;
-  font-family: 'Red Hat Display', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 8px 10px;
-  cursor: pointer;
-  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent) !important;
-  border-radius: 4px;
-  background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
+  line-height: 12px;
+  letter-spacing: 0%;
+  font-family: var(--secondary-font);
 }

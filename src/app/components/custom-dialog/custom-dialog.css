@@ -1,0 +1,39 @@
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 10px;
+}
+
+/* Sticky header */
+.dialog-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
+  padding-bottom: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Scrollable content */
+.dialog-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Sticky footer */
+.dialog-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background: white;
+  padding-top: 10px;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

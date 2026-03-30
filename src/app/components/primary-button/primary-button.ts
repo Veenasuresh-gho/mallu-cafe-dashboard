@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-primary-button',
-  standalone:true,
+  standalone: true,
   imports: [MatIconModule, MatButtonModule, CommonModule],
   templateUrl: './primary-button.html',
   styleUrl: './primary-button.css',
@@ -14,7 +14,7 @@ export class PrimaryButton {
   @Input() label: string = '';
   @Input() icon: string = '';
   @Input() iconSrc: string = '';
-  @Input() type: 'stroked' | 'flat' | 'raised' = 'stroked';
+  @Input() type: 'stroked' | 'flat' | 'raised' | 'danger' | 'ghost' = 'stroked';
   @Output() clicked = new EventEmitter<void>();
 
   onClick() {

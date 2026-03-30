@@ -1,6 +1,6 @@
 <div class="dialog-box">
 
-  
+
     <div class="heading-box d-flex justify-content-between align-items-center">
         <div style="gap: 4px;">
             <p class="main-title">Add Team Member</p>
@@ -96,30 +96,30 @@
         <div class="px-4">
             <mat-form-field class="assigned-programs" appearance="outline">
 
-            <mat-select multiple [(value)]="selectedPrograms" panelClass="custom-select-panel">
+                <mat-select multiple [(value)]="selectedPrograms" panelClass="custom-select-panel">
 
-                <mat-select-trigger class="bg-white">
-                    <mat-chip-set>
-                        @for (item of selectedPrograms; track item) {
-                        <mat-chip [removable]="true" (removed)="remove(item)">
+                    <mat-select-trigger class="bg-white">
+                        <mat-chip-set>
+                            @for (item of selectedPrograms; track item) {
+                            <mat-chip [removable]="true" (removed)="remove(item)">
 
-                            {{ item.program }}
-                            <button matChipRemove class="small" style="color:  var(--primary-color)">✕</button>
+                                {{ item.program }}
+                                <button matChipRemove class="small" style="color:  var(--primary-color)">✕</button>
 
-                        </mat-chip>
-                        }
-                    </mat-chip-set>
-                </mat-select-trigger>
+                            </mat-chip>
+                            }
+                        </mat-chip-set>
+                    </mat-select-trigger>
 
-                <!--  Dropdown options -->
-                @for (item of programs; track item) {
-                <mat-option [value]="item">
-                    {{ item.program }}
-                </mat-option>
-                }
+                    <!--  Dropdown options -->
+                    @for (item of programs; track item) {
+                    <mat-option [value]="item">
+                        {{ item.program }}
+                    </mat-option>
+                    }
 
-            </mat-select>
-        </mat-form-field>
+                </mat-select>
+            </mat-form-field>
         </div>
 
         <p class="helper-text px-4">Multiple programs can be assigned.</p>
@@ -129,25 +129,23 @@
             <div class="step-badge">4</div>
             <p class="subtitle mb-0">Account Access & Permissions *</p>
         </div>
- 
-        <div class="auto-play-wrapper px-4">
-           
-            <label class="toggle-switch">
-  <input 
-    type="checkbox" 
-    [(ngModel)]="isFullAccess" 
-    (change)="onToggleChange()"
-  >
-  <span class="slider round"></span>
-</label>
 
-<span class="toggle-txt">Allow system access</span>
+        <div class="auto-play-wrapper px-4">
+
+            <label class="toggle-switch">
+                <input type="checkbox" [(ngModel)]="isFullAccess" (change)="onToggleChange()">
+                <span class="slider round"></span>
+            </label>
+
+            <span class="toggle-txt">Allow system access</span>
 
         </div>
-        <p class="helper-text px-4 pt-2">Switch this on to allow full access — all permissions will be selected for you.</p>
+        <p class="helper-text px-4 pt-2">Switch this on to allow full access — all permissions will be selected for you.
+        </p>
         <p class="input-label px-4 ">Access rights and system privilages </p>
         <div class="checkbox-container">
             <span class="px-4 py-1" *ngFor="let item of permissions">
+                
                 <label class="access-txt">
                     <input type="checkbox" [(ngModel)]="item.checked" name="permission-{{item.name}}" />
                     {{ item.name }}
@@ -156,18 +154,15 @@
         </div>
 
         <div class="custom-line-sub"></div>
-      
-               <div class="dialog-actions d-flex justify-content-between mt-4 mx-3 gap-2">
+
+        <div class="dialog-actions d-flex justify-content-between align-items-center mt-5">
             <button class="close-btn btn-cancel d-flex" (click)="close()">
                 <img src="/program/close-circle.svg" width="16px" alt="">
                 <p>Cancel</p>
             </button>
-            <button type="submit" class="btn-create d-flex">
-                <img src="/team/add-square.svg" alt="">
-                <span>Add Member</span>
-            </button>
+
+            <app-primary-button label="Add Member" iconSrc="/main/add.svg"></app-primary-button>
         </div>
     </mat-dialog-content>
-    <!-- footer -->
 
 </div>

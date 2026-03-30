@@ -1,0 +1,23 @@
+<div 
+  class="dialog-container"
+  [ngStyle]="{
+    width: width,
+    height: height,
+    padding: padding
+  }"
+>
+
+  <div class="dialog-header">
+    <h2>{{ title }}</h2>
+    <button mat-icon-button (click)="onClose()">✕</button>
+  </div>
+
+  <div class="dialog-content">
+    <ng-content></ng-content>
+  </div>
+
+  <div class="dialog-footer">
+    <ng-content select="[dialog-footer]"></ng-content>
+  </div>
+
+</div>

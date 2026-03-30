@@ -10,10 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { AddTeamMember } from './components/add-team-member/add-team-member';
 import { MatDialog } from '@angular/material/dialog';
 import { PrimaryButton } from '../../components/primary-button/primary-button';
+import { SelectDropDown } from '../../components/select-drop-down/select-drop-down';
 
 @Component({
   selector: 'app-team-member',
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton],
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton,SelectDropDown],
   templateUrl: './team-member.html',
   styleUrl: './team-member.css',
 })
@@ -31,8 +32,8 @@ openModal() {
 }
 
   searchText = '';
-  roles = '';
-  programs = '';
+  roles = 'all';
+  programs = 'all';
 
   columns: string[] = [
     'team-members',

@@ -9,8 +9,8 @@
             <div class="label input-field">Schedule Day</div>
             <div class="divider"></div>
 
-            <div class="schedule-box-right">
-                <div class="select-wrapper">
+            <div class="schedule-box-right  ">
+                <div class="select-wrapper ">
                     <select [(ngModel)]="fromDay" name="fromDay" required [ngClass]="{'selected': fromDay}">
                         <option value="" disabled selected hidden>Sunday</option>
                         <option *ngFor="let d of days" [value]="d">{{ d }}</option>

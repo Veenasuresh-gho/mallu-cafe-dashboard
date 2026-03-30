@@ -16,6 +16,6 @@ export class SchedulePicker {
   fromDay = '';
   toDay = '';
 
-  fromTime = '2:00 PM';
-  toTime = '5:00 PM';
+  fromTime = '';
+  toTime = '';
 }

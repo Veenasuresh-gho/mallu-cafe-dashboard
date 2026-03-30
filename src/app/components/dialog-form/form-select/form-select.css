@@ -35,12 +35,21 @@
   max-width: 552px;
 }
 
-/* Hide default arrow */
+
 .select-wrapper select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding-right: 35px; /* space for icon */
+  padding-right: 35px; 
+}
+/* Default select color (placeholder / empty) */
+.select-wrapper select {
+  color: var(--muted-input);
+}
+
+/* Selected value color */
+.select-wrapper select.selected {
+  color: #000; /* black for selected value */
 }
 /* Custom icon */
 .dropdown-icon {
@@ -52,3 +61,5 @@
   font-size: 20px;
   color: #666;
 }
+
+

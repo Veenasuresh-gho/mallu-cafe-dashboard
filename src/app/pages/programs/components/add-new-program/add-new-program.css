@@ -20,7 +20,10 @@
 form {
   padding: 14px 24px 16px 24px;
 }
+.footer{
+  background: #fff;
 
+}
 .input-label {
   font-weight: 500;
   font-size: 12px;
@@ -94,24 +97,13 @@ select:invalid{
 }
 
 /* Main box */
-.schedule-box {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  height: 40px;
-  background: #fff;
-}
-.schedule-box-right {
-  display: flex;
-  width: 165px;
-  align-items: center;
-  border-radius: 2px;
-  height: 40px;
-  background: #fff;
-}
 
+.custom-line {
+  border-top: 1px solid #E4E4E4;
+  width: 100%;
+  margin: 0;
+  top: 65px;
+}
 
 /* Divider line */
 .divider {
@@ -202,12 +194,8 @@ select:invalid{
   margin-left: 4px;
 }
 
-.dialog-actions button {
-  padding: 8px 20px;
-  font-size: 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
+.dialog-actions{
+  gap: 24px;
 }
 
 .btn-cancel {
@@ -249,6 +237,9 @@ select:invalid{
 }
 .mat-radio-label-content {
   padding: 0;                  /* remove extra padding inside label */
+}
+.radio-btn-grp{
+  padding: 0;
 }
 .btn-create {
   color: var(--primary-color);

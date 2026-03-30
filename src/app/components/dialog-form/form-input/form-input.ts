@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 export class FormInput {
    @Input() label: string = '';
   @Input() placeholder: string = '';
-  @Input() model: any;
-  @Input() name: string = '';
+ @Input() model: any = '';
+   @Input() name: string = '';
   @Output() modelChange = new EventEmitter<any>();
 }

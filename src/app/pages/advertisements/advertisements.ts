@@ -25,9 +25,10 @@ export class Advertisements {
 
 openModal() {
   this.dialog.open(UploadAdFile, {
-    width: '600px',
+     width: '90%',         
+    maxWidth: '600px',     
+    maxHeight: '95vh',  
     disableClose: true,
-    panelClass: 'custom-dialog-container'
   });
 }
 

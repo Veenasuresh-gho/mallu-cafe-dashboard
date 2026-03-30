@@ -1,0 +1,54 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+}
+.input-field::placeholder {
+  color: var( --muted-input) !important;   /* light gray */
+}
+
+.input-label {
+  font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins;
+  display: block;
+  color: var(--muted-label);
+}
+.input-field {
+  font-weight: 400;
+  font-size: 12px;
+  border-radius: 6px;
+  height: 36px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #CFCFCF;
+  font-family: Poppins;
+  margin-bottom: 6px;
+  background-color: #FFFFFF;
+  color: var(--muted-input);
+  line-height: 16px;
+}
+.select-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 552px;
+}
+
+/* Hide default arrow */
+.select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 35px; /* space for icon */
+}
+/* Custom icon */
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* click passes to select */
+  font-size: 20px;
+  color: #666;
+}

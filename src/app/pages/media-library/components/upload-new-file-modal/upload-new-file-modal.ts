@@ -38,10 +38,15 @@ onFileSelected(event: any) {
 openModalAddPodcast() {
     this.dialog.open(AddPodcast, {
        width: '600px',
-       
       disableClose: true
     });
   }
+  inputValue = '';
+
+onInput(event: any) {
+  this.inputValue = event.target.value;
+}
+
 programCategories = [
   { value: 'pre', label: 'Pre - Scheduled' },
   { value: 'featured', label: 'Featured Videos' },

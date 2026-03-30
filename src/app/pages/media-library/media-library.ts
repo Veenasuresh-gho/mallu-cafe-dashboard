@@ -23,10 +23,10 @@ export class MediaLibrary {
 
 openModal() {
   this.dialog.open(UploadNewFileModal, {
-    width: '90%',          // responsive width
-    maxWidth: '600px',     // max width cap
-    maxHeight: '95vh',     // prevent overflowing viewport height
-    disableClose: true
+    width: '90%',         
+    maxWidth: '600px',     
+    maxHeight: '95vh',  
+    disableClose: true,
   });
 }
 

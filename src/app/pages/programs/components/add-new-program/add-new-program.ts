@@ -8,6 +8,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { MatRadioButton, MatRadioGroup, MatRadioModule } from '@angular/material/radio';
+import { DialogHeaderComponent } from '../../../../components/dialog-form/dialog-header/dialog-header-component';
+import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
+import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
+import { SchedulePicker } from '../../../../components/dialog-form/schedule-picker/schedule-picker';
 
 @Component({
   selector: 'app-add-new-program',
@@ -18,8 +22,8 @@ import { MatRadioButton, MatRadioGroup, MatRadioModule } from '@angular/material
     MatDialogModule,MatIcon,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
-    MatButtonModule
+    MatSelectModule,FormInput,
+    MatButtonModule,DialogHeaderComponent,FormSelect,SchedulePicker
   ],
   templateUrl: './add-new-program.html',
   styleUrl: './add-new-program.css',

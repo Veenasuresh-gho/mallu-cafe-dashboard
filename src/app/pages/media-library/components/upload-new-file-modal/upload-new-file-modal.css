@@ -48,7 +48,7 @@
 }
 
 ::ng-deep .mat-mdc-dialog-content {
-  padding: 10px 0px !important;
+  padding: 0px 0px !important;
 }
 
 .upload-box {
@@ -173,7 +173,6 @@
   color: var(--muted-input);
   font-weight: 400;
   font-family: Poppins;
-  margin-top: 4px;
   height: 14px;
 }
 
@@ -182,7 +181,39 @@
   flex-direction: column;
   gap: 6px;
 }
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+.input-wrapper {
+  position: relative;
+}
 
+.custom-placeholder {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #999;
+}
+
+.big-text {
+  font-size: 14px;
+}
+::ng-deep .custom-select-panel {
+  max-height: 80vh !important;
+}
+.small-text {
+  font-size: 11px;
+}
+/* Hide default arrow */
+.select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 35px; /* space for icon */
+}
 .input-label {
   font-weight: 500;
   font-size: 12px;
@@ -293,4 +324,27 @@ background-color: #FFFFFF;
   font-weight: 500;
   font-size: 12px;
   border: none;
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Hide default arrow */
+.select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  padding-right: 30px; /* space for icon */
+}
+
+/* Custom icon */
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  pointer-events: none; /* IMPORTANT: allows clicking select */
+  font-size: 20px;
+  color: #666;
 }

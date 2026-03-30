@@ -14,7 +14,8 @@ import { MatOption, MatSelect } from '@angular/material/select';
 })
 export class UploadAdFile {
         constructor(private dialogRef: MatDialogRef<UploadAdFile>) {}
-
+fileName = '';
+  status = 'all';
     selectedStatus: string = 'active'; // or 'waiting'
   playsPerDay: number = 5;
   incrementPlays() {
@@ -25,7 +26,13 @@ export class UploadAdFile {
       this.playsPerDay--;
     }
   }
-  
+  onFileSelected(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    this.fileName = file.name;
+  }
+}
+selectedDate: Date | null = null;
   close() {
     this.dialogRef.close();
   }

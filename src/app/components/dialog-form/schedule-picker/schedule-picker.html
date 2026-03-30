@@ -1,6 +1,6 @@
 <div class="form-group schedule-group">
 
-    <label class="input-label mb-2">Schedule</label>
+    <label class="input-label">Schedule *</label>
 
     <!-- DAY ROW -->
     <div class="schedule-row">
@@ -11,11 +11,11 @@
 
             <div class="schedule-box-right">
                 <div class="select-wrapper">
-                    <select [(ngModel)]="fromDay" name="fromDay" required>
+                    <select [(ngModel)]="fromDay" name="fromDay" required [ngClass]="{'selected': fromDay}">
                         <option value="" disabled selected hidden>Sunday</option>
                         <option *ngFor="let d of days" [value]="d">{{ d }}</option>
                     </select>
-                    <span class="material-symbols-outlined dropdown-icon">arrow_drop_down</span>
+                    <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
                 </div>
             </div>
         </div>
@@ -26,17 +26,17 @@
 
         <div class="schedule-box-rightEnd">
             <div class="select-wrapper">
-                <select [(ngModel)]="toDay" name="toDay">
+                <select [(ngModel)]="toDay" name="toDay" [ngClass]="{'selected': toDay}">
+                    <option value="" disabled selected hidden>Saturday</option>
                     <option *ngFor="let d of days" [value]="d">{{ d }}</option>
                 </select>
-                <span class="material-symbols-outlined dropdown-icon">arrow_drop_down</span>
+                <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
             </div>
         </div>
 
     </div>
-
     <!-- TIME ROW -->
-    <!-- <div class="schedule-row">
+    <div class="schedule-row mt-2">
 
         <div class="schedule-box">
             <div class="label input-field">Schedule Time</div>
@@ -44,27 +44,31 @@
 
             <div class="schedule-box-right">
                 <div class="select-wrapper">
-                    <select [(ngModel)]="fromTime" name="fromTime">
+                    <select [(ngModel)]="fromTime" name="fromTime" required [ngClass]="{'selected': fromTime}">
+                        <option value="" disabled selected hidden>10:00  AM</option>
                         <option *ngFor="let t of times" [value]="t">{{ t }}</option>
                     </select>
-                    <span class="material-symbols-outlined dropdown-icon">arrow_drop_down</span>
+                    <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
                 </div>
             </div>
         </div>
 
         <div class="arrow-container">
-            <span class="material-symbols-outlined arrow">east</span>
+            <img src="/program/arrow-right.svg" alt="">
         </div>
 
-        <div class="schedule-box-right">
+        <div class="schedule-box-rightEnd">
             <div class="select-wrapper">
-                <select [(ngModel)]="toTime" name="toTime">
+                <select [(ngModel)]="toTime" name="toTime" [ngClass]="{'selected': toTime}">
+                    <option value="" disabled selected hidden>11:30  AM</option>
                     <option *ngFor="let t of times" [value]="t">{{ t }}</option>
                 </select>
-                <span class="material-symbols-outlined dropdown-icon">arrow_drop_down</span>
+                <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
             </div>
         </div>
 
-    </div> -->
+    </div>
+
+   
 
 </div>

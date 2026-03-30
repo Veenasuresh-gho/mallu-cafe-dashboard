@@ -1,27 +1,21 @@
+/* Form group & labels */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding-top: 10px;
 }
-.schedule-group .schedule-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.schedule-group select {
-  flex: 1;
-}
 .input-label {
   font-weight: 500;
   font-size: 12px;
   font-family: Poppins;
-  display: block;
   color: var(--muted-label);
+  display: block;
 }
-
 .input-field {
   font-weight: 400;
+  font-size: 12px;
+  border-radius: 6px;
   height: 36px;
   width: 100%;
   font-family: Poppins;
@@ -29,16 +23,13 @@
   color: var(--muted-input);
   line-height: 16px;
 }
-.label {
-  padding: 10px;
-  font-weight: 400;
-  font-size: 12px;
-  width: 139px;
-  height: 100%;
+/* Schedule rows */
+.schedule-group .schedule-row {
   display: flex;
   align-items: center;
 }
-/* Main box */
+
+/* Main box containers */
 .schedule-box {
   display: flex;
   align-items: center;
@@ -49,107 +40,82 @@
   background: #fff;
 }
 
-.schedule-box-right {
-  display: flex;
-  align-items: center;
-  border-radius: 8px;
-  height: 40px;
-  background: #fff;
-  width: 165px;
-  overflow: hidden;
-  padding: 0;
-  color: #312F2F;
-}
-.arrow-container{
-    width: 83px;
-    display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.schedule-box-rightEnd {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  height: 40px;
-  background: #fff;
-  width: 165px;
-  overflow: hidden;
-}
-.schedule-box-rightEnd select {
-  border: none;                  
-  padding:  12px;              
+/* Left label */
+.label {
+  width: 139px;
+  padding: 0 12px;
   font-size: 12px;
-  background: transparent;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
-.schedule-box-right select {
-  border: none;                 
-  padding:  12px;             
-  font-size: 12px;
-  background: transparent;
-}
-.select-wrapper select:not([value=""]) {
-  color: var(--muted-input);
-}
-/* Divider line */
+/* Divider line between label & select */
 .divider {
   width: 1px;
   height: 100%;
   background: #e0e0e0;
 }
-/* Left label */
 
+/* Right select boxes */
+.schedule-box-right,
+.schedule-box-rightEnd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  height: 40px;
+  width: 165px;
+  background: #fff;
+  overflow: hidden;
+  padding: 0;
+}
+.schedule-box-rightEnd{
+      border: 1px solid #ddd;
+}
+
+/* Select wrapper for positioning arrow */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Remove default select styles */
+.select-wrapper select {
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-weight: 400;;
+  background: transparent;
+  padding: 10px; /* space for arrow */
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--muted-input); /* placeholder gray */
+  appearance: none;
+}
+.select-wrapper select.selected {
+  color: #312F2F;
+}
+
+/* Dropdown arrow */
 .dropdown-icon {
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none; /* allows clicking on select */
+  pointer-events: none; /* allow clicks to pass through */
   font-size: 18px;
-  color: #333;          /* match text color */
-}
-/* Right value */
-.value {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 165px;
-  padding: 0 12px;
-  font-size: 12px;
-  font-weight: 400;
   color: #333;
 }
 
-.select-wrapper {
-  position: relative;
-  width: 100%;
-  height: 40px;
-  border-radius: 8px;
-  overflow: hidden;
+/* Arrow between boxes */
+.arrow-container {
+  width: 83px;
   display: flex;
   align-items: center;
-  background: #fff;
-}
-
-/* Hide default arrow */
-.select-wrapper select {
-  width: 100%;
-  height: 100%;
-  border: none;
-  background: transparent;
-  padding: 0 35px 0 12px; /* space for arrow */
-  font-size: 12px;
-  color: #999;             /* placeholder gray */
-  cursor: pointer;
-  appearance: none;
-}
-.arrow {
-  color: #9e9e9e;
-  display: inline-block;   /* required for transform */
-  transform: scaleX(1.5);
-}
-.select-wrapper select.selected {
-  color: #000;
+  justify-content: center;
 }

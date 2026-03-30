@@ -4,9 +4,6 @@
   gap: 6px;
   padding-top: 10px;
 }
-.input-field::placeholder {
-  color: var( --muted-input) !important;   /* light gray */
-}
 
 .input-label {
   font-weight: 500;
@@ -15,6 +12,7 @@
   display: block;
   color: var(--muted-label);
 }
+
 .input-field {
   font-weight: 400;
   font-size: 12px;
@@ -29,49 +27,46 @@
   color: var(--muted-input);
   line-height: 16px;
 }
+
+.input-field::placeholder {
+  color: var(--muted-input) !important;
+}
+
 .select-wrapper {
   position: relative;
   width: 100%;
   max-width: 552px;
 }
 
-
 .select-wrapper select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding-right: 35px; 
-}
-/* Default select color (placeholder / empty) */
-.select-wrapper select {
+  padding-right: 35px;
   color: var(--muted-input);
-    border-bottom: 1px solid #ccc;
-
+  border-bottom: 1px solid #ccc;
 }
 
-/* Selected value color */
 .select-wrapper select.selected {
-  color: #000; /* black for selected value */
+  color: #000; /* black text for selected value */
 }
-/* Custom icon */
+
 .dropdown-icon {
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none; /* click passes to select */
+  pointer-events: none;
   font-size: 20px;
   color: #666;
 }
 
-
 select option:checked {
-  background-color: #fff;  /* keep background white for selected */
-  color: #000;             /* black text for selected */
+  background-color: #fff;
+  color: #000;
 }
 
-/* Hover color for options */
 select option:hover {
-  background-color: #d92b2b; /* red hover */
-  color: #fff;               /* optional: white text on hover */
+  background-color: #d92b2b;
+  color: #fff;
 }

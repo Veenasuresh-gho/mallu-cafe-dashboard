@@ -6,6 +6,12 @@ import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { AddPodcast } from '../add-podcast/add-podcast';
 import { MatSelect } from '@angular/material/select';
 import { SelectDropDown } from '../../../../components/select-drop-down/select-drop-down';
+import { DialogHeaderComponent } from '../../../../components/dialog-form/dialog-header/dialog-header-component';
+import { StepBadge } from '../../../../components/dialog-form/step-badge/step-badge';
+import { UploadBox } from '../../../../components/dialog-form/upload-box/upload-box';
+import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
+import { FormCategory } from '../../../../components/dialog-form/form-category/form-category';
+import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 
 @Component({
   selector: 'app-upload-new-file-modal',
@@ -14,8 +20,8 @@ import { SelectDropDown } from '../../../../components/select-drop-down/select-d
     CommonModule,SelectDropDown,
     FormsModule,MatSelect,
     MatDialogContent,
-    MatRadioGroup,
-    MatRadioButton
+    MatRadioGroup,StepBadge,FormSelect,
+    MatRadioButton,UploadBox,FormCategory,FormInput
   ],
   templateUrl: './upload-new-file-modal.html',
   styleUrl: './upload-new-file-modal.css',
@@ -23,11 +29,19 @@ import { SelectDropDown } from '../../../../components/select-drop-down/select-d
 export class UploadNewFileModal {
     constructor(private dialogRef: MatDialogRef<UploadNewFileModal>,private dialog: MatDialog) {}
 
+    ngOnChanges() {
+  console.log('Selected program category:', this.selectedProgramCategory);
+}
+
   close() {
     this.dialogRef.close();
   }
   fileName = '';
   status = 'all';
+  selectedProgramCategory: string = '';
+selectedType: string = ''; // default selected  
+fileSelectedName: string = '';
+
 
 onFileSelected(event: any) {
   const file = event.target.files[0];
@@ -53,9 +67,6 @@ programCategories = [
   { value: 'shorts', label: 'Shorts' },
   { value: 'podcast', label: 'Podcast' }
 ];
-
-selectedProgramCategory: string = '';
-selectedType: string = ''; // default selected  
 
 
 }

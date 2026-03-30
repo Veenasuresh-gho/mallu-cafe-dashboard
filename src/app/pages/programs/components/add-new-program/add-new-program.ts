@@ -12,6 +12,8 @@ import { DialogHeaderComponent } from '../../../../components/dialog-form/dialog
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
 import { SchedulePicker } from '../../../../components/dialog-form/schedule-picker/schedule-picker';
+import { FooterButton } from '../../../../components/dialog-form/footer-button/footer-button';
+import { CancelButton } from '../../../../components/dialog-form/cancel-button/cancel-button';
 
 @Component({
   selector: 'app-add-new-program',
@@ -23,7 +25,8 @@ import { SchedulePicker } from '../../../../components/dialog-form/schedule-pick
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,FormInput,
-    MatButtonModule,DialogHeaderComponent,FormSelect,SchedulePicker
+    MatButtonModule,DialogHeaderComponent,FormSelect,SchedulePicker,
+    FooterButton,CancelButton
   ],
   templateUrl: './add-new-program.html',
   styleUrl: './add-new-program.css',

@@ -1,74 +1,22 @@
 <div class="dialog-box">
-    <!-- <div class="heading-box d-flex justify-content-between align-items-center">
-        <div style="gap: 4px;">
-            <p class="main-title">Add New Program</p>
-            <p class="main-subtitle">Create and schedule a new program</p>
-        </div>
 
-        <button class="close-btn btn-cancel" (click)="close()">
-            <img src="/program/close-circle.svg" alt="">
-        </button>
-    </div>
-    <div class="custom-line"></div> -->
-  <app-dialog-header-component
- [title]="'Add New Program'"
-  [subtitle]="'Create and schedule a new program'"
-  (closeClicked)="close()"
-></app-dialog-header-component>
+    <app-dialog-header-component [title]="'Add New Program'" [subtitle]="'Create and schedule a new program'"
+        (closeClicked)="close()">
+    </app-dialog-header-component>
 
     <form>
-        <!-- <div class="form-group pt-1">
-            <label class="input-label" for="program-name">Program Title *</label>
-            <input class="input-field" style="width: 552px;" type="text" placeholder="Enter program name" />
-        </div> -->
-        <app-form-input
-    label="Program Title *"
-    placeholder="Enter program name"
-    name="programTitle"
-  ></app-form-input>
 
-        <!-- <div class="form-group">
-            <label class="input-label" for="host">Host / RJ *</label>
+        <app-form-input label="Program Details *" placeholder="Enter program name" name="programTitle"></app-form-input>
 
-            <div class="select-wrapper">
-                <select id="category" class="input-field" [(ngModel)]="selectedCategory" required style="width: 552px;">
-                    <option disabled selected class="">Select program category</option>
-                    <option>RJ Anjali</option>
-                    <option>RJ Raj</option>
-                </select>
-                <span class="material-symbols-outlined dropdown-icon">
-                    arrow_drop_down
-                </span>
-            </div>
 
-        </div> -->
-         <app-form-select
-    label="Host / RJ *"
-    [options]="['RJ Anjali', 'RJ Raj']"
-    name="host"
-  ></app-form-select>
+        <app-form-select label="Host / RJ " [options]="['RJ Anjali', 'RJ Raj']" placeholder="Select host / RJ"
+            name="host"></app-form-select>
 
-        <!-- <div class="form-group">
-            <label class="input-label" for="category">Category *</label>
-            <div class="select-wrapper">
-                <select id="category" class="input-field" [(ngModel)]="selectedCategory" required style="width: 552px;">
-                    <option disabled selected class="placeholder-txt">Select program category</option>
-                    <option>Pre-Scheduled</option>
-                    <option>Podcast</option>
-                    <option>Live</option>
-                </select>
-                <span class="material-symbols-outlined dropdown-icon">
-                    arrow_drop_down
-                </span>
-            </div>
-        </div> -->
-        <app-form-select
-    label="Category *"
-    [options]="['Pre-Scheduled', 'Podcast', 'Live']"
-    name="category"
-  ></app-form-select>
 
-<app-schedule-picker></app-schedule-picker>
+        <app-form-select label="Category" [options]="['Pre-Scheduled', 'Podcast', 'Live']"
+            placeholder="Select program category" name="category"></app-form-select>
+
+        <app-schedule-picker></app-schedule-picker>
 
         <div class="form-group">
             <label class="input-label" for="thumbnail">Thumbnail</label>
@@ -76,9 +24,7 @@
             <div class="file-upload">
                 <label class="upload-btn  d-flex">
                     <input id="thumbnail" type="file" hidden />
-                    <span class="material-symbols-outlined small">
-                        upload
-                    </span>
+                    <img src="/program/upload-icon.svg" alt="">
                     <p class="pt-3"> Upload Image
                     </p>
                 </label>
@@ -89,28 +35,29 @@
 
         <div class="form-group">
             <label class="input-label">Listener Interaction *</label>
-                <mat-radio-group [(ngModel)]="selectedType" name="callOption" class="d-flex gap-3">
-                    <mat-radio-button value="allow" class="radio-btn">
-                        Allow calls
-                    </mat-radio-button>
+            <div class="radio-grp pt-1">
+                <!-- Allow calls -->
+                <div class="custom-radio" [class.selected]="selectedType === 'allow'" (click)="selectedType = 'allow'">
+                    <div class="circle"></div>
+                    <span>Allow calls</span>
+                </div>
 
-                    <mat-radio-button value="disable" class="radio-btn">
-                        Disable Calls
-                    </mat-radio-button>
-                </mat-radio-group>
-            
+                <!-- Disable calls -->
+                <div class="custom-radio" [class.selected]="selectedType === 'disable'"
+                    (click)="selectedType = 'disable'">
+                    <div class="circle"></div>
+                    <span>Disable Calls</span>
+                </div>
+            </div>
         </div>
 
         <!-- Buttons -->
-        <div class="dialog-actions d-flex justify-content-end mt-4 mx-3 gap-2">
-            <button class="close-btn btn-cancel d-flex" (click)="close()">
-                <img src="/program/close-circle.svg" width="16px" alt="">
-                <p>Cancel</p>
-            </button>
-            <button type="submit" class="btn-create d-flex">
-                <img src="/dash/cloud-connection.svg" alt="">
-                <span>Create new program</span>
-            </button>
-        </div>
     </form>
+</div>
+<div class="border footer">
+    <div class="dialog-actions d-flex justify-content-end mt-4 mx-4 ">
+        <app-cancel-button class="pt-2"></app-cancel-button>
+        <app-footer-button text="Create new program" icon="/dash/cloud-connection.svg" type="button">
+        </app-footer-button>
+    </div>
 </div>

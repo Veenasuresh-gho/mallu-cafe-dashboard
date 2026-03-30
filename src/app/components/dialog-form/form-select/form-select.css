@@ -1,11 +1,11 @@
-.form-group {
+/* .form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding-top: 10px;
 }
 .input-field::placeholder {
-  color: var( --muted-input) !important;   /* light gray */
+  color: var( --muted-input) !important;  
 }
 
 .input-label {
@@ -42,36 +42,119 @@
   -moz-appearance: none;
   padding-right: 35px; 
 }
-/* Default select color (placeholder / empty) */
+
 .select-wrapper select {
   color: var(--muted-input);
     border-bottom: 1px solid #ccc;
 
 }
 
-/* Selected value color */
 .select-wrapper select.selected {
-  color: #000; /* black for selected value */
+  color: #000; 
 }
-/* Custom icon */
+
 .dropdown-icon {
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none; /* click passes to select */
+  pointer-events: none;
   font-size: 20px;
   color: #666;
 }
 
 
 select option:checked {
-  background-color: #fff;  /* keep background white for selected */
-  color: #000;             /* black text for selected */
+  background-color: #fff;  
+  color: #000;             
 }
 
-/* Hover color for options */
+
 select option:hover {
-  background-color: #d92b2b; /* red hover */
-  color: #fff;               /* optional: white text on hover */
+  background-color: #d92b2b;
+  color: #fff;               
 }
+
+select option:checked {
+  background-color: #d92b2b;
+  color: #fff;
+} */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+}
+
+.input-label {
+  font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins;
+  color: var(--muted-label);
+}
+
+.input-field {
+  font-size: 12px;
+  border-radius: 6px;
+  height: 36px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #CFCFCF;
+  font-family: Poppins;
+  background-color: #FFFFFF;
+  color: var(--muted-input);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 552px;
+}
+
+.dropdown {
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #fff;
+  z-index: 1000;
+  border-radius: 6px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.option {
+  padding: 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.option:hover {
+  /* background-color: #d92b2b; */
+  color: #d92b2b;
+}
+
+/* Icon */
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.option {
+  padding: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee; 
+}
+
+/* Remove divider from last item */
+.option:last-child {
+  border-bottom: none;
+}
+

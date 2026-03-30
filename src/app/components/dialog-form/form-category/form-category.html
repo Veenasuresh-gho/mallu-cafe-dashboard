@@ -1,0 +1,23 @@
+<div class="form-group">
+  <label class="input-label">{{ label }} *</label>
+
+  <div class="select-wrapper">
+    <select
+      class="input-field"
+      [ngClass]="{'selected': selectedValue}"
+      [name]="name"
+      [value]="selectedValue"
+      (change)="setValue($any($event.target).value)"
+    >
+      <option value="" disabled hidden>
+        {{ placeholder || 'Select ' + label }}
+      </option>
+
+      <option *ngFor="let item of options" [value]="item.value">
+        {{ item.label }}
+      </option>
+    </select>
+
+    <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
+  </div>
+</div>

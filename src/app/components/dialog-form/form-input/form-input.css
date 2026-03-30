@@ -24,3 +24,9 @@
   color: var(--muted-input);
   line-height: 16px;
 }
+.input-field.has-value {
+  color: #000000;
+}
+.input-field::placeholder {
+  color: var(--muted-input) !important;
+}

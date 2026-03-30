@@ -1,19 +1,20 @@
 <div class="dialog-box">
 
     <app-dialog-header-component [title]="'Add New Program'" [subtitle]="'Create and schedule a new program'"
-        (closeClicked)="close()"></app-dialog-header-component>
+        (closeClicked)="close()">
+    </app-dialog-header-component>
 
     <form>
 
-        <app-form-input label="Program Title *" placeholder="Enter program name" name="programTitle"></app-form-input>
+        <app-form-input label="Program Details *" placeholder="Enter program name" name="programTitle"></app-form-input>
 
 
         <app-form-select label="Host / RJ " [options]="['RJ Anjali', 'RJ Raj']" placeholder="Select host / RJ"
             name="host"></app-form-select>
 
 
-        <app-form-select label="Category" [options]="['Pre-Scheduled', 'Podcast', 'Live']" placeholder="Select category"
-            name="category"></app-form-select>
+        <app-form-select label="Category" [options]="['Pre-Scheduled', 'Podcast', 'Live']"
+            placeholder="Select program category" name="category"></app-form-select>
 
         <app-schedule-picker></app-schedule-picker>
 
@@ -23,9 +24,7 @@
             <div class="file-upload">
                 <label class="upload-btn  d-flex">
                     <input id="thumbnail" type="file" hidden />
-                    <span class="material-symbols-outlined small">
-                        upload
-                    </span>
+                    <img src="/program/upload-icon.svg" alt="">
                     <p class="pt-3"> Upload Image
                     </p>
                 </label>
@@ -36,21 +35,26 @@
 
         <div class="form-group">
             <label class="input-label">Listener Interaction *</label>
-            <mat-radio-group [(ngModel)]="selectedType" name="callOption" class="d-flex gap-3 radio-btn-grp">
-                <mat-radio-button value="allow" class="radio-btn">
-                    Allow calls
-                </mat-radio-button>
+            <div class="radio-grp pt-1">
+                <!-- Allow calls -->
+                <div class="custom-radio" [class.selected]="selectedType === 'allow'" (click)="selectedType = 'allow'">
+                    <div class="circle"></div>
+                    <span>Allow calls</span>
+                </div>
 
-                <mat-radio-button value="disable" class="radio-btn">
-                    Disable Calls
-                </mat-radio-button>
-            </mat-radio-group>
+                <!-- Disable calls -->
+                <div class="custom-radio" [class.selected]="selectedType === 'disable'"
+                    (click)="selectedType = 'disable'">
+                    <div class="circle"></div>
+                    <span>Disable Calls</span>
+                </div>
+            </div>
         </div>
 
         <!-- Buttons -->
     </form>
 </div>
-<div class="border footer pb-3">
+<div class="border footer">
     <div class="dialog-actions d-flex justify-content-end mt-4 mx-4 ">
         <app-cancel-button class="pt-2"></app-cancel-button>
         <app-footer-button text="Create new program" icon="/dash/cloud-connection.svg" type="button">

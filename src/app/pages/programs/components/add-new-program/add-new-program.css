@@ -9,7 +9,7 @@
   justify-content: flex-start;
   overflow-y: auto;
   font-family: Poppins;
-
+padding-bottom: 10px;
 }
 
 .custom-line-sub {
@@ -22,7 +22,7 @@ form {
 }
 .footer{
   background: #fff;
-
+padding-bottom: 25px;
 }
 .input-label {
   font-weight: 500;
@@ -31,7 +31,10 @@ form {
   display: block;
   color: var(--muted-label);
 }
-
+.radio-grp{
+  display: flex;
+  gap: 53px;
+}
 
 input[type="text"],
 select,
@@ -225,18 +228,21 @@ select:invalid{
   color: #d92b2b !important;
 }
 .disable-radio .mat-radio-label-content {
-  color: red; /* text color */
+  color: red;
 }
+
 .radio-btn {
-  padding: 0;                  /* remove default padding */
-  margin: 0;                   /* remove default margin if any */
-  height: auto;                /* adjust height to content */
-  line-height: 1.2;            /* tighter text alignment */
+  padding: 0;                
+  margin: 0;
+                
+  height: auto;               
+  line-height: 1.2;          
   display: flex;
-  align-items: center;         /* vertically center text with radio circle */
+  align-items: center;       
 }
+
 .mat-radio-label-content {
-  padding: 0;                  /* remove extra padding inside label */
+  padding: 0; 
 }
 .radio-btn-grp{
   padding: 0;
@@ -357,4 +363,52 @@ select:invalid{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* custom css of radio */
+.radio-grp {
+  display: flex;
+  gap: 53px; /* spacing between the two options */
+}
+
+.custom-radio {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* spacing between circle and text */
+  cursor: pointer;
+  user-select: none;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: Poppins;
+}
+/* Outer circle */
+.custom-radio .circle {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #CFCFCF; /* default outer circle color */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s;
+}
+
+/* Inner dot when selected */
+.custom-radio.selected .circle::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #d92b2b; /* inner dot color */
+  display: block;
+}
+
+/* Change outer circle border color when selected */
+.custom-radio.selected .circle {
+  border-color: #d92b2b; /* outer circle color when selected */
+}
+
+/* Change text color when selected */
+.custom-radio.selected span {
+  color: #d92b2b;
 }

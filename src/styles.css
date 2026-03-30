@@ -7,11 +7,12 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+
+
 :root {
   --primary-color: #D80905;
   --secondary-color: #F37127;
   --muted-text: #9A9A9A;
-  --input-border:#CFCFCF;
   --primary-text: #312F2F;
   --muted-label: #636363;
   --muted-input: #757575;
@@ -19,7 +20,6 @@ body {
   --success-dark: #39B54A;
   --border-color: #0000001F;
   --border: #E4E4E4;
-  --primary-font:'Poppins',sans-serif;
   --secondary-font: 'Red Hat Display', sans-serif;
 }
 

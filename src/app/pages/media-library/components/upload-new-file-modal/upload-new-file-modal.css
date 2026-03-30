@@ -49,6 +49,13 @@
 
 ::ng-deep .mat-mdc-dialog-content {
   padding: 0px 0px !important;
+  margin-top: 0px !important;
+}
+.custom-line {
+  border-top: 1px solid #E4E4E4;
+  width: 100%;
+  margin: 0;
+  top: 65px;
 }
 
 .upload-box {
@@ -308,11 +315,14 @@ option:checked {
 .upload-content{
   width: 73%;
 }
+.adding-btn{
+  margin-top: 28px;
+}
 .add-btn {
-  width: 36px;
+width: 36px;
 height: 36px;
 opacity: 1;
-margin-bottom: 5px;
+
 border-radius: 6px;
 border: 1px solid #E4E4E4;
 background-color: #FFFFFF;

@@ -42,7 +42,7 @@ export class AddNewProgram {
   selectedHost: string = ''; 
   selectedCategory: string = ''; 
   
- selectedType:string = 'disable';
+ selectedType:string = '';
 
 
   

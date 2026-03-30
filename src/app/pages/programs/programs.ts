@@ -22,15 +22,14 @@ export class Programs {
 
   constructor(private dialog: MatDialog) { }
 
-  openModal() {
-    this.dialog.open(AddNewProgram, {
-      width: '600px',
-      height: '644px',
-      maxWidth: '90vw',
-      maxHeight: '90vh',
-      disableClose: true
-    });
-  }
+openModal() {
+  this.dialog.open(AddNewProgram, {
+    width: '90%',
+    maxWidth: '600px',
+    maxHeight: '95vh',
+    disableClose: true
+  });
+}
   searchText = '';
   status = 'all';
   category = 'all';

@@ -17,6 +17,12 @@
   font-weight: 400;
   color: #636363;
 }
+.input-txt{
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 400;
+  color: #312F2F;
+}
 .save-btn{
   font-weight: 700;
   font-family: Red Hat Display;

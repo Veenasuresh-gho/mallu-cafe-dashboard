@@ -21,12 +21,14 @@ export class TeamMember {
 
   constructor(private dialog: MatDialog) { }
 
-  openModal() {
-    this.dialog.open(AddTeamMember, {
-      width: '800px',
-      disableClose: true
-    });
-  }
+openModal() {
+  this.dialog.open(AddTeamMember, {
+    width: '90%',
+    maxWidth: '600px',
+    maxHeight: '94vh',
+    disableClose: true,
+  });
+}
 
   searchText = '';
   roles = '';

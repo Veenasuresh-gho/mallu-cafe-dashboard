@@ -258,3 +258,10 @@ color: var(--muted-input);}
     display: flex;
     gap: 8px;
 }
+::ng-deep .custom-dialog {
+  height: 95vh !important;
+  max-height: 95vh !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+}

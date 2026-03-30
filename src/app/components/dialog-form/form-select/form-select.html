@@ -1,0 +1,21 @@
+<div class="form-group">
+  <label class="input-label">{{ label }}</label>
+
+  <div class="select-wrapper">
+    <select
+      class="input-field"
+      [(ngModel)]="model"
+      [name]="name"
+    >
+      <option value="" disabled selected>Select {{ label }}</option>
+
+      <option *ngFor="let item of options" [value]="item">
+        {{ item }}
+      </option>
+    </select>
+
+    <span class="material-symbols-outlined dropdown-icon">
+      arrow_drop_down
+    </span>
+  </div>
+</div>

@@ -1,101 +1,82 @@
-<div class="dialog-box p-3">
-    <div class="d-flex justify-content-between align-items-center mb-1">
-        <div>
+<div class="dialog-box">
+    <!-- <div class="heading-box d-flex justify-content-between align-items-center">
+        <div style="gap: 4px;">
             <p class="main-title">Add New Program</p>
             <p class="main-subtitle">Create and schedule a new program</p>
         </div>
-        <button (click)="close()" class="btn-close mx-2" aria-label="Close">&times;</button>
+
+        <button class="close-btn btn-cancel" (click)="close()">
+            <img src="/program/close-circle.svg" alt="">
+        </button>
     </div>
-    <hr />
+    <div class="custom-line"></div> -->
+  <app-dialog-header-component
+ [title]="'Add New Program'"
+  [subtitle]="'Create and schedule a new program'"
+  (closeClicked)="close()"
+></app-dialog-header-component>
 
     <form>
-        <div class="form-group">
-            <label class="input-label" for="program-name">Program Details</label>
+        <!-- <div class="form-group pt-1">
+            <label class="input-label" for="program-name">Program Title *</label>
             <input class="input-field" style="width: 552px;" type="text" placeholder="Enter program name" />
-        </div>
+        </div> -->
+        <app-form-input
+    label="Program Title *"
+    placeholder="Enter program name"
+    name="programTitle"
+  ></app-form-input>
 
-        <div class="form-group">
-            <label class="input-label" for="host">Host / RJ</label>
-            <select id="host" class="input-field" style="width: 552px;">
-                <option disabled selected>Select program host</option>
-                <option>RJ Anjali</option>
-                <option>RJ Raj</option>
-            </select>
-        </div>
+        <!-- <div class="form-group">
+            <label class="input-label" for="host">Host / RJ *</label>
 
-        <div class="form-group">
-            <label class="input-label" for="category">Category</label>
-            <select id="category" class="input-field" style="width: 552px;">
-                <option disabled selected>Select program category</option>
-                <option>Pre-Scheduled</option>
-                <option>Podcast</option>
-                <option>Live</option>
-            </select>
-        </div>
-        <div class="form-group schedule-group" style="width: 552px;">
-  <label class="input-label">Schedule</label>
+            <div class="select-wrapper">
+                <select id="category" class="input-field" [(ngModel)]="selectedCategory" required style="width: 552px;">
+                    <option disabled selected class="">Select program category</option>
+                    <option>RJ Anjali</option>
+                    <option>RJ Raj</option>
+                </select>
+                <span class="material-symbols-outlined dropdown-icon">
+                    arrow_drop_down
+                </span>
+            </div>
 
-  <!-- Row 1 -->
-  <div class="schedule-row">
-    <div class="combined-field">
-      <input class="static-label" type="text" value="Schedule Day" readonly />
-      <select class="dynamic-select">
-        <option disabled selected>Select Day</option>
-        <option>Sunday</option>
-        <option>Monday</option>
-        <option>Tuesday</option>
-        <option>Wednesday</option>
-        <option>Thursday</option>
-        <option>Friday</option>
-        <option>Saturday</option>
-      </select>
-    </div>
+        </div> -->
+         <app-form-select
+    label="Host / RJ *"
+    [options]="['RJ Anjali', 'RJ Raj']"
+    name="host"
+  ></app-form-select>
 
-    <span class="arrow">→</span>
+        <!-- <div class="form-group">
+            <label class="input-label" for="category">Category *</label>
+            <div class="select-wrapper">
+                <select id="category" class="input-field" [(ngModel)]="selectedCategory" required style="width: 552px;">
+                    <option disabled selected class="placeholder-txt">Select program category</option>
+                    <option>Pre-Scheduled</option>
+                    <option>Podcast</option>
+                    <option>Live</option>
+                </select>
+                <span class="material-symbols-outlined dropdown-icon">
+                    arrow_drop_down
+                </span>
+            </div>
+        </div> -->
+        <app-form-select
+    label="Category *"
+    [options]="['Pre-Scheduled', 'Podcast', 'Live']"
+    name="category"
+  ></app-form-select>
 
-    <select class="single-select">
-      <option disabled selected>Schedule Day</option>
-       <option>Sunday</option>
-        <option>Monday</option>
-        <option>Tuesday</option>
-        <option>Wednesday</option>
-        <option>Thursday</option>
-        <option>Friday</option>
-        <option>Saturday</option>
-    </select>
-  </div>
+<app-schedule-picker></app-schedule-picker>
 
-  <!-- Row 2 -->
-  <div class="schedule-row">
-    <div class="combined-field">
-      <input class="static-label" type="text" value="Schedule Time" readonly />
-      <select class="dynamic-select">
-        <option disabled selected>Schedule Time</option>
-        <option>10:00 AM</option>
-        <option>11:00 AM</option>
-        <option>11:30 AM</option>
-      </select>
-    </div>
-
-    <span class="arrow">→</span>
-
-    <select class="single-select">
-      <option disabled selected>Schedule Time</option>
-      <option>10:00 AM</option>
-      <option>11:00 AM</option>
-      <option>11:30 AM</option>
-    </select>
-  </div>
-</div>
-
-        
         <div class="form-group">
             <label class="input-label" for="thumbnail">Thumbnail</label>
 
             <div class="file-upload">
-                <label class="upload-btn d-flex gap-1">
+                <label class="upload-btn  d-flex">
                     <input id="thumbnail" type="file" hidden />
-                    <span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined small">
                         upload
                     </span>
                     <p class="pt-3"> Upload Image
@@ -106,27 +87,30 @@
             </div>
         </div>
 
-        <div class="form-group listener-interaction">
-            <label class="input-label my-2">Listener Interaction</label>
-            <div>
-                <label><input type="radio" name="interaction" value="allow" /> Allow calls</label>
-                <label><input type="radio" name="interaction" value="disable" checked /> <span
-                        class="disable-text">Disable Calls</span></label>
-            </div>
+        <div class="form-group">
+            <label class="input-label">Listener Interaction *</label>
+                <mat-radio-group [(ngModel)]="selectedType" name="callOption" class="d-flex gap-3">
+                    <mat-radio-button value="allow" class="radio-btn">
+                        Allow calls
+                    </mat-radio-button>
+
+                    <mat-radio-button value="disable" class="radio-btn">
+                        Disable Calls
+                    </mat-radio-button>
+                </mat-radio-group>
+            
         </div>
 
         <!-- Buttons -->
         <div class="dialog-actions d-flex justify-content-end mt-4 mx-3 gap-2">
-            <button type="button" class="btn-cancel d-flex gap-1" (click)="close()">
-                <span class="material-symbols-outlined small pt-1">
-cancel
-</span>
-                <span> Cancel</span>
+            <button class="close-btn btn-cancel d-flex" (click)="close()">
+                <img src="/program/close-circle.svg" width="16px" alt="">
+                <p>Cancel</p>
             </button>
             <button type="submit" class="btn-create d-flex">
-  <img src="/dash/cloud-connection.svg" alt="">
-  <span>Create new program</span>
-</button>
+                <img src="/dash/cloud-connection.svg" alt="">
+                <span>Create new program</span>
+            </button>
         </div>
     </form>
 </div>

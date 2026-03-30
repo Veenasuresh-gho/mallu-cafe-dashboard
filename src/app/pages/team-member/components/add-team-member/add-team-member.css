@@ -1,30 +1,209 @@
+.dialog-box {
+  width: 600px;
+  background: #fff;
+  border-radius: 12px;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+  font-family: Poppins;
+
+}
+::ng-deep .mat-dialog-container {
+  display: flex;
+  flex-direction: column;
+  height: 95vh; /* total dialog height */
+  padding: 0;   /* optional: remove default padding */
+}
+.heading-box {
+  padding: 24px 24px 16px 24px;
+}
+
 .main-title {
-    font-weight: 600;
-    font-size: 14px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #000;
+  margin: 0 0 4px 0;
 }
 
 .main-subtitle {
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 2px;
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--primary-text);
+  margin: 0;
 }
 
-.btn-close {
-    border: none;
-    font-size: 12px;
-color: var(--muted-input);
-    cursor: pointer;
-    margin-top: 10px;
-    line-height: 1;
-    padding: 0;
+.close-btn {
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+
+  display: inline-flex;       /* make flex container */
+  align-items: center;        /* vertically center items */
+  gap: 4px;                   /* space between img and text */
 }
 
-.subtitle {
-    font-weight: 700;
-    font-size: 12px;
-    font-style: bold;
-    font-family: Red Hat Display;
-    color: var( --primary-text);
+.btn-cancel {
+  color: #666;
+  margin: 0;                  /* remove default margins from <p> */
+}
+
+.close-btn p {
+  margin: 0;                  /* remove block margin */
+}
+.custom-line {
+  border-top: 1px solid #E4E4E4;
+  width: 100%;
+  margin: 0;
+  top: 65px;
+}
+
+.custom-line-sub {
+  border-top: 1px solid #E4E4E4;
+  margin: 0px 24px;
+}
+
+form {
+  padding: 14px 24px 16px 24px;
+}
+
+.input-label {
+  font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins;
+  display: block;
+  color: var(--muted-label);
+}
+
+
+input[type="text"],
+select,
+input[type="file"]
+ {
+  width: 100%;
+  padding: 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  border: 1px solid #CFCFCF;
+
+}
+
+.auto-play-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 38px;
+}
+
+.auto-play-label {
+  font-size: 12px;
+  font-weight: 400;
+  color: #312F2F;
+  font-family: Poppins;
+}
+.dialog-actions button {
+  padding: 8px 20px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-cancel {
+  background: transparent;
+  color: #636363;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  border-radius: 20px;
+  height: 32px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider.round {
+  border-radius: 30px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 25px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: .4s;
+}
+
+input:checked+.slider {
+  background-color: #D80905;
+}
+
+input:checked+.slider:before {
+  transform: translateX(24px);
+}
+
+.input-field::placeholder {
+  color: var( --muted-input) !important;   /* light gray */
+}
+
+select {
+  color: #312F2F;
+}
+select:invalid{
+  color: var(--muted-input) !important;
+}
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Hide default arrow */
+.select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 35px; /* space for icon */
+}
+
+/* Custom icon */
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* click passes to select */
+  font-size: 20px;
+  color: #666;
 }
 
 ::ng-deep .mat-mdc-dialog-content {
@@ -36,8 +215,8 @@ color: var(--muted-input);
 }
 
 .step-badge {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     background-color: #000;
     color: #fff;
     border-radius: 50%;
@@ -55,9 +234,8 @@ color: var(--muted-input);
 
 /* Title row */
 .section-title {
-    gap: 10px;
     /* exact from your design */
-    margin-bottom: 8px;
+   padding: 8px 0px 8px 0px;
     /* controls space between sections */
 }
 
@@ -66,6 +244,7 @@ color: var(--muted-input);
     margin: 0;
     font-size: 12px;
     font-weight: 700;
+    font-family: Red Hat Display;
 }
 
 /* Upload container spacing */
@@ -124,6 +303,7 @@ color: var(--muted-input);
 .input-field {
     font-weight: 400;
     font-size: 12px;
+    height: 36px;
     border: 1px solid #CFCFCF;
     font-family: Poppins;
     margin-bottom: 6px;
@@ -136,7 +316,7 @@ color: var(--muted-input);
     display: flex;
     flex-direction: column;
     gap: 6px;
-    width: 330px;
+    width: 265px;
 }
 
 .phone-input {
@@ -156,7 +336,19 @@ color: var(--muted-input);
     font-size: 12px;
     outline: none;
 }
+.dialog-box {
+  width: 600px;
+  background: #fff;
+  border-radius: 12px;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+  font-family: Poppins;
 
+}
 .phone-number {
     flex: 1;
     border: none;
@@ -166,20 +358,29 @@ color: var(--muted-input);
 }
 
 .form-row {
-    width: 100%;
-    max-width: 544px;
-    display: flex;
-    gap: 16px;
+  width: 544.36px;          /* exact design width */
+  height: 94px;   
+  margin-left: 24px;        /* left offset */
+  box-sizing: border-box;   /* include padding/border in width */
 }
 
 .mobile-group,
 .email-group {
     width: 264px;
 }
+.countrycode{
+gap: 4px;
+padding: 8px;
+font-size: 12px;
+font-weight: 400;
+font-family: Poppins;
+color: #757575;
+}
 
 .input-field,
 .phone-input {
     height: 36px;
+    gap: 4px;
 }
 
 .country-code {
@@ -208,14 +409,12 @@ color: var(--muted-input);
     font-size: 10px;
 color: var(--muted-input);  
   font-weight: 400;
-
+  line-height: 14px;
     font-family: Poppins;
-    margin-top: 4px;
 }
 
-.assigned-programs {
-  width: 100% !important;
-  max-width: 544px;
+.assigned-programs{
+    width: 100%;
 }
 
 /* Default outline color (when not focused) to match other inputs */
@@ -249,9 +448,9 @@ color: var(--muted-input);
     display: none !important;
 }
 ::ng-deep .assigned-programs .mat-mdc-form-field-infix {
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
-    min-height: 36px !important;
+    min-height: auto !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
 }
 /* 1. Remove the large default padding inside the form field wrapper */
 ::ng-deep .assigned-programs .mat-mdc-text-field-wrapper {
@@ -261,28 +460,34 @@ color: var(--muted-input);
 
 /* 2. Tighten the flex container that holds the chips and arrow */
 ::ng-deep .assigned-programs .mat-mdc-form-field-flex {
-    padding-top: 4px !important;
-    padding-bottom: 4px !important;
-    align-items: center !important;
+  padding: 4px 8px !important;
+  align-items: center !important;
 }
 
 /* 3. Reset the infix (where the chips live) to allow a smaller height */
 ::ng-deep .assigned-programs .mat-mdc-form-field-infix {
-    padding-top: 4px !important;
-    padding-bottom: 4px !important;
-    min-height: unset !important; /* Removes the 56px default height */
-    width: auto !important;
+    padding: 0 !important;
+  min-height: unset !important;
 }
 
 /* 4. Ensure the chip-set doesn't add its own internal margins */
 ::ng-deep .assigned-programs mat-chip-set {
-    margin: 0 !important;
+     display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+::ng-deep .assigned-programs .mat-mdc-chip {
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent) !important;
 }
 
 /* 5. Adjust the select-trigger to prevent it from pushing boundaries */
 ::ng-deep .assigned-programs .mat-mdc-select-trigger {
-    display: flex;
-    align-items: center;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: normal !important;
 }
 /* The Select Arrow (Red Triangle) pointing UP */
 ::ng-deep .assigned-programs .mat-mdc-select-arrow svg {
@@ -398,20 +603,20 @@ input[type="checkbox"] {
     line-height: 1;
     padding: 0;
 }
+
 .btn-create {
-  background: var( --primary-color)1A;
-  color: var( --primary-color);
+  color: var(--primary-color);
   font-weight: 700;
   font-size: 12px;
   height: 36px;
-  border-radius: 6px;
-  border: 1px solid var( --primary-color);
   font-family: 'Red Hat Display', sans-serif;
-  align-items: center;   
-  justify-content: center; 
-  gap: 8px; 
-  width: 114px;
-  height: 36px;             
-  padding: 8px 10px;       
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 10px;
   cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent) !important;
+  border-radius: 4px;
+  background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }

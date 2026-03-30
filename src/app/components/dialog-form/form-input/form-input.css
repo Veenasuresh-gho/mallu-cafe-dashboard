@@ -1,5 +1,5 @@
 .input-field::placeholder {
-  color: var( --muted-input) !important;   /* light gray */
+  color: var( --muted-input) !important;   
 }
 .form-group{
     gap: 6px;

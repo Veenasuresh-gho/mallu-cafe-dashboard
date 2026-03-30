@@ -6,11 +6,12 @@ import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef } from
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption, MatSelect, MatSelectTrigger } from '@angular/material/select';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 
 @Component({
   selector: 'app-add-team-member',
   imports: [MatDialogContent,MatDialogActions,MatDialogClose,FormsModule,CommonModule,
-    MatFormField ,MatLabel,MatSelect,MatOption,MatSelectTrigger,MatChipsModule,MatSlideToggle
+    MatFormField ,MatLabel,MatSelect,MatOption,MatSelectTrigger,MatChipsModule,MatSlideToggle,PrimaryButton
   ],
   templateUrl: './add-team-member.html',
   styleUrl: './add-team-member.css',

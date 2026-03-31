@@ -25,7 +25,7 @@
         <div class="form-group px-4">
                 <label class="input-label" for="thumbnail">Category Icon</label>
 
-                <div class="file-upload">
+                <!-- <div class="file-upload">
                     <label class="upload-btn d-flex gap-2">
                         <input id="thumbnail" type="file" hidden />
                         <img src="/program/upload-icon.svg" alt="">
@@ -36,13 +36,16 @@
 
                     <span class="file-name px-2 input-label-noFile">- No file uploaded -</span>
                 </div>
-                <p class="helper-text">JPG, JPEG, PNG formats.</p>
+                <p class="helper-text">JPG, JPEG, PNG formats.</p> -->
+                        <app-file-upload label="Upload Image" accept="image/*"
+            (fileSelected)="onFileSelected($event)"></app-file-upload>
+        <p class="helper-text">JPG, JPEG, PNG formats.</p>
             </div>
 
        </div>
         <div class="dialog-actions d-flex justify-content-between my-4 mx-3 gap-2">
           
-                 <app-cancel-button class="pt-2"></app-cancel-button>
+                 <app-cancel-button class="pt-2" (click)=" close()"></app-cancel-button>
         <app-footer-button text="Add Category" icon="/upload/add-square.svg" type="button" class="mx-2">
         </app-footer-button>
            

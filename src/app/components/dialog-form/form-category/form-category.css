@@ -44,7 +44,7 @@
   -moz-appearance: none;
   padding-right: 35px;
   color: var(--muted-input);
-  border-bottom: 1px solid #ccc;
+   border: 1px solid #CFCFCF;
 }
 
 .select-wrapper select.selected {
@@ -61,12 +61,31 @@
   color: #666;
 }
 
-select option:checked {
+/* dropdown background */
+select {
   background-color: #fff;
-  color: #000;
 }
 
+/* hover effect (works only partially depending on browser) */
 select option:hover {
   background-color: #d92b2b;
   color: #fff;
+}
+
+/* selected option */
+select option:checked {
+  background-color: #d92b2b;
+  color: #fff;
+}
+/* same look as custom input */
+.select-wrapper select.input-field {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* 🔴 red border after selection */
+.select-wrapper select.selected {
+  border: 1px solid #D8090580;
+  color: #312F2F;
 }

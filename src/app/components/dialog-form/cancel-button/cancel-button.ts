@@ -10,7 +10,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class CancelButton {
     @Output() closeClicked = new EventEmitter<void>();
 
-   onClose() {
+   close() {
     this.closeClicked.emit();
   }
 }

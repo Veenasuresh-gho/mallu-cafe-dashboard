@@ -19,11 +19,13 @@
         <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
     </div>
 </div>
+<div class="custom-line-sub" ></div>
+
 <!-- step 4 -->
 <app-step-badge [stepNumber]="4" title="Thumbnail"></app-step-badge>
 
 <div class="d-flex gap-3 px-3 my-2">
-    <mat-radio-group [(ngModel)]="selectedType" class="d-flex gap-3 ">
+    <mat-radio-group [(ngModel)]="selectedType" name="thumbnailType" class="d-flex gap-3 ">
 
         <mat-radio-button value="program" class="radio-btn input-label">
             Use Program Thumbnail
@@ -35,15 +37,17 @@
 
     </mat-radio-group>
 </div>
-
 <div *ngIf="selectedType === 'program'" class=" mt-3 px-4">
    
-        <img src="/upload/file-img.png" width="100%" class="upload-img">
-    
+        <!-- <img src="/upload/file-img.png" width="100%" class="upload-img"> -->
+    <p style="color:red;">Selected: {{ selectedType }}</p>
+
 </div>
 
 <div *ngIf="selectedType === 'custom'" class=" px-4">
-    <div class="form-group">
+    <p style="color:red;">Selected: {{ selectedType }}</p>
+
+    <!-- <div class="form-group">
         <label class="input-label" for="thumbnail">Custom Thumbnail</label>
 
         <div class="file-upload">
@@ -58,8 +62,8 @@
             <span class="file-name px-2 input-label-noFile">- No file uploaded -</span>
         </div>
         <p class="helper-text">JPG, JPEG, PNG formats. Required for podcast, featured videos, shorts.</p>
-    </div>
-    <div class="form-group" *ngIf="fileSelectedName">
+    </div> -->
+    <!-- <div class="form-group" *ngIf="fileSelectedName">
         <label class="input-label" for="thumbnail">Thumbnail</label>
 
         <div class="file-upload">
@@ -77,5 +81,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>

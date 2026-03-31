@@ -157,4 +157,7 @@ select option:checked {
 .option:last-child {
   border-bottom: none;
 }
+.input-field.selected-border:focus {
+  border: 1px solid #D8090580;
+}
 

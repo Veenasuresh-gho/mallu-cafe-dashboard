@@ -25,7 +25,8 @@
   <div class="select-wrapper">
     
     <!-- Selected display -->
-    <div class="input-field" (click)="toggleDropdown()">
+    <div class="input-field"  tabindex="0" (click)="toggleDropdown()"
+     [ngClass]="{ 'selected-border': model }">
       {{ model || placeholder || ('Select ' + label) }}
     </div>
 

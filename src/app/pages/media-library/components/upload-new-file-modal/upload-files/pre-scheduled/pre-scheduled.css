@@ -93,3 +93,8 @@
 .upload-content{
   width: 73%;
 }
+.schedule-box,
+.schedule-group,
+.mat-dialog-content {
+  overflow: visible;
+}

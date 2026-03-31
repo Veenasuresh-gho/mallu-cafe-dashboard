@@ -38,6 +38,7 @@
         <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
     </div>
 </div>
+<div class="custom-line-sub" ></div>
 
 <!-- step 4 -->
 <app-step-badge [stepNumber]="4" title="Thumbnail"></app-step-badge>
@@ -82,8 +83,7 @@
 
 </div>
 <!-- step 5 -->
-<div
-    *ngIf="selectedProgramCategory === 'featured' || selectedProgramCategory === 'shorts'|| selectedProgramCategory === 'podcast' ">
+<div>
 
     <div class="custom-line-sub "></div>
 
@@ -97,15 +97,14 @@
                 placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects"
                 name="programTitle">
             </app-form-input> -->
-            <label class="input-label">Subtitle *</label>
+           <div class="form-row">
+                <label class="input-label">Subtitle *</label>
 
-  <textarea
-    class="input-field textarea-field my-1"
-    placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects"
-    [(ngModel)]="subtitle" rows="2"
-    name="programTitle"
-  ></textarea>
-            <p class="helper-text mt-1">Keep it short and engaging for listeners.</p>
+            </div>
+            <textarea class="input-field textarea-field "
+                placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects"
+                [(ngModel)]="subtitle" rows="2" name="programTitle"></textarea>
+            <p class="helper-text ">Keep it short and engaging for listeners.</p>
 
         </div>
 

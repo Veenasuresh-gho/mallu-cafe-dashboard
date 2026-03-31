@@ -124,7 +124,13 @@ input[type="file"] {
   cursor: pointer;
   border: none;
 }
-
+.footer{
+  background: #fff;
+padding-bottom: 25px;
+}
+.dialog-actions{
+  gap: 24px;
+}
 .btn-cancel {
   background: transparent;
   color: #636363;
@@ -183,7 +189,6 @@ input:checked+.slider:before {
 
 .input-field::placeholder {
   color: var(--muted-input) !important;
-  /* light gray */
 }
 
 select {
@@ -396,6 +401,7 @@ select:invalid {
 .input-field,
 .phone-input {
   height: 36px;
+  margin-bottom: 0px;
   gap: 4px;
 }
 
@@ -469,6 +475,7 @@ select:invalid {
   min-height: auto !important;
   padding-top: 4px !important;
   padding-bottom: 4px !important;
+  padding-left: 0 !important;
 }
 
 /* 1. Remove the large default padding inside the form field wrapper */
@@ -479,7 +486,7 @@ select:invalid {
 
 /* 2. Tighten the flex container that holds the chips and arrow */
 ::ng-deep .assigned-programs .mat-mdc-form-field-flex {
-  padding: 4px 8px !important;
+  padding: 4px !important;
   align-items: center !important;
 }
 
@@ -514,7 +521,9 @@ select:invalid {
 ::ng-deep .assigned-programs .mat-mdc-select-arrow svg {
   display: none !important;
 }
-
+::ng-deep .assigned-programs .mat-mdc-select-value {
+  margin-left: 0 !important;
+}
 ::ng-deep .assigned-programs .mat-mdc-select-arrow {
   width: 0 !important;
   height: 0 !important;
@@ -537,7 +546,9 @@ select:invalid {
   /* flexible height */
   height: auto !important;
   border-radius: 12px;
-  border: 1px solid #636363 !important;
+  /* border: 1px solid #636363 !important; */
+  border: none !important;
+  ::ng-deep .mat-mdc-chip
 }
 
 /* ✅ THIS is the important one (text inside chip) */
@@ -564,7 +575,6 @@ select:invalid {
 /* OPTION CONTAINER */
 ::ng-deep .custom-select-panel .mat-mdc-option {
   min-height: 32px !important;
-  /* controls height */
   display: flex;
   align-items: center;
 }
@@ -574,8 +584,9 @@ select:invalid {
   font-family: 'Poppins', sans-serif !important;
   font-size: 12px !important;
   font-weight: 400 !important;
-  line-height: 16px !important;
+  /* line-height: 16px !important; */
   letter-spacing: 0 !important;
+
 }
 
 /* Hide checkbox icon */
@@ -598,6 +609,13 @@ select:invalid {
 }
 ::ng-deep .custom-select-panel {
   max-height: 80vh !important;
+}
+::ng-deep .mat-mdc-form-field-infix {
+  padding-left: 0 !important;
+}
+
+::ng-deep .mat-mdc-select-trigger {
+  padding-left: 6px !important;
 }
 /* 4th data */
 .toggle-txt {

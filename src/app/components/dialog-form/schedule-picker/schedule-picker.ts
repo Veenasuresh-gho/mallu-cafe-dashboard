@@ -8,12 +8,14 @@ import { FormSelect } from '../form-select/form-select';
   standalone: true,
   imports: [CommonModule, FormsModule, FormSelect],
   templateUrl: './schedule-picker.html',
-  styleUrl: './schedule-picker.css',
+  styleUrls: ['./schedule-picker.css'],
 })
 export class SchedulePicker {
 
   @Input() model: any = {};
   @Output() modelChange = new EventEmitter<any>();
+
+  showScheduleDay=true;
 
   days = [
 

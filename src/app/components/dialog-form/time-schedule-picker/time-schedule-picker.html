@@ -1,0 +1,37 @@
+<div class="schedule-row" style="margin-top: 10px;">
+
+  <!-- LEFT TIME BOX -->
+  <div class="schedule-left-box">
+    <div class="label" style="width: 139px;">Schedule Time</div>
+    <div class="divider"></div>
+
+    <div class="selectdaydropdown">
+      <select 
+        class="input-field" 
+        style="width: 165px;" 
+        [(ngModel)]="fromTime">
+        <option value="" disabled selected hidden>From Time</option>
+        <option *ngFor="let t of times" [value]="t">{{ t }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ARROW -->
+  <div class="arrow-container">
+    <img src="/program/arrow-right.svg" alt="">
+  </div>
+
+  <!-- RIGHT TIME BOX -->
+  <div class="selectdaydropdown">
+    <select 
+      class="input-field" 
+      style="width: 165px;" 
+      [(ngModel)]="toTime">
+      <option value="" disabled selected hidden>To Time</option>
+      <option *ngFor="let t of times" [value]="t">{{ t }}</option>
+    </select>
+  </div>
+
+</div>
+
+<!-- <p class="helper-text pt-1">(Schedule time slot is optional. Leave empty for 24/7 streaming.)</p> -->

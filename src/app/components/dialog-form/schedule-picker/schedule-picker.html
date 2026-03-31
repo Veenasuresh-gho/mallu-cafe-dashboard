@@ -1,6 +1,6 @@
 <div class="form-group schedule-group">
 
-    <label class="input-label">Schedule *</label>
+  <label class="input-label" *ngIf="showScheduleDay">Schedule *</label>
 
     <!-- DAY ROW -->
     <div class="schedule-row">
@@ -77,8 +77,16 @@
 
         </div>
 
+      <div class="selectdaydropdown">
+        <app-form-select
+          [(ngModel)]="fromDay"
+          name="fromDay"
+          [options]="days"
+          placeholder="Sunday"
+          label="">
+        </app-form-select>
+      </div>
     </div>
-
 
 
 </div>

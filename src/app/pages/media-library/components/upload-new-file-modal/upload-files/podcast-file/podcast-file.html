@@ -38,54 +38,65 @@
         <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
     </div>
 </div>
-<div class="custom-line-sub" ></div>
+<div class="custom-line-sub"></div>
 
 <!-- step 4 -->
 <app-step-badge [stepNumber]="4" title="Thumbnail"></app-step-badge>
+<div class="px-4 py-1">
 
-<div class="d-flex gap-3 px-3 my-2">
-    <mat-radio-group [(ngModel)]="selectedType" class="d-flex gap-3" name="thumbnailType">
+    <div class="radio-grp py-2 px-1">
+        <!-- Use Program Thumbnail -->
+        <div class="custom-radio" [class.selected]="selectedType === 'program'" (click)="selectedType = 'program'">
+            <div class="circle"></div>
+            <span>Use Program Thumbnail</span>
+        </div>
 
-        <mat-radio-button value="program" class="radio-btn input-label">
-            Use Program Thumbnail
-        </mat-radio-button>
-
-        <mat-radio-button value="custom" class="radio-btn input-label">
-            Upload Custom Thumbnail
-        </mat-radio-button>
-
-    </mat-radio-group>
-</div>
-<!-- Content -->
-<div *ngIf="selectedType === 'program'" class=" mt-3 px-4">
-    <div>
-        <img src="/upload/file-img.png" width="100%" class="upload-img">
+        <!-- Upload Custom Thumbnail -->
+        <div class="custom-radio" [class.selected]="selectedType === 'custom'" (click)="selectedType = 'custom'">
+            <div class="circle"></div>
+            <span>Upload Custom Thumbnail</span>
+        </div>
     </div>
-</div>
 
-<div *ngIf="selectedType === 'custom'" class=" px-4">
-    <div class="form-group">
-        <label class="input-label" for="thumbnail">Custom Thumbnail</label>
+    <div [hidden]="selectedType !== 'program'" class="mt-3">
+        <div>
+            <img src="/upload/file-img.png" width="100%" class="upload-img">
+        </div>
+    </div>
+
+    <div [hidden]="selectedType !== 'custom'" class="">
+        <div class="form-group">
+            <label class="input-label" for="thumbnail">Thumbnail</label>
 
         <div class="file-upload">
-            <label class="upload-btn d-flex gap-2">
-                <input id="thumbnail" type="file" hidden />
-                <img src="/program/upload-icon.svg" alt="">
+  <!-- Upload button -->
+  <label class="upload-btn d-flex align-items-center gap-2">
+      <input id="thumbnail" type="file" hidden />
+      <img src="/program/upload-icon.svg" alt="">
+      <p class="m-0">Upload Image</p>
+  </label>
 
-                <p class="pt-3"> Upload Image
-                </p>
-            </label>
-
-            <span class="file-name px-2 input-label-noFile">- No file uploaded -</span>
+  <!-- File info -->
+  <div class="upload-content d-flex justify-content-between align-items-center">
+      <span class="file-name px-2">IMG13428.JPEG</span>
+<div class="division">
+</div>
+      <div class="upload-actions d-flex align-items-center gap-2">
+          <img src="/upload/eye.svg" alt="">
+          <p class="m-0">View image</p>
+      </div>
+  </div>
+</div>
         </div>
-        <p class="helper-text">JPG, JPEG, PNG formats. Required for podcast, featured videos, shorts.</p>
     </div>
 
 </div>
+
+
 <!-- step 5 -->
 <div>
 
-    <div class="custom-line-sub "></div>
+    <div class="custom-line-sub mt-2"></div>
 
 
     <app-step-badge [stepNumber]="5" title="Public App Content"></app-step-badge>
@@ -97,7 +108,7 @@
                 placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects"
                 name="programTitle">
             </app-form-input> -->
-           <div class="form-row">
+            <div class="form-row">
                 <label class="input-label">Subtitle *</label>
 
             </div>

@@ -32,7 +32,7 @@ import { ghoresult, tags } from '../../../../../model/ghomodel';
     FooterButton, CancelButton
   ],
   templateUrl: './add-new-program.html',
-  styleUrl: './add-new-program.css',
+  styleUrls: ['./add-new-program.css'],
 })
 export class AddNewProgram implements OnInit {
   constructor(private dialogRef: MatDialogRef<AddNewProgram>) { }
@@ -130,10 +130,17 @@ export class AddNewProgram implements OnInit {
   close() {
     this.dialogRef.close();
   }
+<<<<<<< HEAD
+  selectedHost: string = ''; 
+  selectedCategory: string = ''; 
+  
+selectedType: string = '';
+=======
   selectedCategory: string = '';
 
   selectedType: string = 'disable';
 
 
+>>>>>>> bfb9f711a141c2406b9e5541c639780a9c3570af
 
 }

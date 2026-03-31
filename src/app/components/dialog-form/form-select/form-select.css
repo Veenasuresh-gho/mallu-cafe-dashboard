@@ -160,4 +160,9 @@ select option:checked {
 .input-field.selected-border:focus {
   border: 1px solid #D8090580;
 }
-
+.input-field.selected-text {
+  color: #312F2F; /* black after selection */
+}
+.placeholder-text {
+  color: #888; /* lighter gray for placeholder */
+}

@@ -1,3 +1,16 @@
+.dialog-box {
+   width: 600px;
+  background: #fff;
+  border-radius: 12px;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+  font-family: Poppins;
+}
+
 .main-title {
     font-weight: 600;
     font-size: 14px;

@@ -27,8 +27,15 @@
 .schedule-group .schedule-row {
   display: flex;
   align-items: center;
+  
 }
-
+.schedule-row{
+  height: 36px;
+}
+.selectdaydropdown{
+  width: 165px;
+  margin-bottom: 15px;
+}
 /* Main box containers */
 .schedule-box {
   display: flex;
@@ -36,17 +43,21 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
-  height: 40px;
+  height: 36px;
   background: #fff;
 }
 
 /* Left label */
 .label {
   width: 139px;
-  padding: 0 12px;
+  padding: 10px 12px;
   font-size: 12px;
   font-weight: 400;
   display: flex;
+    background-color: #FFFFFF;
+
+  color: var(--muted-input);
+  border-radius: 6px;
   align-items: center;
   height: 100%;
 }
@@ -118,4 +129,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.selectDay{
+  width: 139px;
+}
+/* LEFT COMBINED BOX */
+.schedule-left-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  height: 36px;
+  background: #fff;
 }

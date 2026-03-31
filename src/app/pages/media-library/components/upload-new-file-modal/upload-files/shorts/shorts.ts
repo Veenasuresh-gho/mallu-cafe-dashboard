@@ -3,10 +3,11 @@ import { StepBadge } from '../../../../../../components/dialog-form/step-badge/s
 import { FormInput } from '../../../../../../components/dialog-form/form-input/form-input';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { FileUpload } from '../../../../../../components/dialog-form/file-upload/file-upload';
 
 @Component({
   selector: 'app-shorts',
-  imports: [StepBadge,FormInput, MatRadioButton,MatRadioGroup,FormsModule],
+  imports: [StepBadge,FormInput, MatRadioButton,MatRadioGroup,FormsModule,FileUpload],
   templateUrl: './shorts.html',
   styleUrl: './shorts.css',
 })
@@ -18,5 +19,8 @@ export class Shorts {
 onTextChange(event: any) {
   this.typedText = event.target.innerText;
   console.log('Full value:', 'ProgramName//' + this.typedText);
+}
+onFileSelected(file: File) {
+  console.log('Selected file:', file);
 }
 }

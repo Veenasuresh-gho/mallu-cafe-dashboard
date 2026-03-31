@@ -33,7 +33,7 @@ export class AddTeamMember implements OnInit {
   email: string = '';
   countryId: string = '233';
   loading = false;
-  roles:any[]=[];
+  roles: any[] = [];
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
@@ -41,7 +41,7 @@ export class AddTeamMember implements OnInit {
   res: ghoresult = new ghoresult();
 
   ngOnInit(): void {
-      this.getRoles();
+    this.getRoles();
   }
 
   addTeamMenber(): void {
@@ -63,7 +63,11 @@ export class AddTeamMember implements OnInit {
     this.srv.getdata('teammember', this.tv)
       .subscribe({
         next: (r) => {
-        
+          if (r.Status == 1) {
+
+            this.loading = false;
+            this.dialogRef.close(true);
+          }
         },
         error: (err) => {
           console.error('API Error:', err);
@@ -73,7 +77,6 @@ export class AddTeamMember implements OnInit {
   }
 
   getRoles(): void {
-
     this.loading = true;
     this.tv = [
       { T: 'dk1', V: "ROLES" },
@@ -83,13 +86,25 @@ export class AddTeamMember implements OnInit {
     this.srv.getdata('lists', this.tv)
       .subscribe({
         next: (r) => {
-           this.roles=r.Data[0];
+          this.roles = r.Data[0];
         },
         error: (err) => {
           console.error('API Error:', err);
           this.loading = false;
         }
       });
+  }
+
+  onRoleChange(value: string) {
+    this.role = value;
+
+    if (value === '1') {   
+      this.isFullAccess = true;
+      this.onToggleChange(); 
+    } else {
+      this.isFullAccess = false;
+      this.onToggleChange(); 
+    }
   }
 
   addTeamMemberClick() {

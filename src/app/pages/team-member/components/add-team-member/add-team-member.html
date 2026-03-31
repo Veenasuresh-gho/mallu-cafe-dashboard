@@ -44,8 +44,8 @@
 
                 </div>
 
-                <app-form-select label="Role / Designation" [(model)]="role" name="role" [options]="roles"
-                    optionLabel="DisplyText" optionValue="DataValue">
+                <app-form-select label="Role / Designation" [model]="role" (modelChange)="onRoleChange($event)"
+                    name="role" [options]="roles" optionLabel="DisplyText" optionValue="DataValue">
                 </app-form-select>
 
                 <p class="helper-text" style="padding-top: 6px;">This role defines the member’s responsibility in the

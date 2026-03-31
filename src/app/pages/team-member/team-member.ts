@@ -18,7 +18,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
-
 @Component({
   selector: 'app-team-member',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,11 +33,17 @@ export class TeamMember implements OnInit {
   ds: [] = [];
 
   openModal() {
-    this.dialog.open(AddTeamMember, {
+    const dialogRef = this.dialog.open(AddTeamMember, {
       width: '90%',
       maxWidth: '600px',
       maxHeight: '94vh',
       disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.getTeamMemberList();
+      }
     });
   }
 
@@ -63,11 +68,11 @@ export class TeamMember implements OnInit {
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
 
- @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
-  if (p) {
-    this.dataSource.paginator = p;
+  @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
+    if (p) {
+      this.dataSource.paginator = p;
+    }
   }
-}
   dataSource = new MatTableDataSource<any>([]);
 
 
@@ -92,7 +97,7 @@ export class TeamMember implements OnInit {
         }
       });
   }
-    get showPaginator(): boolean {
+  get showPaginator(): boolean {
     return this.dataSource.data.length > 7;
   }
 }

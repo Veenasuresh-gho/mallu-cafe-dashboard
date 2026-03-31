@@ -1,0 +1,81 @@
+.form-row{
+  gap: 6px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  pointer-events: none; /* IMPORTANT: allows clicking select */
+  font-size: 20px;
+  color: #666;
+}
+
+.input-prefix-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 10px;
+  min-height: 36px;
+  font-size: 12px;
+  font-family: Poppins, sans-serif;
+}
+
+.prefix {
+  color: #757575;
+  user-select: none; /* prevent editing */
+  margin-right: 4px;
+}
+
+.editable-part {
+  outline: none;
+  flex-grow: 1;
+  color: #000;
+}
+/* Show placeholder when empty */
+.editable-part:empty::before {
+  content: attr(data-placeholder);
+  color: #999; /* placeholder color */
+  pointer-events: none; /* click passes through */
+  user-select: none;
+}
+.helper-text {
+  font-size: 10px;
+  color: var(--muted-input);
+  font-weight: 400;
+  font-family: Poppins;
+  height: 14px;
+}
+.custom-line-sub {
+  border-top: 1px solid #E4E4E4;
+  margin: 0px 24px;
+}
+::ng-deep .radio-btn.mat-mdc-radio-checked .mdc-label {
+  color: var(--primary-color);
+  font-size: 12px;
+  font-family: Poppins;
+}
+.input-label {
+  font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins;
+  color: var(--muted-label);
+  margin-top: 3px;
+}
+
+.input-field {
+  font-weight: 400;
+  font-size: 12px;
+  border-radius: 6px;
+  height: 36px;
+  border: 1px solid #CFCFCF;
+  font-family: Poppins;
+  margin-bottom: 6px;
+  background-color: #FFFFFF;
+  color: var(--muted-input);
+  line-height: 16px;
+}

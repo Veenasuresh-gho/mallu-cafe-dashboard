@@ -15,23 +15,7 @@
     <mat-dialog-content class="dialog-content custom-select-panel">
         <app-step-badge [stepNumber]="1" title="Upload Media File"></app-step-badge>
         <div class="px-4">
-            <!-- <div class="upload-box d-flex flex-column align-items-center justify-content-center px-4 ">
-                <img src="/dash/cloud-connection.png" alt="">
 
-                <div class="upload-txt">
-                    Upload Broadcast Media File
-                </div>
-
-                <p class="upload-subtxt">Drag & drop your file here, or click to browse</p>
-                <div>
-                    <label class="btn-create  d-flex">
-                        <img src="/dash/cloud-connection.svg" alt="">
-                        <span> Choose File</span>
-                        <input type="file" hidden (change)="onFileSelected($event)">
-                    </label>
-                </div>
-                <p class="upload-subtxt">MP3, MP4 • Max size: 1.5 GB</p>
-            </div> -->
             <app-upload-box [uploadText]="'Upload Broadcast Media File'"
                 [subText]="'Drag & drop your file here, or click to browse'" [accept]="'audio/mp3, video/mp4'"
                 [sizeText]="'MP3, MP4 • Max size: 1.5 GB'" (fileSelected)="onFileSelected($event)"></app-upload-box>
@@ -48,7 +32,7 @@
 
 
         <div class="form-row px-4">
-           
+
 
             <app-form-category [label]="'Program Category'" [options]="programCategories"
                 [(ngModel)]="selectedProgramCategory" [placeholder]="'- Select Program Category -'"
@@ -56,7 +40,7 @@
 
 
 
-            <div *ngIf="selectedProgramCategory === 'podcast'" class="">
+            <!-- <div *ngIf="selectedProgramCategory === 'podcast'" class="">
 
                 <div class="d-flex align-items-center justify-content-center gap-2">
                     <app-form-select label="Podcast Category Name " style="width:498px ;"
@@ -64,96 +48,98 @@
                         name="host">
                     </app-form-select>
                     <div class="adding-btn">
-                        <button class="add-btn" (click)="openModalAddPodcast()">+</button>
+                        <button class="add-btn" (click)="openModalAddPodcast()">
+                            <img src="/upload/add.svg" alt="">
+                        </button>
 
                     </div>
                 </div>
 
-                <!-- <label class="input-label">Podcast Category Name *</label> -->
-
-                <!-- <div class="d-flex align-items-center gap-2">
-
-                    <input type="text" class="input-field px-2 w-100"
-                        placeholder="e.g., Music / Entertainment / Sports" />
-
-                    <button class="add-btn" (click)="openModalAddPodcast()">+</button>
-
-                </div> -->
-
-            </div>
-        </div>
-        <div class="form-row px-4">
-
-        </div>
-        <div class="form-row px-4">
-            <!-- <div class="form-group">
-                <label class="input-label" for="host">Program Name *</label>
-                <div class="select-wrapper d-flex justify-content-between align-items-center">
-
-                    <select id="host" class="input-field px-2">
-                        <option disabled selected>- Select Program Name -</option>
-                        <option>Om Shanti Om</option>
-
-
-                    </select>
-                    <span class="material-symbols-outlined dropdown-icon">
-                        arrow_drop_down
-                    </span>
-                </div>
+                
             </div> -->
-             <app-form-select label="Program Name " 
-                        [options]="['Om Shanti Om', 'Om Shanti Om']" placeholder="- Select Program Name -"
-                        name="host">
-                    </app-form-select>
+        </div>
+        <div [ngSwitch]="selectedProgramCategory">
+
+            <app-pre-scheduled *ngSwitchCase="'pre'"></app-pre-scheduled>
+
+            <app-video-file *ngSwitchCase="'featured'"></app-video-file>
+
+            <app-shorts *ngSwitchCase="'shorts'"></app-shorts>
+
+            <!-- <app-podcast *ngSwitchCase="'podcast'"></app-podcast> -->
+             <app-podcast-file *ngSwitchCase="'podcast'"></app-podcast-file>
+
+            <!-- Optional default -->
+            <div *ngSwitchDefault>
+                <app-default></app-default>
+            </div>
+
         </div>
 
-        <div class="custom-line-sub" style="margin-top: 16px;"></div>
+        <!-- program name -->
+
+        <!-- <div class="form-row px-4">
+            
+            <app-form-select label="Program Name " [options]="['Om Shanti Om', 'Om Shanti Om']"
+                placeholder="- Select Program Name -" name="host">
+            </app-form-select>
+        </div> -->
+
+        <!-- step 3 -->
+
+        <!-- <div class="custom-line-sub" style="margin-top: 14px;"></div>
 
         <app-step-badge [stepNumber]="3" title="Rename File"></app-step-badge>
 
-        <div class="form-row px-4">
+        <div class="form-row px-4 pt-3">
             <div class="form-group">
-                <!-- <label class="input-label" for="fullname">Full Name *</label> -->
-                <!-- <input type="date" class="input-field px-2" type="text" placeholder="ProgramName// 230926.mp3" /> -->
-<app-form-input  placeholder="ProgramName// texthere" name="programTitle"></app-form-input>
+                <div class="input-prefix-wrapper">
+                    <span class="prefix">ProgramName//</span>
+                    <div class="editable-part" contenteditable="true" (input)="onTextChange($event)"
+                        data-placeholder="230926.mp3"></div>
+                </div>
                 <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
             </div>
-        </div>
+        </div> -->
 
-        <div class="custom-line-sub my-3"></div>
-        <div class="d-flex align-items-center gap-2 section-title px-4">
+        <!-- <div class="custom-line-sub "></div> -->
+        <!-- <div class="d-flex align-items-center gap-2 section-title px-4">
             <div class="step-badge">4</div>
             <p class="content-title mb-0"> Thumbnail </p>
-        </div>
+        </div> -->
+
+        <!-- step 4 -->
+        <!-- <app-step-badge [stepNumber]="4" title="Thumbnail"></app-step-badge>
 
         <div class="d-flex gap-3 px-3 my-2">
-            <!-- Radios -->
             <mat-radio-group [(ngModel)]="selectedType" class="d-flex gap-3 ">
 
-                <mat-radio-button value="program" class="radio-btn">
+                <mat-radio-button value="program" class="radio-btn input-label">
                     Use Program Thumbnail
                 </mat-radio-button>
 
-                <mat-radio-button value="custom" class="radio-btn">
+                <mat-radio-button value="custom" class="radio-btn input-label">
                     Upload Custom Thumbnail
                 </mat-radio-button>
 
             </mat-radio-group>
-        </div>
+        </div> -->
 
         <!-- Content -->
-        <div *ngIf="selectedType === 'program'" class=" mt-3 px-4">
-            <img src="/upload/file-img.png" width="100%" class="upload-img">
-        </div>
+        <!-- <div *ngIf="selectedType === 'program'" class=" mt-3 px-4">
+            <div *ngIf="selectedProgramCategory === 'pre' ">
+                <img src="/upload/file-img.png" width="100%" class="upload-img">
+            </div>
+        </div> -->
 
-        <div *ngIf="selectedType === 'custom'" class=" px-4">
+        <!-- <div *ngIf="selectedType === 'custom'" class=" px-4">
             <div class="form-group">
                 <label class="input-label" for="thumbnail">Custom Thumbnail</label>
 
                 <div class="file-upload">
                     <label class="upload-btn d-flex gap-2">
                         <input id="thumbnail" type="file" hidden />
-                                            <img src="/program/upload-icon.svg" alt="">
+                        <img src="/program/upload-icon.svg" alt="">
 
                         <p class="pt-3"> Upload Image
                         </p>
@@ -169,12 +155,12 @@
                 <div class="file-upload">
                     <label class="upload-btn d-flex gap-1">
                         <input id="thumbnail" type="file" hidden />
-                                            <img src="/program/upload-icon.svg" alt="">
+                        <img src="/program/upload-icon.svg" alt="">
 
                         <p class="pt-3"> Upload Image
                         </p>
                     </label>
-                    <div  class="d-flex justify-content-between upload-content">
+                    <div class="d-flex justify-content-between upload-content">
                         <span class="file-name px-2"> IMG13428.JPEG </span>
                         <div class="file-name d-flex justify-content-end">
                             👁 View image
@@ -182,7 +168,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- <div class="d-flex align-items-center gap-2 section-title px-3">
             <div class="step-badge">5</div>
             <p class="content-title mb-0"> Public App Content </p>
@@ -206,7 +192,11 @@
             <p class="helper-text">Keep it short and engaging for listeners.</p>
 
         </div> -->
-        <div *ngIf="selectedProgramCategory === 'featured' || selectedProgramCategory === 'shorts'">
+
+        <!-- step 5 -->
+
+        <!-- <div
+            *ngIf="selectedProgramCategory === 'featured' || selectedProgramCategory === 'shorts'|| selectedProgramCategory === 'podcast' ">
 
             <div class="custom-line-sub "></div>
 
@@ -214,7 +204,8 @@
             <app-step-badge [stepNumber]="5" title="Public App Content"></app-step-badge>
 
 
-            <div class="form-row px-4 my-2">
+            <div class="form-row px-4 my-2"
+                *ngIf="selectedProgramCategory === 'featured' || selectedProgramCategory === 'shorts' ">
                 <div class="form-group">
                     <label class="input-label">Title *</label>
                     <input class="input-field py-1 px-2" type="text"
@@ -223,44 +214,45 @@
             </div>
 
             <div class="form-row px-4">
-                <div class="form-group" *ngIf="selectedProgramCategory === 'featured' ">
-                    <label class="input-label">Subtitle *</label>
-                    <textarea class="input-field-textArea input-field p-1" cols="3"
-                        placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects">
-            </textarea>
+                <div class="form-group"
+                    *ngIf="selectedProgramCategory === 'featured' || selectedProgramCategory === 'podcast'">
+                    
+                    <app-form-input label="Subtitle *" style="height: 57px; margin-bottom: 0px;margin-top: 6px;"
+                        placeholder="e.g. RJ Neena chats about the actor’s latest movie,career journey, and upcoming projects"
+                        name="programTitle"></app-form-input>
+                    <p class="helper-text mt-1">Keep it short and engaging for listeners.</p>
+
                 </div>
-                <p class="helper-text">Keep it short and engaging for listeners.</p>
             </div>
 
-        </div>
+        </div> -->
 
 
-        <div class="dialog-actions d-flex justify-content-between my-3 mx-3 gap-2">
-            <!-- <button type="button" class="btn-cancel d-flex gap-1 pt-2" (click)="close()">
-                <span class="material-symbols-outlined small pt-1">
-                    cancel
-                </span>
-                <span> Cancel</span>
-            </button> -->
-            <button class="close-btn btn-cancel d-flex" (click)="close()">
-                <img src="/program/close-circle.svg" width="16px" alt="">
-                <p>Cancel</p>
-            </button>
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn-save d-flex">
-                    <img src="/upload/save-icon.svg" alt="">
-                    <span>Save it as private</span>
+        <!-- constatnt -->
+
+        <hr>
+        <div class=" footer">
+            <div class="dialog-actions d-flex justify-content-between my-4 mx-3 gap-2">
+
+                <button class="close-btn btn-cancel d-flex" (click)="close()">
+                    <img src="/program/close-circle.svg" width="16px" alt="">
+                    <p>Cancel</p>
                 </button>
-                <button type="submit" class="btn-publish d-flex">
-                    <img src="/upload/public-icon.svg" alt="">
-                    <span>Publish</span>
-                </button>
-                <button type="submit" class="btn-create d-flex">
-                    <img src="/upload/tick-circle.svg" alt="">
-                    <span>Upload File</span>
-                </button>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn-save d-flex">
+                        <img src="/upload/save-icon.svg" alt="">
+                        <span>Save it as private</span>
+                    </button>
+                    <button type="submit" class="btn-publish d-flex">
+                        <img src="/upload/public-icon.svg" alt="">
+                        <span>Publish</span>
+                    </button>
+                    <button type="submit" class="btn-create d-flex">
+                        <img src="/upload/tick-circle.svg" alt="">
+                        <span>Upload File</span>
+                    </button>
+                </div>
             </div>
         </div>
-
     </mat-dialog-content>
 </div>

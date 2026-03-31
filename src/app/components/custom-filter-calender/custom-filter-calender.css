@@ -1,0 +1,373 @@
+/* INPUT */
+.input-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid #C6C6C6;
+  border-radius: 8px;
+  padding: 8px 8px;
+  cursor: pointer;
+  width: fit-content;
+  background: #F0F0F0;
+}
+
+.input-box span {
+  font-size: small;
+  font-weight: 450;
+  color: black;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+}
+
+.calendar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.calendar {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  width: 310px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-weight: 400;
+  font-size: 20px;
+  user-select: none;
+}
+
+.title span {
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nav button {
+  border: none;
+  background: transparent;
+  font-size: 34px;
+  cursor: pointer;
+  width: 20px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+}
+
+/* WEEK */
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: 10px;
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  user-select: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.day {
+  position: relative;
+  text-align: center;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.other {
+  color: #bbb;
+}
+
+.day:hover {
+  background: #f2f2f2;
+}
+
+.active {
+  background: #e11d48;
+  color: white;
+}
+
+.month-grid,
+.year-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.month-grid div,
+.year-grid div {
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  user-select: none;
+}
+
+.month-grid div:hover,
+.year-grid div:hover {
+  background: #f2f2f2;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+}
+
+.year-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.year-nav span {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.year-nav button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.year-text {
+  font-size: 18px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: center;
+}
+
+.arrow-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.month-label {
+  font-size: 14px;
+}
+
+.month-grid div.active,
+.year-grid div.active {
+  background: #e11d48;
+  color: white;
+  border-radius: 20px;
+}
+
+.footer button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.footer button.active-btn {
+  border: 1px solid #e11d48;
+  background: #fde8ec;
+  color: #e11d48;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 1;
+  padding: 8px 10px;
+}
+/* START + END (RED CIRCLE) */
+.day.start,
+.day.end {
+  background: #e11d48;
+  color: white;
+  position: relative;
+  z-index: 3;
+  border-radius: 50%; /* perfect circle */
+}
+
+/* RANGE (LIGHT PINK STRIP) */
+.day.in-range {
+  background: #fde8ec;
+  color: #000;
+  border-radius: 0; /* no rounding for middle days */
+  position: relative;
+  z-index: 1;
+}
+
+/* CONNECT RANGE SMOOTHLY */
+/* Fill the whole cell without gaps */
+.day.in-range::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fde8ec;
+  z-index: -1;
+  border-radius: 0;
+}
+
+/* START day rounding on left side only */
+.day.start.in-range-start {
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* END day rounding on right side only */
+.day.end.in-range-end {
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.week-day {
+  cursor: pointer;
+  padding: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.week-day:hover {
+  background: #fde8ec;
+  border-radius: 4px;
+}
+
+/* -------------------- WEEKDAY SELECTION -------------------- */
+
+/* START + END for weekday selection */
+.day.weekday-start,
+.day.weekday-end {
+  background: #e11d48; /* red circle */
+  color: white;
+  position: relative;
+  z-index: 3;
+  border-radius: 50%;
+}
+
+/* RANGE (LIGHT PINK) for weekday selection */
+.day.weekday-in-range {
+  background: #fde8ec;
+  color: #000;
+  border-radius: 0; /* middle days are square to connect smoothly */
+  position: relative;
+  z-index: 1;
+}
+
+/* Fill the whole cell without gaps */
+.day.weekday-in-range::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fde8ec;
+  z-index: -1;
+  border-radius: 0;
+}
+
+/* Optional: smooth left rounding for first weekday */
+.day.weekday-start.in-range-start {
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Optional: smooth right rounding for last weekday */
+.day.weekday-end.in-range-end {
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.week-day.selected-weekday {
+  background: #e11d48;
+  color: white;
+  border-radius: 4px;
+}
+
+/* START + END for weekday selection */
+.day.weekday-start,
+.day.weekday-end {
+  background: #e11d48; /* red circle */
+  color: white;
+  position: relative;
+  z-index: 3;
+  border-radius: 50%;
+}
+
+/* RANGE (LIGHT PINK) for weekday selection */
+.day.weekday-in-range {
+  background: #fde8ec;
+  color: #000;
+  border-radius: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Fill the whole cell */
+.day.weekday-in-range::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fde8ec;
+  z-index: -1;
+  border-radius: 0;
+}
+
+/* Optional: smooth rounding for first weekday */
+.day.weekday-start.in-range-start {
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Optional: smooth rounding for last weekday */
+.day.weekday-end.in-range-end {
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

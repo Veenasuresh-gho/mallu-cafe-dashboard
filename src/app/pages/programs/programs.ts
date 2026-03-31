@@ -26,19 +26,26 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './programs.html',
   styleUrl: './programs.css',
 })
-export class Programs implements OnInit, AfterViewInit {
+export class Programs implements OnInit {
 
   constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
   loading = false;
   ds: [] = [];
-  openModal() {
-    this.dialog.open(AddNewProgram, {
-      width: '90%',
-      maxWidth: '600px',
-      maxHeight: '95vh',
-      disableClose: true
-    });
-  }
+
+    openModal() {
+      const dialogRef = this.dialog.open(AddNewProgram, {
+        width: '90%',
+        maxWidth: '600px',
+        maxHeight: '95vh',
+        disableClose: true,
+      });
+  
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res) {
+          this.getProgramList();
+        }
+      });
+    }
 
   ngOnInit(): void {
     this.getProgramList();
@@ -50,12 +57,14 @@ export class Programs implements OnInit, AfterViewInit {
   res: ghoresult = new ghoresult();
 
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  dataSource = new MatTableDataSource<any>([]);
+  @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
+    if (p) {
+      this.dataSource.paginator = p;
+    }
+  } 
+   dataSource = new MatTableDataSource<any>([]);
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
+
 
   getProgramList(): void {
     this.loading = true;
@@ -66,6 +75,7 @@ export class Programs implements OnInit, AfterViewInit {
         next: (r) => {
           this.ds = r.Data[0];
           this.dataSource.data = this.ds;
+          this.dataSource._updateChangeSubscription();
           this.loading = false;
           this.cdr.markForCheck();
         },

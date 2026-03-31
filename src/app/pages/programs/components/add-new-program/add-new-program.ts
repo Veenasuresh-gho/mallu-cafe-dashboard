@@ -42,6 +42,8 @@ export class AddNewProgram implements OnInit {
   categoryOptions: string[] = [];
   programTitle: string = '';
   selectedHost: string = '';
+  selectedSchedule: any = {};
+  hosts: any[] = [];
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
@@ -50,8 +52,30 @@ export class AddNewProgram implements OnInit {
 
   ngOnInit(): void {
     this.getProgramTypeList()
+    this.getTeamMemberList()
   }
 
+  getTeamMemberList(): void {
+    this.loading = true;
+    this.tv = [{ T: 'c10', V: '3' }];
+
+    this.srv.getdata('teammember', this.tv)
+      .subscribe({
+        next: (r) => {
+          const data = r.Data[0];
+          this.loading = false;
+
+          this.hosts = data.map((item: any) => ({
+            DisplayText: item.FullName,
+            DataValue: item.MemberID
+          }));
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+          this.loading = false;
+        }
+      });
+  }
   getProgramTypeList(): void {
     this.loading = true;
     this.tv = [
@@ -63,10 +87,7 @@ export class AddNewProgram implements OnInit {
       .subscribe({
         next: (r) => {
           this.categoryList = r.Data[0];
-          this.categoryOptions = this.categoryList.map(
-            (item: any) => item.DisplyText
-          );
-
+          this.categoryOptions = this.categoryList;
         },
         error: (err) => {
           console.error('API Error:', err);
@@ -77,13 +98,27 @@ export class AddNewProgram implements OnInit {
 
   addProgram(): void {
     this.loading = true;
-
-    this.tv = [{ T: 'c10', V: '3' }];
+    const payload = {
+      Title: this.programTitle,
+      CategoryID: this.selectedCategory,
+      ScheduleStartDay: this.selectedSchedule.fromDay,
+      ScheduleEndDay: this.selectedSchedule.toDay,
+      StartTime: this.selectedSchedule.fromTime,
+      EndTime: this.selectedSchedule.toTime,
+      HostID: this.selectedHost,
+      IsCallAllowed: this.selectedType === "allow" ? 1 : 0
+    }
+    this.tv = [
+      { T: 'c1', V: JSON.stringify(payload) },
+      { T: 'c10', V: '1' }
+    ];
 
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
-
+          if (r.Status === 1) {
+            this.dialogRef.close(true);
+          }
         },
         error: (err) => {
           console.error('API Error:', err);
@@ -92,14 +127,12 @@ export class AddNewProgram implements OnInit {
       });
   }
 
-
-
   close() {
     this.dialogRef.close();
   }
   selectedCategory: string = '';
 
-  selectedType: string = '';
+  selectedType: string = 'disable';
 
 
 

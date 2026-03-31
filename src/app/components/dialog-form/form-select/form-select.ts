@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class FormSelect {
   @Input() label: string = '';
-  @Input() options: any[] = [];   // ✅ keep only this
+  @Input() options: any[] = [];   
   @Input() model: string = '';
   @Input() name: string = '';
   @Input() placeholder: string = '';

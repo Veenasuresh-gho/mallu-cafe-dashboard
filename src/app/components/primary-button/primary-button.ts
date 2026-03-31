@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PrimaryButton {
   @Input() label: string = '';
+  @Input() loading: boolean = false;
   @Input() icon: string = '';
   @Input() iconSrc: string = '';
   @Input() type: 'stroked' | 'flat' | 'raised' | 'danger' | 'ghost' = 'stroked';

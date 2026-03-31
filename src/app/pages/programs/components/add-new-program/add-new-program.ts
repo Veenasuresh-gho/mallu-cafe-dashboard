@@ -29,7 +29,7 @@ import { CancelButton } from '../../../../components/dialog-form/cancel-button/c
     FooterButton,CancelButton
   ],
   templateUrl: './add-new-program.html',
-  styleUrl: './add-new-program.css',
+  styleUrls: ['./add-new-program.css'],
 })
 export class AddNewProgram {
   constructor(private dialogRef: MatDialogRef<AddNewProgram>) {}
@@ -42,8 +42,7 @@ export class AddNewProgram {
   selectedHost: string = ''; 
   selectedCategory: string = ''; 
   
- selectedType:string = '';
-
+selectedType: string = '';
 
   
 }

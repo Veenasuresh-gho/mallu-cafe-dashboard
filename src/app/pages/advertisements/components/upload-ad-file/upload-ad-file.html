@@ -7,25 +7,26 @@
         <button class="close-btn btn-cancel" (click)="close()">
             <img src="/program/close-circle.svg" alt="">
         </button>
-        
-    </div>
-    <div class="custom-line "></div>
-    <mat-dialog-content class="dialog-content custom-select-panel">
 
-        <div class="d-flex align-items-center gap-2 section-title1 px-4">
-            <div class="step-badge">1</div>
-            <p class="content-title mb-0 "> Advertisement Details </p>
-        </div>
+    </div>
+    <div class="custom-line"></div>
+    <mat-dialog-content class="dialog-content custom-select-panel px-4">
+
+        <app-step-badge [stepNumber]="1" title="Advertisement Details"></app-step-badge>
 
         <div class="form-row">
             <div class="form-group">
-                <label class="input-label" for="fullname">Ad Title / File Name *</label>
-                <input class="input-field" type="text" placeholder="eg. Onam Special Offer Ad" />
-                <p class="helper-text">Internal name for easy identification</p>
+
+                <app-form-input label="Ad Title / File Name *" placeholder="eg. Onam Special Offer Ad"
+                    name="programTitle"></app-form-input>
+
+                <div class="helper-text">Internal name for easy identification</div>
             </div>
             <div class="form-group" style="padding-top: 16px;">
-                <label class="input-label" for="fullname">Advertiser Name</label>
-                <input class="input-field " type="text" placeholder="eg. Kerala Spice Restaurant" />
+
+                <app-form-input label="Advertiser Name*" placeholder="eg. Kerala Spice Restaurant"
+                    name="programTitle"></app-form-input>
+
             </div>
         </div>
         <div class="custom-line-sub"></div>
@@ -35,42 +36,10 @@
             <p class="content-title mb-0">Upload Media</p>
         </div>
         <div class="px-4">
-            <!-- <div class="upload-box d-flex flex-column align-items-center justify-content-center px-4 ">
-                <img src="/dash/cloud-connection.png" alt="">
 
-                <div class="upload-txt">
-                    Upload Advertisement File
-                </div>
-                <p class="drag-drop">Drag & drop your file here, or click to browse</p>
-                <div>
-                    <label class="btn-create d-flex">
-                        <img src="/dash/cloud-connection.svg" width="16px" height="16px" alt="">
-                        <span class="pt-2"> Choose File</span>
-                        <input type="file" hidden>
-                    </label>
-                            <div>
-                    
-                </div>
-                </div>
-                <p class="upload-subtxt">MP3, MP4 • Max size: 1.5 GB</p>
-            </div> -->
-            <div class="upload-box d-flex flex-column align-items-center justify-content-center px-4 ">
-                <img src="/dash/cloud-connection-blk.svg" width="24px" alt="">
-
-                <div class="upload-txt">
-                    Upload Broadcast Media File
-                </div>
-
-                <p class="upload-subtxt">Drag & drop your file here, or click to browse</p>
-                <div>
-                    <label class="btn-create  d-flex">
-                        <img src="/dash/cloud-connection.svg" style="width: 16px;" alt="">
-                        <span> Choose File</span>
-                        <input type="file" hidden (change)="onFileSelected($event)">
-                    </label>
-                </div>
-                <p class="upload-subtxt">MP3, MP4 • Max size: 1.5 GB</p>
-            </div>
+            <app-upload-box [uploadText]="'Upload Advertisement File'"
+                [subText]="'Drag & drop your file here, or click to browse'" [accept]="'audio/mp3, video/mp4'"
+                [sizeText]="'MP3, MP4 • Max size: 1.5 GB'" (fileSelected)="onFileSelected($event)"></app-upload-box>
         </div>
         <p class="d-flex gap-1 pt-2 mb-4 helper-text px-4 ">
             <span class="">File Preview
@@ -91,90 +60,55 @@
                 </div>
             </div>
         </div>
-        <div class="custom-line-sub" style="padding-top: 16px;"></div>
+        <div class="custom-line-sub" style="margin-top: 36px;"></div>
 
 
-        <!-- Divider -->
 
-        <!-- Step 3: Schedule Advertisement -->
-        <div class="d-flex align-items-center gap-2 section-title px-4">
-            <div class="step-badge">3</div>
-            <p class="content-title mb-0">Schedule Advertisement</p>
-        </div>
+
+        <app-step-badge [stepNumber]="3" title="Schedule Advertisement"></app-step-badge>
+
 
         <div class="px-4 mb-4">
-            <label class="input-label mb-2">Schedule</label>
-            <div class="schedule-row">
+            <label class="input-label my-2">Schedule</label>
+            <div class="schedule-row ">
 
-                <!-- LEFT BOX -->
-                <div class="schedule-box">
-                    <div class="label" style="width: 139px;">Schedule Date</div>
+                <div class="schedule-box ">
+                    <div class="label" style="width: 154px;">Schedule Date</div>
 
                     <div class="divider"></div>
 
-                    <div class="value d-flex justify-content-between">
+                    <div class="value schedule-date d-flex  justify-content-between">
                         <span class="input-value">24 Apr 2026</span>
-                        <mat-icon>calendar_today</mat-icon>
+                        <img src="/advertise/calendar.svg" alt="">
                     </div>
                 </div>
 
-                <!-- ARROW -->
-                <mat-icon class="arrow">arrow_forward</mat-icon>
-
-                <!-- RIGHT BOX -->
+                <div class="arrow-container">
+                    <img src="/program/arrow-right.svg" alt="">
+                </div>
                 <div class="schedule-box-right">
                     <div class="value d-flex justify-content-between">
                         <span class="input-value">27 Apr 2026</span>
-                        <mat-icon>calendar_today</mat-icon>
+                        <img src="/advertise/calendar.svg" alt="">
                     </div>
                 </div>
-
-            </div>
-            <div class="schedule-row" style="padding-top: 8px;">
-
-                <!-- LEFT BOX -->
-                <div class="schedule-box">
-                    <div class="label" style="width: 139px;">Schedule Time Slot</div>
-
-                    <div class="divider"></div>
-
-                    <div class="value d-flex justify-content-between">
-                        <span class="input-value">10:00 AM</span>
-                        <span class="material-symbols-outlined">
-                            arrow_drop_down
-                        </span>
-                    </div>
-                </div>
-
-                <!-- ARROW -->
-                <mat-icon class="arrow">arrow_forward</mat-icon>
-
-                <!-- RIGHT BOX -->
-                <div class="schedule-box-right">
-                    <div class="value d-flex justify-content-between">
-                        <span class="input-value">11:30 AM</span>
-                        <span class="material-symbols-outlined">
-                            arrow_drop_down
-                        </span>
-                    </div>
-                </div>
-
             </div>
 
 
 
-            <p class="helper-text">(Schedule time slot is optional. Leave empty for 24/7 streaming.)</p>
+            <app-schedule-picker [showScheduleDay]="false"></app-schedule-picker>
+
+            <p class="helper-text pt-1">(Schedule time slot is optional. Leave empty for 24/7 streaming.)</p>
         </div>
 
         <div class="custom-line-sub px-4"></div>
 
-        <!-- Step 4: Playback Settings -->
-        <div class="d-flex align-items-center gap-2 section-title px-4 ">
-            <div class="step-badge">4</div>
-            <p class="content-title mb-0">Playback Settings</p>
-        </div>
 
-        <div class="px-4 mb-4 d-flex justify-content-between align-items-start gap-4">
+        <app-step-badge [stepNumber]="4" title="Playback Settings"></app-step-badge>
+
+
+
+        <div class="px-4 mb-4 mt-2 d-flex justify-content-between align-items-start gap-4">
             <div class="w-50">
                 <label class="input-label mb-2">No. of Plays per Day *</label>
                 <div class="counter-input-group d-flex align-items-center mb-1">
@@ -205,50 +139,48 @@
 
         <div class="custom-line-sub px-4"></div>
 
-        <!-- Step 5: Status -->
-        <div class="d-flex align-items-center gap-2 section-title px-4 ">
-            <div class="step-badge">5</div>
-            <p class="content-title mb-0">Status</p>
-        </div>
+        <app-step-badge [stepNumber]="5" title="Status"></app-step-badge>
 
-        <div class="px-4 mb-4">
+
+        <div class="px-4 mb-4 mt-3">
             <div class="d-flex gap-3" style="height: 78px;">
+                <!-- Active Card -->
                 <div class="status-card active-card w-50 p-2" [class.selected]="selectedStatus === 'active'"
                     (click)="selectedStatus = 'active'">
                     <div class="d-flex gap-2">
-                        <div class="radio-circle" [class.checked]="selectedStatus === 'active'">
-                            <div class="radio-inner" *ngIf="selectedStatus === 'active'"></div>
+                        <div class="radio-circle" [class.active-checked]="selectedStatus === 'active'">
+                            <div class="radio-inner" *ngIf="selectedStatus === 'active'" style="color: #D80905;"></div>
                         </div>
-                        <div >
+                        <div>
                             <div class="d-flex align-items-center gap-2 mb-2">
-                                <!-- Green Dot -->
                                 <span class="dot success"></span>
                                 <span class="status-title active-color">Active</span>
-                                
                             </div>
                             <div>
                                 <span class="status-chip active-chip">Start Immediately</span>
-                            <p class="status-desc mb-0">Go live as per schedule</p>
+                                <p class="status-desc mb-1">Go live as per schedule</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Waiting List Card -->
+                <!-- Waiting Card -->
                 <div class="status-card waiting-card w-50 p-2" [class.selected]="selectedStatus === 'waiting'"
                     (click)="selectedStatus = 'waiting'">
                     <div class="d-flex gap-2">
-                        <div class="radio-circle flex-shrink-0" [class.checked]="selectedStatus === 'waiting'">
-                            <div class="radio-inner" *ngIf="selectedStatus === 'waiting'"></div>
+                        <div class="radio-circle flex-shrink-0" [class.waiting-checked]="selectedStatus === 'waiting'">
+                            <div class="radio-inner" *ngIf="selectedStatus === 'waiting'" style="color: #F2C94C;"></div>
                         </div>
                         <div>
                             <div class="d-flex align-items-center gap-2 mb-2">
                                 <span class="status-title waiting-color flex-shrink-0 d-flex gap-1">
                                     <img src="/dash/danger.svg" alt="">
-                                    Waiting List</span>
-
+                                    Waiting List
+                                </span>
                             </div>
-                            <p class="status-desc mb-0">Admin approval required</p>
+                            <span class="status-chip waiting-chip">Start Immediately</span>
+
+                            <p class="status-desc mb-2">Admin approval required</p>
                         </div>
                     </div>
                 </div>
@@ -265,6 +197,21 @@
         </div>
         <div class="custom-line-sub px-4 "></div>
 
+        <div class="py-2 px-4">
+            <p class="checkbox-title">Choose where this ad should be delivered to users. You can select one or both
+                options.</p>
+            <div class="d-flex gap-3">
+                <app-checkbox [(checked)]="adsEnabled" title="Between Programs (Audio/Video Ads)"
+                    description="Play during scheduled programs">
+                </app-checkbox>
+
+                <app-checkbox title="Featured Promotions Section" description="Display in the app home screen"
+                    [(checked)]="promotionsEnabled">
+                </app-checkbox>
+            </div>
+        </div>
+
+        <hr>
         <!-- Footer -->
         <div class=" px-4 py-3 d-flex justify-content-between align-items-center">
             <button class="close-btn btn-cancel d-flex" (click)="close()">
@@ -272,8 +219,8 @@
                 <p class="">Cancel</p>
             </button>
 
-            <div class="d-flex footer" >
-                <button class="footer-btn btn-wait d-flex gap-1 align-items-center py-2 px-3" >
+            <div class="d-flex footer">
+                <button class="footer-btn btn-wait d-flex gap-1 align-items-center py-2 px-3">
                     <img src="/dash/tick-circle.svg" alt=""> <span>Add to Waiting List</span>
                 </button>
 

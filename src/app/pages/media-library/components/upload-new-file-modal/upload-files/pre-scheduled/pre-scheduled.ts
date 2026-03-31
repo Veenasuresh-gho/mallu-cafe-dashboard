@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class PreScheduled {
 
   typedText: string = '';
-  selectedType: string = 'program'; // default selected  
+  selectedType: string = ''; // default selected  
 
 
 onTextChange(event: any) {

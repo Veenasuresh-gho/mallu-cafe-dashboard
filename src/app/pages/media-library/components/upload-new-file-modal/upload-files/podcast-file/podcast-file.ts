@@ -9,17 +9,21 @@ import { AddPodcast } from '../../../add-podcast/add-podcast';
 
 @Component({
   selector: 'app-podcast-file',
+  standalone:true,
   imports: [FormSelect,FormInput,StepBadge,MatRadioButton,MatRadioGroup,FormsModule],
   templateUrl: './podcast-file.html',
-  styleUrl: './podcast-file.css',
-})
+ styleUrls: ['./podcast-file.css'],})
 export class PodcastFile {
       constructor(private dialogRef: MatDialogRef<PodcastFile>,private dialog: MatDialog) {}
 
 
   typedText: string = '';
-  selectedType: string = ''; // default selected  
+selectedType: string = '';
   subtitle: string = '';
+
+  selectType(type: string) {
+  this.selectedType = type;
+}
 
   openModalAddPodcast() {
       this.dialog.open(AddPodcast, {

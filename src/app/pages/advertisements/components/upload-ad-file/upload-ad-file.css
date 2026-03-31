@@ -85,7 +85,7 @@
     color: #312F2F;
 }
 .form-row {
-    padding: 14px 24px;
+    padding: 12px 24px;
 }
 .step-badge {
     width: 24px;
@@ -197,7 +197,6 @@ line-height: 10px;
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
 }
 
 .input-label {
@@ -214,6 +213,17 @@ line-height: 10px;
     height: 36px;
     padding: 5px 6px;
     border: 1px solid #CFCFCF;
+    font-family: Poppins;
+    background-color: #FFFFFF;
+    color: var(--muted-input);
+    line-height: 16px;
+}
+.input-field-schedule {
+    font-weight: 400;
+    font-size: 12px;
+    border-radius: 6px;
+    height: 36px;
+    padding: 5px 6px;
     font-family: Poppins;
     background-color: #FFFFFF;
     color: var(--muted-input);
@@ -361,6 +371,12 @@ line-height: 10px;
     color: #666;
     margin-top: 2px;
 }
+.arrow-container {
+  width: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* Step 5: Status */
 .status-card {
@@ -376,25 +392,33 @@ line-height: 10px;
 }
 
 .status-card.waiting-card.selected {
-    border-color: #E4E4E4;
-    background: #FFF4CB;
+    border-color: #FFA80080;
+    background: #FFF6E599;
 }
 
 .radio-circle {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    border: 2px solid #ccc;
+    border: 3px solid #ccc;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 2px;
 }
 
-.radio-circle.checked {
-    border-color: #D80905;
+/* Active selected */
+.radio-circle.active-checked {
+    border-color: #D80905; /* red */
 }
 
+/* Waiting selected */
+.radio-circle.waiting-checked {
+    border-color: #FFA800; /* yellow */
+}
+.waiting-chip{
+    background:#FFF6E5;
+}
 .radio-inner {
     width: 10px;
     height: 10px;
@@ -529,7 +553,12 @@ line-height: 10px;
   align-items: center;
   gap: 12px;
 }
-
+.schedule-left-box{
+    display: flex;
+    align-items: center;
+    border: 1px solid #CFCFCF;
+    border-radius: 6px;
+}
 /* Main box */
 .schedule-box {
   display: flex;
@@ -556,7 +585,7 @@ line-height: 10px;
   font-size: 12px;
   padding: 0px 8px;
   color: #757575;
-  background: #f5f5f5;
+  background: transparent;
   height: 100%;
   font-weight: 400;
   font-family: Poppins;
@@ -587,7 +616,9 @@ line-height: 10px;
     font-weight: 400;
     color: #757575;
 }
-
+.selectdaydropdown {
+    width: 165px;
+}
 /* Full width (right side box) */
 .value.full {
   width: 100%;
@@ -665,7 +696,12 @@ line-height: 10px;
         padding: 13px 16px;
 
 }
-
+.checkbox-title{
+    font-weight: 500;
+    font-size: 12px;
+    color:#636363;
+    font-family: Poppins;
+}
 .file-preview .title{
     color: #312F2F;
     font-size: 12px;
@@ -675,4 +711,66 @@ line-height: 10px;
     color: #9A9A9A;
     font-size: 10px;
     font-weight: 500;
+}
+.custom-select {
+  position: relative;
+  width: 156px;
+  cursor: pointer;
+  user-select: none;
+}
+.selectdaydropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.input-field {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-field.selected-text {
+  color: #000; /* selected value color */
+}
+
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.dropdown {
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 6px;
+  margin-top: 4px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.option {
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.option:last-child {
+  border-bottom: none;
+}
+
+.option:hover {
+  color: #d92b2b;
+  background-color: #f9f9f9;
+}
+.schedule-date{
+    width: 185px;
 }

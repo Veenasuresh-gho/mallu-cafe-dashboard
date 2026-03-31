@@ -23,8 +23,10 @@ export class Profile {
 
   openModal() {
     this.dialog.open(ManageMember, {
-      width: '800px',
-      disableClose: true
+       width: '90%',         
+    maxWidth: '600px',     
+    maxHeight: '95vh',  
+    disableClose: true,
     });
   }
   openModalDeleteMember() {

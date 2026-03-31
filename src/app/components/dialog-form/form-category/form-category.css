@@ -1,4 +1,4 @@
-.form-group {
+/* .form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -48,7 +48,7 @@
 }
 
 .select-wrapper select.selected {
-  color: #000; /* black text for selected value */
+  color: #000; 
 }
 
 .dropdown-icon {
@@ -61,31 +61,111 @@
   color: #666;
 }
 
-/* dropdown background */
 select {
   background-color: #fff;
 }
 
-/* hover effect (works only partially depending on browser) */
 select option:hover {
   background-color: #d92b2b;
   color: #fff;
 }
 
-/* selected option */
 select option:checked {
   background-color: #d92b2b;
   color: #fff;
 }
-/* same look as custom input */
 .select-wrapper select.input-field {
   cursor: pointer;
   display: flex;
   align-items: center;
 }
 
-/* 🔴 red border after selection */
 .select-wrapper select.selected {
   border: 1px solid #D8090580;
   color: #312F2F;
+} */
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+}
+
+.input-label {
+  font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins;
+  color: var(--muted-label);
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 552px;
+}
+
+/* Fake input field */
+.input-field {
+  font-size: 12px;
+  border-radius: 6px;
+  height: 36px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #CFCFCF;
+  font-family: Poppins;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* Placeholder / selected text */
+.input-field.placeholder-text {
+  color: #888;
+}
+
+.input-field.selected-text {
+  color: #312F2F;
+}
+
+.input-field.selected-border {
+  border: 1px solid #D8090580;
+}
+
+/* Dropdown menu */
+.dropdown {
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #fff;
+  z-index: 1000;
+  border-radius: 6px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.option {
+  padding: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.option:last-child {
+  border-bottom: none;
+}
+
+.option:hover {
+  color: #d92b2b;
+}
+
+/* Dropdown icon */
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }

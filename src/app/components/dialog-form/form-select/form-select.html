@@ -20,13 +20,17 @@
 </div> -->
 
 <div class="form-group">
-  <label class="input-label">{{ label }} *</label>
+  <label class="input-label">{{ label }}</label>
 
   <div class="select-wrapper">
     
     <!-- Selected display -->
     <div class="input-field"  tabindex="0" (click)="toggleDropdown()"
-     [ngClass]="{ 'selected-border': model }">
+     [ngClass]="{ 
+    'selected-border': model,
+    'selected-text': model
+  }"
+  >
       {{ model || placeholder || ('Select ' + label) }}
     </div>
 

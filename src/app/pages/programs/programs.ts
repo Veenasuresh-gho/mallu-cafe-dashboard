@@ -28,7 +28,7 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class Programs implements OnInit, AfterViewInit {
 
-  constructor(private dialog: MatDialog , private cdr: ChangeDetectorRef) { }
+  constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
   loading = false;
   ds: [] = [];
   openModal() {
@@ -65,7 +65,6 @@ export class Programs implements OnInit, AfterViewInit {
       .subscribe({
         next: (r) => {
           this.ds = r.Data[0];
-          console.log(this.ds)
           this.dataSource.data = this.ds;
           this.loading = false;
           this.cdr.markForCheck();

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -34,14 +34,46 @@ import { ghoresult, tags } from '../../../../../model/ghomodel';
   templateUrl: './add-new-program.html',
   styleUrl: './add-new-program.css',
 })
-export class AddNewProgram {
+export class AddNewProgram implements OnInit {
   constructor(private dialogRef: MatDialogRef<AddNewProgram>) { }
 
   loading = false;
+  categoryList: any[] = [];
+  categoryOptions: string[] = [];
+  programTitle: string = '';
+  selectedHost: string = '';
+
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
+
+  ngOnInit(): void {
+    this.getProgramTypeList()
+  }
+
+  getProgramTypeList(): void {
+    this.loading = true;
+    this.tv = [
+      { T: 'dk1', V: 'PROGRAMCATEGORY' },
+      { T: 'c10', V: '3' },
+    ]
+
+    this.srv.getdata('lists', this.tv)
+      .subscribe({
+        next: (r) => {
+          this.categoryList = r.Data[0];
+          this.categoryOptions = this.categoryList.map(
+            (item: any) => item.DisplyText
+          );
+
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+          this.loading = false;
+        }
+      });
+  }
 
   addProgram(): void {
     this.loading = true;
@@ -65,7 +97,6 @@ export class AddNewProgram {
   close() {
     this.dialogRef.close();
   }
-  selectedHost: string = '';
   selectedCategory: string = '';
 
   selectedType: string = '';

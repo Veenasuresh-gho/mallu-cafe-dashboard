@@ -6,15 +6,18 @@
 
     <form>
 
-        <app-form-input label="Program Details *" placeholder="Enter program name" name="programTitle"></app-form-input>
+        <app-form-input label="Program Details *" [(model)]="programTitle" placeholder="Enter program name"
+            name="programTitle"></app-form-input>
 
 
-        <app-form-select label="Host / RJ " [options]="['RJ Anjali', 'RJ Raj']" placeholder="Select host / RJ"
-            name="host"></app-form-select>
+        <app-form-select label="Host / RJ" [options]="['RJ Anjali', 'anjali']" placeholder="Select host / RJ"
+            name="host" [(model)]="selectedHost">
+        </app-form-select>
 
 
-        <app-form-select label="Category" [options]="['Pre-Scheduled', 'Podcast', 'Live']"
-            placeholder="Select program category" name="category"></app-form-select>
+        <app-form-select label="Category" [options]="categoryOptions" placeholder="Select program category"
+            name="category" [(model)]="selectedCategory">
+        </app-form-select>
 
         <app-schedule-picker></app-schedule-picker>
 

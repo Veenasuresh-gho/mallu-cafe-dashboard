@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
@@ -11,49 +11,120 @@ import { FormInput } from '../../../../components/dialog-form/form-input/form-in
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
 import { CancelButton } from '../../../../components/dialog-form/cancel-button/cancel-button';
 import { FooterButton } from '../../../../components/dialog-form/footer-button/footer-button';
+import { GHOService } from '../../../../services/ghosrvs';
+import { GHOUtitity } from '../../../../services/utilities';
+import { ghoresult, tags } from '../../../../../model/ghomodel';
 
 @Component({
   selector: 'app-add-team-member',
-  imports: [MatDialogContent,MatDialogActions,MatDialogClose,FormsModule,CommonModule,
-    MatFormField ,MatLabel,MatSelect,MatOption,MatSelectTrigger,MatChipsModule,MatSlideToggle,PrimaryButton,
-    FormInput,FormSelect,CancelButton,FooterButton
+  imports: [MatDialogContent, MatDialogActions, MatDialogClose, FormsModule, CommonModule,
+    MatFormField, MatLabel, MatSelect, MatOption, MatSelectTrigger, MatChipsModule, MatSlideToggle, PrimaryButton,
+    FormInput, FormSelect, CancelButton, FooterButton
   ],
   templateUrl: './add-team-member.html',
   styleUrl: './add-team-member.css',
 })
-export class AddTeamMember {
-      constructor(private dialogRef: MatDialogRef<AddTeamMember>) {}
+export class AddTeamMember implements OnInit {
+  constructor(private dialogRef: MatDialogRef<AddTeamMember>) { }
 
-programs = [
-  { program: 'Om Shanti Om' },
-  { program: 'Bollywood Rewind' },
-  { program: 'Hungama Radio' },
-  { program: 'Indo American News' },
-  { program: 'Talk with Stars' },
-  { program: 'Studio Conversations' },
-  { program: 'Dial In & Speak Out' }
-];
+  fullName: string = '';
+  role: string = '';
+  phone: string = '';
+  email: string = '';
+  countryId: string = '233';
+  loading = false;
+  roles:any[]=[];
 
-selectedPrograms: any[] = [];
+  srv = inject(GHOService);
+  utl = inject(GHOUtitity);
+  tv: tags[] = [];
+  res: ghoresult = new ghoresult();
 
-permissions = [
-  { name: 'Media Upload', checked: false },
-  { name: 'Ad Management', checked: false },
-  { name: 'Program Management', checked: false },
-  { name: 'Member Management', checked: false }
-];
+  ngOnInit(): void {
+      this.getRoles();
+  }
 
-isFullAccess = false;
+  addTeamMenber(): void {
 
-onToggleChange() {
-  this.permissions.forEach(p => {
-    p.checked = this.isFullAccess;
-  });
-}
+    const payload = {
+      FullName: this.fullName,
+      Role: this.role,
+      Phone: this.phone,
+      Email: this.email,
+      CountryID: this.countryId
+    };
 
-remove(item: any) {
-  this.selectedPrograms = this.selectedPrograms.filter(p => p !== item);
-}
+    this.loading = true;
+    this.tv = [
+      { T: 'c1', V: JSON.stringify(payload) },
+      { T: 'c10', V: '1' }
+    ];
+
+    this.srv.getdata('teammember', this.tv)
+      .subscribe({
+        next: (r) => {
+        
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+          this.loading = false;
+        }
+      });
+  }
+
+  getRoles(): void {
+
+    this.loading = true;
+    this.tv = [
+      { T: 'dk1', V: "ROLES" },
+      { T: 'c10', V: '3' }
+    ];
+
+    this.srv.getdata('lists', this.tv)
+      .subscribe({
+        next: (r) => {
+           this.roles=r.Data[0];
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+          this.loading = false;
+        }
+      });
+  }
+
+  addTeamMemberClick() {
+    this.addTeamMenber();
+  }
+  programs = [
+    { program: 'Om Shanti Om' },
+    { program: 'Bollywood Rewind' },
+    { program: 'Hungama Radio' },
+    { program: 'Indo American News' },
+    { program: 'Talk with Stars' },
+    { program: 'Studio Conversations' },
+    { program: 'Dial In & Speak Out' }
+  ];
+
+  selectedPrograms: any[] = [];
+
+  permissions = [
+    { name: 'Media Upload', checked: false },
+    { name: 'Ad Management', checked: false },
+    { name: 'Program Management', checked: false },
+    { name: 'Member Management', checked: false }
+  ];
+
+  isFullAccess = false;
+
+  onToggleChange() {
+    this.permissions.forEach(p => {
+      p.checked = this.isFullAccess;
+    });
+  }
+
+  remove(item: any) {
+    this.selectedPrograms = this.selectedPrograms.filter(p => p !== item);
+  }
   isAutoPlay: boolean = true;
 
   close() {

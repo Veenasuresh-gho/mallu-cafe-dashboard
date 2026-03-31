@@ -21,14 +21,6 @@
                     <input matInput placeholder="Search here..." [(ngModel)]="searchText" />
                 </mat-form-field>
 
-                <!-- Dropdowns -->
-                <!-- <mat-form-field appearance="outline">
-                    <mat-select placeholder="Roles" [(value)]="roles">
-                        <mat-option value="all">All roles</mat-option>
-                        <mat-option value="all">RJ</mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-
                 <app-select-drop-down placeholder="Roles" [(value)]="roles" [options]="[
     { label: 'All Roles', value: 'all' },
     { label: 'RJ', value: 'rj' },
@@ -36,14 +28,7 @@
   ]">
                 </app-select-drop-down>
 
-                <!-- <mat-form-field appearance="outline">
-                    <mat-select placeholder="All Programs" [(value)]="programs">
-                        <mat-option value="all">All Programs</mat-option>
-
-                    </mat-select>
-                </mat-form-field> -->
-
-                  <app-select-drop-down placeholder="All Programs" [(value)]="programs" [options]="[
+            <app-select-drop-down placeholder="All Programs" [(value)]="programs" [options]="[
     { label: 'All Programs', value: 'all' },
     { label: 'RJ', value: 'rj' },
     { label: 'Admin', value: 'admin' },

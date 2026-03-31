@@ -14,17 +14,23 @@ import { ghoresult, tags } from '../../../model/ghomodel';
 import { GHOService } from '../../services/ghosrvs';
 import { GHOUtitity } from '../../services/utilities';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+
 @Component({
   selector: 'app-programs',
   standalone: true,
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown, MatProgressSpinnerModule],
   templateUrl: './programs.html',
   styleUrl: './programs.css',
 })
-export class Programs implements OnInit,AfterViewInit {
+export class Programs implements OnInit, AfterViewInit {
 
-  constructor(private dialog: MatDialog) { }
-
+  constructor(private dialog: MatDialog , private cdr: ChangeDetectorRef) { }
+  loading = false;
+  ds: [] = [];
   openModal() {
     this.dialog.open(AddNewProgram, {
       width: '90%',
@@ -51,44 +57,25 @@ export class Programs implements OnInit,AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-getProgramList(): void {
-  this.tv = [{ T: 'c10', V: '3' }];
+  getProgramList(): void {
+    this.loading = true;
+    this.tv = [{ T: 'c10', V: '3' }];
 
-  this.srv.getdata('program', this.tv)
-    .subscribe({
-      next: (r) => {
-        const rawData = r.Data?.[0] || [];
-
-        this.dataSource.data = rawData.map((item: any) => ({
-          name: item.Title,
-          avatar: '/main/no-image.png',
-          category: item.CategoryName,
-          categoryClass:
-            item.CategoryName === 'Podcast'
-              ? 'podcast'
-              : item.CategoryName === 'Live'
-              ? 'live'
-              : 'pre',
-          host: item.HostName,
-          duration: item.Duration,
-          dayTime: `${item.DayRange}, ${item.TimeRange}`,
-          interaction: item.IsCallAllowed
-            ? 'Allow Calls'
-            : 'Disabled Calls',
-          interactionClass: item.IsCallAllowed
-            ? 'allow'
-            : 'disabled'
-        }));
-
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-        });
-      },
-      error: (err) => {
-        console.error('API Error:', err);
-      }
-    });
-}
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: (r) => {
+          this.ds = r.Data[0];
+          console.log(this.ds)
+          this.dataSource.data = this.ds;
+          this.loading = false;
+          this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+          this.loading = false;
+        }
+      });
+  }
 
   get showPaginator(): boolean {
     return this.dataSource.data.length > 7;

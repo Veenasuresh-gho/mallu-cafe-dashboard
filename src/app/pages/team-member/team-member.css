@@ -200,3 +200,14 @@ color: var(--muted-input);
   display: flex;
   flex-direction: column;  /* allow body to grow */
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px; 
+}
+
+::ng-deep .mat-mdc-progress-spinner circle {
+  stroke: var(--primary-color) !important;
+}

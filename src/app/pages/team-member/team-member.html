@@ -21,14 +21,6 @@
                     <input matInput placeholder="Search here..." [(ngModel)]="searchText" />
                 </mat-form-field>
 
-                <!-- Dropdowns -->
-                <!-- <mat-form-field appearance="outline">
-                    <mat-select placeholder="Roles" [(value)]="roles">
-                        <mat-option value="all">All roles</mat-option>
-                        <mat-option value="all">RJ</mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-
                 <app-select-drop-down placeholder="Roles" [(value)]="roles" [options]="[
     { label: 'All Roles', value: 'all' },
     { label: 'RJ', value: 'rj' },
@@ -36,14 +28,7 @@
   ]">
                 </app-select-drop-down>
 
-                <!-- <mat-form-field appearance="outline">
-                    <mat-select placeholder="All Programs" [(value)]="programs">
-                        <mat-option value="all">All Programs</mat-option>
-
-                    </mat-select>
-                </mat-form-field> -->
-
-                  <app-select-drop-down placeholder="All Programs" [(value)]="programs" [options]="[
+                <app-select-drop-down placeholder="All Programs" [(value)]="programs" [options]="[
     { label: 'All Programs', value: 'all' },
     { label: 'RJ', value: 'rj' },
     { label: 'Admin', value: 'admin' },
@@ -60,14 +45,20 @@
 
     </div>
 
+    @if(loading){
+    <div class="spinner-container">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+    }
+    @if(!loading){
     <table mat-table [dataSource]="dataSource" class="custom-table">
 
         <ng-container matColumnDef="team-members">
             <th mat-header-cell *matHeaderCellDef>Profile</th>
             <td mat-cell *matCellDef="let row">
                 <div class="program-cell">
-                    <img [src]="row.avatar" class="avatar" />
-                    <div class="program-name">{{ row.name }}</div>
+                    <img [src]="row.avatar || '/main/no-image.png'" class="avatar" />
+                    <div class="program-name">{{ row.FullName || '-'}}</div>
                 </div>
             </td>
         </ng-container>
@@ -76,28 +67,28 @@
         <ng-container matColumnDef="role">
             <th mat-header-cell *matHeaderCellDef>Role</th>
             <td mat-cell *matCellDef="let row">
-                <div class="user">{{ row.role }}</div>
+                <div class="user">{{ row.Role || '-' }}</div>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="assignedPrograms">
             <th mat-header-cell *matHeaderCellDef>Assigned Programs</th>
             <td mat-cell *matCellDef="let row">
-                {{ row.assignedPrograms }}
+                {{ row.assignedPrograms || '-' }}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="mobile">
             <th mat-header-cell *matHeaderCellDef>Mobile</th>
             <td mat-cell *matCellDef="let row">
-                {{ row.mobile }}
+                +{{ row.FullPhone }}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef>E-mail</th>
             <td mat-cell *matCellDef="let row">
-                {{ row.email }}
+                {{ row.Email }}
             </td>
         </ng-container>
 
@@ -106,7 +97,9 @@
 
     </table>
 
-    <mat-paginator [length]="22" [pageSize]="7" [pageSizeOptions]="[7]" showFirstLastButtons>
+     @if(showPaginator){
+    <mat-paginator [pageSize]="7" [pageSizeOptions]="[7, 14, 21]" showFirstLastButtons>
     </mat-paginator>
-
+    }
+    }
 </div>

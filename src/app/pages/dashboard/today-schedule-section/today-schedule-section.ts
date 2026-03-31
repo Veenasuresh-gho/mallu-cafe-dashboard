@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { CustomCalendar } from '../../../components/custom-calendar/custom-calendar';
 
 @Component({
   selector: 'today-schedule-section',
-  imports: [],
+  imports: [CustomCalendar],
   templateUrl: './today-schedule-section.html',
   styleUrl: './today-schedule-section.css',
 })

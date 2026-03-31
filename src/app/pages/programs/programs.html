@@ -45,7 +45,12 @@
     { label: 'RJ Reeva', value: 'reeva' }
   ]">
                 </app-select-drop-down>
-
+<div class="calendar-wrapper" *ngIf="isCalendarOpen">
+   <app-custom-filter-calender
+  [inlineMode]="true"
+  (filterApplied)="onFilterApplied($event)">
+</app-custom-filter-calender>
+</div>
 
 
                 <app-select-drop-down placeholder="All Programs" [(value)]="program" [options]="[
@@ -53,7 +58,7 @@
     { label: 'Today', value: 'today' },
     { label: 'Tomorrow', value: 'tomorrow' },
     { label: 'Custom date', value: 'date' },
-  ]">
+  ]" (valueChange)="onProgramChange($event)">
                 </app-select-drop-down>
             </div>
             <div class="d-flex align-items-center gap-1">

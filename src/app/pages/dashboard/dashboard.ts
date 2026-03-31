@@ -3,6 +3,7 @@ import { TodayScheduleSection } from './today-schedule-section/today-schedule-se
 import { MusicPlayer } from './music-player/music-player';
 import { Summary } from './summary/summary';
 import { CustomCalendar } from '../../components/custom-calendar/custom-calendar';
+import { CustomFilterCalender } from '../../components/custom-filter-calender/custom-filter-calender';
 
 @Component({
   selector: 'app-dashboard',

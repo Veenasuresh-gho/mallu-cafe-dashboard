@@ -1,13 +1,13 @@
 <div class="form-group">
   <label class="input-label">{{ label }}</label>
 
-   <input
+  <input
     class="input-field my-1"
     type="text"
     [placeholder]="placeholder"
-    [(ngModel)]="model"
     [name]="name"
-    [ngClass]="{'has-value': model}"
-      
+    [ngModel]="model"
+    (ngModelChange)="modelChange.emit($event)"
+    [ngClass]="{ 'has-value': model }"
   />
 </div>

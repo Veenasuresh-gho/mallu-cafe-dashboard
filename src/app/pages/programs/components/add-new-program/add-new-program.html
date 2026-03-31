@@ -6,17 +6,20 @@
 
     <form>
 
-        <app-form-input label="Program Details *" placeholder="Enter program name" name="programTitle"></app-form-input>
+        <app-form-input label="Program Details *" [(model)]="programTitle" placeholder="Enter program name"
+            name="programTitle"></app-form-input>
 
 
-        <app-form-select label="Host / RJ " [options]="['RJ Anjali', 'RJ Raj']" placeholder="Select host / RJ"
-            name="host"></app-form-select>
+        <app-form-select label="Host / RJ" [options]="hosts" optionLabel="DisplayText" optionValue="DataValue"
+            placeholder="Select host / RJ" name="host" [(model)]="selectedHost">
+        </app-form-select>
 
 
-        <app-form-select label="Category" [options]="['Pre-Scheduled', 'Podcast', 'Live']"
-            placeholder="Select program category" name="category"></app-form-select>
+        <app-form-select label="Category" [options]="categoryOptions" optionLabel="DisplyText" optionValue="DataValue"
+            [(model)]="selectedCategory">
+        </app-form-select>
 
-        <app-schedule-picker></app-schedule-picker>
+        <app-schedule-picker [(model)]="selectedSchedule"></app-schedule-picker>
 
         <div class="form-group">
             <label class="input-label" for="thumbnail">Thumbnail</label>
@@ -57,7 +60,8 @@
 <div class="border footer">
     <div class="dialog-actions d-flex justify-content-end mt-4 mx-4 ">
         <app-cancel-button class="pt-2" (click)="close()"></app-cancel-button>
-        <app-footer-button text="Create new program" icon="/dash/cloud-connection.svg" type="button">
+        <app-footer-button (click)="addProgram()" text="Create new program" icon="/dash/cloud-connection.svg"
+            type="button">
         </app-footer-button>
     </div>
 </div>

@@ -63,14 +63,19 @@
         </div>
 
     </div>
-
+    @if(loading){
+    <div class="spinner-container">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+    }
+    @if(!loading){
     <table mat-table [dataSource]="dataSource" class="custom-table">
         <ng-container matColumnDef="program">
             <th mat-header-cell *matHeaderCellDef>Program Title</th>
             <td mat-cell *matCellDef="let row">
                 <div class="program-cell">
-                    <img [src]="row.avatar" class="avatar" />
-                    <div class="program-name">{{ row.name }}</div>
+                    <img [src]="row.avatar || '/main/no-image.png'" class="avatar" />
+                    <div class="program-name">{{ row.Title }}</div>
                 </div>
             </td>
         </ng-container>
@@ -79,7 +84,7 @@
             <th mat-header-cell *matHeaderCellDef>Category</th>
             <td mat-cell *matCellDef="let row">
                 <span class="category" [ngClass]="row.categoryClass">
-                    {{ row.category }}
+                    {{ row.CategoryName }}
                 </span>
             </td>
         </ng-container>
@@ -87,44 +92,44 @@
         <ng-container matColumnDef="host">
             <th mat-header-cell *matHeaderCellDef>Host</th>
             <td mat-cell *matCellDef="let row">
-                <div class="user">{{ row.host }}</div>
+                <div class="user">{{ row.HostName }}</div>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="duration">
             <th mat-header-cell *matHeaderCellDef>Duration</th>
             <td mat-cell *matCellDef="let row">
-                {{ row.duration }}
+                {{ row.Duration }}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="dayTime">
             <th mat-header-cell *matHeaderCellDef>Schedule Day → Time</th>
             <td mat-cell *matCellDef="let row">
-                {{ row.dayTime }}
+                {{ row.DayRange }} , {{row.TimeRange}}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="interaction">
             <th mat-header-cell *matHeaderCellDef>Listener Interaction</th>
+
             <td mat-cell *matCellDef="let row">
-                <span class="interaction" [ngClass]="row.interactionClass">
+                <span class="interaction" [ngClass]="row.IsCallAllowed ? 'allow' : 'disabled'">
 
-                    <mat-icon *ngIf="row.interactionClass === 'allow'">check_circle</mat-icon>
+                    <mat-icon *ngIf="row.IsCallAllowed">check_circle</mat-icon>
+                    <mat-icon *ngIf="!row.IsCallAllowed">info</mat-icon>
 
-                    <mat-icon *ngIf="row.interactionClass === 'disabled'">info</mat-icon>
-
-                    {{ row.interaction }}
+                    {{ row.IsCallAllowed ? 'Allow Calls' : 'Disabled Calls' }}
                 </span>
             </td>
         </ng-container>
-
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
         <tr mat-row *matRowDef="let row; columns: columns;"></tr>
 
     </table>
-
-    <mat-paginator *ngIf="showPaginator" [pageSize]="7" [pageSizeOptions]="[7, 14, 21]" showFirstLastButtons>
+    @if(showPaginator){
+    <mat-paginator [pageSize]="7" [pageSizeOptions]="[7, 14, 21]" showFirstLastButtons>
     </mat-paginator>
-
+    }
+    }
 </div>

@@ -34,16 +34,22 @@
                 <p class="helper-text py-1">Supported formats: JPG, PNG</p>
             </div>
             <div>
-               
-<div style="width: 376px;">
-                            <app-form-input label="Full Name *" placeholder="eg. Shabin B Joe" name="Title"  ></app-form-input>
 
-</div>
-    
- <app-form-select label="Role / Designation" [options]="['Radio Jockey (RJ)', 'Admin']" placeholder="- Select Role -"
-            name="host"></app-form-select>
-                
-                <p class="helper-text" style="padding-top: 6px;">This role defines the member’s responsibility in the station.</p>
+                <div style="width: 376px;">
+                    <!-- <app-form-input label="Full Name *" placeholder="eg. Shabin B Joe" name="Title"  ></app-form-input> -->
+
+                    <app-form-input [(model)]="fullName" name="fullName" placeholder="eg. Shabin B Joe"
+                        label="Full Name *">
+                    </app-form-input>
+
+                </div>
+
+                <app-form-select label="Role / Designation" [model]="role" (modelChange)="onRoleChange($event)"
+                    name="role" [options]="roles" optionLabel="DisplyText" optionValue="DataValue">
+                </app-form-select>
+
+                <p class="helper-text" style="padding-top: 6px;">This role defines the member’s responsibility in the
+                    station.</p>
             </div>
         </div>
         <div class="custom-line-sub"></div>
@@ -60,7 +66,8 @@
                 <div class="phone-input ">
                     <div class="countrycode">+1</div>
 
-                    <input type="text" class="phone-number " placeholder="000 000 0000" />
+                    <input type="text" class="phone-number" [(ngModel)]="phone" name="phone"
+                        placeholder="000 000 0000" />
                 </div>
 
                 <small class="helper-text">Used for internal communication.</small>
@@ -69,7 +76,8 @@
             <div class="form-group email-group">
                 <label class="input-label">Email *</label>
                 <div style="gap: 0px;">
-                    <input class="input-field email-input px-2" type="text" placeholder="e.g., smithjohn55@gmail.com" />
+                    <input type="text" class="input-field email-input px-2" [(ngModel)]="email" name="email"
+                        placeholder="e.g., test@gmail.com" />
                     <small class="helper-text">This email will be used for login access &
                         communication.</small>
                 </div>
@@ -87,7 +95,8 @@
         <div class="px-4">
             <mat-form-field class="assigned-programs" appearance="outline">
 
-                <mat-select multiple [(value)]="selectedPrograms" placeholder="- Select Program Category -" panelClass="custom-select-panel">
+                <mat-select multiple [(value)]="selectedPrograms" placeholder="- Select Program Category -"
+                    panelClass="custom-select-panel">
 
                     <mat-select-trigger class="bg-white">
                         <mat-chip-set>
@@ -136,7 +145,7 @@
         <p class="input-label px-4 ">Access rights and system privilages </p>
         <div class="checkbox-container">
             <span class="px-4 py-1" *ngFor="let item of permissions">
-                
+
                 <label class="access-txt">
                     <input type="checkbox" [(ngModel)]="item.checked" name="permission-{{item.name}}" />
                     {{ item.name }}
@@ -152,9 +161,12 @@
                 <p>Cancel</p>
             </button>
 
-            <app-primary-button style="margin-right: 24px;" label="Add Member" iconSrc="/main/add.svg"></app-primary-button>
+            <app-primary-button (click)="addTeamMemberClick()"  style="margin-right: 24px;" label="Add Member"
+                iconSrc="/main/add.svg"></app-primary-button>
+
+            
         </div>
-        
+
     </mat-dialog-content>
 
 </div>

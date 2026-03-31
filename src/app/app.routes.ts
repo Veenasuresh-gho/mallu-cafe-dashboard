@@ -1,18 +1,29 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+
+  {
+    path: '',
+    redirectTo: () => {
+      const token = sessionStorage.getItem('tkn');
+      return token ? 'dashboard' : 'sign-in';
+    },
+    pathMatch: 'full'
+  },
+
   {
     path: 'sign-in',
     loadComponent: () =>
       import('./pages/auth/sign-in/sign-in')
         .then(m => m.SignIn)
   },
-    {
+  {
     path: 'forgot-password',
     loadComponent: () =>
       import('./pages/auth/forgot-password/forgot-password')
         .then(m => m.ForgotPassword)
   },
+
   {
     path: '',
     loadComponent: () =>
@@ -24,11 +35,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/dashboard/dashboard')
             .then(m => m.Dashboard)
-      },
-      {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
       },
       {
         path: 'profile',
@@ -60,7 +66,6 @@ export const routes: Routes = [
           import('./pages/advertisements/advertisements')
             .then(m => m.Advertisements)
       },
-
     ]
   }
 ];

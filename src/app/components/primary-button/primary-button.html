@@ -2,6 +2,7 @@
   mat-button
   disableRipple
   class="custom-btn d-flex align-items-center gap-1"
+  [disabled]="loading"
   [ngClass]="{
     'mat-stroked-button': type === 'stroked',
     'mat-flat-button': type === 'flat',
@@ -9,11 +10,15 @@
   }"
   (click)="onClick()"
 >
-  <!-- Material icon -->
-  <mat-icon *ngIf="icon && !iconSrc">{{ icon }}</mat-icon>
 
-  <!-- Image icon -->
-  <img *ngIf="iconSrc" [src]="iconSrc" class="btn-icon" />
+  <!-- Loader -->
+  <span *ngIf="loading" class="loader"></span>
 
-  {{ label }}
+  <!-- Normal content -->
+  <ng-container *ngIf="!loading">
+    <mat-icon *ngIf="icon && !iconSrc">{{ icon }}</mat-icon>
+    <img *ngIf="iconSrc" [src]="iconSrc" class="btn-icon" />
+    {{ label }}
+  </ng-container>
+
 </button>

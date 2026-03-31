@@ -1,0 +1,109 @@
+
+
+
+<div class="dialog-backdrop">
+  <div class="dialog-box">
+
+    <!-- ========================= -->
+    <!-- STEP 1: Replace UI -->
+    <!-- ========================= -->
+    <ng-container *ngIf="!isUploading">
+
+      <div class="py-4 text-center">
+        <img src="/fileupload/fileupload-icon.svg" alt="">
+      </div>
+
+      <h2>Do you want to replace the currently uploaded file?</h2>
+
+      <p class="file-name">IndoAmericanNews_230326.mp3</p>
+
+      <div class="actions py-3">
+        <button class="cancel-btn" (click)="onCancel()">Cancel</button>
+
+        <button class="replace-btn" (click)="triggerFileInput()">
+          Replace File
+        </button>
+      </div>
+
+    </ng-container>
+
+    <!-- ========================= -->
+    <!-- STEP 2: Upload UI -->
+    <!-- ========================= -->
+    <ng-container *ngIf="isUploading">
+
+      <!-- Header -->
+      <div class="header">
+        <h2>Update file</h2>
+        <button class="close-btn" (click)="onCancel()">✕</button>
+      </div>
+
+      <!-- Upload Box -->
+      <div class="upload-box">
+
+        <div class="progress-wrapper">
+          <svg width="120" height="120">
+            <circle cx="60" cy="60" r="50" class="bg" />
+            <circle
+              cx="60"
+              cy="60"
+              r="50"
+              class="progress"
+              [attr.stroke-dasharray]="circumference"
+              [attr.stroke-dashoffset]="progressOffset"
+            />
+          </svg>
+
+          <div class="progress-text">
+            {{ uploadProgress }}%
+          </div>
+        </div>
+
+        <!-- TEXT -->
+        <p class="title">
+          {{ isCompleted ? fileBaseName + fileDate + '.mp3' : 'Wait a little bit..' }}
+        </p>
+
+        <span class="subtitle">
+          {{ isCompleted ? 'File uploaded successfully' : 'Uploading File' }}
+        </span>
+
+        <br>
+
+        <!-- BUTTON -->
+        <button class="cancel-btn" (click)="isCompleted ? deleteFile() : cancelUpload()">
+          {{ isCompleted ? 'Delete' : 'Cancel' }}
+        </button>
+
+      </div>
+
+      <!-- Rename Row -->
+      <div class="rename-row">
+
+        <div class="rename-field">
+          <span class="prefix">{{ fileBaseName }}</span>
+          <input [(ngModel)]="fileDate" placeholder="ddmmyy" />
+        </div>
+
+        <button
+          class="finish-btn"
+          (click)="finishUpload()"
+          [disabled]="!isCompleted"
+        >
+          ✔ Finish upload
+        </button>
+
+      </div>
+
+    </ng-container>
+
+    <!-- ✅ ONLY ONE file input -->
+    <input
+      type="file"
+      #fileInput
+      hidden
+      (change)="onFileSelected($event)"
+    />
+
+  </div>
+</div>

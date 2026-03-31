@@ -191,3 +191,23 @@
   color: white;
   border-radius: 20px;
 }
+
+.footer button {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid red;
+  background: #fff;
+  color: #e53935;
+  cursor: not-allowed;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+}
+
+/* ACTIVE STATE */
+.footer button.active-btn {
+  border: 1px solid red;
+  background: #FCE7E7;
+  color: red;
+  cursor: pointer;
+  opacity: 1;
+}

@@ -3,15 +3,15 @@ import { Component, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { GHOService } from '../../../../services/ghosrvs';
-import { ghoresult, tags } from '../../../../../model/ghomodel';
-import { GHOUtitity } from '../../../../services/utilities';
 import { catchError, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ToastrService } from 'ngx-toastr';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { GHOService } from '../../../services/ghosrvs';
+import { GHOUtitity } from '../../../services/utilities';
+import { ghoresult, tags } from '../../../../model/ghomodel';
 
 @Component({
   selector: 'app-forgot-password',

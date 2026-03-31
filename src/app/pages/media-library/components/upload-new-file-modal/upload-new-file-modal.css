@@ -160,6 +160,10 @@
   border-top: 1px solid #E4E4E4;
   margin: 0px 24px;
 }
+.footer{
+  background: #fff;
+
+}
 .btn-save {
   font-weight: 400;
   font-size: 12px;
@@ -192,6 +196,7 @@
   position: relative;
   width: 100%;
 }
+
 .input-wrapper {
   position: relative;
 }
@@ -278,7 +283,11 @@ option:checked {
   padding: 8px 14px;
   align-items: center;
   gap: 4px;
+  font-family: Poppins;
   
+}
+.form-row{
+  gap: 6px;
 }
 .upload-img {
   width: 100%;
@@ -357,4 +366,34 @@ background-color: #FFFFFF;
   pointer-events: none; /* IMPORTANT: allows clicking select */
   font-size: 20px;
   color: #666;
+}
+
+.input-prefix-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 10px;
+  min-height: 36px;
+  font-size: 12px;
+  font-family: Poppins, sans-serif;
+}
+
+.prefix {
+  color: #757575;
+  user-select: none; /* prevent editing */
+  margin-right: 4px;
+}
+
+.editable-part {
+  outline: none;
+  flex-grow: 1;
+  color: #000;
+}
+/* Show placeholder when empty */
+.editable-part:empty::before {
+  content: attr(data-placeholder);
+  color: #999; /* placeholder color */
+  pointer-events: none; /* click passes through */
+  user-select: none;
 }

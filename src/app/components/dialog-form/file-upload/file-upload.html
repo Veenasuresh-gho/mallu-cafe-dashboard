@@ -1,0 +1,18 @@
+<div class="file-upload">
+  <label class="upload-btn d-flex gap-2">
+    <input
+      type="file"
+      hidden
+      [accept]="accept"
+      (change)="onFileChange($event)"
+    />
+
+    <img src="/program/upload-icon.svg" alt="">
+
+    <p class="pt-3">{{ label }}</p>
+  </label>
+
+  <span class="file-name px-2 input-label-noFile">
+    {{ fileName || fileText }}
+  </span>
+</div>

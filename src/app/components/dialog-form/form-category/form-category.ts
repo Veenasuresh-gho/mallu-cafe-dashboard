@@ -41,6 +41,7 @@ export class FormCategory implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
+  
   // Called when user selects a new option
   setValue(value: string) {
     this.selectedValue = value;

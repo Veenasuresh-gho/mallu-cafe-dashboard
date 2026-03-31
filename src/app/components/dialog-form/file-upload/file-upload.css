@@ -1,0 +1,33 @@
+.file-upload {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+  width: 100%;       
+  max-width: 552px; 
+  height: 36px;
+  box-sizing: border-box; 
+}
+.upload-btn {
+  background: #f5f5f5;
+  cursor: pointer;
+  border-right: 1px solid #ccc;
+  font-size: 12px;
+  display: flex;
+  font-weight: 400;
+  padding: 8px 14px;
+  align-items: center;
+  gap: 4px;
+  font-family: Poppins;
+  
+}
+.upload-content{
+  width: 73%;
+}
+.input-label-noFile{
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--muted-input);
+  font-family: Poppins;
+}

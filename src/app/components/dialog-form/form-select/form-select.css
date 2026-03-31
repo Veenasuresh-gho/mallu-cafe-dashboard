@@ -19,7 +19,7 @@
   font-weight: 400;
   font-size: 12px;
   border-radius: 6px;
-  height: 36px;
+  height: 37px;
   width: 100%;
   padding: 10px;
   border: 1px solid #CFCFCF;
@@ -156,5 +156,8 @@ select option:checked {
 /* Remove divider from last item */
 .option:last-child {
   border-bottom: none;
+}
+.input-field.selected-border:focus {
+  border: 1px solid #D8090580;
 }
 

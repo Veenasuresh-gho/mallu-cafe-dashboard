@@ -13,5 +13,6 @@ export class FormInput {
   @Input() placeholder: string = '';
  @Input() model: any = '';
    @Input() name: string = '';
+   
   @Output() modelChange = new EventEmitter<any>();
 }

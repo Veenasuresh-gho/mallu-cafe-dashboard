@@ -1,0 +1,70 @@
+<!-- step 3 -->
+
+<div class="custom-line-sub" style="margin-top: 14px;"></div>
+
+<app-step-badge [stepNumber]="3" title="Rename File"></app-step-badge>
+
+<div class="form-row px-4 pt-3">
+    <div class="form-group">
+        <div class="input-prefix-wrapper input-field">
+            <span class="prefix">featured//</span>
+            <div class="editable-part" contenteditable="true" (input)="onTextChange($event)"
+                data-placeholder="230926.mp3"></div>
+        </div>
+        <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
+    </div>
+</div>
+<div class="custom-line-sub "></div>
+
+<!-- step 4 -->
+<app-step-badge [stepNumber]="4" title="Thumbnail"></app-step-badge>
+
+<!-- contents -->
+
+<div class=" px-4">
+    <div class="form-group pt-1">
+        <label class="input-label" for="thumbnail">Custom Thumbnail</label>
+
+
+        <app-file-upload label="Upload Image" accept="image/*"
+            (fileSelected)="onFileSelected($event)"></app-file-upload>
+        <p class="helper-text">JPG, JPEG, PNG formats. Required for podcast, featured videos, shorts.</p>
+    </div>
+
+</div>
+<!-- step 5 -->
+
+<div>
+
+    <div class="custom-line-sub "></div>
+
+
+    <app-step-badge [stepNumber]="5" title="Public App Content"></app-step-badge>
+
+
+    <div class="form-row px-4 my-2">
+        <div class="form-group">
+            <!-- <label class="input-label">Title *</label>
+                    <input class="input-field py-1 px-2" type="text"
+                        placeholder="eg. Celebrity Talk – Exclusive Interview with Actor Nivin Pauly" />
+                     -->
+            <app-form-input label="Title *"
+                placeholder="eg. Celebrity Talk – Exclusive Interview with Actor Nivin Pauly"
+                name="Title"></app-form-input>
+
+
+            <div class="form-row">
+                <label class="input-label">Subtitle *</label>
+
+            </div>
+            <textarea class="input-field textarea-field "
+                placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects"
+                [(ngModel)]="subtitle" rows="2" name="programTitle"></textarea>
+            <p class="helper-text ">Keep it short and engaging for listeners.</p>
+
+        </div>
+    </div>
+
+
+
+</div>

@@ -17,12 +17,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
+import { CustomFilterCalender } from '../../components/custom-filter-calender/custom-filter-calender';
 
 @Component({
   selector: 'app-programs',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown, MatProgressSpinnerModule],
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown, MatProgressSpinnerModule,CustomFilterCalender],
   templateUrl: './programs.html',
   styleUrl: './programs.css',
 })
@@ -105,4 +106,29 @@ export class Programs implements OnInit {
     'interaction'
   ];
 
+  programsDropdown: string = 'all';
+tempProgramSelection: string = 'all'; // 👈 NEW
+isCalendarOpen: boolean = false;
+
+onProgramChange(value: string) {
+  if (value === 'date') {
+    this.isCalendarOpen = true;
+
+    // store temporarily, DON'T apply yet
+    this.tempProgramSelection = value;
+  } else {
+    this.programsDropdown = value;
+    this.tempProgramSelection = value;
+    this.isCalendarOpen = false;
+  }
+}
+
+onFilterApplied(data: any) {
+  console.log('Final Filter:', data);
+
+  // ✅ Now confirm selection
+  this.programsDropdown = this.tempProgramSelection;
+
+  this.isCalendarOpen = false;
+}
 }

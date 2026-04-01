@@ -1,4 +1,4 @@
-<div class="form-group">
+<!-- <div class="form-group">
   <label class="input-label">{{ label }} *</label>
 
   <div class="select-wrapper">
@@ -19,5 +19,38 @@
     </select>
 
     <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
+  </div>
+</div> -->
+
+<div class="form-group">
+  <label class="input-label">{{ label }} *</label>
+
+  <div class="select-wrapper">
+    <!-- Selected display like form-select -->
+    <div
+      class="input-field"
+      tabindex="0"
+      (click)="toggleDropdown()"
+      [ngClass]="{
+        'selected-border': selectedValue,
+        'selected-text': selectedValue,
+        'placeholder-text': !selectedValue
+      }"
+    >
+      {{ getDisplayLabel() }}
+    </div>
+
+    <!-- Dropdown menu -->
+    <div class="dropdown" *ngIf="open">
+      <div
+        class="option"
+        *ngFor="let item of options"
+        (click)="setValue(item.value)"
+      >
+        {{ item.label }}
+      </div>
+    </div>
+
+    <img src="/program/dropdown.svg" class="dropdown-icon" alt="" />
   </div>
 </div>

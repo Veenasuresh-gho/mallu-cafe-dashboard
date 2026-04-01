@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
-import { MatRadioButton, MatRadioGroup, MatRadioModule } from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { DialogHeaderComponent } from '../../../../components/dialog-form/dialog-header/dialog-header-component';
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
@@ -32,7 +32,7 @@ import { ghoresult, tags } from '../../../../../model/ghomodel';
     FooterButton, CancelButton
   ],
   templateUrl: './add-new-program.html',
-  styleUrl: './add-new-program.css',
+  styleUrls: ['./add-new-program.css'],
 })
 export class AddNewProgram implements OnInit {
   constructor(private dialogRef: MatDialogRef<AddNewProgram>) { }
@@ -132,7 +132,8 @@ export class AddNewProgram implements OnInit {
   }
   selectedCategory: string = '';
 
-  selectedType: string = 'disable';
+  selectedType: string = '';
+
 
 
 

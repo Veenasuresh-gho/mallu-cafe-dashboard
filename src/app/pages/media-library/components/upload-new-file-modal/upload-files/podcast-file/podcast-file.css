@@ -21,6 +21,46 @@
   font-family: Poppins, sans-serif;
 }
 
+.radio-grp {
+  display: flex;
+  gap: 53px; /* spacing between the two options */
+}
+.custom-radio {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* spacing between circle and text */
+  cursor: pointer;
+  user-select: none;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: Poppins;
+}
+.custom-radio .circle {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #CFCFCF; /* default outer circle color */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s;
+}
+.custom-radio.selected .circle::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #d92b2b; /* inner dot color */
+  display: block;
+}
+.custom-radio.selected .circle {
+  border-color: #d92b2b; /* outer circle color when selected */
+}
+
+/* Change text color when selected */
+.custom-radio.selected span {
+  color: #d92b2b;
+}
 .prefix {
   color: #757575;
   user-select: none; /* prevent editing */
@@ -77,6 +117,13 @@
   height: 36px;
   box-sizing: border-box; 
 }
+.upload-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* align items vertically in line */
+  padding: 2px 0px;
+  font-size: 12px;
+}
 .upload-btn {
   background: #f5f5f5;
   cursor: pointer;
@@ -90,8 +137,8 @@
   font-family: Poppins;
   
 }
-.upload-content{
-  width: 73%;
+.division{
+  width: 190px;
 }
 .adding-btn{
   margin-top: 30px;

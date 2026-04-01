@@ -1,16 +1,16 @@
 <div class="form-group">
-  <label class="input-label">{{ label }} *</label>
+  <label class="input-label">{{ label }}</label>
 
   <div class="select-wrapper">
 
     <!-- Selected display -->
-    <div
-      class="input-field"
-      tabindex="0"
-      (click)="toggleDropdown()"
-      [ngClass]="{ 'selected-border': model }"
-    >
-      {{ getSelectedLabel() || placeholder || ('Select ' + label) }}
+    <div class="input-field"  tabindex="0" (click)="toggleDropdown()"
+     [ngClass]="{ 
+    'selected-border': model,
+    'selected-text': model
+  }"
+  >
+      {{ getSelectedLabel() || model || placeholder || ('Select ' + label) }}
     </div>
 
     <!-- Dropdown -->

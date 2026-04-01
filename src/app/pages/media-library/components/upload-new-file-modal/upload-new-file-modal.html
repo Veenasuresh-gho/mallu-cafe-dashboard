@@ -40,23 +40,6 @@
 
 
 
-            <!-- <div *ngIf="selectedProgramCategory === 'podcast'" class="">
-
-                <div class="d-flex align-items-center justify-content-center gap-2">
-                    <app-form-select label="Podcast Category Name " style="width:498px ;"
-                        [options]="['Music', 'Movie Night']" placeholder="e.g., Music / Entertainment / Sports"
-                        name="host">
-                    </app-form-select>
-                    <div class="adding-btn">
-                        <button class="add-btn" (click)="openModalAddPodcast()">
-                            <img src="/upload/add.svg" alt="">
-                        </button>
-
-                    </div>
-                </div>
-
-                
-            </div> -->
         </div>
         <div [ngSwitch]="selectedProgramCategory">
 
@@ -66,169 +49,15 @@
 
             <app-shorts *ngSwitchCase="'shorts'"></app-shorts>
 
-            <!-- <app-podcast *ngSwitchCase="'podcast'"></app-podcast> -->
-             <app-podcast-file *ngSwitchCase="'podcast'"></app-podcast-file>
+            <app-podcast-file *ngSwitchCase="'podcast'"></app-podcast-file>
 
-            <!-- Optional default -->
             <div *ngSwitchDefault>
                 <app-default></app-default>
             </div>
 
         </div>
 
-        <!-- program name -->
 
-        <!-- <div class="form-row px-4">
-            
-            <app-form-select label="Program Name " [options]="['Om Shanti Om', 'Om Shanti Om']"
-                placeholder="- Select Program Name -" name="host">
-            </app-form-select>
-        </div> -->
-
-        <!-- step 3 -->
-
-        <!-- <div class="custom-line-sub" style="margin-top: 14px;"></div>
-
-        <app-step-badge [stepNumber]="3" title="Rename File"></app-step-badge>
-
-        <div class="form-row px-4 pt-3">
-            <div class="form-group">
-                <div class="input-prefix-wrapper">
-                    <span class="prefix">ProgramName//</span>
-                    <div class="editable-part" contenteditable="true" (input)="onTextChange($event)"
-                        data-placeholder="230926.mp3"></div>
-                </div>
-                <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
-            </div>
-        </div> -->
-
-        <!-- <div class="custom-line-sub "></div> -->
-        <!-- <div class="d-flex align-items-center gap-2 section-title px-4">
-            <div class="step-badge">4</div>
-            <p class="content-title mb-0"> Thumbnail </p>
-        </div> -->
-
-        <!-- step 4 -->
-        <!-- <app-step-badge [stepNumber]="4" title="Thumbnail"></app-step-badge>
-
-        <div class="d-flex gap-3 px-3 my-2">
-            <mat-radio-group [(ngModel)]="selectedType" class="d-flex gap-3 ">
-
-                <mat-radio-button value="program" class="radio-btn input-label">
-                    Use Program Thumbnail
-                </mat-radio-button>
-
-                <mat-radio-button value="custom" class="radio-btn input-label">
-                    Upload Custom Thumbnail
-                </mat-radio-button>
-
-            </mat-radio-group>
-        </div> -->
-
-        <!-- Content -->
-        <!-- <div *ngIf="selectedType === 'program'" class=" mt-3 px-4">
-            <div *ngIf="selectedProgramCategory === 'pre' ">
-                <img src="/upload/file-img.png" width="100%" class="upload-img">
-            </div>
-        </div> -->
-
-        <!-- <div *ngIf="selectedType === 'custom'" class=" px-4">
-            <div class="form-group">
-                <label class="input-label" for="thumbnail">Custom Thumbnail</label>
-
-                <div class="file-upload">
-                    <label class="upload-btn d-flex gap-2">
-                        <input id="thumbnail" type="file" hidden />
-                        <img src="/program/upload-icon.svg" alt="">
-
-                        <p class="pt-3"> Upload Image
-                        </p>
-                    </label>
-
-                    <span class="file-name px-2 input-label-noFile">- No file uploaded -</span>
-                </div>
-                <p class="helper-text">JPG, JPEG, PNG formats. Required for podcast, featured videos, shorts.</p>
-            </div>
-            <div class="form-group" *ngIf="fileSelectedName">
-                <label class="input-label" for="thumbnail">Thumbnail</label>
-
-                <div class="file-upload">
-                    <label class="upload-btn d-flex gap-1">
-                        <input id="thumbnail" type="file" hidden />
-                        <img src="/program/upload-icon.svg" alt="">
-
-                        <p class="pt-3"> Upload Image
-                        </p>
-                    </label>
-                    <div class="d-flex justify-content-between upload-content">
-                        <span class="file-name px-2"> IMG13428.JPEG </span>
-                        <div class="file-name d-flex justify-content-end">
-                            👁 View image
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="d-flex align-items-center gap-2 section-title px-3">
-            <div class="step-badge">5</div>
-            <p class="content-title mb-0"> Public App Content </p>
-        </div>
-
-        <div class="form-row px-3 my-2">
-            <div class="form-group">
-                <label class="input-label" for="fullname">Title *</label>
-                <input class="input-field p-1" type="text" placeholder="eg. Celebrity Talk – Exclusive Interview with Actor Nivin Pauly" />
-            </div>
-        </div>
-        <div class="form-row px-3">
-            <div class="form-group">
-                <label class="input-label" for="fullname">Subtitle *</label>
-<textarea 
-  class="input-field-textArea p-1" 
-  cols="3" 
-  placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects">
-</textarea>
-            </div>
-            <p class="helper-text">Keep it short and engaging for listeners.</p>
-
-        </div> -->
-
-        <!-- step 5 -->
-
-        <!-- <div
-            *ngIf="selectedProgramCategory === 'featured' || selectedProgramCategory === 'shorts'|| selectedProgramCategory === 'podcast' ">
-
-            <div class="custom-line-sub "></div>
-
-
-            <app-step-badge [stepNumber]="5" title="Public App Content"></app-step-badge>
-
-
-            <div class="form-row px-4 my-2"
-                *ngIf="selectedProgramCategory === 'featured' || selectedProgramCategory === 'shorts' ">
-                <div class="form-group">
-                    <label class="input-label">Title *</label>
-                    <input class="input-field py-1 px-2" type="text"
-                        placeholder="eg. Celebrity Talk – Exclusive Interview with Actor Nivin Pauly" />
-                </div>
-            </div>
-
-            <div class="form-row px-4">
-                <div class="form-group"
-                    *ngIf="selectedProgramCategory === 'featured' || selectedProgramCategory === 'podcast'">
-                    
-                    <app-form-input label="Subtitle *" style="height: 57px; margin-bottom: 0px;margin-top: 6px;"
-                        placeholder="e.g. RJ Neena chats about the actor’s latest movie,career journey, and upcoming projects"
-                        name="programTitle"></app-form-input>
-                    <p class="helper-text mt-1">Keep it short and engaging for listeners.</p>
-
-                </div>
-            </div>
-
-        </div> -->
-
-
-        <!-- constatnt -->
 
         <hr>
         <div class=" footer">

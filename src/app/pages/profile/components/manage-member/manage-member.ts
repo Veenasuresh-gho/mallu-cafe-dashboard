@@ -6,11 +6,16 @@ import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialo
 import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger } from '@angular/material/select';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { DeleteProgram } from '../delete-program/delete-program';
+import { DialogHeaderComponent } from '../../../../components/dialog-form/dialog-header/dialog-header-component';
+import { StepBadge } from '../../../../components/dialog-form/step-badge/step-badge';
+import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
+import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
 
 @Component({
   selector: 'app-manage-member',
   imports: [MatDialogContent,MatDialogActions,MatDialogClose,FormsModule,CommonModule,
-    MatFormField,MatLabel,MatSelect,MatOption,MatSelectTrigger,MatChipsModule,MatSlideToggle],
+    MatFormField,MatLabel,MatSelect,MatOption,MatSelectTrigger,MatChipsModule,MatSlideToggle,
+  DialogHeaderComponent,StepBadge,FormInput,FormSelect],
   templateUrl: './manage-member.html',
   styleUrl: './manage-member.css',
 })

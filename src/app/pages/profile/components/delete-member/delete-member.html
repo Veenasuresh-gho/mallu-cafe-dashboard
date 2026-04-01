@@ -6,19 +6,18 @@
  Delete this member?
 </p>
 
-<mat-dialog-content class="subtitle text-center">
+<mat-dialog-content class="subtitle text-center pt-2">
 This will permanently remove this member from the system, including their profile, assigned programs, and access permissions. This action cannot be undone.</mat-dialog-content>
 
   <div class="d-flex justify-content-between flex-column flex-sm-row gap-2 mx-5">
 
   <!-- CANCEL BUTTON -->
-  <button class="btn-cancel-box d-flex align-items-center justify-content-center gap-1" (click)="close()">
-    <span class="material-symbols-outlined icon">close</span>
-    Cancel
-  </button>
+  <div class="btn-cancel-box" (click)="onClose()">
+    <app-cancel-button></app-cancel-button>
+  </div>
 
   <!-- DELETE BUTTON -->
-  <button class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
+  <button (click)="onClose()" class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
     <span class="material-symbols-outlined icon">delete</span>
     Delete Member
   </button>

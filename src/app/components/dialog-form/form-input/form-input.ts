@@ -13,6 +13,13 @@ export class FormInput {
   @Input() placeholder: string = '';
  @Input() model: any = '';
    @Input() name: string = '';
+   @Input() type: string = 'text';
+
+showPassword = false;
    
   @Output() modelChange = new EventEmitter<any>();
+
+  togglePassword() {
+  this.showPassword = !this.showPassword;
+}
 }

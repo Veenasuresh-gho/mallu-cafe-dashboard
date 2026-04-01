@@ -1,22 +1,90 @@
-.mainHead{
+.mainHead {
     font-weight: 600;
     font-size: 14px;
     color: #000000;
 }
-.subHeading{
+
+.subHeading {
     font-weight: 400;
     font-size: 10px;
-   
+
 }
-.PerformanceData{
+
+.PerformanceData {
     font-weight: 500;
     font-size: 12px;
     font-family: Red Hat Display;
     color: #636363;
 }
-.logoutData{
+
+.logoutData {
     font-weight: 500;
     font-size: 12px;
     font-family: Red Hat Display;
-    color: var( --primary-color);
+    color: var(--primary-color);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+
+.dialog-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+}
+
+.dialog-box {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    width: 620px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    z-index: 10000;
+    /* extra safety */
+}
+
+.actions button {
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: #F4F4F4;
+    color: #757575;
+    font-weight: 500;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border: 2px solid red;
+    background: #fde8ec;
+    color: red;
+    font-weight: 500;
+}
+
+.logout-title {
+    font-family: Poppins;
 }

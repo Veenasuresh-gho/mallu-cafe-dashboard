@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
-import { MatRadioButton, MatRadioGroup, MatRadioModule } from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { DialogHeaderComponent } from '../../../../components/dialog-form/dialog-header/dialog-header-component';
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
@@ -130,17 +130,10 @@ export class AddNewProgram implements OnInit {
   close() {
     this.dialogRef.close();
   }
-<<<<<<< HEAD
-  selectedHost: string = ''; 
-  selectedCategory: string = ''; 
-  
-selectedType: string = '';
-=======
   selectedCategory: string = '';
 
   selectedType: string = 'disable';
 
 
->>>>>>> bfb9f711a141c2406b9e5541c639780a9c3570af
 
 }

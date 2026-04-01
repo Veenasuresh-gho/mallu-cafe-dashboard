@@ -91,7 +91,7 @@ color: var(--muted-input);
 .upload-photo {
   position: relative;
   width: 150px;  /* adjust as needed */
-  height: 150px;
+  height: 160px;
 
   background-image: url('/profile/profile-pic.png'); /* 👈 your bg image */
   background-size: cover;
@@ -106,7 +106,18 @@ color: var(--muted-input);
   border-radius: 12px;
   overflow: hidden;
 }
-
+.custom-line-sub {
+  border-top: 1px solid #E4E4E4;
+  margin: 0ch 24px;
+}
+.countrycode {
+  gap: 4px;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: Poppins;
+  color: #757575;
+}
 /* Image */
 .profile-img {
     width: 65px;
@@ -116,6 +127,8 @@ color: var(--muted-input);
 /* Button */
 .upload-btn {
     background: #FFFFFF;
+    position: absolute;
+    top:112px ;
     border: 1px solid #CFCFCF;
     border-radius: 6px;
     color: var( --primary-text);
@@ -181,6 +194,7 @@ color: var(--muted-input);
     padding: 0 10px;
     font-size: 12px;
     outline: none;
+    color: #312F2F;
 }
 
 .form-row {
@@ -227,7 +241,8 @@ color: var(--muted-input);
 color: var(--muted-input);
     font-weight: 400;
     font-family: Poppins;
-    margin-top: 4px;
+    margin-top: 2px;
+    line-height: 14px;
 }
 .close-btn {
   border-radius: 6px;

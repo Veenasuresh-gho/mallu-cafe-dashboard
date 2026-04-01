@@ -36,8 +36,10 @@
 .btn-delete-member {
   border: 1px solid var( --primary-color);
   color: var( --primary-color);
-  background-color: var( --primary-color)1A;
+  background-color: #D809051A;
   font-weight: 700;
+  font-size: 12px;
+  
 }
 
 /* ICON SIZE */

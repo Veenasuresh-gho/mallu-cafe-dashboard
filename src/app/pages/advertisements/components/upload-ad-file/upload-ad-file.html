@@ -70,10 +70,10 @@
 
         <div class="px-4 mb-4">
             <label class="input-label my-2">Schedule</label>
-            <div class="schedule-row ">
+            <!-- <div class="schedule-row ">
 
                 <div class="schedule-box ">
-                    <div class="label" style="width: 154px;">Schedule Date</div>
+                    <div class="label" style="width: 150px;">Schedule Date</div>
 
                     <div class="divider"></div>
 
@@ -92,11 +92,15 @@
                         <img src="/advertise/calendar.svg" alt="">
                     </div>
                 </div>
-            </div>
+            </div> -->
 
+<app-schedule-date-range
+  [(fromDate)]="fromDate"
+  [(toDate)]="toDate">
+</app-schedule-date-range>
 
+            <app-schedule-picker [(model)]="scheduleModel" [showScheduleDay]="false"></app-schedule-picker>
 
-            <app-schedule-picker [showScheduleDay]="false"></app-schedule-picker>
 
             <p class="helper-text pt-1">(Schedule time slot is optional. Leave empty for 24/7 streaming.)</p>
         </div>

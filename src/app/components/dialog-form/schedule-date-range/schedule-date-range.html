@@ -1,0 +1,43 @@
+<div class="schedule-row d-flex">
+
+  <!-- FROM DATE -->
+  <!-- <div class="schedule-box bg-info">
+    <div class="label" >Schedule Date</div>
+
+    <div class="divider"></div>
+
+    <div class="value schedule-date d-flex justify-content-between" style="width: 150px;" (click)="onFromClick()">
+      <span class="input-value">
+        {{ fromDate || 'Select Date' }}
+      </span>
+      <img src="/advertise/calendar.svg" alt="">
+    </div>
+  </div> -->
+
+  <div class="d-flex main-box">
+    <div class="schedule-date" style="width: 135px;">Schedule date </div>
+      <div class="divider"></div>
+
+    <div class="d-flex schedule-date justify-content-between " style="width: 160px;">
+      <div class="" >Schedule date </div>
+      <img src="/advertise/calendar.svg" alt="">
+    </div>
+  </div>
+
+ 
+  <!-- ARROW -->
+  <div class="arrow-container">
+    <img src="/program/arrow-right.svg" alt="">
+  </div>
+
+  <!-- TO DATE -->
+  <div class="schedule-box-right">
+    <div class="value d-flex justify-content-between" (click)="onToClick()">
+      <span class="input-value">
+        {{ toDate || 'Select Date' }}
+      </span>
+      <img src="/advertise/calendar.svg" alt="">
+    </div>
+  </div>
+
+</div>

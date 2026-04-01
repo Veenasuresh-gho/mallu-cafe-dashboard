@@ -12,12 +12,13 @@ import { FormSelect } from '../../../../components/dialog-form/form-select/form-
 import { TimeSchedulePicker } from '../../../../components/dialog-form/time-schedule-picker/time-schedule-picker';
 import { SchedulePicker } from '../../../../components/dialog-form/schedule-picker/schedule-picker';
 import { Checkbox } from '../../../../components/dialog-form/checkbox/checkbox';
+import { ScheduleDateRange } from '../../../../components/dialog-form/schedule-date-range/schedule-date-range';
 
 @Component({
   selector: 'app-upload-ad-file',
   standalone:true,
   imports: [MatDialogContent,MatRadioGroup, FormsModule,MatRadioButton,MatFormField,MatSelect,MatOption,MatIcon,
-    StepBadge,FormInput,UploadBox,FormSelect,SchedulePicker,Checkbox
+    StepBadge,FormInput,UploadBox,FormSelect,SchedulePicker,Checkbox,ScheduleDateRange
   ],
   templateUrl: './upload-ad-file.html',
   styleUrl: './upload-ad-file.css',
@@ -31,8 +32,12 @@ fileName = '';
   adsEnabled: boolean = false;
   promotionsEnabled: boolean = false;
 
+scheduleModel: any = {};
 
    times = ['2:00 PM', '3:00 PM', '5:00 PM'];
+
+   fromDate: string = '';
+toDate: string = '';
 
   fromTime: string = '';
   toTime: string = '';

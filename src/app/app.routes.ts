@@ -61,6 +61,12 @@ export const routes: Routes = [
             .then(m => m.TeamMember)
       },
       {
+        path: 'team-members/:id',
+        loadComponent: () =>
+          import('./pages/team-member/components/team-member-details/team-member-details')
+            .then(m => m.TeamMemberDetails)
+      },
+      {
         path: 'advertisements',
         loadComponent: () =>
           import('./pages/advertisements/advertisements')

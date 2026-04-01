@@ -4,15 +4,6 @@
   <div class="select-wrapper">
 
     <!-- Selected display -->
-<<<<<<< HEAD
-    <div class="input-field"  tabindex="0" (click)="toggleDropdown()"
-     [ngClass]="{ 
-    'selected-border': model,
-    'selected-text': model
-  }"
-  >
-      {{ model || placeholder || ('Select ' + label) }}
-=======
     <div
       class="input-field"
       tabindex="0"
@@ -20,7 +11,6 @@
       [ngClass]="{ 'selected-border': model }"
     >
       {{ getSelectedLabel() || placeholder || ('Select ' + label) }}
->>>>>>> bfb9f711a141c2406b9e5541c639780a9c3570af
     </div>
 
     <!-- Dropdown -->

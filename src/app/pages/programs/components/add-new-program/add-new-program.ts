@@ -132,7 +132,8 @@ export class AddNewProgram implements OnInit {
   }
   selectedCategory: string = '';
 
-  selectedType: string = 'disable';
+  selectedType: string = '';
+
 
 
 

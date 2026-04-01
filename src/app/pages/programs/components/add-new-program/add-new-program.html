@@ -11,7 +11,9 @@
         </app-form-input>
 
 
-        <app-form-select label="Host / RJ" [options]="hosts" optionLabel="DisplayText" optionValue="DataValue"
+        <!-- <app-form-select label="Host / RJ *" [options]="['RJ Anjali', 'RJ Raj']" placeholder="Select host / RJ"
+            name="host"></app-form-select> -->
+        <app-form-select label="Host / RJ *" [options]="hosts" optionLabel="DisplayText" optionValue="DataValue"
             placeholder="Select host / RJ" name="host" [(model)]="selectedHost">
         </app-form-select>
 

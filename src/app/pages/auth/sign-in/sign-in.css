@@ -242,5 +242,9 @@ label {
   }
 }
 
+:host ::ng-deep .custom-mat-field.mat-focused .mat-mdc-text-field-wrapper {
+    border: 1px solid #ff4d4f !important; /* Red */
+}
+
 
 

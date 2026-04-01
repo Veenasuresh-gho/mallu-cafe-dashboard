@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -18,6 +18,8 @@ export class CustomCalendar {
 
   currentDate: Date = new Date();
   selectedDate: Date = new Date();
+    @Input() showTrigger: boolean = true;
+    @Output() dateChange = new EventEmitter<Date>();
 
   months = [
     'January','February','March','April','May','June',
@@ -170,6 +172,7 @@ export class CustomCalendar {
       this.currentDate.getMonth(),
       day
     );
+    this.dateChange.emit(this.selectedDate);
     this.closeCalendar();
   }
 

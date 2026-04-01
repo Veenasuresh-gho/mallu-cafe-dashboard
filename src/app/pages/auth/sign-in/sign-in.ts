@@ -106,39 +106,39 @@ loginclick(): void {
     return;
   }
 
-  this.loading = true; // ✅ moved here
+  this.loading = true; // start spinner
   this.srv.clearsession();
 
   const { email, password } = this.loginForm.value;
-
   this.tv = [
     { T: 'dk1', V: email },
     { T: 'dk2', V: password },
     { T: 'c10', V: '5' },
   ];
 
-  this.srv.getdata('teammember', this.tv).pipe(
-    catchError(err => {
-      this.loading = false;
-      this.toastr.error('Something went wrong!');
-      throw err;
-    })
-  ).subscribe(r => {
-    this.loading = false;
+  this.srv.getdata('teammember', this.tv)
+    .subscribe({
+      next: (r) => {
+        this.loading = false; // stop spinner first
 
-    if (r.Status === 1) {
-      const u = r.Data[0][0];
+        if (r.Status === 1) {
+          const u = r.Data[0][0];
 
-      this.srv.setsession('tkn', u['Token']);
-      this.srv.setsession('id', u['ID']);
+          this.srv.setsession('tkn', u['Token']);
+          this.srv.setsession('id', u['ID']);
 
-      this.toastr.success('Login successful!');
-      this.router.navigate(['/dashboard']);
-    } else {
-      this.loading = false;
-      this.toastr.error(r.Info || 'Login failed');
-    }
-  });
+          this.toastr.success('Login successful!');
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.toastr.error(r.Info || 'Login failed');
+        }
+      },
+      error: (err) => {
+        console.error('Login API Error:', err);
+        this.loading = false; // stop spinner even on error
+        this.toastr.error('Something went wrong!');
+      }
+    });
 }
 
 }

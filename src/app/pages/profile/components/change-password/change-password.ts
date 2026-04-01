@@ -65,7 +65,7 @@ export class ChangePassword {
     const tv = [
       { T: 'dk1', V: userId },
       { T: 'c1', V: this.currentPassword },
-      { T: 'dk2', V: this.newPassword },
+      { T: 'c2', V: this.newPassword },
       { T: 'c10', V: '11' }
     ];
 

@@ -122,9 +122,9 @@ export class GHOService {
     );
   }
 
-  async uploadFile(fileId: string, fileType: string, file: File): Promise<number> {
+  async uploadFile(fileId: string, fileType: string, file: File, fileName: string): Promise<number> {
     try {
-      const getRes = await this.awsfileuploadinfo(fileId, fileType).toPromise();
+      const getRes = await this.awsfileuploadinfo(fileName, fileType).toPromise();
       const uploadUrl = getRes?.Url;
       if (!uploadUrl) {
         this.openDialog('Error', 'e', 'Upload URL missing');
@@ -174,10 +174,11 @@ export class GHOService {
 
       const fileUploadId = res1?.Data?.[0]?.[0]?.id;
       const fileType = res1?.Data?.[0]?.[0]?.FileType;
+      const fileName = res1?.Data?.[0]?.[0]?.FileID
 
       if (!fileUploadId) return false;
 
-      const status = await this.uploadFile(fileUploadId, fileType, file);
+      const status = await this.uploadFile(fileUploadId, fileType, file, fileName);
 
       if (status !== 2) return false;
 

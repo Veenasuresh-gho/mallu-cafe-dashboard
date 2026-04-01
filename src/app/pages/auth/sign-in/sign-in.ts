@@ -14,6 +14,7 @@ import { GHOService } from '../../../services/ghosrvs';
 import { GHOUtitity } from '../../../services/utilities';
 import { ghoresult, tags } from '../../../../model/ghomodel';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ToastService } from '../../../services/toastService';
 
 @Component({
   selector: 'app-sign-in',
@@ -42,6 +43,7 @@ export class SignIn {
   loading = false;
   snack = inject(MatSnackBar);
   loginForm!: FormGroup;
+    toast = inject(ToastService);
 
   constructor(private fb: FormBuilder,private router: Router,private toastr: ToastrService) {
     this.loginForm = this.fb.group({
@@ -51,62 +53,20 @@ export class SignIn {
   }
   
 
-// loginclick(): void {
-//   this.submitted = true;
-//   this.loading = true;
-//   if (this.loginForm.invalid) {
-//     this.toastr.warning('Please fill all required fields');
-//     return;
-//   }
-
-//   this.loading = true;
-//   this.srv.clearsession();
-
-//   const { email, password } = this.loginForm.value;
-
-//   this.tv = [
-//     { T: 'dk1', V: email },
-//     { T: 'dk2', V: password },
-//     { T: 'c10', V: '5' },
-//   ];
-
-//   this.srv.getdata('teammember', this.tv).pipe(
-//     catchError(err => {
-//       this.loading = false;
-
-//       this.toastr.error('Something went wrong!');
-//       throw err;
-//     })
-//   ).subscribe(r => {
-
-//     this.loading = false;
-
-//     if (r.Status === 1) {
-//       const u = r.Data[0][0];
-//        this.loading = false;
-//       this.srv.setsession('tkn', u['Token']);
-//       this.srv.setsession('id', u['ID']);
-
-//       this.toastr.success('Login successful! ');
-
-//       this.router.navigate(['/dashboard']);
-
-//     } else {
-//        this.loading = false;
-//       this.toastr.error(r.Info || 'Login failed');
-//     }
-//   });
-// }
-
 loginclick(): void {
   this.submitted = true;
 
   if (this.loginForm.invalid) {
-    this.toastr.warning('Please fill all required fields');
+    this.toast.show({
+      title: 'Warning ⚠️',
+      description: 'Please fill all required fields',
+      variant: 'warning',
+      position: 'toast-bottom-center'
+    });
     return;
   }
 
-  this.loading = true; // start spinner
+  this.loading = true; 
   this.srv.clearsession();
 
   const { email, password } = this.loginForm.value;
@@ -127,16 +87,34 @@ loginclick(): void {
           this.srv.setsession('tkn', u['Token']);
           this.srv.setsession('id', u['ID']);
 
-          this.toastr.success('Login successful!');
+          this.toast.show({
+            title: 'Login successful! 🎉',
+            description: 'You have successfully logged in',
+            variant: 'success',
+            position: 'toast-bottom-center'
+          });
+
           this.router.navigate(['/dashboard']);
         } else {
-          this.toastr.error(r.Info || 'Login failed');
+          this.toast.show({
+            title: 'Login failed ❌',
+            description: r.Info || 'Invalid email or password',
+            variant: 'error',
+            position: 'toast-bottom-center'
+          });
         }
       },
       error: (err) => {
         console.error('Login API Error:', err);
         this.loading = false; // stop spinner even on error
-        this.toastr.error('Something went wrong!');
+        this.toast.show({
+          title: 'Error ❌',
+          description: 'Something went wrong!',
+          variant: 'error',
+          position: 'toast-bottom-center',
+          
+          
+        });
       }
     });
 }

@@ -149,3 +149,7 @@ body {
   gap: 8px;
   align-items: flex-start;
 }
+
+.toast-bottom-center {
+  bottom: 40px !important;
+}

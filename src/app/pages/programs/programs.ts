@@ -107,7 +107,7 @@ export class Programs implements OnInit {
   ];
 
   programsDropdown: string = 'all';
-tempProgramSelection: string = 'all'; // 👈 NEW
+tempProgramSelection: string = 'all'; 
 isCalendarOpen: boolean = false;
 
 onProgramChange(value: string) {

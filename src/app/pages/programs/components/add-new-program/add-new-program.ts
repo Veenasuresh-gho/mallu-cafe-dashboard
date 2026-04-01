@@ -125,11 +125,6 @@ export class AddNewProgram implements OnInit {
 
   addProgram(): void {
 
-    if (!this.selectedFile) {
-      alert('Please upload an image');
-      return;
-    }
-
     this.loading = true;
 
     const payload = {

@@ -29,11 +29,14 @@
 
             <div class="file-upload">
                 <label class="upload-btn d-flex">
-                    <input id="thumbnail" type="file" accept="image/*" hidden />
+                    <input id="thumbnail" type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
                     <img src="/program/upload-icon.svg" alt="">
                     <p class="pt-3"> Upload Image</p>
                 </label>
-                <span class="file-name">- No file uploaded -</span>
+
+                <span class="file-name">
+                    {{ fileName || '- No file uploaded -' }}
+                </span>
             </div>
         </div>
 

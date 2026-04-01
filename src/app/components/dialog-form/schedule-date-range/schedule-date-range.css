@@ -1,0 +1,87 @@
+.schedule-row {
+  /* display: flex; */
+  /* align-items: center; */
+  /* gap: 12px; */
+}
+
+.schedule-box {
+  display: flex;
+  align-items: center;
+      border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 36px;
+  background: #fff;
+}
+.main-box{
+      border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 305px;
+}
+.schedule-date{
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #757575;
+  font-family: Poppins;
+  border-radius: 6px;
+
+}
+.schedule-box-right {
+  display: flex;
+  width: 165px;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  height: 36px;
+  background: #fff;
+}
+.schedule-box,
+.schedule-box-right,
+.schedule-box-rightEnd {
+  height: 36px; /* 🔥 make all same */
+}
+.schedule-box,
+.schedule-box-right,
+.schedule-box-rightEnd {
+  width: 165px;
+}
+.label {
+  font-size: 12px;
+  padding: 0px 8px;
+  color: #757575;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.divider {
+  width: 1px;
+  height: 100%;
+  background: #e0e0e0;
+}
+
+.value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.input-value {
+  color: #757575;
+}
+
+.arrow-container {
+  width: 83px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.schedule-box-right,
+.schedule-box-rightEnd {
+  border: 1px solid #ddd;
+}

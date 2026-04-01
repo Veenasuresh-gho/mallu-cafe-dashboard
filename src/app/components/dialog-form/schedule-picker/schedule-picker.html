@@ -3,13 +3,13 @@
   <label class="input-label" *ngIf="showScheduleDay">Schedule *</label>
 
     <!-- DAY ROW -->
-    <div class="schedule-row">
+    <div class="schedule-row" *ngIf="showScheduleDay">
 
         <div class="schedule-box">
             <div class="label input-field">Schedule Day</div>
             <div class="divider"></div>
 
-            <div class="schedule-box-right  ">
+            <div class="schedule-box-right">
                 <div class="select-wrapper ">
                     <select [(ngModel)]="fromDay" (ngModelChange)="emitChange()" name="fromDay" required [ngClass]="{'selected': fromDay}">
                         <option value="" disabled selected hidden>Sunday</option>
@@ -19,6 +19,16 @@
                     </select>
                     <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
                 </div>
+                <!-- <app-form-select
+    [(model)]="fromDay"
+    (modelChange)="emitChange()"
+    [options]="days"
+    optionLabel="label"
+    optionValue="value"
+    placeholder="Sunday"
+    class="schedule-select"
+  >
+  </app-form-select> -->
             </div>
         </div>
 
@@ -76,16 +86,6 @@
             </div>
 
         </div>
-
-      <!-- <div class="selectdaydropdown">
-        <app-form-select
-          [(ngModel)]="fromDay"
-          name="fromDay"
-          [options]="days"
-          placeholder="Sunday"
-          label="">
-        </app-form-select>
-      </div> -->
     </div>
 
 

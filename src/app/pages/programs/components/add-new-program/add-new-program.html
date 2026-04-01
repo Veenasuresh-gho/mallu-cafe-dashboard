@@ -7,12 +7,13 @@
     <form>
 
         <app-form-input label="Program Details *" [(model)]="programTitle" placeholder="Enter program name"
-            name="programTitle"></app-form-input>
+            name="programTitle">
+        </app-form-input>
 
 
         <!-- <app-form-select label="Host / RJ *" [options]="['RJ Anjali', 'RJ Raj']" placeholder="Select host / RJ"
             name="host"></app-form-select> -->
-        <app-form-select label="Host / RJ" [options]="hosts" optionLabel="DisplayText" optionValue="DataValue"
+        <app-form-select label="Host / RJ *" [options]="hosts" optionLabel="DisplayText" optionValue="DataValue"
             placeholder="Select host / RJ" name="host" [(model)]="selectedHost">
         </app-form-select>
 
@@ -30,9 +31,8 @@
                 <label class="upload-btn d-flex">
                     <input id="thumbnail" type="file" accept="image/*" hidden />
                     <img src="/program/upload-icon.svg" alt="">
-                    <p class="pt-3">Upload Image</p>
+                    <p class="pt-3"> Upload Image</p>
                 </label>
-
                 <span class="file-name">- No file uploaded -</span>
             </div>
         </div>

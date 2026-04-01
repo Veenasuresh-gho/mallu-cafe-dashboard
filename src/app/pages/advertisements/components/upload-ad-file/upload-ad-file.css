@@ -372,7 +372,7 @@ line-height: 10px;
     margin-top: 2px;
 }
 .arrow-container {
-  width: 75px;
+  width: 65px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -772,5 +772,5 @@ line-height: 10px;
   background-color: #f9f9f9;
 }
 .schedule-date{
-    width: 185px;
+    width: 175px;
 }

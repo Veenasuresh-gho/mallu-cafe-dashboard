@@ -13,16 +13,22 @@
   <div class="d-flex justify-content-between flex-column flex-sm-row gap-2 mx-5">
 
   <!-- CANCEL BUTTON -->
-  <button class="btn-cancel-box d-flex align-items-center justify-content-center gap-1" (click)="close()">
+  <!-- <button class="btn-cancel-box d-flex align-items-center justify-content-center gap-1" (click)="close()">
     <span class="material-symbols-outlined icon">close</span>
     Cancel
-  </button>
+  </button> -->
+  <div class="btn-cancel-box" (click)="onClose()">
+    <app-cancel-button></app-cancel-button>
+  </div>
 
   <!-- DELETE BUTTON -->
   <button class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
     <span class="material-symbols-outlined icon">delete</span>
-    Delete Member
+    Delete Program
   </button>
+  <!-- <app-footer-button style=" padding: 8px 10px;" (click)="close()" text="Delete Program" icon="/profile/trash.svg"
+            type="button">
+        </app-footer-button> -->
 
 </div>
 

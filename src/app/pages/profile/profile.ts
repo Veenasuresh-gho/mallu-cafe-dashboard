@@ -9,11 +9,13 @@ import { Permission } from './components/permission/permission';
 import { MatDialog } from '@angular/material/dialog';
 import { ManageMember } from './components/manage-member/manage-member';
 import { DeleteMember } from './components/delete-member/delete-member';
+import { FooterButton } from '../../components/dialog-form/footer-button/footer-button';
 // import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-profile',
-  imports: [MatDividerModule,ProfileInfo,AssignedPrgm,Perfomance,MediaContribution,Settings,Permission],
+  imports: [MatDividerModule,ProfileInfo,AssignedPrgm,Perfomance,MediaContribution,Settings,
+    Permission,FooterButton],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -23,15 +25,16 @@ export class Profile {
 
   openModal() {
     this.dialog.open(ManageMember, {
-       width: '90%',         
-    maxWidth: '600px',     
-    maxHeight: '95vh',  
-    disableClose: true,
+      width:'620px' ,
+      maxWidth: '600px',     
+       maxHeight: '95vh',  
+       disableClose: true,
     });
   }
   openModalDeleteMember() {
     this.dialog.open(DeleteMember, {
       width: '600px',
+      maxHeight: '269px',  
       disableClose: true
     });
   }

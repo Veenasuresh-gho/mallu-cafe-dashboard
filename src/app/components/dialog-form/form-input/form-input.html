@@ -1,13 +1,22 @@
 <div class="form-group">
   <label class="input-label">{{ label }}</label>
 
-  <input
-    class="input-field my-1"
-    type="text"
-    [placeholder]="placeholder"
-    [name]="name"
-    [ngModel]="model"
-    (ngModelChange)="modelChange.emit($event)"
-    [ngClass]="{ 'has-value': model }"
-  />
+  <div class="input-wrapper">
+    <input
+      class="input-field my-1"
+      [type]="type === 'password' ? (showPassword ? 'text' : 'password') : 'text'"
+      [placeholder]="placeholder"
+      [name]="name"
+      [ngModel]="model"
+      (ngModelChange)="modelChange.emit($event)"
+      [ngClass]="{ 'has-value': model }"
+    />
+    <span
+      *ngIf="type === 'password'"
+      class="eye-icon material-symbols-outlined"
+      (click)="togglePassword()"
+    >
+      {{ showPassword ? 'visibility' : 'visibility_off' }}
+    </span>
+  </div>
 </div>

@@ -1,22 +1,23 @@
 <div class="row gap-2">
-        <div class="col-md-3">
+    <div class="col-md-3">
         <div class="d-flex flex-column justify-content-start">
             <p class="mainHead mb-1 ">Settings</p>
             <small class="subHeading">
-                 Manage your account and security preferences.
+                Manage your account and security preferences.
             </small>
         </div>
     </div>
     <div class="col-md-8">
         <ul class="list-unstyled  d-flex gap-3 mb-0 mt-2">
-            <li class="d-flex gap-1 p-2">
+            <li (click)="openChangePassword()" class="d-flex gap-1 p-2 cursor-pointer">
                 <span class="material-symbols-outlined ">
                     lock
                 </span>
                 <span class="PerformanceData pt-1">Change Password</span>
             </li>
-            <li class="d-flex gap-1 p-2 rounded"  style="background-color: var( --primary-color)1A;" >
-                <span class="material-symbols-outlined text-danger" >
+            <li (click)="openLogoutDialog()" class="d-flex gap-1 p-2 rounded cursor-pointer"
+                style="background-color: var( --primary-color)1A;">
+                <span class="material-symbols-outlined text-danger">
                     logout
                 </span>
                 <span class="logoutData pt-1">Logout</span>
@@ -24,3 +25,30 @@
         </ul>
     </div>
 </div>
+
+@if (isLogoutOpen) {
+<div class="dialog-backdrop">
+
+    <div class="dialog-box">
+        <div class="py-4 text-center">
+        <img src="/auth/logout-icon.svg" alt="">
+      </div>
+
+       <h5 class="logout-title">Logout of your account?</h5>
+
+        <p>You will be signed out of your account. You can log back in anytime to continue.</p>
+
+        <div class="actions my-4 d-flex justify-content-center gap-5">
+            <button class="cancel-btn" (click)="closeLogoutDialog()">
+               <img src="/auth/close-circle.svg" alt="">  Cancel
+            </button>
+
+            <button class="logout-btn" (click)="confirmLogout()">
+              <img src="/auth/logout.svg" alt="">   Logout
+            </button>
+        </div>
+
+    </div>
+
+</div>
+}

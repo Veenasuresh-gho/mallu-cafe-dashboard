@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component,Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-dialog-header-component',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './dialog-header-component.html',
   styleUrls: ['./dialog-header-component.css'],
 })

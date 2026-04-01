@@ -95,15 +95,15 @@
 
 .adStatus.active,
 .adStatus.published {
-    color: var(--success);
+  color: var(--success);
 }
 
 .adStatus.waiting {
-    color: #FFA800;
+  color: #FFA800;
 }
 
 .adStatus.expired {
-    color: #9A9A9A;
+  color: #9A9A9A;
 }
 
 ::ng-deep .mat-mdc-paginator {
@@ -204,3 +204,13 @@
     height: 36px !important;
 }
 
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px; 
+}
+
+::ng-deep .mat-mdc-progress-spinner circle {
+  stroke: var(--primary-color) !important;
+}

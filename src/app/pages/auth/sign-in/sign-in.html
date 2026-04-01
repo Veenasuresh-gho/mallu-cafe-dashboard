@@ -57,9 +57,22 @@
                   <a href="/forgot-password" class="forgot-link">Forgot Password?</a>
                 </div>
               </div>
-              <button class="login-btn mt-4" type="submit" [disabled]="loginForm.invalid">
+              <!-- <button class="login-btn mt-4" type="submit" [disabled]="loginForm.invalid">
                 Log In
-              </button>
+              </button> -->
+              <button 
+  class="login-btn mt-4" 
+  type="submit" 
+  [disabled]="loginForm.invalid || loading">
+
+  <span *ngIf="!loading">Log In</span>
+
+  <mat-spinner 
+    *ngIf="loading" 
+    diameter="20">
+  </mat-spinner>
+
+</button>
               <div class="help-text pt-3">
                 Need help?<a href="#">Contact Support</a>
               </div>

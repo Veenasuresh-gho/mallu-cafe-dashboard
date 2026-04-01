@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { GHOService } from '../../../services/ghosrvs';
 import { GHOUtitity } from '../../../services/utilities';
 import { ghoresult, tags } from '../../../../model/ghomodel';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-sign-in',
@@ -23,7 +24,8 @@ import { ghoresult, tags } from '../../../../model/ghomodel';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './sign-in.html',
   styleUrl: './sign-in.css',
@@ -34,7 +36,6 @@ export class SignIn {
   utl = inject(GHOUtitity);
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
- 
 
   hide = true;
   submitted = false; 
@@ -50,6 +51,53 @@ export class SignIn {
   }
   
 
+// loginclick(): void {
+//   this.submitted = true;
+//   this.loading = true;
+//   if (this.loginForm.invalid) {
+//     this.toastr.warning('Please fill all required fields');
+//     return;
+//   }
+
+//   this.loading = true;
+//   this.srv.clearsession();
+
+//   const { email, password } = this.loginForm.value;
+
+//   this.tv = [
+//     { T: 'dk1', V: email },
+//     { T: 'dk2', V: password },
+//     { T: 'c10', V: '5' },
+//   ];
+
+//   this.srv.getdata('teammember', this.tv).pipe(
+//     catchError(err => {
+//       this.loading = false;
+
+//       this.toastr.error('Something went wrong!');
+//       throw err;
+//     })
+//   ).subscribe(r => {
+
+//     this.loading = false;
+
+//     if (r.Status === 1) {
+//       const u = r.Data[0][0];
+//        this.loading = false;
+//       this.srv.setsession('tkn', u['Token']);
+//       this.srv.setsession('id', u['ID']);
+
+//       this.toastr.success('Login successful! ');
+
+//       this.router.navigate(['/dashboard']);
+
+//     } else {
+//        this.loading = false;
+//       this.toastr.error(r.Info || 'Login failed');
+//     }
+//   });
+// }
+
 loginclick(): void {
   this.submitted = true;
 
@@ -58,7 +106,7 @@ loginclick(): void {
     return;
   }
 
-  this.loading = true;
+  this.loading = true; // ✅ moved here
   this.srv.clearsession();
 
   const { email, password } = this.loginForm.value;
@@ -72,12 +120,10 @@ loginclick(): void {
   this.srv.getdata('teammember', this.tv).pipe(
     catchError(err => {
       this.loading = false;
-
       this.toastr.error('Something went wrong!');
       throw err;
     })
   ).subscribe(r => {
-
     this.loading = false;
 
     if (r.Status === 1) {
@@ -86,16 +132,13 @@ loginclick(): void {
       this.srv.setsession('tkn', u['Token']);
       this.srv.setsession('id', u['ID']);
 
-      this.toastr.success('Login successful! ');
-
+      this.toastr.success('Login successful!');
       this.router.navigate(['/dashboard']);
-
     } else {
-       this.loading = false;
+      this.loading = false;
       this.toastr.error(r.Info || 'Login failed');
     }
   });
 }
-
 
 }

@@ -122,9 +122,9 @@ export class GHOService {
     );
   }
 
-  async uploadFile(fileId: string, fileType: string, file: File): Promise<number> {
+  async uploadFile(fileId: string, fileType: string, file: File, fileName: string): Promise<number> {
     try {
-      const getRes = await this.awsfileuploadinfo(fileId, fileType).toPromise();
+      const getRes = await this.awsfileuploadinfo(fileName, fileType).toPromise();
       const uploadUrl = getRes?.Url;
       if (!uploadUrl) {
         this.openDialog('Error', 'e', 'Upload URL missing');
@@ -137,9 +137,9 @@ export class GHOService {
         body: file,
       });
 
-    
+
       if (response.status === 200) {
-        return 2; 
+        return 2;
       } else {
         this.openDialog('Error', 'e', `Failed to upload file, status code: ${response.status}`);
         return 0;
@@ -151,4 +151,53 @@ export class GHOService {
       return 0;
     }
   }
+
+
+  async handleFileUpload(
+    programId: string,
+    userId: string,
+    file: File,
+    documentTypeId: string
+  ): Promise<boolean> {
+    try {
+
+      const tv1: tags[] = [
+        { T: 'dk1', V: userId },
+        { T: 'dk2', V: programId },
+        { T: 'c1', V: documentTypeId },
+        { T: 'c2', V: file.name },
+        { T: 'c3', V: file.size.toString() },
+        { T: 'c10', V: '1' }
+      ];
+
+      const res1 = await this.getdata('fileupload', tv1).toPromise();
+
+      const fileUploadId = res1?.Data?.[0]?.[0]?.id;
+      const fileType = res1?.Data?.[0]?.[0]?.FileType;
+      const fileName = res1?.Data?.[0]?.[0]?.FileID
+
+      if (!fileUploadId) return false;
+
+      const status = await this.uploadFile(fileUploadId, fileType, file, fileName);
+
+      if (status !== 2) return false;
+
+      const tv2: tags[] = [
+        { T: 'dk1', V: userId },
+        { T: 'dk2', V: documentTypeId },
+        { T: 'c1', V: fileUploadId },
+        { T: 'c2', V: String(status) },
+        { T: 'c10', V: '2' }
+      ];
+
+      await this.getdata('fileupload', tv2).toPromise();
+
+      return true;
+
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  }
+
 }

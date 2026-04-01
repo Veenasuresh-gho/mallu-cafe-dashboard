@@ -44,15 +44,42 @@ export class AddNewProgram implements OnInit {
   selectedHost: string = '';
   selectedSchedule: any = {};
   hosts: any[] = [];
+  programId: string = '';
+  userId: string = '';
+  selectedFile!: File;
+  fileName: string = '';
+  fileSize: string = '';
+  fileUploadId: string = '';
+  fileType: string = '';
+  documentTypeId: string = '';
+
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
 
+
   ngOnInit(): void {
+    this.userId = sessionStorage.getItem('id') || '';
     this.getProgramTypeList()
     this.getTeamMemberList()
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Only image files allowed');
+      return;
+    }
+
+    this.selectedFile = file;
+
+    this.fileName = file.name;
+    this.fileSize = file.size;
   }
 
   getTeamMemberList(): void {
@@ -97,7 +124,14 @@ export class AddNewProgram implements OnInit {
   }
 
   addProgram(): void {
+
+    if (!this.selectedFile) {
+      alert('Please upload an image');
+      return;
+    }
+
     this.loading = true;
+
     const payload = {
       Title: this.programTitle,
       CategoryID: this.selectedCategory,
@@ -107,7 +141,8 @@ export class AddNewProgram implements OnInit {
       EndTime: this.selectedSchedule.toTime,
       HostID: this.selectedHost,
       IsCallAllowed: this.selectedType === "allow" ? 1 : 0
-    }
+    };
+
     this.tv = [
       { T: 'c1', V: JSON.stringify(payload) },
       { T: 'c10', V: '1' }
@@ -115,18 +150,34 @@ export class AddNewProgram implements OnInit {
 
     this.srv.getdata('program', this.tv)
       .subscribe({
-        next: (r) => {
+        next: async (r) => {
+
           if (r.Status === 1) {
-            this.dialogRef.close(true);
+
+            this.programId = r.Data[0][0].id;
+
+            const success = await this.srv.handleFileUpload(
+              this.programId,
+              this.userId,
+              this.selectedFile,
+              this.documentTypeId = '2'
+            );
+
+            this.loading = false;
+
+            if (success) {
+              this.dialogRef.close(true);
+            } else {
+              this.srv.openDialog('Error', 'e', 'File upload failed');
+            }
           }
         },
         error: (err) => {
-          console.error('API Error:', err);
+          console.error(err);
           this.loading = false;
         }
       });
   }
-
   close() {
     this.dialogRef.close();
   }

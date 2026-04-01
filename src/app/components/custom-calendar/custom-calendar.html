@@ -1,8 +1,17 @@
 <div class="calendar-wrapper">
-<div class="input-box" (click)="toggleCalendar()">
+<!-- <div class="input-box" (click)="toggleCalendar()">
     <img src="/calendar/icon.png" class="icon" />
     <span>{{ formatDate(selectedDate) }}</span>
-</div>
+</div> -->
+
+ <div class="input-box" *ngIf="showTrigger" (click)="toggleCalendar()">
+    <img src="/calendar/icon.png" class="icon" />
+
+    <!-- ✅ Show date only if selected -->
+    <span *ngIf="selectedDate">
+      {{ formatDate(selectedDate) }}
+    </span>
+  </div>
 
 <!-- POPUP -->
 <div class="calendar" *ngIf="isOpen">

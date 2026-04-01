@@ -423,7 +423,7 @@ line-height: 10px;
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: #D80905;
+    /* background-color: #D80905; */
 }
 
 .status-title {

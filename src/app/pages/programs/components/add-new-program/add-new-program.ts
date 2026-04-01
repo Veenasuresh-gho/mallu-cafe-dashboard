@@ -44,7 +44,7 @@ export class AddNewProgram implements OnInit {
   selectedHost: string = '';
   selectedSchedule: any = {};
   hosts: any[] = [];
-  programId: string = '';
+  id: string = '';
   userId: string = '';
   selectedFile!: File;
   fileName: string = '';
@@ -154,10 +154,10 @@ export class AddNewProgram implements OnInit {
 
           if (r.Status === 1) {
 
-            this.programId = r.Data[0][0].id;
+            this.id = r.Data[0][0].id;
 
             const success = await this.srv.handleFileUpload(
-              this.programId,
+              this.id,
               this.userId,
               this.selectedFile,
               this.documentTypeId = '2'
@@ -184,8 +184,5 @@ export class AddNewProgram implements OnInit {
   selectedCategory: string = '';
 
   selectedType: string = '';
-
-
-
 
 }

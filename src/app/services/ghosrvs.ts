@@ -154,7 +154,7 @@ export class GHOService {
 
 
   async handleFileUpload(
-    programId: string,
+    id: string,
     userId: string,
     file: File,
     documentTypeId: string
@@ -163,7 +163,7 @@ export class GHOService {
 
       const tv1: tags[] = [
         { T: 'dk1', V: userId },
-        { T: 'dk2', V: programId },
+        { T: 'dk2', V: id },
         { T: 'c1', V: documentTypeId },
         { T: 'c2', V: file.name },
         { T: 'c3', V: file.size.toString() },

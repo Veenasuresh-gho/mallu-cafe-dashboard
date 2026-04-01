@@ -14,6 +14,8 @@ import { FooterButton } from '../../../../components/dialog-form/footer-button/f
 import { GHOService } from '../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-add-team-member',
@@ -35,6 +37,10 @@ export class AddTeamMember implements OnInit {
   loading = false;
   roles: any[] = [];
   programList: any[] = [];
+  selectedPhoto!: File;
+  previewUrl: any;
+  cdr = inject(ChangeDetectorRef);
+
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
@@ -45,6 +51,20 @@ export class AddTeamMember implements OnInit {
     this.getRoles();
     this.getProgramList();
   }
+
+onPhotoSelected(event: any) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  this.selectedPhoto = file;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    this.previewUrl = reader.result;
+    this.cdr.detectChanges(); 
+  };
+  reader.readAsDataURL(file);
+}
 
   addTeamMenber(): void {
 

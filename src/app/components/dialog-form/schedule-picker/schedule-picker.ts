@@ -14,18 +14,16 @@ export class SchedulePicker {
 
   @Input() model: any = {};
   @Output() modelChange = new EventEmitter<any>();
-
-  showScheduleDay=true;
+  @Input() showScheduleDay: boolean = true;
 
   days = [
-
     { label: 'Monday', value: '1' },
     { label: 'Tuesday', value: '2' },
     { label: 'Wednesday', value: '3' },
     { label: 'Thursday', value: '4' },
     { label: 'Friday', value: '5' },
     { label: 'Saturday', value: '6' },
-     { label: 'Sunday', value: '7' },
+    { label: 'Sunday', value: '7' },
   ];
 
   times = Array.from({ length: 24 }, (_, i) => {
@@ -37,6 +35,21 @@ export class SchedulePicker {
   toDay = '';
   fromTime = '';
   toTime = '';
+  isDayOpen: boolean = false;
+
+toggleDayDropdown() {
+  this.isDayOpen = !this.isDayOpen;
+}
+
+selectDay(day: any) {
+  this.fromDay = day.value;
+  this.isDayOpen = false;
+  this.emitChange(); // keep your existing API flow
+}
+
+getSelectedDayLabel() {
+  return this.days.find(d => d.value === this.fromDay)?.label;
+}
 
   ngOnInit() {
     // initialize from parent if exists

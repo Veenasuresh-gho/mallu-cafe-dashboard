@@ -81,17 +81,20 @@
   <div class="d-flex flex-column flex-sm-row gap-2 ">
     
     <button 
-      class="btn-manage-member d-flex align-items-center justify-content-center"
+      class="btn-manage-member d-flex gap-1 align-items-center justify-content-center"
       (click)="openModal()">
       <span class="material-symbols-outlined icon">border_color</span>
       Manage Member
     </button>
 
-    <button (click)="openModalDeleteMember()"
+    <!-- <button (click)="openModalDeleteMember()"
       class="btn-delete-member d-flex align-items-center justify-content-center">
       <span class="material-symbols-outlined icon">delete</span>
       Delete Member
-    </button>
+    </button> -->
+    <app-footer-button style="width: 129px;" (click)="openModalDeleteMember()" text="Delete Member" icon="/profile/trash.svg"
+            type="button">
+        </app-footer-button>
 
   </div>
 </div>

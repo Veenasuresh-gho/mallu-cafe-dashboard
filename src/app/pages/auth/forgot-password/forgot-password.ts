@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { GHOService } from '../../../services/ghosrvs';
 import { GHOUtitity } from '../../../services/utilities';
 import { ghoresult, tags } from '../../../../model/ghomodel';
+import { ToastService } from '../../../services/toastService';
 
 @Component({
   selector: 'app-forgot-password',
@@ -45,7 +46,7 @@ export class ForgotPassword implements OnDestroy {
 
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
-
+  toast = inject(ToastService);
   constructor(
     private fb: FormBuilder,
     private router: Router, private toastr: ToastrService
@@ -65,7 +66,6 @@ export class ForgotPassword implements OnDestroy {
     return password === confirm ? null : { mismatch: true };
   }
 
-  // ================= OTP =================
   otpArray = Array(6).fill(0);
   otpValues: string[] = ['', '', '', '', '', ''];
 
@@ -79,7 +79,7 @@ export class ForgotPassword implements OnDestroy {
     this.intervalId = setInterval(() => {
       if (this.timer > 0) {
         this.timer--;
-        this.cdr.detectChanges(); // 🔥 FIX TIMER UI
+        this.cdr.detectChanges(); 
       } else {
         clearInterval(this.intervalId);
       }
@@ -125,130 +125,262 @@ export class ForgotPassword implements OnDestroy {
   }
 
 
+  // verifyEmail(): void {
+  //   this.submitted = true;
+  //   if (this.loginForm.invalid) {
+  //     this.toastr.warning('Please enter a valid email');
+  //     return;
+  //   }
+  //   this.srv.clearsession();
+  //   const { email } = this.loginForm.value;
+  //   this.tv = [
+  //     { T: 'dk1', V: email },
+  //     { T: 'c10', V: '6' },
+  //   ];
+
+  //   this.srv.getdata('teammember', this.tv).pipe(
+  //     catchError(err => {
+  //       this.toastr.error('Something went wrong!');
+  //       return of(null);
+  //     })
+
+  //   ).subscribe((r: any) => {
+  //     if (!r) return; 
+  //     if (r.Status === 1) {
+  //       const u = r.Data[0][0];
+  //       this.otpId = u.id;
+  //       this.toastr.success('OTP sent successfully!');
+  //       this.isOtpScreen = true;
+  //       this.startTimer();
+  //       this.cdr.detectChanges();
+  //     } else {
+  //       this.toastr.error(r.Info || 'Failed to send OTP');
+  //     }
+  //   });
+  // }
+
   verifyEmail(): void {
-    this.submitted = true;
+  this.submitted = true;
 
-    if (this.loginForm.invalid) {
-      this.toastr.warning('Please enter a valid email');
-      return;
-    }
-
-    this.srv.clearsession();
-
-    const { email } = this.loginForm.value;
-
-    this.tv = [
-      { T: 'dk1', V: email },
-      { T: 'c10', V: '6' },
-    ];
-
-    this.srv.getdata('teammember', this.tv).pipe(
-      catchError(err => {
-        this.toastr.error('Something went wrong!');
-        return of(null);
-      })
-
-    ).subscribe((r: any) => {
-
-      if (!r) return; // stop if error
-
-      if (r.Status === 1) {
-
-        const u = r.Data[0][0];
-        this.otpId = u.id;
-
-        this.toastr.success('OTP sent successfully!');
-
-        this.isOtpScreen = true;
-        this.startTimer();
-
-        this.cdr.detectChanges();
-
-      } else {
-        this.toastr.error(r.Info || 'Failed to send OTP');
-      }
+  if (this.loginForm.invalid) {
+    this.toast.show({
+      title: 'Warning ⚠️',
+      description: 'Please enter a valid email',
+      variant: 'warning',
+      position: 'toast-bottom-center'
     });
+    return;
   }
 
+  this.srv.clearsession();
 
-  verifyOtp() {
+  const { email } = this.loginForm.value;
 
-    const otp = this.otpValues.join('');
-    if (otp.length !== 6) {
-      this.toastr.warning('Enter complete OTP');
-      return;
+  this.tv = [
+    { T: 'dk1', V: email },
+    { T: 'c10', V: '6' },
+  ];
+
+  this.srv.getdata('teammember', this.tv).pipe(
+    catchError(err => {
+      this.toast.show({
+        title: 'Error ❌',
+        description: 'Something went wrong!',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+      return of(null);
+    })
+  ).subscribe((r: any) => {
+
+    if (!r) return; // stop if error
+
+    if (r.Status === 1) {
+
+      const u = r.Data[0][0];
+      this.otpId = u.id;
+
+      this.toast.show({
+        title: 'OTP Sent 🎉',
+        description: 'OTP sent successfully!',
+        variant: 'success',
+        position: 'toast-bottom-center'
+      });
+
+      this.isOtpScreen = true;
+      this.startTimer();
+
+      this.cdr.detectChanges();
+
+    } else {
+      this.toast.show({
+        title: 'Failed ❌',
+        description: r.Info || 'Failed to send OTP',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
     }
+  });
+}
 
-    this.tv = [
-      { T: 'dk1', V: this.otpId },
-      { T: 'dk2', V: otp },
-      { T: 'c10', V: '7' }
-    ];
 
-    this.srv.getdata('teammember', this.tv).pipe(
-      catchError(err => {
-        this.toastr.error('Something went wrong!');
-        return of(null);
-      })
+  // verifyOtp() {
 
-    ).subscribe((r: any) => {
+  //   const otp = this.otpValues.join('');
+  //   if (otp.length !== 6) {
+  //     this.toastr.warning('Enter complete OTP');
+  //     return;
+  //   }
 
-      if (!r) return;
+  //   this.tv = [
+  //     { T: 'dk1', V: this.otpId },
+  //     { T: 'dk2', V: otp },
+  //     { T: 'c10', V: '7' }
+  //   ];
 
-      if (r.Status === 1) {
-        const u = r.Data[0][0];
-        this.otpToken = u.Token;
-        this.toastr.success('OTP verified successfully!');
-        this.isOtpVerified = true;
-        this.cdr.detectChanges();
+  //   this.srv.getdata('teammember', this.tv).pipe(
+  //     catchError(err => {
+  //       this.toastr.error('Something went wrong!');
+  //       return of(null);
+  //     })
+
+  //   ).subscribe((r: any) => {
+
+  //     if (!r) return;
+
+  //     if (r.Status === 1) {
+  //       const u = r.Data[0][0];
+  //       this.otpToken = u.Token;
+  //       this.toastr.success('OTP verified successfully!');
+  //       this.isOtpVerified = true;
+  //       this.cdr.detectChanges();
         
 
-      } else {
-        this.toastr.error(r.Info || 'Invalid OTP');
-      }
+  //     } else {
+  //       this.toastr.error(r.Info || 'Invalid OTP');
+  //     }
+  //   });
+  // }
+
+  verifyOtp() {
+  const otp = this.otpValues.join('');
+  
+  if (otp.length !== 6) {
+    this.toast.show({
+      title: 'Warning ⚠️',
+      description: 'Enter complete OTP',
+      variant: 'warning',
+      position: 'toast-bottom-center'
     });
+    return;
   }
 
-  resetPassword() {
-    this.submitted = true;
+  this.tv = [
+    { T: 'dk1', V: this.otpId },
+    { T: 'dk2', V: otp },
+    { T: 'c10', V: '7' }
+  ];
 
-    if (this.passwordForm.invalid) return;
+  this.srv.getdata('teammember', this.tv).pipe(
+    catchError(err => {
+      this.toast.show({
+        title: 'Error ❌',
+        description: 'Something went wrong!',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+      return of(null);
+    })
+  ).subscribe((r: any) => {
 
-    const password = this.passwordForm.get('password')?.value;
-    const confirmPassword = this.passwordForm.get('confirmPassword')?.value;
+    if (!r) return;
 
-    if (password !== confirmPassword) {
-      alert('Passwords do not match!');
-      return;
+    if (r.Status === 1) {
+      const u = r.Data[0][0];
+      this.otpToken = u.Token;
+
+      this.toast.show({
+        title: 'OTP Verified 🎉',
+        description: 'OTP verified successfully!',
+        variant: 'success',
+        position: 'toast-bottom-center'
+      });
+
+      this.isOtpVerified = true;
+      this.cdr.detectChanges();
+
+    } else {
+      this.toast.show({
+        title: 'Failed ❌',
+        description: r.Info || 'Invalid OTP',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
     }
-    this.tv = [
-      { T: 'dk1', V: this.otpToken },
-      { T: 'dk2', V: password },
-      { T: 'c10', V: '8' }
-    ];
+  });
+}
 
-    this.srv.getdata('teammember', this.tv).pipe(
-      catchError(err => {
-        this.toastr.error('Something went wrong!');
-        return of(null);
-      })
 
-    ).subscribe((r: any) => {
+resetPassword() {
+  this.submitted = true;
 
-      if (!r) return;
+  if (this.passwordForm.invalid) return;
 
-      if (r.Status === 1) {
-               this.toastr.success('Password reset successful');
-        this.isOtpVerified = true;
-        this.cdr.detectChanges();
-         this.router.navigate(['/sign-in']);
+  const password = this.passwordForm.get('password')?.value;
+  const confirmPassword = this.passwordForm.get('confirmPassword')?.value;
 
-      } else {
-        this.toastr.error(r.Info || 'Invalid OTP');
-      }
+  if (password !== confirmPassword) {
+    this.toast.show({
+      title: 'Warning ⚠️',
+      description: 'Passwords do not match!',
+      variant: 'warning',
+      position: 'toast-bottom-center'
     });
-
+    return;
   }
+
+  this.tv = [
+    { T: 'dk1', V: this.otpToken },
+    { T: 'dk2', V: password },
+    { T: 'c10', V: '8' }
+  ];
+
+  this.srv.getdata('teammember', this.tv).pipe(
+    catchError(err => {
+      this.toast.show({
+        title: 'Error ❌',
+        description: 'Something went wrong!',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+      return of(null);
+    })
+  ).subscribe((r: any) => {
+
+    if (!r) return;
+
+    if (r.Status === 1) {
+      this.toast.show({
+        title: 'Password Reset Successfull! 🎉',
+        description: 'Your password has been updated successfully,You can now log in with your new password',
+        variant: 'success',
+        position: 'toast-bottom-center'
+      });
+
+      this.isOtpVerified = true;
+      this.cdr.detectChanges();
+      this.router.navigate(['/sign-in']);
+
+    } else {
+      this.toast.show({
+        title: 'Failed ❌',
+        description: r.Info || 'Invalid OTP',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+    }
+  });
+}
 
   ngOnDestroy() {
     clearInterval(this.intervalId);

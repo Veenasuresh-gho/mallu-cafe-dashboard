@@ -1,87 +1,182 @@
+/* MAIN SCHEDULE ROW */
 .schedule-row {
-  /* display: flex; */
-  /* align-items: center; */
-  /* gap: 12px; */
+  align-items: center;
+  gap: 10px;
+  position: relative;
 }
 
-.schedule-box {
+.main-box, .schedule-box-right {
   display: flex;
   align-items: center;
-      border: 1px solid #ddd;
+  gap: 5px;
+    border: 1.5px solid #C6C6C6; /* border around box */
   border-radius: 8px;
-  overflow: hidden;
-  height: 36px;
-  background: #fff;
 }
-.main-box{
-      border: 1px solid #ddd;
-  border-radius: 8px;
-  width: 305px;
-}
-.schedule-date{
-  padding: 8px 12px;
-  font-size: 12px;
-  font-weight: 400;
-  color: #757575;
-  font-family: Poppins;
-  border-radius: 6px;
 
-}
-.schedule-box-right {
+.date-box {
+
+  padding: 6px 10px;
+  width: 150px; /* slightly wider */
+  cursor: pointer;
+  background-color: #F9F9F9;
+  margin-left: -10px; /* shift left */
   display: flex;
-  width: 165px;
+  justify-content: space-between;
   align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  height: 36px;
-  background: #fff;
+  transition: border 0.2s ease;
 }
-.schedule-box,
-.schedule-box-right,
-.schedule-box-rightEnd {
-  height: 36px; /* 🔥 make all same */
+
+.date-box:hover {
+  border-color: #e11d48; /* optional hover effect */
 }
-.schedule-box,
-.schedule-box-right,
-.schedule-box-rightEnd {
-  width: 165px;
-}
-.label {
-  font-size: 12px;
-  padding: 0px 8px;
-  color: #757575;
-  height: 100%;
-  display: flex;
-  align-items: center;
+.schedule-date {
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .divider {
   width: 1px;
-  height: 100%;
-  background: #e0e0e0;
+  background-color: #ccc;
+  height: 24px;
+  margin: 0 5px;
 }
 
-.value {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 12px;
-  font-size: 12px;
+.arrow-container img {
+  width: 20px;
+  height: 20px;
+}
+
+/* CALENDAR ICON */
+.calendar-icon {
+  width: 20px;
+  height: 20px;
   cursor: pointer;
 }
 
-.input-value {
-  color: #757575;
+/* CALENDAR POPUP WRAPPER */
+.calendar-wrapper {
+  position: absolute;
+  top: 40px; /* distance from schedule row */
+  z-index: 9999;
 }
 
-.arrow-container {
-  width: 83px;
+/* CALENDAR BOX */
+.calendar {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  width: 280px;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+.calendar .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calendar .title span {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.calendar .nav button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 5px;
+}
+
+.arrow-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* WEEK DAYS */
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+/* DAYS GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.day {
+  text-align: center;
+  padding: 6px 0;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.day.active {
+  background-color: red;
+  color: white;
+}
+
+.day.other {
+  color: #ccc;
+}
+
+/* MONTH / YEAR GRID */
+.month-grid, .year-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+.month-grid div, .year-grid div {
+  text-align: center;
+  padding: 6px 0;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.month-grid div.active, .year-grid div.active {
+  background-color: red;
+  color: white;
+}
+
+/* BACK BUTTON IN MONTH/YEAR VIEW */
+.back {
+  cursor: pointer;
+  font-size: 12px;
+  
+}
+
+/* YEAR NAV */
+.year-nav {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 5px;
 }
-.schedule-box-right,
-.schedule-box-rightEnd {
-  border: 1px solid #ddd;
+
+.year-nav span {
+  font-weight: 600;
+}
+
+.year-nav button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+}
+
+/* SMALL STYLING FIX */
+.schedule-box-right .value, .main-box .d-flex.schedule-date {
+  background-color: #f8f9fa;
+  padding: 5px 8px;
+  border-radius: 4px;
 }

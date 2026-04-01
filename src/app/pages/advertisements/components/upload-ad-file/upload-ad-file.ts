@@ -9,35 +9,39 @@ import { StepBadge } from '../../../../components/dialog-form/step-badge/step-ba
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { UploadBox } from '../../../../components/dialog-form/upload-box/upload-box';
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
-import { TimeSchedulePicker } from '../../../../components/dialog-form/time-schedule-picker/time-schedule-picker';
 import { SchedulePicker } from '../../../../components/dialog-form/schedule-picker/schedule-picker';
 import { Checkbox } from '../../../../components/dialog-form/checkbox/checkbox';
 import { ScheduleDateRange } from '../../../../components/dialog-form/schedule-date-range/schedule-date-range';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-upload-ad-file',
-  standalone:true,
-  imports: [MatDialogContent,MatRadioGroup, FormsModule,MatRadioButton,MatFormField,MatSelect,MatOption,MatIcon,
-    StepBadge,FormInput,UploadBox,FormSelect,SchedulePicker,Checkbox,ScheduleDateRange
+  standalone: true,
+  imports: [MatDialogContent, MatRadioGroup, FormsModule, MatRadioButton, MatFormField, MatSelect, MatOption, MatIcon,
+    StepBadge, FormInput, UploadBox, FormSelect, SchedulePicker, Checkbox, ScheduleDateRange, CommonModule
   ],
   templateUrl: './upload-ad-file.html',
   styleUrl: './upload-ad-file.css',
 })
 export class UploadAdFile {
-        constructor(private dialogRef: MatDialogRef<UploadAdFile>) {}
-fileName = '';
+  constructor(private dialogRef: MatDialogRef<UploadAdFile>) { }
+  fileName = '';
   status = 'all';
-    selectedStatus: string = 'active'; // or 'waiting'
+  selectedStatus: string = 'active'; 
   playsPerDay: number = 5;
   adsEnabled: boolean = false;
   promotionsEnabled: boolean = false;
 
-scheduleModel: any = {};
+  scheduleModel: any = {};
+  programTitle: string = '';
+  AdvertiserName: string = '';
+  selectedFileName: string = '';
+  additionalNotes: string = '';
 
-   times = ['2:00 PM', '3:00 PM', '5:00 PM'];
+  times = ['2:00 PM', '3:00 PM', '5:00 PM'];
 
-   fromDate: string = '';
-toDate: string = '';
+  fromDate: string = '';
+  toDate: string = '';
 
   fromTime: string = '';
   toTime: string = '';
@@ -67,14 +71,35 @@ toDate: string = '';
       this.playsPerDay--;
     }
   }
-  onFileSelected(event: any) {
-  const file = event.target.files[0];
-  if (file) {
-    this.fileName = file.name;
+  onFileSelected(file: File) {
+    if (file) {
+      this.fileName = file.name;
+      this.selectedFileName = file.name;
+    }
   }
-}
-selectedDate: Date | null = null;
+  selectedDate: Date | null = null;
   close() {
     this.dialogRef.close();
   }
+  onPublishAds() {
+    console.log("filename", this.programTitle);
+    console.log("Ad.Name", this.AdvertiserName);
+    console.log("uploaded-file", this.selectedFileName);
+    console.log("formdate", this.fromDate);
+    console.log("toDate", this.toDate);
+    console.log("status", this.selectedStatus);
+    console.log("scheduleModel", this.scheduleModel);
+    console.log("playsPerDay", this.playsPerDay);
+    console.log("additional-notes", this.additionalNotes);
+    if (this.adsEnabled && this.promotionsEnabled) {
+      console.log('Both selected');
+    } else if (this.adsEnabled) {
+      console.log('Only Ads selected');
+    } else if (this.promotionsEnabled) {
+      console.log('Only Promotions selected');
+    } else {
+      console.log('None selected');
+    }
+  }
+
 }

@@ -25,9 +25,9 @@
         <div class="d-flex gap-3 px-4">
             <div class="upload-wrapper">
                 <div class="upload-photo">
-                    <img src="/team/profile-circle.svg" alt="user" class="profile-img">
+                    <img  [src]="previewUrl || '/team/profile-circle.svg'"   alt="user" class="profile-img">
                     <label class="upload-btn mt-3">
-                        <input type="file" hidden />
+                        <input type="file"  accept="image/*"  hidden (change)="onPhotoSelected($event)" />
                         <span>Upload Photo</span>
                     </label>
                 </div>

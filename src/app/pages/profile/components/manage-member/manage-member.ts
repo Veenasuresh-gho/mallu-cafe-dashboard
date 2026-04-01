@@ -10,12 +10,13 @@ import { DialogHeaderComponent } from '../../../../components/dialog-form/dialog
 import { StepBadge } from '../../../../components/dialog-form/step-badge/step-badge';
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
+import { FormMultiSelect } from '../../../../components/dialog-form/form-multiselect/form-multiselect';
 
 @Component({
   selector: 'app-manage-member',
   imports: [MatDialogContent,MatDialogActions,MatDialogClose,FormsModule,CommonModule,
     MatFormField,MatLabel,MatSelect,MatOption,MatSelectTrigger,MatChipsModule,MatSlideToggle,
-  DialogHeaderComponent,StepBadge,FormInput,FormSelect],
+  DialogHeaderComponent,StepBadge,FormInput,FormSelect,FormMultiSelect],
   templateUrl: './manage-member.html',
   styleUrl: './manage-member.css',
 })

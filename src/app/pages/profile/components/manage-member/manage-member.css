@@ -103,7 +103,7 @@ color: var(--muted-input);
   align-items: center;
   justify-content: center;
 
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
 }
 .custom-line-sub {
@@ -128,11 +128,14 @@ color: var(--muted-input);
 .upload-btn {
     background: #FFFFFF;
     position: absolute;
-    top:112px ;
+    top:116px ;
+    height: 36px;
+    width: 116px;
     border: 1px solid #CFCFCF;
     border-radius: 6px;
     color: var( --primary-text);
-    padding: 4px 10px;
+    padding: 6px 12px;
+    text-align: center;
     font-size: 12px;
     cursor: pointer;
 }
@@ -199,13 +202,11 @@ color: var(--muted-input);
 
 .form-row {
     width: 100%;
-    max-width: 544px;
     display: flex;
     gap: 16px;
 }
 
-.mobile-group,
-.email-group {
+.mobile-group {
     width: 264px;
 }
 
@@ -263,7 +264,9 @@ color: var(--muted-input);
   color: #666;
   margin: 0;                  /* remove default margins from <p> */
 }
-
+.email{
+  width: 375px;
+}
 .close-btn p {
   margin: 0;                  /* remove block margin */
 }
@@ -501,7 +504,11 @@ input:checked+.slider:before {
   letter-spacing: 0;
   display: flex;
   align-items: center;
-  gap: 6px; 
+  gap: 8px; 
+}
+.access-txt input{
+ width: 16.66px;
+ height: 16.66px;
 }
 .checkbox-container {
   display: flex;
@@ -538,12 +545,12 @@ input[type="checkbox"] {
 }
 
 .btn-delete-member {
-  border: 1px solid var( --primary-color);
+  border: none;
   color: var( --primary-color);
-  background-color: var( --primary-color)1A;
-
+  background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
   font-weight: 400;
   font-size: 12px;
+  font-family: Poppins;
   height: 34px;
   border-radius: 10px;
   flex: 1;

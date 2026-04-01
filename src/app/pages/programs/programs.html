@@ -1,3 +1,4 @@
+
 <div class="programs ">
     <div class="p-3">
         <div class="header d-flex justify-content-between align-items-center ">
@@ -79,7 +80,7 @@
             <th mat-header-cell *matHeaderCellDef>Program Title</th>
             <td mat-cell *matCellDef="let row">
                 <div class="program-cell">
-                    <img [src]="row.avatar || '/main/no-image.png'" class="avatar" />
+                    <img [src]="row._url || '/main/no-image.png'" class="avatar" />
                     <div class="program-name">{{ row.Title }}</div>
                 </div>
             </td>

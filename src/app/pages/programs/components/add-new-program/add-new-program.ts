@@ -8,14 +8,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
+
 import { DialogHeaderComponent } from '../../../../components/dialog-form/dialog-header/dialog-header-component';
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
 import { SchedulePicker } from '../../../../components/dialog-form/schedule-picker/schedule-picker';
 import { FooterButton } from '../../../../components/dialog-form/footer-button/footer-button';
 import { CancelButton } from '../../../../components/dialog-form/cancel-button/cancel-button';
+import { PrimaryButton } from '../../../../components/primary-button/primary-button';
+
 import { GHOService } from '../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../services/utilities';
+import { ToastService } from '../../../../services/toastService';
+
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 
 @Component({
@@ -27,111 +32,153 @@ import { ghoresult, tags } from '../../../../../model/ghomodel';
     MatDialogModule, MatIcon,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule, FormInput,
-    MatButtonModule, DialogHeaderComponent, FormSelect, SchedulePicker,
-    FooterButton, CancelButton
+    MatSelectModule,
+    MatButtonModule,
+    DialogHeaderComponent,
+    FormInput,
+    FormSelect,
+    SchedulePicker,
+    FooterButton,
+    CancelButton,
+    PrimaryButton
   ],
   templateUrl: './add-new-program.html',
   styleUrls: ['./add-new-program.css'],
 })
 export class AddNewProgram implements OnInit {
-  constructor(private dialogRef: MatDialogRef<AddNewProgram>) { }
 
-  loading = false;
-  categoryList: any[] = [];
-  categoryOptions: string[] = [];
-  programTitle: string = '';
-  selectedHost: string = '';
-  selectedSchedule: any = {};
-  hosts: any[] = [];
-  programId: string = '';
-  userId: string = '';
-  selectedFile!: File;
-  fileName: string = '';
-  fileSize: string = '';
-  fileUploadId: string = '';
-  fileType: string = '';
-  documentTypeId: string = '';
+  constructor(private dialogRef: MatDialogRef<AddNewProgram>) {}
 
+  // ✅ separate loading states
+  loading = false;          // button loading
+  initialLoading = false;   // dropdown loading
 
+  toast = inject(ToastService);
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
+
+  categoryList: any[] = [];
+  categoryOptions: any[] = [];
+  hosts: any[] = [];
+
+  programTitle: string = '';
+  selectedHost: string = '';
+  selectedCategory: string = '';
+  selectedSchedule: any = {};
+  selectedType: string = '';
+
+  selectedFile!: File;
+  fileName: string = '';
+
+  userId: string = '';
+  id: string = '';
+
+  errors: any = {};
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
 
+  // ✅ CLEAR ERROR
+  clearError(field: string) {
+    if (this.errors[field]) delete this.errors[field];
+  }
 
+  // ✅ VALIDATION
+  validateForm(): boolean {
+    this.errors = {};
+
+    if (!this.programTitle?.trim()) this.errors.programTitle = 'Program title is required';
+    if (!this.selectedHost) this.errors.host = 'Please select a host';
+    if (!this.selectedCategory) this.errors.category = 'Please select a category';
+
+    if (!this.selectedSchedule?.fromDay || !this.selectedSchedule?.toDay) {
+      this.errors.schedule = 'Please select schedule days';
+    }
+
+    if (!this.selectedSchedule?.fromTime || !this.selectedSchedule?.toTime) {
+      this.errors.time = 'Please select time';
+    }
+
+    if (!this.selectedType) this.errors.type = 'Please select listener interaction';
+    if (!this.selectedFile) this.errors.file = 'Please upload an image';
+
+    return Object.keys(this.errors).length === 0;
+  }
+
+  // ✅ INIT
   ngOnInit(): void {
     this.userId = sessionStorage.getItem('id') || '';
-    this.getProgramTypeList()
-    this.getTeamMemberList()
+    this.getInitialData();
+  }
+
+  // ✅ LOAD ALL DATA
+  getInitialData() {
+    this.initialLoading = true;
+
+    Promise.all([
+      this.getProgramTypeList(),
+      this.getTeamMemberList()
+    ]).finally(() => {
+      this.initialLoading = false;
+    });
+  }
+
+  getTeamMemberList(): Promise<void> {
+    return new Promise((resolve) => {
+      this.tv = [{ T: 'c10', V: '3' }];
+
+      this.srv.getdata('teammember', this.tv)
+        .subscribe({
+          next: (r) => {
+            const data = r.Data[0];
+            this.hosts = data.map((item: any) => ({
+              DisplayText: item.FullName,
+              DataValue: item.MemberID
+            }));
+            resolve();
+          },
+          error: () => resolve()
+        });
+    });
+  }
+
+  getProgramTypeList(): Promise<void> {
+    return new Promise((resolve) => {
+      this.tv = [
+        { T: 'dk1', V: 'PROGRAMCATEGORY' },
+        { T: 'c10', V: '3' },
+      ];
+
+      this.srv.getdata('lists', this.tv)
+        .subscribe({
+          next: (r) => {
+            this.categoryOptions = r.Data[0];
+            resolve();
+          },
+          error: () => resolve()
+        });
+    });
   }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
-
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      alert('Only image files allowed');
+      this.errors.file = 'Only image files allowed';
       return;
     }
 
     this.selectedFile = file;
-
     this.fileName = file.name;
-    this.fileSize = file.size;
-  }
 
-  getTeamMemberList(): void {
-    this.loading = true;
-    this.tv = [{ T: 'c10', V: '3' }];
-
-    this.srv.getdata('teammember', this.tv)
-      .subscribe({
-        next: (r) => {
-          const data = r.Data[0];
-          this.loading = false;
-
-          this.hosts = data.map((item: any) => ({
-            DisplayText: item.FullName,
-            DataValue: item.MemberID
-          }));
-        },
-        error: (err) => {
-          console.error('API Error:', err);
-          this.loading = false;
-        }
-      });
-  }
-  getProgramTypeList(): void {
-    this.loading = true;
-    this.tv = [
-      { T: 'dk1', V: 'PROGRAMCATEGORY' },
-      { T: 'c10', V: '3' },
-    ]
-
-    this.srv.getdata('lists', this.tv)
-      .subscribe({
-        next: (r) => {
-          this.categoryList = r.Data[0];
-          this.categoryOptions = this.categoryList;
-        },
-        error: (err) => {
-          console.error('API Error:', err);
-          this.loading = false;
-        }
-      });
+    this.clearError('file');
   }
 
   addProgram(): void {
-
-    if (!this.selectedFile) {
-      alert('Please upload an image');
-      return;
-    }
+    if (!this.validateForm()) return;
 
     this.loading = true;
-
+    
     const payload = {
       Title: this.programTitle,
       CategoryID: this.selectedCategory,
@@ -153,39 +200,43 @@ export class AddNewProgram implements OnInit {
         next: async (r) => {
 
           if (r.Status === 1) {
-
-            this.programId = r.Data[0][0].id;
+            this.id = r.Data[0][0].id;
 
             const success = await this.srv.handleFileUpload(
-              this.programId,
+              this.id,
               this.userId,
               this.selectedFile,
-              this.documentTypeId = '2'
+              '2'
             );
 
             this.loading = false;
 
             if (success) {
+              this.toast.show({
+                title: 'Program created successfully! 🎉',
+                description: 'Program created successfully',
+                variant: 'success',
+                position: 'toast-bottom-right'
+              });
+
               this.dialogRef.close(true);
             } else {
-              this.srv.openDialog('Error', 'e', 'File upload failed');
+              this.toast.show({
+                title: 'Upload failed ❌',
+                description: 'File upload failed',
+                variant: 'error',
+                position: 'toast-bottom-right'
+              });
             }
           }
         },
-        error: (err) => {
-          console.error(err);
+        error: () => {
           this.loading = false;
         }
       });
   }
+
   close() {
     this.dialogRef.close();
   }
-  selectedCategory: string = '';
-
-  selectedType: string = '';
-
-
-
-
 }

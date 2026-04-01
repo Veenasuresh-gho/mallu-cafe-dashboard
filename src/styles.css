@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
 
 body {
   background-color: #F5F5F5;
@@ -68,4 +70,82 @@ body {
   border: 1px solid #D8090580 !important;
 }
 
+.toast-container .ngx-toastr {
+  background-image: none !important;
+  background-repeat: no-repeat !important;
+  background-size: auto !important;
+  background-position: initial !important;
+  min-height: auto !important;
+  height: auto !important;
+  padding: 12px 16px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: none !important;
+}
 
+.toast-success {
+  background-color: #D2EFDE !important;
+  border: none !important;
+  color: #02692C !important;
+}
+
+.toast-error {
+  background-color: #D809051A !important;
+  border: 1px solid #D80905 !important;
+  color: #D80905 !important;
+}
+
+.toast-success .toast-title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  line-height: 16px !important;
+  color: #02692C !important; /* Dark green title */
+  margin: 0;
+}
+
+.toast-success .toast-message {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 10px !important;
+  line-height: 14px !important;
+  color: #357A51 !important; 
+  margin: 0;
+  word-wrap: break-word;
+  white-space: normal !important;
+}
+
+.toast-error .toast-title {
+  font-family: 'Inter', sans-serif !important; /* different font for error */
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  line-height: 16px !important;
+  color: #D80905 !important; /* Bright red title */
+  margin: 0;
+}
+
+.toast-error .toast-message {
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 10px !important;
+  line-height: 14px !important;
+  color: #8E0707 !important; /* Darker red for description */
+  margin: 0;
+  word-wrap: break-word;
+  white-space: normal !important;
+}
+
+.toast-container .ngx-toastr:hover {
+  box-shadow: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  cursor: default !important;
+}
+
+.toast-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}

@@ -1,0 +1,104 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+}
+
+.input-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #636363;
+  font-family: Poppins;
+  color: var(--muted-label);
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* INPUT BOX */
+.input-field {
+  min-height: 36px;
+  border: 1px solid #CFCFCF;
+  border-radius: 6px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  cursor: pointer;
+  background: #fff;
+}
+
+/* REMOVE BORDER AFTER SELECT (your requirement) */
+.input-field.has-value {
+  border: none;
+}
+
+/* PLACEHOLDER */
+.placeholder-text {
+  color: #757575;
+  font-size: 12px;
+  font-weight: 400;
+  font-family:Poppins;
+}
+
+/* CHIPS */
+.chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  background: #fdecea;
+  color: #d32f2f;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* SMALLER X BUTTON */
+.remove {
+  font-size: 10px;
+  cursor: pointer;
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 6px;
+  margin-top: 4px;
+  z-index: 1000;
+    overflow: hidden;
+
+}
+
+.option {
+  padding: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee; 
+
+}
+
+.option:hover {
+  color: #d92b2b;
+}
+
+/* ICON */
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  pointer-events: none;
+  transform: translateY(-50%);
+}

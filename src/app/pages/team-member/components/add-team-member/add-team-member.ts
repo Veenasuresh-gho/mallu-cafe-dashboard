@@ -34,6 +34,7 @@ export class AddTeamMember implements OnInit {
   countryId: string = '233';
   loading = false;
   roles: any[] = [];
+  programList: any[] = [];
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
@@ -42,6 +43,7 @@ export class AddTeamMember implements OnInit {
 
   ngOnInit(): void {
     this.getRoles();
+    this.getProgramList();
   }
 
   addTeamMenber(): void {
@@ -98,27 +100,48 @@ export class AddTeamMember implements OnInit {
   onRoleChange(value: string) {
     this.role = value;
 
-    if (value === '1') {   
+    if (value === '1') {
       this.isFullAccess = true;
-      this.onToggleChange(); 
+      this.onToggleChange();
     } else {
       this.isFullAccess = false;
-      this.onToggleChange(); 
+      this.onToggleChange();
     }
   }
 
   addTeamMemberClick() {
     this.addTeamMenber();
   }
-  programs = [
-    { program: 'Om Shanti Om' },
-    { program: 'Bollywood Rewind' },
-    { program: 'Hungama Radio' },
-    { program: 'Indo American News' },
-    { program: 'Talk with Stars' },
-    { program: 'Studio Conversations' },
-    { program: 'Dial In & Speak Out' }
-  ];
+  getProgramList(): void {
+    this.loading = true;
+    this.tv = [{ T: 'c10', V: '3' }];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: (r) => {
+          const data = r.Data[0];
+          this.loading = false;
+
+          this.programList = data.map((item: any) => ({
+            DisplayText: item.Title,
+            DataValue: item.ProgramID
+          }));
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+          this.loading = false;
+        }
+      });
+  }
+  // programs = [
+  //   { program: 'Om Shanti Om' },
+  //   { program: 'Bollywood Rewind' },
+  //   { program: 'Hungama Radio' },
+  //   { program: 'Indo American News' },
+  //   { program: 'Talk with Stars' },
+  //   { program: 'Studio Conversations' },
+  //   { program: 'Dial In & Speak Out' }
+  // ];
 
   selectedPrograms: any[] = [];
 

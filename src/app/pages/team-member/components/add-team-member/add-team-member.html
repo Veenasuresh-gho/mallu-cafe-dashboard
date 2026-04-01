@@ -95,30 +95,30 @@
         <div class="px-4">
             <mat-form-field class="assigned-programs" appearance="outline">
 
-                <mat-select multiple [(value)]="selectedPrograms" placeholder="- Select Program Category -"
-                    panelClass="custom-select-panel">
+              <mat-select multiple [(value)]="selectedPrograms"
+    placeholder="- Select Program Category -"
+    panelClass="custom-select-panel">
 
-                    <mat-select-trigger class="bg-white">
-                        <mat-chip-set>
-                            @for (item of selectedPrograms; track item) {
-                            <mat-chip [removable]="true" (removed)="remove(item)">
+    <!-- Selected chips -->
+    <mat-select-trigger class="bg-white">
+        <mat-chip-set>
+            @for (item of selectedPrograms; track item) {
+                <mat-chip [removable]="true" (removed)="remove(item)">
+                    {{ item.DisplayText }}
+                    <button matChipRemove class="small"
+                        style="color: var(--primary-color)">✕</button>
+                </mat-chip>
+            }
+        </mat-chip-set>
+    </mat-select-trigger>
 
-                                {{ item.program }}
-                                <button matChipRemove class="small" style="color:  var(--primary-color)">✕</button>
+    @for (item of programList; track item) {
+        <mat-option [value]="item">
+            {{ item.DisplayText }}
+        </mat-option>
+    }
 
-                            </mat-chip>
-                            }
-                        </mat-chip-set>
-                    </mat-select-trigger>
-
-                    <!--  Dropdown options -->
-                    @for (item of programs; track item) {
-                    <mat-option [value]="item">
-                        {{ item.program }}
-                    </mat-option>
-                    }
-
-                </mat-select>
+</mat-select>
             </mat-form-field>
         </div>
 

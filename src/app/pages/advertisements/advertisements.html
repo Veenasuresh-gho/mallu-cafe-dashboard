@@ -6,7 +6,8 @@
                 <p>Manage advertiser campaigns, upload ad files and schedule broadcast slots.</p>
             </div>
 
-            <app-primary-button label="Upload ad file" iconSrc="/main/upload-icon.svg" (click)="openModal()"></app-primary-button>
+            <app-primary-button label="Upload ad file" iconSrc="/main/upload-icon.svg"
+                (click)="openModal()"></app-primary-button>
         </div>
 
         <div class="divider"></div>
@@ -53,7 +54,12 @@
         </div>
 
     </div>
-
+        @if(loading){
+    <div class="spinner-container">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+    }
+    @if(!loading){
     <table mat-table [dataSource]="dataSource" class="custom-table">
 
         <ng-container matColumnDef="advertisements">
@@ -61,7 +67,7 @@
             <td mat-cell *matCellDef="let row">
                 <div class="advertisement-cell">
                     <img [src]="row.avatar" class="avatar" />
-                    <div class="advertisement-name">{{ row.name }}</div>
+                    <div class="advertisement-name">{{ row.Title }}</div>
                 </div>
             </td>
         </ng-container>
@@ -69,7 +75,7 @@
         <ng-container matColumnDef="advertiser">
             <th mat-header-cell *matHeaderCellDef>Advertiser</th>
             <td mat-cell *matCellDef="let row">
-                <div class="user">{{ row.advertiser }}</div>
+                <div class="user">{{ row.AdvertiserName }}</div>
             </td>
         </ng-container>
 
@@ -77,8 +83,8 @@
             <th mat-header-cell *matHeaderCellDef>Ad Type</th>
             <td mat-cell *matCellDef="let row">
                 <div class="advertisement-cell">
-                    <img [src]="getAdTypeIcon(row.adTypeClass)" />
-                    <div class="advertisement-name">{{ row.adType }}</div>
+                    <img [src]="getAdTypeIcon(row.AdType)" />
+                    <div class="advertisement-name">{{ row.AdType }}</div>
                 </div>
             </td>
         </ng-container>
@@ -86,7 +92,7 @@
         <ng-container matColumnDef="adPlayCount">
             <th mat-header-cell *matHeaderCellDef>Ad Play Count</th>
             <td mat-cell *matCellDef="let row">
-                {{ row.adPlayCount }}
+                {{ row.PlaybackCount }} plays / {{row.TotalDays}} days
             </td>
         </ng-container>
 
@@ -94,15 +100,12 @@
             <th mat-header-cell *matHeaderCellDef>Status</th>
             <td mat-cell *matCellDef="let row">
                 <span class="adStatus" [ngClass]="row.adStatusClass">
+                    <mat-icon *ngIf="row.Status === 'Active'">fiber_manual_record</mat-icon>
+                    <mat-icon *ngIf="row.Status === 'Waiting List'">warning</mat-icon>
+                    <mat-icon *ngIf="row.Status === 'Published'">check_circle</mat-icon>
+                    <mat-icon *ngIf="row.Status === 'Expired'">info</mat-icon>
 
-                    <mat-icon *ngIf="row.adStatusClass === 'active'">
-                        fiber_manual_record
-                    </mat-icon>
-                    <mat-icon *ngIf="row.adStatusClass === 'waiting'">warning</mat-icon>
-                    <mat-icon *ngIf="row.adStatusClass === 'published'">check_circle</mat-icon>
-                    <mat-icon *ngIf="row.adStatusClass === 'expired'">info</mat-icon>
-
-                    {{ row.adStatus }}
+                    {{ row.Status }}
                 </span>
             </td>
         </ng-container>
@@ -140,6 +143,7 @@
         <tr mat-row *matRowDef="let row; columns: columns;"></tr>
 
     </table>
+}
 
     <mat-paginator [length]="22" [pageSize]="7" [pageSizeOptions]="[7]" showFirstLastButtons>
     </mat-paginator>

@@ -130,17 +130,11 @@ export class AddNewProgram implements OnInit {
   close() {
     this.dialogRef.close();
   }
-<<<<<<< HEAD
-  selectedHost: string = ''; 
-  selectedCategory: string = ''; 
-  
-selectedType: string = '';
-=======
   selectedCategory: string = '';
 
-  selectedType: string = 'disable';
+  selectedType: string = '';
 
 
->>>>>>> bfb9f711a141c2406b9e5541c639780a9c3570af
+
 
 }

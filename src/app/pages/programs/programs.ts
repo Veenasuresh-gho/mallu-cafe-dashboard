@@ -33,6 +33,7 @@ export class Programs implements OnInit {
   loading = false;
   ds: [] = [];
 
+
     openModal() {
       const dialogRef = this.dialog.open(AddNewProgram, {
         width: '90%',
@@ -48,6 +49,8 @@ export class Programs implements OnInit {
       });
     }
 
+    
+
   ngOnInit(): void {
     this.getProgramList();
   }
@@ -56,6 +59,8 @@ export class Programs implements OnInit {
   utl = inject(GHOUtitity);
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
+
+  
 
 
   @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
@@ -107,7 +112,7 @@ export class Programs implements OnInit {
   ];
 
   programsDropdown: string = 'all';
-tempProgramSelection: string = 'all'; // 👈 NEW
+tempProgramSelection: string = 'all'; 
 isCalendarOpen: boolean = false;
 
 onProgramChange(value: string) {

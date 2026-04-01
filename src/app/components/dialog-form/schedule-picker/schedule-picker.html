@@ -12,23 +12,13 @@
             <div class="schedule-box-right">
                 <div class="select-wrapper ">
                     <select [(ngModel)]="fromDay" (ngModelChange)="emitChange()" name="fromDay" required [ngClass]="{'selected': fromDay}">
-                        <option value="" disabled selected hidden>Sunday</option>
+                        <option value="" disabled selected hidden>e.g. Sunday</option>
                         <option *ngFor="let d of days" [value]="d.value">
                             {{ d.label }}
                         </option>
                     </select>
                     <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
                 </div>
-                <!-- <app-form-select
-    [(model)]="fromDay"
-    (modelChange)="emitChange()"
-    [options]="days"
-    optionLabel="label"
-    optionValue="value"
-    placeholder="Sunday"
-    class="schedule-select"
-  >
-  </app-form-select> -->
             </div>
         </div>
 
@@ -39,7 +29,7 @@
         <div class="schedule-box-rightEnd">
             <div class="select-wrapper">
                 <select [(ngModel)]="toDay" (ngModelChange)="emitChange()" name="toDay" [ngClass]="{'selected': toDay}">
-                    <option value="" disabled selected hidden>Saturday</option>
+                    <option value="" disabled selected hidden>e.g. Saturday</option>
                     <option *ngFor="let d of days" [value]="d.value">
                         {{ d.label }}
                     </option>
@@ -59,7 +49,7 @@
             <div class="schedule-box-right">
                 <div class="select-wrapper">
                     <select [(ngModel)]="fromTime" (ngModelChange)="emitChange()" name="fromTime" required [ngClass]="{'selected': fromTime}">
-                        <option value="" disabled selected hidden>10:00</option>
+                        <option value="" disabled selected hidden>e.g. 10:00 AM</option>
                         <option *ngFor="let t of times" [value]="t">
                             {{ t }}
                         </option>
@@ -77,7 +67,7 @@
         <div class="schedule-box-rightEnd">
             <div class="select-wrapper">
                 <select [(ngModel)]="toTime" (ngModelChange)="emitChange()" name="toTime" [ngClass]="{'selected': toTime}">
-                    <option value="" disabled selected hidden>11:30</option>
+                    <option value="" disabled selected hidden>e.g. 11:00 AM</option>
                     <option *ngFor="let t of times" [value]="t">
                         {{ t }}
                     </option>

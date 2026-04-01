@@ -1,35 +1,49 @@
 <div class="dialog-box">
-
     <app-dialog-header-component [title]="'Add New Program'" [subtitle]="'Create and schedule a new program'"
         (closeClicked)="close()">
     </app-dialog-header-component>
 
     <form>
 
-        <app-form-input label="Program Details *" [(model)]="programTitle" placeholder="Enter program name"
-            name="programTitle">
+        <app-form-input (modelChange)="clearError('programTitle')" label="Program Title *" [(model)]="programTitle"
+            placeholder="Enter program name" name="programTitle">
         </app-form-input>
+        <div class="error-text" *ngIf="errors.programTitle">
+            {{ errors.programTitle }}
+        </div>
 
-
-        <!-- <app-form-select label="Host / RJ *" [options]="['RJ Anjali', 'RJ Raj']" placeholder="Select host / RJ"
-            name="host"></app-form-select> -->
-        <app-form-select label="Host / RJ *" [options]="hosts" optionLabel="DisplayText" optionValue="DataValue"
-            placeholder="Select host / RJ" name="host" [(model)]="selectedHost">
+        <app-form-select label="Host / RJ *" (modelChange)="clearError('host')" [options]="hosts"
+            optionLabel="DisplayText" optionValue="DataValue" placeholder="Select host / RJ" name="host"
+            [(model)]="selectedHost">
         </app-form-select>
+        <div class="error-text" *ngIf="errors.host">
+            {{ errors.host }}
+        </div>
 
-
-        <app-form-select label="Category" [options]="categoryOptions" optionLabel="DisplyText" optionValue="DataValue"
-            [(model)]="selectedCategory">
+        <app-form-select label="Category *" (modelChange)="clearError('category')" [options]="categoryOptions"
+            optionLabel="DisplyText" optionValue="DataValue" [(model)]="selectedCategory">
         </app-form-select>
+        <div class="error-text" *ngIf="errors.category">
+            {{ errors.category }}
+        </div>
 
-        <app-schedule-picker [(model)]="selectedSchedule"></app-schedule-picker>
+        <app-schedule-picker (modelChange)="clearError('schedule'); clearError('time')"
+            [(model)]="selectedSchedule"></app-schedule-picker>
+        <div class="error-text" *ngIf="errors.schedule">
+            {{ errors.schedule }}
+        </div>
+
+        <div class="error-text" *ngIf="errors.time">
+            {{ errors.time }}
+        </div>
 
         <div class="form-group">
             <label class="input-label" for="thumbnail">Thumbnail</label>
 
             <div class="file-upload">
                 <label class="upload-btn d-flex">
-                    <input id="thumbnail" type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+                    <input id="thumbnail" type="file" accept="image/*"
+                        (change)="onFileSelected($event); clearError('file')" hidden />
                     <img src="/program/upload-icon.svg" alt="">
                     <p class="pt-3"> Upload Image</p>
                 </label>
@@ -38,23 +52,32 @@
                     {{ fileName || '- No file uploaded -' }}
                 </span>
             </div>
+
+            <div class="error-text" *ngIf="errors.file">
+                {{ errors.file }}
+            </div>
         </div>
 
         <div class="form-group">
             <label class="input-label">Listener Interaction *</label>
             <div class="radio-grp pt-1">
                 <!-- Allow calls -->
-                <div class="custom-radio" [class.selected]="selectedType === 'allow'" (click)="selectedType = 'allow'">
+                <div class="custom-radio" [class.selected]="selectedType === 'allow'"
+                    (click)="selectedType = 'allow'; clearError('type')">
                     <div class="circle"></div>
                     <span>Allow calls</span>
                 </div>
 
                 <!-- Disable calls -->
                 <div class="custom-radio" [class.selected]="selectedType === 'disable'"
-                    (click)="selectedType = 'disable'">
+                    (click)="selectedType = 'disable'; clearError('type')">
                     <div class="circle"></div>
                     <span>Disable Calls</span>
                 </div>
+            </div>
+
+            <div class="error-text" *ngIf="errors.type">
+                {{ errors.type }}
             </div>
         </div>
 
@@ -64,8 +87,8 @@
 <div class="border footer">
     <div class="dialog-actions d-flex justify-content-end mt-4 mx-4 ">
         <app-cancel-button class="pt-2" (click)="close()"></app-cancel-button>
-        <app-footer-button (click)="addProgram()" text="Create new program" icon="/dash/cloud-connection.svg"
-            type="button">
-        </app-footer-button>
+        <app-primary-button (clicked)="addProgram()" [loading]="loading" [label]="'Create new program'"
+            iconSrc="/dash/cloud-connection.svg">
+        </app-primary-button>
     </div>
 </div>

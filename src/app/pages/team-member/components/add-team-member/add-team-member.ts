@@ -14,6 +14,8 @@ import { FooterButton } from '../../../../components/dialog-form/footer-button/f
 import { GHOService } from '../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-add-team-member',
@@ -35,6 +37,17 @@ export class AddTeamMember implements OnInit {
   loading = false;
   roles: any[] = [];
   programList: any[] = [];
+  previewUrl: any;
+  id: string = '';
+  userId: string = '';
+  selectedFile!: File;
+  fileName: string = '';
+  fileSize: string = '';
+  fileUploadId: string = '';
+  fileType: string = '';
+  documentTypeId: string = '';
+  cdr = inject(ChangeDetectorRef);
+
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
@@ -42,8 +55,26 @@ export class AddTeamMember implements OnInit {
   res: ghoresult = new ghoresult();
 
   ngOnInit(): void {
+    this.userId = sessionStorage.getItem('id') || '';
     this.getRoles();
     this.getProgramList();
+  }
+
+  onPhotoSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.selectedFile = file;
+
+    this.fileName = file.name;
+    this.fileSize = file.size;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewUrl = reader.result;
+      this.cdr.detectChanges();
+    };
+    reader.readAsDataURL(file);
   }
 
   addTeamMenber(): void {
@@ -64,8 +95,16 @@ export class AddTeamMember implements OnInit {
 
     this.srv.getdata('teammember', this.tv)
       .subscribe({
-        next: (r) => {
+        next: async (r) => {
           if (r.Status == 1) {
+            this.id = r.Data[0][0].Id;
+
+            const success = await this.srv.handleFileUpload(
+              this.id,
+              this.userId,
+              this.selectedFile,
+              this.documentTypeId = '1'
+            );
 
             this.loading = false;
             this.dialogRef.close(true);
@@ -133,15 +172,6 @@ export class AddTeamMember implements OnInit {
         }
       });
   }
-  // programs = [
-  //   { program: 'Om Shanti Om' },
-  //   { program: 'Bollywood Rewind' },
-  //   { program: 'Hungama Radio' },
-  //   { program: 'Indo American News' },
-  //   { program: 'Talk with Stars' },
-  //   { program: 'Studio Conversations' },
-  //   { program: 'Dial In & Speak Out' }
-  // ];
 
   selectedPrograms: any[] = [];
 

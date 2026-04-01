@@ -12,6 +12,12 @@
 padding-bottom: 10px;
 }
 
+.error-text {
+  color: #e53935;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
 .custom-line-sub {
   border-top: 1px solid #E4E4E4;
   margin: 0px 24px;

@@ -1,13 +1,10 @@
 .main-body {
   background-color: #FFFFFF;
-  padding: 16px
-}
-
-.schedules-content {
+  padding: 16px;
+  margin-top: 10px;
   border: 1px solid #E4E4E4;
   border-radius: 10px;
 }
-
 .time {
   font-size: 10px;
   color: #9A9A9A;
@@ -207,7 +204,6 @@ mat-slider {
   overflow: hidden;
   padding: 66px 16px;
   border-radius: 10px;
-  height: 250px;
   width: 100%;
   background:
     radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.749) 100%),
@@ -215,7 +211,8 @@ mat-slider {
   background-position-y: 20%;
   background-size: cover;
 }
-
+.movies-bg{
+}
 .custom-card-bg::after {
   content: "";
   position: absolute;
@@ -246,10 +243,11 @@ mat-slider {
 
 .live-stream-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 16px;
   border: 1px solid #e0e0e0;
   width: 100%;
+  height: auto   ;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -259,6 +257,7 @@ mat-slider {
   margin-bottom: 20px;
   height: 30px;
 }
+
 
 .title-block .title {
   font-size: 14px;
@@ -272,7 +271,10 @@ mat-slider {
 .title-block .subtitle {
   font-size: 10px;
   color: #312F2F;
-  margin: 4px 0 0 0;
+  padding-top: 2px;
+  font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+
 }
 
 .on-air-status {

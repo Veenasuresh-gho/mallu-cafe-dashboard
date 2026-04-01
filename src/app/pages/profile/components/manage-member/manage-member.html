@@ -1,4 +1,4 @@
-<div class="">
+<div class="dialog-box ">
 
     <div class="d-flex justify-content-between fixed p-3">
         <div>
@@ -8,10 +8,13 @@
             </p>
         </div>
 
-        <button (click)="close()" class="btn-close mx-2" aria-label="Close"></button>
+        <!-- <button (click)="close()" class="btn-close mx-2" aria-label="Close"></button> -->
+          <button class="close-btn btn-cancel" (click)="close()">
+            <img src="/program/close-circle.svg" alt="">
+        </button>
     </div>
 
-    <mat-dialog-content class="dialog-content">
+    <mat-dialog-content class="dialog-content custom-select-panel">
 
         <div class="d-flex align-items-center gap-2 section-title px-3">
             <div class="step-badge">1</div>
@@ -86,11 +89,12 @@
                 <span class="material-symbols-outlined" (click)="openModalDelete()">delete</span>
             </button>
         </div>
-        <mat-label class="input-label px-3">Assigned Programs</mat-label>
+        <mat-label class="input-label px-3 py-2">Assigned Programs</mat-label>
 
-        <mat-form-field class=" assigned-programs px-3">
+                <div class="px-4">
+            <mat-form-field class="assigned-programs" appearance="outline">
 
-            <mat-select multiple [(value)]="selectedPrograms">
+            <mat-select multiple [(value)]="selectedPrograms" panelClass="custom-select-panel">
 
                 <mat-select-trigger class="bg-white">
                     <mat-chip-set>
@@ -98,7 +102,7 @@
                         <mat-chip [removable]="true" (removed)="remove(item)">
 
                             {{ item.program }}
-                            <button matChipRemove class="small">✕</button>
+                            <button matChipRemove class="small" style="color:  var(--primary-color)">✕</button>
 
                         </mat-chip>
                         }
@@ -114,6 +118,7 @@
 
             </mat-select>
         </mat-form-field>
+        </div>
 
         <p class="helper-text px-3">Multiple programs can be assigned.</p>
         <hr class="px-2">
@@ -123,11 +128,22 @@
             <p class="subtitle mb-0">Account Access & Permissions *</p>
         </div>
         <p class="my-2 px-3">
-            <mat-slide-toggle class="toggle-btn" color="warn" [(ngModel)]="isFullAccess" (change)="onToggleChange()">
+          
+                    <div class="auto-play-wrapper px-4">
+           
+            <label class="toggle-switch">
+  <input 
+    type="checkbox" 
+    [(ngModel)]="isFullAccess" 
+    (change)="onToggleChange()"
+  >
+  <span class="slider round"></span>
+</label>
 
-                <span class="toggle-txt">Allow system access</span>
-            </mat-slide-toggle>
-        </p>
+<span class="toggle-txt">Allow system access</span>
+
+        </div>
+        
         <p class="helper-text px-3">Switch this on to allow full access — all permissions will be selected for you.</p>
         <p class="input-label px-3">Access rights and system privilages </p>
         <div class="checkbox-container px-3">
@@ -140,17 +156,17 @@
         </div>
 
         <hr class="px-3">
+        <mat-dialog-actions align="end" class="d-flex justify-content-between">
+                    <button class="close-btn btn-cancel d-flex" (click)="close()">
+                <img src="/program/close-circle.svg" width="16px" alt="">
+                <p>Cancel</p>
+            </button>
+        <button type="submit" class="btn-create d-flex">
+                    <img src="/upload/tick-circle.svg" alt="">
+                    <span>Upload File</span>
+                </button>
+    </mat-dialog-actions>
     </mat-dialog-content>
     <!-- footer -->
-    <mat-dialog-actions align="end" class="d-flex justify-content-between">
-        <div class="d-flex" (click)="close()">
-            <button class="btn-close mx-2" aria-label="Close"></button>
-            <span class="btn-cancel">Cancel</span>
-
-        </div>
-        <button mat-raised-button class="btn-create" [mat-dialog-close]="true">
-            <!-- <img src="/team/add-square.svg" alt=""> -->
-            <span>Save changes</span>
-        </button>
-    </mat-dialog-actions>
+    
 </div>

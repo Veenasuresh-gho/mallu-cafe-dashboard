@@ -1,0 +1,56 @@
+<!-- <div class="form-group">
+  <label class="input-label">{{ label }} *</label>
+
+  <div class="select-wrapper">
+    <select
+      class="input-field"
+      [ngClass]="{'selected': selectedValue}"
+      [name]="name"
+      [value]="selectedValue"
+      (change)="setValue($any($event.target).value)"
+    >
+      <option value="" disabled hidden>
+        {{ placeholder || 'Select ' + label }}
+      </option>
+
+      <option *ngFor="let item of options" [value]="item.value">
+        {{ item.label }}
+      </option>
+    </select>
+
+    <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
+  </div>
+</div> -->
+
+<div class="form-group">
+  <label class="input-label">{{ label }} *</label>
+
+  <div class="select-wrapper">
+    <!-- Selected display like form-select -->
+    <div
+      class="input-field"
+      tabindex="0"
+      (click)="toggleDropdown()"
+      [ngClass]="{
+        'selected-border': selectedValue,
+        'selected-text': selectedValue,
+        'placeholder-text': !selectedValue
+      }"
+    >
+      {{ getDisplayLabel() }}
+    </div>
+
+    <!-- Dropdown menu -->
+    <div class="dropdown" *ngIf="open">
+      <div
+        class="option"
+        *ngFor="let item of options"
+        (click)="setValue(item.value)"
+      >
+        {{ item.label }}
+      </div>
+    </div>
+
+    <img src="/program/dropdown.svg" class="dropdown-icon" alt="" />
+  </div>
+</div>

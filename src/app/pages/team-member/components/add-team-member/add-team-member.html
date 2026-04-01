@@ -1,17 +1,21 @@
-<div class="">
+<div class="dialog-box">
 
-    <div class="d-flex justify-content-between fixed px-4 pt-4">
-        <div>
-            <h2 mat-dialog-title class="main-title">Add Team Member</h2>
-            <p class="main-subtitle">
-                Add a new team member to manage programs, host shows or assist with station operations.
+
+    <div class="heading-box d-flex justify-content-between align-items-center">
+        <div style="gap: 4px;">
+            <p class="main-title">Add Team Member</p>
+            <p class="main-subtitle"> Add a new team member to manage programs, host shows or assist with station
+                operations.
             </p>
         </div>
 
-        <button (click)="close()" class="btn-close mx-2" aria-label="Close"></button>
+        <button class="close-btn btn-cancel" (click)="close()">
+            <img src="/program/close-circle.svg" alt="">
+        </button>
     </div>
+    <div class="custom-line "></div>
 
-    <mat-dialog-content class="dialog-content ">
+    <mat-dialog-content class="dialog-content custom-select-panel">
 
         <div class="d-flex align-items-center gap-2 section-title px-4">
             <div class="step-badge">1</div>
@@ -22,7 +26,7 @@
             <div class="upload-wrapper">
                 <div class="upload-photo">
                     <img src="/team/profile-circle.svg" alt="user" class="profile-img">
-                    <label class="upload-btn">
+                    <label class="upload-btn mt-3">
                         <input type="file" hidden />
                         <span>Upload Photo</span>
                     </label>
@@ -30,40 +34,40 @@
                 <p class="helper-text py-1">Supported formats: JPG, PNG</p>
             </div>
             <div>
-                <div class="form-group">
-                    <label class="input-label" for="fullname">Full Name *</label>
-                    <input class="input-field p-1" type="text" placeholder="eg. Shabin B Joe" />
+
+                <div style="width: 376px;">
+                    <!-- <app-form-input label="Full Name *" placeholder="eg. Shabin B Joe" name="Title"  ></app-form-input> -->
+
+                    <app-form-input [(model)]="fullName" name="fullName" placeholder="eg. Shabin B Joe"
+                        label="Full Name *">
+                    </app-form-input>
+
                 </div>
-                <div class="form-group">
-                    <label class="input-label " for="role">Role / Designation *</label>
-                    <select id="host" class="input-field p-1">
-                        <option disabled selected>- Select Role -</option>
-                        <option>Radio Jockey (RJ)</option>
-                        <option>Admin</option>
-                    </select>
-                </div>
-                <p class="helper-text py-1">This role defines the member’s responsibility in the station.</p>
+
+                <app-form-select label="Role / Designation" [model]="role" (modelChange)="onRoleChange($event)"
+                    name="role" [options]="roles" optionLabel="DisplyText" optionValue="DataValue">
+                </app-form-select>
+
+                <p class="helper-text" style="padding-top: 6px;">This role defines the member’s responsibility in the
+                    station.</p>
             </div>
         </div>
-        <hr class="px-4">
+        <div class="custom-line-sub"></div>
 
         <div class="d-flex align-items-center px-4 gap-2 section-title">
             <div class="step-badge">2</div>
-            <p class="subtitle mb-0">Contact Information</p>
+            <p class="subtitle mb-0 ">Contact Information</p>
         </div>
 
-        <div class="form-row px-4">
-            <div class="form-group mobile-group">
+        <div class="form-row  d-flex justify-content-between mb-4">
+            <div class="form-group mobile-group ">
                 <label class="input-label">Mobile Number *</label>
 
-                <div class="phone-input">
-                    <select class="country-code">
-                        <option value="+1">+1</option>
-                        <option value="+44">+44</option>
-                        <option value="+91">+91</option>
-                    </select>
+                <div class="phone-input ">
+                    <div class="countrycode">+1</div>
 
-                    <input type="text" class="phone-number" placeholder="000 000 0000" />
+                    <input type="text" class="phone-number" [(ngModel)]="phone" name="phone"
+                        placeholder="000 000 0000" />
                 </div>
 
                 <small class="helper-text">Used for internal communication.</small>
@@ -71,61 +75,77 @@
 
             <div class="form-group email-group">
                 <label class="input-label">Email *</label>
-                <input class="input-field email-input px-2" type="text" placeholder="e.g., smithjohn55@gmail.com" />
+                <div style="gap: 0px;">
+                    <input type="text" class="input-field email-input px-2" [(ngModel)]="email" name="email"
+                        placeholder="e.g., test@gmail.com" />
+                    <small class="helper-text">This email will be used for login access &
+                        communication.</small>
+                </div>
+
             </div>
         </div>
-        <hr class="px-4">
+        <div class="custom-line-sub"></div>
 
         <div class="d-flex align-items-center gap-2 section-title px-4">
             <div class="step-badge">3</div>
             <p class="subtitle mb-0">Program Assignment</p>
         </div>
-        <mat-label class="input-label px-4">Assigned Programs</mat-label>
+        <mat-label class="input-label px-4 mb-1">Assigned Programs</mat-label>
 
-        <mat-form-field class="assigned-programs px-4" appearance="outline">
+        <div class="px-4">
+            <mat-form-field class="assigned-programs" appearance="outline">
 
-            <mat-select multiple [(value)]="selectedPrograms" panelClass="custom-select-panel">
+              <mat-select multiple [(value)]="selectedPrograms"
+    placeholder="- Select Program Category -"
+    panelClass="custom-select-panel">
 
-                <mat-select-trigger class="bg-white px-4">
-                    <mat-chip-set>
-                        @for (item of selectedPrograms; track item) {
-                        <mat-chip [removable]="true" (removed)="remove(item)">
+    <!-- Selected chips -->
+    <mat-select-trigger class="bg-white">
+        <mat-chip-set>
+            @for (item of selectedPrograms; track item) {
+                <mat-chip [removable]="true" (removed)="remove(item)">
+                    {{ item.DisplayText }}
+                    <button matChipRemove class="small"
+                        style="color: var(--primary-color)">✕</button>
+                </mat-chip>
+            }
+        </mat-chip-set>
+    </mat-select-trigger>
 
-                            {{ item.program }}
-                            <button matChipRemove class="small">✕</button>
+    @for (item of programList; track item) {
+        <mat-option [value]="item">
+            {{ item.DisplayText }}
+        </mat-option>
+    }
 
-                        </mat-chip>
-                        }
-                    </mat-chip-set>
-                </mat-select-trigger>
+</mat-select>
+            </mat-form-field>
+        </div>
 
-                <!--  Dropdown options -->
-                @for (item of programs; track item) {
-                <mat-option [value]="item">
-                    {{ item.program }}
-                </mat-option>
-                }
-
-            </mat-select>
-        </mat-form-field>
-
-        <p class="helper-text px-4">Multiple programs can be assigned.</p>
-        <hr class="px-4">
+        <p class="helper-text py-2 px-4">Multiple programs can be assigned.</p>
+        <div class="custom-line-sub"></div>
 
         <div class="d-flex align-items-center gap-2 px-4 section-title">
             <div class="step-badge">4</div>
             <p class="subtitle mb-0">Account Access & Permissions *</p>
         </div>
-        <p class="my-2 px-4">
-            <mat-slide-toggle class="toggle-btn" color="warn" [(ngModel)]="isFullAccess" (change)="onToggleChange()">
 
-                <span class="toggle-txt">Allow system access</span>
-            </mat-slide-toggle>
+        <div class="auto-play-wrapper px-4">
+
+            <label class="toggle-switch">
+                <input type="checkbox" [(ngModel)]="isFullAccess" (change)="onToggleChange()">
+                <span class="slider round"></span>
+            </label>
+
+            <span class="toggle-txt">Allow system access</span>
+
+        </div>
+        <p class="helper-text px-4 pt-2">Switch this on to allow full access — all permissions will be selected for you.
         </p>
-        <p class="helper-text px-4">Switch this on to allow full access — all permissions will be selected for you.</p>
-        <p class="input-label px-4">Access rights and system privilages </p>
+        <p class="input-label px-4 ">Access rights and system privilages </p>
         <div class="checkbox-container">
             <span class="px-4 py-1" *ngFor="let item of permissions">
+
                 <label class="access-txt">
                     <input type="checkbox" [(ngModel)]="item.checked" name="permission-{{item.name}}" />
                     {{ item.name }}
@@ -133,19 +153,20 @@
             </span>
         </div>
 
-        <hr class="">
-        <mat-dialog-actions align="end" class="d-flex justify-content-between px-4">
-        <div class="d-flex" (click)="close()">
-            <button  class="btn-close mx-2" aria-label="Close"></button>
-            <span class="btn-cancel">Cancel</span>
+        <div class="custom-line mt-3"></div>
 
+        <div class="dialog-actions d-flex justify-content-between align-items-center mt-4">
+            <button class="close-btn btn-cancel d-flex" (click)="close()">
+                <img src="/program/close-circle.svg" width="16px" alt="">
+                <p>Cancel</p>
+            </button>
+
+            <app-primary-button (click)="addTeamMemberClick()"  style="margin-right: 24px;" label="Add Member"
+                iconSrc="/main/add.svg"></app-primary-button>
+
+            
         </div>
-        <button mat-raised-button class="btn-create" [mat-dialog-close]="true">
-           <img src="/team/add-square.svg" alt="">
-            <span>Add Member</span>
-        </button>
-    </mat-dialog-actions>
+
     </mat-dialog-content>
-    <!-- footer -->
-    
+
 </div>

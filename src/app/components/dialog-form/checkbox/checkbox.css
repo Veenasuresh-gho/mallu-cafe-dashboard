@@ -1,0 +1,41 @@
+.checkbox-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-family: Poppins, sans-serif;
+}
+
+.checkbox-card input[type="checkbox"] {
+  margin-top: 4px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.checkbox-card .content {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox-card .title {
+  font-weight: 400;
+  font-size: 12px;
+  color: #312F2F;
+  font-family: Poppins;
+}
+
+.checkbox-card .description {
+  font-size: 10px;
+  color: #757575;
+  margin: 0;
+}
+
+.checkbox-card input:checked  {
+  color: #0000 !important
+}
+input[type="checkbox"] {
+  accent-color: #312F2F;
+}

@@ -196,3 +196,18 @@ color: var(--muted-input);
 ::ng-deep .mat-mdc-header-row {
     height: 36px !important;
 }
+.full-height-modal .mat-dialog-container {
+  display: flex;
+  flex-direction: column;  /* allow body to grow */
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px; 
+}
+
+::ng-deep .mat-mdc-progress-spinner circle {
+  stroke: var(--primary-color) !important;
+}

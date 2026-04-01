@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { CustomCalendar } from '../../../components/custom-calendar/custom-calendar';
+import { UpdateFileUpload } from '../../../components/update-file-upload/update-file-upload';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'today-schedule-section',
-  imports: [],
+  imports: [CustomCalendar,UpdateFileUpload,CommonModule],
   templateUrl: './today-schedule-section.html',
   styleUrl: './today-schedule-section.css',
 })
@@ -46,4 +49,9 @@ export class TodayScheduleSection {
 
 
   ]
+  showDialog = false;
+  openDialog() {
+  console.log('clicked');
+  this.showDialog = true;
+}
 }

@@ -1,0 +1,32 @@
+.input-field::placeholder {
+  color: var( --muted-input) !important;   
+}
+.form-group{
+    gap: 6px;
+}
+.input-label {
+  font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins;
+  display: block;
+  color: var(--muted-label);
+}
+.input-field {
+  font-weight: 400;
+  font-size: 12px;
+  border-radius: 6px;
+  height: 36px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #CFCFCF;
+  font-family: Poppins;
+  background-color: #FFFFFF;
+  color: var(--muted-input);
+  line-height: 16px;
+}
+.input-field.has-value {
+  color: #000000;
+}
+.input-field::placeholder {
+  color: var(--muted-input) !important;
+}

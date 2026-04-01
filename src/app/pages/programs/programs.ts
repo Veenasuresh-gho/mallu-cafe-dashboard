@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,27 +10,87 @@ import { AddNewProgram } from './components/add-new-program/add-new-program';
 import { MatDialog } from '@angular/material/dialog';
 import { PrimaryButton } from '../../components/primary-button/primary-button';
 import { SelectDropDown } from '../../components/select-drop-down/select-drop-down';
+import { ghoresult, tags } from '../../../model/ghomodel';
+import { GHOService } from '../../services/ghosrvs';
+import { GHOUtitity } from '../../services/utilities';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+import { CustomFilterCalender } from '../../components/custom-filter-calender/custom-filter-calender';
 
 @Component({
   selector: 'app-programs',
   standalone: true,
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown, MatProgressSpinnerModule,CustomFilterCalender],
   templateUrl: './programs.html',
   styleUrl: './programs.css',
 })
-export class Programs {
+export class Programs implements OnInit {
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
+  loading = false;
+  ds: [] = [];
 
-  openModal() {
-    this.dialog.open(AddNewProgram, {
-      width: '600px',
-      height: '644px',
-      maxWidth: '90vw',
-      maxHeight: '90vh',
-      disableClose: true
-    });
+    openModal() {
+      const dialogRef = this.dialog.open(AddNewProgram, {
+        width: '90%',
+        maxWidth: '600px',
+        maxHeight: '95vh',
+        disableClose: true,
+      });
+  
+      dialogRef.afterClosed().subscribe((res) => {
+        if (res) {
+          this.getProgramList();
+        }
+      });
+    }
+
+  ngOnInit(): void {
+    this.getProgramList();
   }
+
+  srv = inject(GHOService);
+  utl = inject(GHOUtitity);
+  tv: tags[] = [];
+  res: ghoresult = new ghoresult();
+
+
+  @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
+    if (p) {
+      this.dataSource.paginator = p;
+    }
+  } 
+   dataSource = new MatTableDataSource<any>([]);
+
+
+
+  getProgramList(): void {
+    this.loading = true;
+    this.tv = [{ T: 'c10', V: '3' }];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: (r) => {
+          this.ds = r.Data[0];
+          this.dataSource.data = this.ds;
+          this.dataSource._updateChangeSubscription();
+          this.loading = false;
+          this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+          this.loading = false;
+        }
+      });
+  }
+
+  get showPaginator(): boolean {
+    return this.dataSource.data.length > 7;
+  }
+
   searchText = '';
   status = 'all';
   category = 'all';
@@ -46,83 +106,29 @@ export class Programs {
     'interaction'
   ];
 
-  dataSource = [
-    {
-      name: 'Om Shanti Om',
-      avatar: '/main/rj1.png',
-      category: 'Pre-Scheduled',
-      categoryClass: 'pre',
-      host: 'RJ Anjali',
-      duration: '1 hr',
-      dayTime: 'Mon - Fri, 9 - 10 am',
-      interaction: 'Allow Calls',
-      interactionClass: 'allow'
-    },
-    {
-      name: 'Bollywood Rewind',
-      avatar: '/main/rj2.png',
-      category: 'Pre-Scheduled',
-      categoryClass: 'pre',
-      host: 'RJ Priyanka',
-      duration: '2 hr',
-      dayTime: 'Mon - Fri, 10 am - 12 pm',
-      interaction: 'Disabled Calls',
-      interactionClass: 'disabled'
-    },
-    {
-      name: 'Hungama Radio',
-      avatar: '/main/user-image.png',
-      category: 'Pre-Scheduled',
-      categoryClass: 'pre',
-      host: 'RJ Shijo',
-      duration: '2 hr',
-      dayTime: 'Sat - Sun, 12 - 2 pm',
-      interaction: 'Allow Calls',
-      interactionClass: 'allow'
-    },
-    {
-      name: 'Indo American News',
-      avatar: '/main/rj3.png',
-      category: 'Pre-Scheduled',
-      categoryClass: 'pre',
-      host: 'RJ Reeva',
-      duration: '3 hr',
-      dayTime: 'Mon - Fri, 2 - 5 pm',
-      interaction: 'Allow Calls',
-      interactionClass: 'allow'
-    },
-    {
-      name: 'Talk with Stars',
-      avatar: '/main/rj4.png',
-      category: 'Pre-Scheduled',
-      categoryClass: 'pre',
-      host: 'RJ Neena',
-      duration: '3 hr',
-      dayTime: 'Fri, 5 - 8 pm',
-      interaction: 'Disabled Calls',
-      interactionClass: 'disabled'
-    },
-    {
-      name: 'Studio Conversations',
-      avatar: '/main/rj1.png',
-      category: 'Podcast',
-      categoryClass: 'podcast',
-      host: 'RJ Anjali',
-      duration: '1 hr',
-      dayTime: 'Mon - Fri, 8 - 9 pm',
-      interaction: 'Disabled Calls',
-      interactionClass: 'disabled'
-    },
-    {
-      name: 'Dial In & Speak Out',
-      avatar: '/main/no-image.png',
-      category: 'Live',
-      categoryClass: 'live',
-      host: 'RJ Ashwin',
-      duration: '1 hr 30 min',
-      dayTime: 'Sat - Sun, 9 - 10:30 pm',
-      interaction: 'Allow Calls',
-      interactionClass: 'allow'
-    }
-  ];
+  programsDropdown: string = 'all';
+tempProgramSelection: string = 'all'; // 👈 NEW
+isCalendarOpen: boolean = false;
+
+onProgramChange(value: string) {
+  if (value === 'date') {
+    this.isCalendarOpen = true;
+
+    // store temporarily, DON'T apply yet
+    this.tempProgramSelection = value;
+  } else {
+    this.programsDropdown = value;
+    this.tempProgramSelection = value;
+    this.isCalendarOpen = false;
+  }
+}
+
+onFilterApplied(data: any) {
+  console.log('Final Filter:', data);
+
+  // ✅ Now confirm selection
+  this.programsDropdown = this.tempProgramSelection;
+
+  this.isCalendarOpen = false;
+}
 }

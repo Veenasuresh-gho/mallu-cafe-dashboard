@@ -1,38 +1,55 @@
 <div class="dialog-box">
-    <div class="d-flex justify-content-between align-items-center mb-1"
+    <div class="d-flex justify-content-between  mb-1"
         style="padding-top: 24px;padding-left: 24px;padding-right: 24px;">
         <div>
-            <p class="main-title">Upload Broadcast Media</p>
-            <p class="main-subtitle">Upload audio or video content for your program and prepare it for publishing in the
-                Mallu Cafe Radio App.</p>
+            <p class="main-title">Add new podcast category</p>
+            <p class="main-subtitle">Create a category to organize podcast episodes. This category will be available in the list <br> when adding new episodes.</p>
         </div>
-        <button (click)="close()" class="btn-close small" aria-label="Close"></button>
+        <button class="close-btn btn-cancel" (click)="close()">
+    <img src="/program/close-circle.svg" alt="">
+  </button>
     </div>
+    
     <hr />
-    <mat-dialog-content class="dialog-content ">
+    <div class="dialog-content ">
 
-        <div class="form-row px-3 py-2">
-            <div class="form-group">
-                <label class="input-label" for="fullname">Podcast Category Name*</label>
-                <input class="input-field p-1" type="text" placeholder="e.g. Music, Sports, Movies" />
-                <p class="helper-text">Once added, this category can be selected while creating podcast episodes.</p>
+       <div style="gap: 6px;">
+         <div class="form-row px-4 ">
+           
+           
+            <app-form-input label="Podcast Category Name *" placeholder="e.g. Music, Sports, Movies" name="programTitle"></app-form-input>
+
+                <p class="helper-text" style="padding-bottom: 16px;">Once added, this category can be selected while creating podcast episodes.</p>
+            
+        </div>
+        <div class="form-group px-4">
+                <label class="input-label" for="thumbnail">Category Icon</label>
+
+                <!-- <div class="file-upload">
+                    <label class="upload-btn d-flex gap-2">
+                        <input id="thumbnail" type="file" hidden />
+                        <img src="/program/upload-icon.svg" alt="">
+
+                        <p class="pt-3"> Upload Image
+                        </p>
+                    </label>
+
+                    <span class="file-name px-2 input-label-noFile">- No file uploaded -</span>
+                </div>
+                <p class="helper-text">JPG, JPEG, PNG formats.</p> -->
+                        <app-file-upload label="Upload Image" accept="image/*"
+            (fileSelected)="onFileSelected($event)"></app-file-upload>
+        <p class="helper-text">JPG, JPEG, PNG formats.</p>
             </div>
+
+       </div>
+        <div class="dialog-actions d-flex justify-content-between my-4 mx-3 gap-2">
+          
+                 <app-cancel-button class="pt-2" (click)=" close()"></app-cancel-button>
+        <app-footer-button text="Add Category" icon="/upload/add-square.svg" type="button" class="mx-2">
+        </app-footer-button>
+           
         </div>
 
-        <div class="dialog-actions d-flex justify-content-between my-3 mx-3 gap-2">
-            <button type="button" class="btn-cancel d-flex gap-1 pt-2" (click)="close()">
-                <span class="material-symbols-outlined small pt-1">
-                    cancel
-                </span>
-                <span> Cancel</span>
-            </button>
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn-create d-flex">
-                    <img src="/dash/cloud-connection.svg" alt="">
-                    <span> Add Category </span>
-                </button>
-            </div>
-        </div>
-
-    </mat-dialog-content>
+    </div>
 </div>

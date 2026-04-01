@@ -1,0 +1,776 @@
+.dialog-box {
+  width: 600px;
+  background: #fff;
+  border-radius: 12px;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+  font-family: Poppins;
+
+}
+
+.heading-box {
+  padding: 24px 24px 16px 24px;
+}
+
+.main-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #000;
+  margin: 0 0 4px 0;
+}
+.title{
+    font-weight: 700;
+    font-family: Red Hat Display;
+    font-size: 12px;
+}
+.subtitle{
+    margin-top: 0px;
+    font-family: Poppins;
+    font-size: 10px;
+    color: var(--muted-input);
+}
+.main-subtitle {
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--primary-text);
+  margin: 0;
+}
+.btn-close {
+    font-size: 12px;
+    height: 4.72px;
+    width: 4.72px;
+    color: var(--muted-input);
+    cursor: pointer;
+    border: 1.2px solid var(--muted-input);
+    border-radius: 50%;
+    line-height: 1;
+    padding: 7.64px;
+}
+
+
+
+.custom-line {
+    border-top: 1px solid #E4E4E4;
+    width: 100%;
+    margin: 0;
+    top: 65px;
+}
+
+.custom-line-sub {
+    border-top: 1px solid #E4E4E4;
+    margin: 0px 24px;
+}
+
+.main-subtitle {
+    font-weight: 400;
+    font-size: 10px;
+    color: #312F2F;
+    margin: 0;
+}
+
+
+.section-title{
+    padding: 16px 24px;
+}
+
+.content-title {
+    font-weight: 700;
+    font-size: 12px;
+    font-style: bold;
+    font-family: Red Hat Display;
+    color: #312F2F;
+}
+.form-row {
+    padding: 12px 24px;
+}
+.step-badge {
+    width: 24px;
+    height: 24px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 24px;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+::ng-deep .mat-mdc-dialog-content {
+    padding: 10px 0px !important;
+    top: 65px;
+}
+
+
+.drag-drop{
+font-family: Poppins;
+font-weight: 500;
+font-style: Medium;
+font-size: 10px;
+columns: #9A9A9A;
+line-height: 10px;
+
+}
+.upload-box {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  border: 1px solid #E4E4E4;
+  background: #F8F8F8;
+  margin-top: 13px;
+  display: flex;
+  padding: 24px 0px 24px 0px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.upload-txt {
+  font-weight: 600;
+  font-size: 12px;
+  color: #000000;
+  line-height: 16px;
+  font-family: Poppins;
+
+}
+.helper-text-icon{
+  font-size: 12px;
+  padding-top: 4px;
+}
+.upload-subtxt {
+  font-weight: 500;
+  font-size: 10px;
+  color: #9A9A9A;
+  font-family: Poppins;
+  line-height: 10px;
+  margin-bottom: 2px;
+}
+
+.file-name {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #666;
+  flex-grow: 1;       
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+}
+/* 
+.btn-create {
+  
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 12px;
+    height: 36px;
+    padding: 0 10px;
+    font-family: Red Hat Display;
+    border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
+    border-radius: 4px;
+    background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
+}
+
+  */
+
+ .btn-create {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 12px;
+  height: 36px;
+  font-family: 'Red Hat Display', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 10px;
+  cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent) !important;
+  border-radius: 4px;
+  background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-label {
+    font-weight: 500;
+    font-size: 12px;
+    font-family: Poppins;
+    color: var(--muted-label);
+}
+
+.input-field {
+    font-weight: 400;
+    font-size: 12px;
+    border-radius: 6px;
+    height: 36px;
+    padding: 5px 6px;
+    border: 1px solid #CFCFCF;
+    font-family: Poppins;
+    background-color: #FFFFFF;
+    color: var(--muted-input);
+    line-height: 16px;
+}
+.input-field-schedule {
+    font-weight: 400;
+    font-size: 12px;
+    border-radius: 6px;
+    height: 36px;
+    padding: 5px 6px;
+    font-family: Poppins;
+    background-color: #FFFFFF;
+    color: var(--muted-input);
+    line-height: 16px;
+}
+
+.helper-text {
+    font-size: 10px;
+    color: var(--muted-input);
+    font-weight: 400;
+    font-family: Poppins;
+    height: 14px;
+}
+
+/* Step 3: Schedule */
+.schedule-input-group {
+    border: 1px solid #E4E4E4;
+    border-radius: 6px;
+    height: 40px;
+    background: #FFFFFF;
+    flex: 1;
+    overflow: hidden;
+}
+
+.schedule-label {
+    background: #F8F8F8;
+    color: #757575;
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 0 12px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #E4E4E4;
+    white-space: nowrap; 
+}
+
+.schedule-input {
+    border: none;
+    outline: none;
+    padding: 0 12px;
+    font-size: 13px;
+    color: #757575;
+    flex: 1;
+    height: 100%;
+    background: transparent;
+}
+
+.schedule-input.full-width {
+    width: 100%;
+}
+
+.schedule-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.schedule-icon {
+    font-size: 18px;
+    color: #333;
+    padding-right: 12px;
+}
+
+/* Step 4: Playback Settings */
+.counter-input-group {
+    border: 1px solid #E4E4E4;
+    border-radius: 6px;
+    height: 40px;
+    overflow: hidden;
+    background: #FFFFFF;
+}
+
+.counter-btn {
+    background: #F8F8F8;
+    border: none;
+    height: 100%;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #666;
+}
+
+.counter-btn:hover {
+    background: #EEEEEE;
+}
+
+.counter-input {
+    flex: 1;
+    border: none;
+    border-left: 1px solid #E4E4E4;
+    border-right: 1px solid #E4E4E4;
+    text-align: center;
+    height: 100%;
+    font-size: 14px;
+    outline: none;
+}
+
+/* Hide number input spinners */
+.counter-input::-webkit-outer-spin-button,
+.counter-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.counter-input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.est-plays-box {
+    background: #FFF4CB;
+    border-radius: 6px;
+    height: 100%;
+}
+
+.est-icon-box {
+    background: #333;
+    color: #FFF;
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.est-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+}
+
+.est-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #D80905;
+}
+
+.est-subtitle {
+    font-size: 10px;
+    color: #666;
+    margin-top: 2px;
+}
+.arrow-container {
+  width: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Step 5: Status */
+.status-card {
+    border: 1px solid #E4E4E4;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.status-card.active-card.selected {
+    border-color: #FFCDD2;
+    background: #FFF0F1;
+}
+
+.status-card.waiting-card.selected {
+    border-color: #FFA80080;
+    background: #FFF6E599;
+}
+
+.radio-circle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 3px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+}
+
+/* Active selected */
+.radio-circle.active-checked {
+    border-color: #D80905; /* red */
+}
+
+/* Waiting selected */
+.radio-circle.waiting-checked {
+    border-color: #FFA800; /* yellow */
+}
+.waiting-chip{
+    background:#FFF6E5;
+}
+.radio-inner {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #D80905;
+}
+
+.status-title {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: Poppins;
+}
+
+.status-title.active-color {
+    color: #D80905;
+}
+
+.status-chip {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.active-chip {
+    background: #DCF9E8;
+    color: #2E7D32;
+    padding: 5px 10px;
+}
+
+.waiting-chip {
+    background: #FFF8E1;
+    color: #F57F17;
+}
+
+.status-desc {
+    font-size: 11px;
+    color: #666;
+}
+
+/* Textarea styling */
+.textarea-field {
+    border: 1px solid #CFCFCF;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: Poppins;
+    resize: none;
+    outline: none;
+    height: 57px;
+}
+
+.textarea-field:focus {
+    border-color: #aaa;
+}
+
+/* Footer styling */
+
+.footer{
+    gap: 16px;
+    width: 337px;
+}
+.footer-btn {
+    
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+.close-btn {
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+
+  display: inline-flex;       /* make flex container */
+  align-items: center;        /* vertically center items */
+  gap: 4px;                   /* space between img and text */
+}
+::ng-deep .custom-select-panel {
+  max-height: 80vh !important;
+}
+.btn-cancel {
+  color: #666;
+  margin: 0;                  /* remove default margins from <p> */
+}
+
+.close-btn p {
+  margin: 0;                  /* remove block margin */
+}
+
+.btn-wait {
+    border: 1px solid #E4E4E4;
+    color: #333;
+}
+
+.btn-publish {
+
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 12px;
+  font-family: 'Red Hat Display', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent) !important;
+  border-radius: 4px;
+  background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
+}
+
+
+.action-icon {
+    font-size: 18px;
+}
+
+/* Fix helper text margins if needed */
+.helper-text {
+    margin-bottom: 0;
+}
+
+.custom-dialog-container .mat-dialog-container {
+    border-radius: 10px !important;
+}
+
+/* scheduled */
+.schedule-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.schedule-left-box{
+    display: flex;
+    align-items: center;
+    border: 1px solid #CFCFCF;
+    border-radius: 6px;
+}
+/* Main box */
+.schedule-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 40px;
+  background: #fff;
+}
+.schedule-box-right {
+  display: flex;
+  width: 165px;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 40px;
+  background: #fff;
+}
+
+/* Left label */
+.label {
+  font-size: 12px;
+  padding: 0px 8px;
+  color: #757575;
+  background: transparent;
+  height: 100%;
+  font-weight: 400;
+  font-family: Poppins;
+  display: flex;
+  align-items: center;
+}
+
+/* Divider line */
+.divider {
+  width: 1px;
+  height: 100%;
+  background: #e0e0e0;
+}
+
+/* Right value */
+.value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 165px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+}
+.input-value{
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+.selectdaydropdown {
+    width: 165px;
+}
+/* Full width (right side box) */
+.value.full {
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* Icon */
+.value mat-icon {
+  font-size: 18px;
+  color: #555;
+}
+
+/* Arrow */
+.arrow {
+  color: #9e9e9e;
+}
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.success {
+  background-color: #28a745;
+}
+
+.warning {
+  background-color: #ffc107;
+}
+
+
+.upload-box {
+  padding: 14px 16px;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.upload-box:hover {
+  background-color: #eeeeee;
+}
+
+.upload-box img {
+  width: 32px;
+  height: 32px;
+}
+
+.title {
+  margin: 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: #888;
+}
+.upload-container{
+    width: 100%;
+    height: 50px;
+    
+    padding: 6px 24px;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+}
+.file-preview{
+    border: 1px solid #E4E4E4;
+    background: #F8F8F8;
+        border-radius: 10px;
+        padding: 13px 16px;
+
+}
+.checkbox-title{
+    font-weight: 500;
+    font-size: 12px;
+    color:#636363;
+    font-family: Poppins;
+}
+.file-preview .title{
+    color: #312F2F;
+    font-size: 12px;
+    font-weight: 700;
+}
+.file-preview .subtitle{
+    color: #9A9A9A;
+    font-size: 10px;
+    font-weight: 500;
+}
+.custom-select {
+  position: relative;
+  width: 156px;
+  cursor: pointer;
+  user-select: none;
+}
+.selectdaydropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.input-field {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-field.selected-text {
+  color: #000; /* selected value color */
+}
+
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.dropdown {
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 6px;
+  margin-top: 4px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.option {
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.option:last-child {
+  border-bottom: none;
+}
+
+.option:hover {
+  color: #d92b2b;
+  background-color: #f9f9f9;
+}
+.schedule-date{
+    width: 185px;
+}

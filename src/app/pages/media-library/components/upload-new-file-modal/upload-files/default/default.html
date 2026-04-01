@@ -1,0 +1,38 @@
+<div class="form-row px-4">
+            
+            <app-form-select label="Program Name " [options]="['Om Shanti Om', 'Om Shanti Om']"
+                placeholder="- Select Program Name -" name="host">
+            </app-form-select>
+</div>
+      <div class="custom-line-sub" style="margin-top: 14px;"></div>
+
+        <app-step-badge [stepNumber]="3" title="Rename File"></app-step-badge>
+
+        <div class="form-row px-4 pt-3">
+            <div class="form-group">
+                <div class="input-prefix-wrapper">
+                    <span class="prefix">ProgramName//</span>
+                    <div class="editable-part" contenteditable="true" (input)="onTextChange($event)"
+                        data-placeholder="230926.mp3"></div>
+                </div>
+                <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
+            </div>
+        </div>
+               <div class="custom-line-sub "></div>
+        
+        <app-step-badge [stepNumber]="4" title="Thumbnail"></app-step-badge>
+
+        <div class="d-flex gap-3 px-3 my-2">
+            <!-- Radios -->
+            <mat-radio-group [(ngModel)]="selectedType" class="d-flex gap-3 ">
+
+                <mat-radio-button value="program" class="radio-btn input-label">
+                    Use Program Thumbnail
+                </mat-radio-button>
+
+                <mat-radio-button value="custom" class="radio-btn input-label">
+                    Upload Custom Thumbnail
+                </mat-radio-button>
+
+            </mat-radio-group>
+        </div>

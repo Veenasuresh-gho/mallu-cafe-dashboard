@@ -39,27 +39,33 @@ body {
   color: var(--primary-text);
 }
 
-.mat-mdc-select-value,             
-.mdc-floating-label,                
-.mat-mdc-option .mdc-label,         
-.mat-mdc-radio-button .mdc-label {  
+.mat-mdc-select-value,
+.mdc-floating-label,
+.mat-mdc-option .mdc-label,
+.mat-mdc-radio-button .mdc-label {
   font-size: 12px;
   font-family: 'Poppins', sans-serif !important;
 }
 
-/* .mat-mdc-slider {
-  --mdc-slider-handle-color: white;
-  --mdc-slider-focus-handle-color: white;
-  --mdc-slider-hover-handle-color: white;
-  --mdc-slider-active-track-color: white;
-  --mdc-slider-inactive-track-color: rgba(243, 238, 238, 0.3);
-} */
+/* Force ALL dialogs to have border radius */
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 10px !important;
+  overflow: hidden;
+}
 
 .mat-mdc-radio-button .mdc-radio__inner-circle {
-  background-color: red !important;
+  background-color: #D80905 !important;
 }
 
 .mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__outer-circle {
-  border-color: red !important;
+  border-color: #D80905 !important;
 
 }
+
+.input-field:focus {
+  outline: none;
+  color: var(--primary-text) !important;
+  border: 1px solid #D8090580 !important;
+}
+
+

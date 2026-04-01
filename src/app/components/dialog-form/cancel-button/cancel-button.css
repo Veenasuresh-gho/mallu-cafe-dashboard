@@ -1,0 +1,20 @@
+.close-btn {
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-cancel {
+  color: #666;
+  margin: 0;
+}
+
+.close-btn p {
+  margin: 0;
+}

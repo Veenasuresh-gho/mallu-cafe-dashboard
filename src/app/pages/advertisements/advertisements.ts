@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { PrimaryButton } from '../../components/primary-button/primary-button';
+import { UploadAdFile } from './components/upload-ad-file/upload-ad-file';
 
 @Component({
   selector: 'app-advertisements',
@@ -22,15 +23,15 @@ export class Advertisements {
 
   constructor(private dialog: MatDialog) { }
 
-  // openModal() {
-  //   this.dialog.open(AddNewProgram, {
-  //      width: '600px',
-  // height: '644px',
-  // maxWidth: '90vw',   
-  // maxHeight: '90vh',
-  //     disableClose: true
-  //   });
-  // }
+openModal() {
+  this.dialog.open(UploadAdFile, {
+     width: '90%',         
+    maxWidth: '600px',     
+    maxHeight: '95vh',  
+    disableClose: true,
+  });
+}
+
   searchText = '';
   status = '';
   category = '';

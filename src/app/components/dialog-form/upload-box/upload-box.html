@@ -1,0 +1,17 @@
+<div class="upload-box d-flex flex-column align-items-center justify-content-center px-4">
+  <img src="/dash/cloud-connection-blk.svg" alt="Upload Icon">
+
+  <div class="upload-txt">{{ uploadText }}</div>
+
+  <p class="upload-subtxt">{{ subText }}</p>
+
+  <div>
+    <label class="btn-create d-flex align-items-center">
+      <img src="/dash/cloud-connection.svg" alt="Cloud Icon">
+      <span> Choose File</span>
+      <input type="file" hidden [accept]="accept" (change)="onFileSelected($event)">
+    </label>
+  </div>
+
+  <p class="upload-subtxt">{{ sizeText }}</p>
+</div>

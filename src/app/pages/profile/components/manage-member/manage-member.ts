@@ -33,9 +33,9 @@ programs = [
 selectedPrograms: any[] = [];
 
 permissions = [
-  { name: 'Media Upload', checked: false },
+  { name: 'Media Upload', checked: true },
   { name: 'Ad Management', checked: false },
-  { name: 'Program Management', checked: false },
+  { name: 'Program Management', checked: true },
   { name: 'Member Management', checked: false }
 ];
 

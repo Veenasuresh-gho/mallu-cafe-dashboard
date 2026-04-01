@@ -1,0 +1,144 @@
+/* Form group & labels */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+}
+.input-label {
+  font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins;
+  color: var(--muted-label);
+  display: block;
+}
+.input-field {
+  font-weight: 400;
+  font-size: 12px;
+  border-radius: 6px;
+  height: 36px;
+  width: 100%;
+  font-family: Poppins;
+  background-color: #FFFFFF;
+  color: var(--muted-input);
+  line-height: 16px;
+}
+/* Schedule rows */
+.schedule-group .schedule-row {
+  display: flex;
+  align-items: center;
+  
+}
+.schedule-row{
+  height: 36px;
+}
+.selectdaydropdown{
+  width: 165px;
+  margin-bottom: 15px;
+}
+/* Main box containers */
+.schedule-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 36px;
+  background: #fff;
+}
+
+/* Left label */
+.label {
+  width: 139px;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 400;
+  display: flex;
+    background-color: #FFFFFF;
+
+  color: var(--muted-input);
+  border-radius: 6px;
+  align-items: center;
+  height: 100%;
+}
+
+/* Divider line between label & select */
+.divider {
+  width: 1px;
+  height: 100%;
+  background: #e0e0e0;
+}
+
+/* Right select boxes */
+.schedule-box-right,
+.schedule-box-rightEnd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  height: 40px;
+  width: 165px;
+  background: #fff;
+  overflow: hidden;
+  padding: 0;
+}
+.schedule-box-rightEnd{
+      border: 1px solid #ddd;
+}
+
+/* Select wrapper for positioning arrow */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Remove default select styles */
+.select-wrapper select {
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-weight: 400;;
+  background: transparent;
+  padding: 10px; /* space for arrow */
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--muted-input); /* placeholder gray */
+  appearance: none;
+}
+.select-wrapper select.selected {
+  color: #312F2F;
+}
+
+/* Dropdown arrow */
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* allow clicks to pass through */
+  font-size: 18px;
+  color: #333;
+}
+
+/* Arrow between boxes */
+.arrow-container {
+  width: 83px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.selectDay{
+  width: 139px;
+}
+/* LEFT COMBINED BOX */
+.schedule-left-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  height: 36px;
+  background: #fff;
+}

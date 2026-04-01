@@ -8,7 +8,10 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
   template: `
     <label class="checkbox-card">
-      <input type="checkbox" [ngModel]="checked" (ngModelChange)="onCheckedChange($event)" />
+      <input type="checkbox" 
+  name="checkbox"
+  [ngModel]="checked" 
+  (ngModelChange)="onCheckedChange($event)"  />
       <div class="content">
         <span class="title">{{ title }}</span>
         <p class="description">{{ description }}</p>

@@ -1,0 +1,38 @@
+<div class="form-group">
+  <label class="input-label">{{ label }}</label>
+
+  <div class="select-wrapper">
+
+    <!-- Input box -->
+    <div class="input-field" (click)="toggleDropdown()">
+
+      <!-- Placeholder -->
+      <span *ngIf="!selectedItems.length" class="placeholder-text">
+        {{ placeholder || ('Select ' + label) }}
+      </span>
+
+      <!-- Selected Chips -->
+      <div class="chip-container" *ngIf="selectedItems.length">
+        <div class="chip" *ngFor="let item of selectedItems">
+          {{ getLabel(item) }}
+          <span class="remove" (click)="remove(item, $event)">✕</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Dropdown -->
+    <div class="dropdown" *ngIf="open">
+      <div
+        class="option"
+        *ngFor="let item of options"
+        (click)="select(item)"
+      >
+        {{ getLabel(item) }}
+      </div>
+    </div>
+
+    <img src="/program/dropdown.svg" class="dropdown-icon" />
+
+  </div>
+</div>

@@ -1,34 +1,18 @@
-<div class="dialog-box ">
-
-    <!-- <div class="d-flex justify-content-between fixed p-3">
-        <div>
-            <h2 mat-dialog-title class="main-title">Member Management Actions</h2>
-            <p class="main-subtitle">
-               Manage this member’s profile, assigned programs, and account status.
-            </p>
-        </div>
-
-          <button class="close-btn btn-cancel" (click)="close()">
-            <img src="/program/close-circle.svg" alt="">
-        </button>
-    </div> -->
-    <app-dialog-header-component [title]="'Member Management Actions'" [subtitle]="' Manage this member’s profile, assigned programs, and account status.'"
-        (closeClicked)="close()">
+<div class="dialog-box">
+    <app-dialog-header-component [title]="'Member Management Actions'"
+        [subtitle]="' Manage this member’s profile, assigned programs, and account status.'" (closeClicked)="close()">
     </app-dialog-header-component>
-
     <mat-dialog-content class="dialog-content custom-select-panel">
 
         <div class="d-flex align-items-center gap-2 section-title px-4">
             <div class="step-badge">1</div>
             <p class="subtitle mb-0">Profile Information</p>
         </div>
-    <!-- <app-step-badge  [stepNumber]="1" title="Profile Information"></app-step-badge> -->
-
 
         <div class="d-flex gap-3 px-4">
             <div class="upload-wrapper">
                 <div class="upload-photo">
-                    
+
                     <label class="upload-btn ">
                         <input type="file" hidden />
                         <span>Upload Photo</span>
@@ -37,131 +21,79 @@
                 <p class="helper-text py-1">Supported formats: JPG, PNG</p>
             </div>
             <div>
-                <!-- <div class="form-group">
-                    <label class="input-label" for="fullname">Full Name *</label>
-                    <input class="input-field p-1" type="text" placeholder="Shijo M sebastian" />
-                </div> -->
                 <div style="width: 376px;">
- <app-form-input label="Full Name *"   placeholder="Shijo M sebastian"
-            name="name"></app-form-input>
+                    <app-form-input label="Full Name *" placeholder="Shijo M sebastian" name="name">
+                    </app-form-input>
                 </div>
-               
-                <!-- <div class="form-group">
-                    <label class="input-label " for="role">Role / Designation *</label>
-                    <select id="host" class="input-field p-1">
-                        <option disabled selected>- Select Role -</option>
-                        <option selected>Radio Jockey (RJ)</option>
-                        <option>Admin</option>
-                    </select>
-                </div> -->
-                 <app-form-select label="Role / Designation *" [options]="['Radio Jockey (RJ)', 'Admin']"
-                placeholder="- Select Role -" name="host">
-            </app-form-select>
+                <app-form-select label="Role / Designation *" [options]="['Radio Jockey (RJ)', 'Admin']"
+                    placeholder="- Select Role -" name="host">
+                </app-form-select>
                 <p class="helper-text pt-1">This role defines the member’s responsibility in the station.</p>
             </div>
         </div>
-<div class="custom-line-sub"></div>
+        <div class="custom-line-sub"></div>
 
-        <!-- <div class="d-flex align-items-center gap-2 section-title px-3">
-            <div class="step-badge">2</div>
-            <p class="subtitle mb-0">Contact Information</p>
-        </div> -->
-    <app-step-badge  [stepNumber]="2" title="Contact Information"></app-step-badge>
+        <app-step-badge [stepNumber]="2" title="Contact Information"></app-step-badge>
 
-        <div class="form-row px-4 py-2">
+        <div class="form-row px-4 py-1">
             <div class="form-group mobile-group">
                 <label class="input-label">Mobile Number *</label>
-
-                        <div class="phone-input ">
+                <div class="phone-input ">
                     <div class="countrycode">+1</div>
-
-                    <input type="text" class="phone-number"  name="phone"
-                        placeholder="202 555 0143" />
+                    <input type="text" class="phone-number" name="phone" placeholder="202 555 0143" />
                 </div>
                 <small class="helper-text">Used for internal communication.</small>
             </div>
-
-            <!-- <div class="form-group email-group">
-                <label class="input-label">Email *</label>
-                <input class="input-field email-input px-2" type="text" placeholder="rj.shijosebastian345@gmail.com" />
-                
-            </div> -->
-             <div class="email">
-                <app-form-input label="Email *"   placeholder="rj.shijosebastian345@gmail.com"
-            name="name"></app-form-input>
-             </div>
-            <small class="helper-text">This email will be used for login access &
-communication.</small>
+            <div class="email">
+                <app-form-input label="Email Address" placeholder="rj.shijosebastian345@gmail.com" name="name">
+                </app-form-input>
+                <p class="helper-text pt-1">This email will be used for login access &
+                    communication.
+                </p>
+            </div>
         </div>
-        <hr class="px-3">
+        <div class="custom-line-sub"></div>
 
-        <div class="d-flex align-items-center gap-2 section-title px-3">
-            <div class="step-badge">3</div>
-            <p class="subtitle mb-0">Program Assignment</p>
-        </div>
-        <div class="px-3">
+      
+        <app-step-badge [stepNumber]="3" title="Program Assignment"></app-step-badge>
+
+        <div class="px-4 pt-3 ">
             <button class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
                 Hungama Radio
-                <span class="material-symbols-outlined" (click)="openModalDelete()">delete</span>
+                <img src="/manage-member/trash.svg" alt="" (click)="openModalDelete()">
             </button>
         </div>
-        <mat-label class="input-label px-3 py-2">Assigned Programs</mat-label>
+      
+<div class="px-4">
+    <app-form-multiselect
+  label="Assigned Programs"
+  [options]="programs"
+  [(selectedItems)]="selectedPrograms"
+  placeholder="-Select program-"
+  optionLabel="program">
+</app-form-multiselect>
+</div>
 
-                <div class="px-4">
-            <mat-form-field class="assigned-programs" appearance="outline">
+        <small class="helper-text px-4">Multiple programs can be assigned.</small>
+        <div class="custom-line-sub mt-3"></div>
 
-            <mat-select multiple [(value)]="selectedPrograms" panelClass="custom-select-panel">
+        <app-step-badge [stepNumber]="4" title="Account Access & Permissions *"></app-step-badge>
 
-                <mat-select-trigger class="bg-white">
-                    <mat-chip-set>
-                        @for (item of selectedPrograms; track item) {
-                        <mat-chip [removable]="true" (removed)="remove(item)">
+        <p class="my-2 px-4">
 
-                            {{ item.program }}
-                            <button matChipRemove class="small" style="color:  var(--primary-color)">✕</button>
+        <div class="auto-play-wrapper px-4">
 
-                        </mat-chip>
-                        }
-                    </mat-chip-set>
-                </mat-select-trigger>
-
-                <!--  Dropdown options -->
-                @for (item of programs; track item) {
-                <mat-option [value]="item">
-                    {{ item.program }}
-                </mat-option>
-                }
-
-            </mat-select>
-        </mat-form-field>
-        </div>
-
-        <p class="helper-text px-3">Multiple programs can be assigned.</p>
-        <hr class="px-2">
-
-        <div class="d-flex align-items-center gap-2 section-title px-3">
-            <div class="step-badge">4</div>
-            <p class="subtitle mb-0">Account Access & Permissions *</p>
-        </div>
-        <p class="my-2 px-3">
-          
-                    <div class="auto-play-wrapper px-4">
-           
             <label class="toggle-switch">
-  <input 
-    type="checkbox" 
-    [(ngModel)]="isFullAccess" 
-    (change)="onToggleChange()"
-  >
-  <span class="slider round"></span>
-</label>
+                <input type="checkbox" [(ngModel)]="isFullAccess" (change)="onToggleChange()">
+                <span class="slider round"></span>
+            </label>
 
-<span class="toggle-txt">Allow system access</span>
+            <span class="toggle-txt">Allow system access</span>
 
         </div>
-        
-        <p class="helper-text px-3">Switch this on to allow full access — all permissions will be selected for you.</p>
-        <p class="input-label px-3">Access rights and system privilages </p>
+
+        <div class="helper-text px-4 py-2">Switch this on to allow full access — all permissions will be selected for you.</div>
+        <div class="input-label px-4 py-1">Access rights and system privilages </div>
         <div class="checkbox-container px-3">
             <span class="p-2" *ngFor="let item of permissions">
                 <label class="access-txt">
@@ -173,16 +105,16 @@ communication.</small>
 
         <hr class="px-3">
         <mat-dialog-actions align="end" class="d-flex justify-content-between">
-                    <button class="close-btn btn-cancel d-flex" (click)="close()">
+            <button class="close-btn btn-cancel d-flex" (click)="close()">
                 <img src="/program/close-circle.svg" width="16px" alt="">
                 <p>Cancel</p>
             </button>
-        <button type="submit" class="btn-create d-flex">
-                    <img src="/upload/tick-circle.svg" alt="">
-                    <span>Upload File</span>
-                </button>
-    </mat-dialog-actions>
+            <button type="submit" class="btn-create d-flex">
+                <img src="/upload/tick-circle.svg" alt="">
+                <span>Save changes</span>
+            </button>
+        </mat-dialog-actions>
     </mat-dialog-content>
     <!-- footer -->
-    
+
 </div>

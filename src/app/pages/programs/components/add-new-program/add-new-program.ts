@@ -52,9 +52,8 @@ export class AddNewProgram implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<AddNewProgram>) {}
 
-  // ✅ separate loading states
-  loading = false;          // button loading
-  initialLoading = false;   // dropdown loading
+  loading = false;          
+  initialLoading = false;   
 
   toast = inject(ToastService);
   srv = inject(GHOService);
@@ -90,18 +89,7 @@ export class AddNewProgram implements OnInit {
     if (!this.programTitle?.trim()) this.errors.programTitle = 'Program title is required';
     if (!this.selectedHost) this.errors.host = 'Please select a host / RJ';
     if (!this.selectedCategory) this.errors.category = 'Please select a program category';
-
-    // if (!this.selectedSchedule?.fromDay || !this.selectedSchedule?.toDay) {
-    //   this.errors.schedule.fromday = 'Please select schedule days';
-    // }
-
-    // if (!this.selectedSchedule?.fromTime || !this.selectedSchedule?.toTime) {
-    //   this.errors.time = 'Please select time';
-    // }
-
     if (!this.selectedType) this.errors.type = 'Please choose a call option';
-    // if (!this.selectedFile) this.errors.file = 'Please upload an image';
-
     return Object.keys(this.errors).length === 0;
   }
 

@@ -13,6 +13,8 @@ import { GHOService } from '../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../services/utilities';
 import { catchError, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-change-password',
@@ -22,7 +24,7 @@ import { ToastrService } from 'ngx-toastr';
     MatDialogContent,
     MatDialogActions,
     DialogHeaderComponent,
-    FormInput
+    FormInput,MatIconModule,MatInputModule
   ],
   templateUrl: './change-password.html',
   styleUrl: './change-password.css',
@@ -35,7 +37,7 @@ export class ChangePassword {
 
 
   newPassword = '';
-  currentPassword = '';
+  confirmPassword = '';
 
   constructor(private dialogRef: MatDialogRef<ChangePassword>, private toastr: ToastrService) { }
 
@@ -50,7 +52,7 @@ export class ChangePassword {
 
   resetPassword() {
 
-    if (!this.newPassword || !this.currentPassword) {
+    if (!this.newPassword || !this.confirmPassword) {
       alert('Please fill all fields');
       return;
     }
@@ -64,8 +66,8 @@ export class ChangePassword {
 
     const tv = [
       { T: 'dk1', V: userId },
-      { T: 'c1', V: this.currentPassword },
-      { T: 'dk2', V: this.newPassword },
+      { T: 'c1', V: this.confirmPassword },
+      { T: 'c2', V: this.newPassword },
       { T: 'c10', V: '11' }
     ];
 

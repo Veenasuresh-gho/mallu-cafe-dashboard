@@ -160,3 +160,6 @@ body {
   margin-top: 5px;
 }
 
+.toast-bottom-center {
+  bottom: 40px !important;
+}

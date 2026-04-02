@@ -57,7 +57,7 @@
             <th mat-header-cell *matHeaderCellDef>Profile</th>
             <td mat-cell *matCellDef="let row">
                 <div class="program-cell">
-                    <img [src]="row.avatar || '/main/no-image.png'" class="avatar" />
+                    <img [src]="row._url || '/main/no-image.png'" class="avatar" />
                     <div class="program-name">{{ row.FullName || '-'}}</div>
                 </div>
             </td>
@@ -97,7 +97,7 @@
 
     </table>
 
-     @if(showPaginator){
+    @if(showPaginator){
     <mat-paginator [pageSize]="7" [pageSizeOptions]="[7, 14, 21]" showFirstLastButtons>
     </mat-paginator>
     }

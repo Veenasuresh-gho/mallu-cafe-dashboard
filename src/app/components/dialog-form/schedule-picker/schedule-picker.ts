@@ -38,17 +38,20 @@ export class SchedulePicker implements OnInit, OnChanges {
     return `${hour}:00`;
   });
 
-  // Form values (NO DEFAULTS)
+  // Form values
   fromDay: string = '';
   toDay: string = '';
   fromTime: string = '';
   toTime: string = '';
 
+  // Validation messages
+  errors: any = {};
+
   // 🔄 INIT
   ngOnInit(): void {
     this.setValuesFromModel();
 
-    // ✅ IMPORTANT: emit initial state so parent always has values
+    // ✅ emit initial state so parent always has values
     this.emitChange();
   }
 
@@ -61,9 +64,7 @@ export class SchedulePicker implements OnInit, OnChanges {
 
   // ✅ CENTRALIZED MODEL SYNC
   private setValuesFromModel(): void {
-    if (!this.model) {
-      this.model = {};
-    }
+    if (!this.model) this.model = {};
 
     this.fromDay = this.model.fromDay || '';
     this.toDay = this.model.toDay || '';
@@ -103,5 +104,28 @@ export class SchedulePicker implements OnInit, OnChanges {
       toTime: this.toTime || '',
       selectedDate: this.selectedDate || null
     });
+  }
+
+  // 🔍 VALIDATION
+  validate() {
+    this.errors = {};
+
+    // Day validation
+    if (!this.fromDay) this.errors.fromDay = 'Please select a start day';
+    if (!this.toDay) this.errors.toDay = 'Please select an end day';
+    if (this.fromDay && this.toDay && parseInt(this.toDay) < parseInt(this.fromDay)) {
+      this.errors.toDay = 'End day must be after start day';
+    }
+
+    // Time validation
+    if (!this.fromTime) this.errors.fromTime = 'Please select a start time';
+    if (!this.toTime) this.errors.toTime = 'Please select an end time';
+    if (this.fromTime && this.toTime) {
+      const [fromH, fromM] = this.fromTime.split(':').map(Number);
+      const [toH, toM] = this.toTime.split(':').map(Number);
+      if (toH < fromH || (toH === fromH && toM <= fromM)) {
+        this.errors.toTime = 'End time must be after start time';
+      }
+    }
   }
 }

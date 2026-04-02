@@ -16,9 +16,12 @@
         <app-step-badge [stepNumber]="1" title="Upload Media File"></app-step-badge>
         <div class="px-4">
 
-            <app-upload-box [uploadText]="'Upload Broadcast Media File'"
-                [subText]="'Drag & drop your file here, or click to browse'" [accept]="'audio/mp3, video/mp4'"
-                [sizeText]="'MP3, MP4 • Max size: 1.5 GB'" (fileSelected)="onFileSelected($event)"></app-upload-box>
+            <app-upload-box [uploadText]="originalFileName || 'Upload Broadcast Media File'" [subText]="originalFileName 
+    ? fileSize + (dimension ? ' • ' + dimension : '') 
+    : 'Drag & drop your file here, or click to browse'" [accept]="'audio/mp3, video/mp4'"
+                [sizeText]="'MP3, MP4 • Max size: 1.5 GB'" (fileSelected)="onFileSelected($event)">
+            </app-upload-box>
+
         </div>
         <p class="d-flex gap-1 pt-2 pb-3 helper-text px-4 ">
             <span class="material-symbols-outlined helper-text-icon">
@@ -33,32 +36,27 @@
 
         <div class="form-row px-4">
 
-
-            <app-form-category [label]="'Program Category'" [options]="programCategories"
-                [(ngModel)]="selectedProgramCategory" [placeholder]="'- Select Program Category -'"
-                name="programCategory"></app-form-category>
-
-
+            <app-form-select label="Category *" [options]="mediaTypeOptions" optionLabel="DisplyText"
+                optionValue="DataValue" (modelChange)="onMediaTypeChange($event)" [(model)]="selectedMediaType">
+            </app-form-select>
 
         </div>
-        <div [ngSwitch]="selectedProgramCategory">
+        <div [ngSwitch]="selectedMediaType">
 
-            <app-pre-scheduled *ngSwitchCase="'pre'"></app-pre-scheduled>
+            <app-pre-scheduled *ngSwitchCase="'1'" [programList]="programList" [fileType]="extension"
+                (programSelected)="onProgramSelected($event)">
+            </app-pre-scheduled>
+            <app-podcast-file *ngSwitchCase="'2'"></app-podcast-file>
 
-            <app-video-file *ngSwitchCase="'featured'"></app-video-file>
+            <app-video-file *ngSwitchCase="'3'"></app-video-file>
 
-            <app-shorts *ngSwitchCase="'shorts'"></app-shorts>
-
-            <app-podcast-file *ngSwitchCase="'podcast'"></app-podcast-file>
+            <app-shorts *ngSwitchCase="'4'"></app-shorts>
 
             <div *ngSwitchDefault>
                 <app-default></app-default>
             </div>
 
         </div>
-
-
-
         <hr>
         <div class=" footer">
             <div class="dialog-actions d-flex justify-content-between my-4 mx-3 gap-2">
@@ -76,10 +74,10 @@
                         <img src="/upload/public-icon.svg" alt="">
                         <span>Publish</span>
                     </button>
-                    <button type="submit" class="btn-create d-flex">
-                        <img src="/upload/tick-circle.svg" alt="">
-                        <span>Upload File</span>
-                    </button>
+
+                    <app-primary-button (clicked)="uploadFile()" [loading]="loading" [label]="'Upload File'"
+                        iconSrc="/upload/tick-circle.svg">
+                    </app-primary-button>
                 </div>
             </div>
         </div>

@@ -23,6 +23,8 @@ import { ToastService } from '../../../../services/toastService';
 
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 
+import { MatIconModule } from '@angular/material/icon';
+
 @Component({
   selector: 'app-add-new-program',
   standalone: true,
@@ -40,7 +42,8 @@ import { ghoresult, tags } from '../../../../../model/ghomodel';
     SchedulePicker,
     FooterButton,
     CancelButton,
-    PrimaryButton
+    PrimaryButton,
+    MatIconModule
   ],
   templateUrl: './add-new-program.html',
   styleUrls: ['./add-new-program.css'],
@@ -49,9 +52,8 @@ export class AddNewProgram implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<AddNewProgram>) {}
 
-  // ✅ separate loading states
-  loading = false;          // button loading
-  initialLoading = false;   // dropdown loading
+  loading = false;          
+  initialLoading = false;   
 
   toast = inject(ToastService);
   srv = inject(GHOService);
@@ -77,40 +79,25 @@ export class AddNewProgram implements OnInit {
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
 
-  // ✅ CLEAR ERROR
   clearError(field: string) {
     if (this.errors[field]) delete this.errors[field];
   }
 
-  // ✅ VALIDATION
   validateForm(): boolean {
     this.errors = {};
 
     if (!this.programTitle?.trim()) this.errors.programTitle = 'Program title is required';
-    if (!this.selectedHost) this.errors.host = 'Please select a host';
-    if (!this.selectedCategory) this.errors.category = 'Please select a category';
-
-    if (!this.selectedSchedule?.fromDay || !this.selectedSchedule?.toDay) {
-      this.errors.schedule = 'Please select schedule days';
-    }
-
-    if (!this.selectedSchedule?.fromTime || !this.selectedSchedule?.toTime) {
-      this.errors.time = 'Please select time';
-    }
-
-    if (!this.selectedType) this.errors.type = 'Please select listener interaction';
-    if (!this.selectedFile) this.errors.file = 'Please upload an image';
-
+    if (!this.selectedHost) this.errors.host = 'Please select a host / RJ';
+    if (!this.selectedCategory) this.errors.category = 'Please select a program category';
+    if (!this.selectedType) this.errors.type = 'Please choose a call option';
     return Object.keys(this.errors).length === 0;
   }
 
-  // ✅ INIT
   ngOnInit(): void {
     this.userId = sessionStorage.getItem('id') || '';
     this.getInitialData();
   }
 
-  // ✅ LOAD ALL DATA
   getInitialData() {
     this.initialLoading = true;
 

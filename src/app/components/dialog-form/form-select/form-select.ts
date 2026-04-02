@@ -1,5 +1,3 @@
-
-
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -20,15 +18,19 @@ export class FormSelect {
   @Input() optionLabel: string = '';
   @Input() optionValue: string = '';
 
+  @Input() disabled: boolean = false; 
+
   @Output() modelChange = new EventEmitter<string>();
 
   open = false;
 
   toggleDropdown() {
+    if (this.disabled) return; // Prevent opening
     this.open = !this.open;
   }
 
   select(item: any) {
+    if (this.disabled) return; // Prevent selection
     const value = this.optionValue ? item[this.optionValue] : item;
     this.model = value;
     this.modelChange.emit(value);

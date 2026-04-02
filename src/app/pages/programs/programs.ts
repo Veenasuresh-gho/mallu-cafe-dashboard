@@ -60,8 +60,6 @@ export class Programs implements OnInit {
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
 
-  
-
 
   @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
     if (p) {
@@ -69,7 +67,6 @@ export class Programs implements OnInit {
     }
   } 
    dataSource = new MatTableDataSource<any>([]);
-
 
 
   getProgramList(): void {

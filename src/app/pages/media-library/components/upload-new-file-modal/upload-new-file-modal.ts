@@ -21,22 +21,22 @@ import { VideoFile } from './upload-files/video-file/video-file';
   selector: 'app-upload-new-file-modal',
   standalone: true,
   imports: [
-    CommonModule,SelectDropDown,
-    FormsModule,MatSelect,
+    CommonModule, SelectDropDown,
+    FormsModule, MatSelect,
     MatDialogContent,
-    MatRadioGroup,StepBadge,FormSelect,
-    MatRadioButton,UploadBox,FormCategory,FormInput,Default,PreScheduled,
-    Shorts,VideoFile,PodcastFile
+    MatRadioGroup, StepBadge, FormSelect,
+    MatRadioButton, UploadBox, FormCategory, FormInput, Default, PreScheduled,
+    Shorts, VideoFile, PodcastFile
   ],
   templateUrl: './upload-new-file-modal.html',
   styleUrl: './upload-new-file-modal.css',
 })
 export class UploadNewFileModal {
-    constructor(private dialogRef: MatDialogRef<UploadNewFileModal>,private dialog: MatDialog) {}
+  constructor(private dialogRef: MatDialogRef<UploadNewFileModal>, private dialog: MatDialog) { }
 
-    ngOnChanges() {
-  console.log('Selected program category:', this.selectedProgramCategory);
-}
+  ngOnChanges() {
+    console.log('Selected program category:', this.selectedProgramCategory);
+  }
 
   close() {
     this.dialogRef.close();
@@ -44,41 +44,41 @@ export class UploadNewFileModal {
   fileName = '';
   status = 'all';
   selectedProgramCategory: string = '';
-selectedType: string = ''; // default selected  
-fileSelectedName: string = '';
+  selectedType: string = ''; // default selected  
+  fileSelectedName: string = '';
 
-typedText: string = '';
+  typedText: string = '';
 
-onTextChange(event: any) {
-  this.typedText = event.target.innerText;
-  console.log('Full value:', 'ProgramName//' + this.typedText);
-}
-
-onFileSelected(event: any) {
-  const file = event.target.files[0];
-  if (file) {
-    this.fileName = file.name;
+  onTextChange(event: any) {
+    this.typedText = event.target.innerText;
+    console.log('Full value:', 'ProgramName//' + this.typedText);
   }
-}
-openModalAddPodcast() {
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.fileName = file.name;
+    }
+  }
+  openModalAddPodcast() {
     this.dialog.open(AddPodcast, {
- width: '90%',         
-    maxWidth: '600px',
-          disableClose: true
+      width: '90%',
+      maxWidth: '600px',
+      disableClose: true
     });
   }
   inputValue = '';
 
-onInput(event: any) {
-  this.inputValue = event.target.value;
-}
+  onInput(event: any) {
+    this.inputValue = event.target.value;
+  }
 
-programCategories = [
-  { value: 'pre', label: 'Pre - Scheduled' },
+  programCategories = [
+    { value: 'pre', label: 'Pre - Scheduled' },
     { value: 'shorts', label: 'Shorts' },
-  { value: 'featured', label: 'Videos' },
-  { value: 'podcast', label: 'Podcast' }
-];
+    { value: 'featured', label: 'Videos' },
+    { value: 'podcast', label: 'Podcast' }
+  ];
 
 
 }

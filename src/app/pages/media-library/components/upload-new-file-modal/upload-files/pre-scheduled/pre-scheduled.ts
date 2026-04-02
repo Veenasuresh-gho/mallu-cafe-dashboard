@@ -79,48 +79,48 @@ export class PreScheduled implements OnChanges {
       });
   }
 
-onTextChange(event: any) {
-  const el = event.target;
+  onTextChange(event: any) {
+    const el = event.target;
 
-  let value = el.innerText.replace(/\D/g, '').slice(0, 6);
+    let value = el.innerText.replace(/\D/g, '').slice(0, 6);
 
-  if (value.length > 2) {
-    value = value.slice(0, 2) + '/' + value.slice(2);
-  }
-  if (value.length > 5) {
-    value = value.slice(0, 5) + '/' + value.slice(5);
-  }
+    if (value.length > 2) {
+      value = value.slice(0, 2) + '/' + value.slice(2);
+    }
+    if (value.length > 5) {
+      value = value.slice(0, 5) + '/' + value.slice(5);
+    }
 
-  el.innerText = value;
+    el.innerText = value;
 
-  const range = document.createRange();
-  const sel = window.getSelection();
-  range.selectNodeContents(el);
-  range.collapse(false);
-  sel?.removeAllRanges();
-  sel?.addRange(range);
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    sel?.removeAllRanges();
+    sel?.addRange(range);
 
-  this.typedText = value;
+    this.typedText = value;
 
-  this.emitData();
-}
-
- emitData() {
-  const cleanDate = this.typedText.replace(/\//g, '');
-  const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
-
-  var fileName = '';
-
-  if (cleanProgramName && cleanDate && this.fileType) {
-    fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
+    this.emitData();
   }
 
-  this.programSelected.emit({
-    programId: this.programId,
-    programName: cleanProgramName,
-    typedText: this.typedText,
-    fileName: fileName,
-    fullData: this.programList.find(p => p.ProgramID === this.programId)
-  });
-}
+  emitData() {
+    const cleanDate = this.typedText.replace(/\//g, '');
+    const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
+
+    var fileName = '';
+
+    if (cleanProgramName && cleanDate && this.fileType) {
+      fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
+    }
+
+    this.programSelected.emit({
+      programId: this.programId,
+      programName: cleanProgramName,
+      typedText: this.typedText,
+      fileName: fileName,
+      fullData: this.programList.find(p => p.ProgramID === this.programId)
+    });
+  }
 }

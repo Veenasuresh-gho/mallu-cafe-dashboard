@@ -130,7 +130,7 @@ export class UploadNewFileModal implements OnInit {
     if (!file) return;
 
     this.selectedFile = file;
-  this.originalFileName = file.name;
+    this.originalFileName = file.name;
 
     if (this.finalfileName) {
       this.renameFile();
@@ -167,8 +167,14 @@ export class UploadNewFileModal implements OnInit {
     media.src = url;
   }
 
+  uploadFile() {
+    if (this.selectedMediaType === "1") {
+      this.addmediaPre();
+    }
+  }
+
   addmediaPre(): void {
-    if (!this.selectedFile) return; 
+    if (!this.selectedFile) return;
 
     const file = this.selectedFile;
 
@@ -189,7 +195,7 @@ export class UploadNewFileModal implements OnInit {
             await this.srv.handleFileUpload(
               this.id,
               this.userId,
-              file, 
+              file,
               '5'
             );
           }
@@ -203,6 +209,8 @@ export class UploadNewFileModal implements OnInit {
         }
       });
   }
+
+
 
   openModalAddPodcast() {
     this.dialog.open(AddPodcast, {

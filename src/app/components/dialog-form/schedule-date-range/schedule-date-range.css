@@ -9,17 +9,16 @@
   display: flex;
   align-items: center;
   gap: 5px;
-    border: 1.5px solid #C6C6C6; /* border around box */
-  border-radius: 8px;
+  border: 1.5px solid #C6C6C6; 
+  border-radius: 6px;
 }
 
 .date-box {
-
-  padding: 6px 10px;
-  width: 150px; /* slightly wider */
+  padding: 2px 10px;
+  width: 160px; /* slightly wider */
   cursor: pointer;
   background-color: #F9F9F9;
-  margin-left: -10px; /* shift left */
+  margin-left: -2px; /* shift left */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,20 +29,34 @@
   border-color: #e11d48; /* optional hover effect */
 }
 .schedule-date {
-  font-weight: 500;
-  font-size: 14px;
+  width: 150px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 400;
+  display: flex;
+  /* background-color: #FFFFFF; */
+  color: var(--muted-input);
+  border-radius: 8px;
+  align-items: center;
+    overflow: hidden;
+  height: 36px;
 }
 
 .divider {
   width: 1px;
   background-color: #ccc;
-  height: 24px;
-  margin: 0 5px;
+  height: 33px;
+  
+}
+.arrow-container{
+  margin-left: 26px;
+  margin-right: 10px;
 }
 
 .arrow-container img {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 24px;
+  
 }
 
 /* CALENDAR ICON */
@@ -56,7 +69,7 @@
 /* CALENDAR POPUP WRAPPER */
 .calendar-wrapper {
   position: absolute;
-  top: 40px; /* distance from schedule row */
+  top: 40px; 
   z-index: 9999;
 }
 
@@ -92,8 +105,8 @@
 }
 
 .arrow-icon {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
 }
 
 /* WEEK DAYS */
@@ -177,6 +190,13 @@
 /* SMALL STYLING FIX */
 .schedule-box-right .value, .main-box .d-flex.schedule-date {
   background-color: #f8f9fa;
-  padding: 5px 8px;
-  border-radius: 4px;
+  /* padding: 5px 8px; */
+  border-radius: 8px;
+}
+
+.schedule-box-right{
+  width: 170px;
+  height: 41px;
+  font-size: 12px;
+  font-weight: 400;
 }

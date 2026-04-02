@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FormSelect } from '../form-select/form-select';
 import { CustomCalendar } from '../../custom-calendar/custom-calendar';
@@ -11,7 +11,7 @@ import { CustomCalendar } from '../../custom-calendar/custom-calendar';
   templateUrl: './schedule-picker.html',
   styleUrls: ['./schedule-picker.css'],
 })
-export class SchedulePicker implements OnInit {
+export class SchedulePicker implements OnInit, OnChanges {
 
   @Input() model: any = {};
   @Output() modelChange = new EventEmitter<any>();
@@ -19,7 +19,7 @@ export class SchedulePicker implements OnInit {
 
   // 📅 Calendar state
   isCalendarOpen: boolean = false;
-  selectedDate: Date | null = null; // ✅ FIXED (no undefined issues)
+  selectedDate: Date | null = null;
 
   // 📆 Days
   days = [
@@ -38,7 +38,7 @@ export class SchedulePicker implements OnInit {
     return `${hour}:00`;
   });
 
-  // Form values
+  // Form values (NO DEFAULTS)
   fromDay: string = '';
   toDay: string = '';
   fromTime: string = '';
@@ -46,19 +46,35 @@ export class SchedulePicker implements OnInit {
 
   // 🔄 INIT
   ngOnInit(): void {
-    if (this.model) {
-      this.fromDay = this.model.fromDay || '';
-      this.toDay = this.model.toDay || '';
-      this.fromTime = this.model.fromTime || '';
-      this.toTime = this.model.toTime || '';
-      this.selectedDate = this.model.selectedDate || null;
+    this.setValuesFromModel();
+
+    // ✅ IMPORTANT: emit initial state so parent always has values
+    this.emitChange();
+  }
+
+  // 🔄 HANDLE PARENT CHANGES
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['model']) {
+      this.setValuesFromModel();
     }
+  }
+
+  // ✅ CENTRALIZED MODEL SYNC
+  private setValuesFromModel(): void {
+    if (!this.model) {
+      this.model = {};
+    }
+
+    this.fromDay = this.model.fromDay || '';
+    this.toDay = this.model.toDay || '';
+    this.fromTime = this.model.fromTime || '';
+    this.toTime = this.model.toTime || '';
+    this.selectedDate = this.model.selectedDate || null;
   }
 
   // 📅 OPEN / CLOSE CALENDAR
   toggleCalendar(): void {
     this.isCalendarOpen = !this.isCalendarOpen;
-    console.log('Calendar Open:', this.isCalendarOpen); // ✅ debug
   }
 
   closeCalendar(): void {
@@ -71,7 +87,6 @@ export class SchedulePicker implements OnInit {
 
     this.selectedDate = date;
 
-    // ✅ Map JS day → your format
     const day = date.getDay(); // 0 (Sun) → 6 (Sat)
     this.fromDay = day === 0 ? '7' : day.toString();
 
@@ -82,11 +97,11 @@ export class SchedulePicker implements OnInit {
   // 📤 EMIT TO PARENT
   emitChange(): void {
     this.modelChange.emit({
-      fromDay: this.fromDay,
-      toDay: this.toDay,
-      fromTime: this.fromTime,
-      toTime: this.toTime,
-      selectedDate: this.selectedDate
+      fromDay: this.fromDay || '',
+      toDay: this.toDay || '',
+      fromTime: this.fromTime || '',
+      toTime: this.toTime || '',
+      selectedDate: this.selectedDate || null
     });
   }
 }

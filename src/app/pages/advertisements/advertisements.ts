@@ -16,6 +16,7 @@ import { GHOService } from '../../services/ghosrvs';
 import { GHOUtitity } from '../../services/utilities';
 import { ghoresult, tags } from '../../../model/ghomodel';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ToastService } from '../../services/toastService';
 
 @Component({
   selector: 'app-advertisements',
@@ -29,14 +30,21 @@ export class Advertisements {
 
   constructor(private dialog: MatDialog) { }
 
+   toast = inject(ToastService);
   openModal() {
-    this.dialog.open(UploadAdFile, {
-      width: '90%',
-      maxWidth: '600px',
-      maxHeight: '95vh',
-      disableClose: true,
-    });
-  }
+  const dialogRef = this.dialog.open(UploadAdFile, {
+    width: '90%',
+    maxWidth: '600px',
+    maxHeight: '95vh',
+    disableClose: true,
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result === true) {
+      this.getAdvertisements(); 
+    }
+  });
+}
 
   searchText = '';
   status = '';
@@ -84,6 +92,25 @@ getStatusClass(status: string): string {
   loading = false;
   ds: [] = [];
 
+isImage(url: string): boolean {
+  return url?.toLowerCase().includes('.jpg') ||
+         url?.toLowerCase().includes('.jpeg') ||
+         url?.toLowerCase().includes('.png') ||
+         url?.toLowerCase().includes('.webp');
+}
+
+isVideo(url: string): boolean {
+  return url?.toLowerCase().includes('.mp4');
+}
+
+isAudio(url: string): boolean {
+  return url?.toLowerCase().includes('.mp3');
+}
+
+onImgError(event: any) {
+  event.target.src = '/assets/file-icon.svg';
+}
+
     @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
     if (p) {
       this.dataSource.paginator = p;
@@ -118,5 +145,57 @@ getAdvertisements(): void {
         this.loading = false;
       }
     });
+}
+
+   deleteAdvertisement(id: any) {
+
+  this.loading = true;
+
+  const tv = [
+    { T: 'dk1', V: id },
+    { T: 'c10', V: '4' }
+  ];
+
+  this.srv.getdata('advertisement', tv).subscribe({
+    next: (r: any) => {
+
+      this.loading = false;
+
+      if (r && r.Status === 1) {
+
+        this.toast.show({
+          title: 'Advertisement deleted successfully! ',
+          description: 'Advertisement has been successfully deleted',
+          variant: 'success',
+          position: 'toast-bottom-center'
+        });
+
+        this.getAdvertisements(); 
+
+      } else {
+
+        this.toast.show({
+          title: 'Failed to delete advertisement ❌',
+          description: r?.Info || 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-center'
+        });
+
+      }
+    },
+
+    error: () => {
+
+      this.loading = false;
+
+      this.toast.show({
+        title: 'Error ❌',
+        description: 'Server error while deleting advertisement',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+
+    }
+  });
 }
 }

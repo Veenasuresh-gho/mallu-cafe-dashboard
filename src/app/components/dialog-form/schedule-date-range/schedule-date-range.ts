@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './schedule-date-range.html',
   styleUrls: ['./schedule-date-range.css']
 })
+
+
 export class ScheduleDateRange {
 
   @Input() fromDate: string = '';
@@ -25,6 +27,16 @@ export class ScheduleDateRange {
   months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   weekDays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   years = Array.from({length: 20}, (_, i) => new Date().getFullYear() - 10 + i);
+
+
+  formatDateForDisplay(date: Date | string) {
+  if (!date) return '';
+  const d = typeof date === 'string' ? new Date(date) : date;
+  const day = d.getDate().toString().padStart(2, '0');
+  const month = this.months[d.getMonth()].substring(0,3); 
+  const year = d.getFullYear();
+  return `${day} ${month} ${year}`; 
+}
 
   openCalendar(field: 'from' | 'to') {
     this.selectedField = field;

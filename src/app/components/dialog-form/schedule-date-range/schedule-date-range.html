@@ -2,24 +2,24 @@
 
   <!-- FROM DATE -->
 <div class="d-flex main-box">
-  <div class="schedule-date px-1" style="width: 135px; ">Schedule Date</div>
+  <div class="schedule-date px-2" style="width: 135px; ">Schedule Date</div>
   <div class="divider"></div>
 
   <div class="d-flex schedule-date justify-content-between date-box">
-    <span>{{ fromDate || 'Select Date' }}</span>
+    <span>{{ formatDateForDisplay(fromDate) || 'Select Date' }}</span>
     <img src="/advertise/calendar.svg" alt="" (click)="openCalendar('from')" class="calendar-icon">
   </div>
 </div>
 
   <!-- ARROW -->
-  <div class="arrow-container">
+  <div class="arrow-container ">
     <img src="/program/arrow-right.svg" alt="">
   </div>
 
   <!-- TO DATE -->
   <div class="schedule-box-right">
-    <div class="d-flex justify-content-between">
-      <span>{{ toDate || 'Select Date' }}</span>
+    <div class="d-flex justify-content-between  gap-5">
+    <span class="px-2" >{{ formatDateForDisplay(toDate) || 'Select Date' }}</span>
       <img src="/advertise/calendar.svg" alt="" (click)="openCalendar('to')" class="calendar-icon">
     </div>
   </div>

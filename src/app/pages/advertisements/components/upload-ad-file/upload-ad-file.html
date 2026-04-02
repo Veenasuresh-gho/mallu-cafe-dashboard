@@ -19,6 +19,9 @@
 
                 <app-form-input label="Ad Title / File Name *" placeholder="eg. Onam Special Offer Ad"
                     name="programTitle" [(model)]="programTitle"></app-form-input>
+                <div class="error-text" *ngIf="errors.programTitle">
+                    {{ errors.programTitle }}
+                </div>
 
                 <div class="helper-text">Internal name for easy identification</div>
             </div>
@@ -26,6 +29,9 @@
 
                 <app-form-input label="Advertiser Name*" placeholder="eg. Kerala Spice Restaurant" name="AdvertiserName"
                     [(model)]="AdvertiserName"></app-form-input>
+                <div class="error-text" *ngIf="errors.AdvertiserName">
+                    {{ errors.AdvertiserName }}
+                </div>
 
             </div>
         </div>
@@ -38,8 +44,12 @@
         <div class="px-4">
 
             <app-upload-box [uploadText]="'Upload Advertisement File'"
-                [subText]="'Drag & drop your file here, or click to browse'" [accept]="'audio/mp3, video/mp4'"
+                [subText]="'Drag & drop your file here, or click to browse'" [accept]="'image/*, audio/*, video/*'"
                 [sizeText]="'MP3, MP4 • Max size: 1.5 GB'" (fileSelected)="onFileSelected($event)"></app-upload-box>
+
+            <div class="error-text px-4" *ngIf="errors.file">
+                {{ errors.file }}
+            </div>
         </div>
         <p class="d-flex gap-1 pt-2 mb-4 helper-text px-4 ">
             <span class="">File Preview
@@ -73,8 +83,24 @@
 
             <app-schedule-date-range [(fromDate)]="fromDate" [(toDate)]="toDate">
             </app-schedule-date-range>
+            <!-- Date Errors -->
+            <div class="error-text" *ngIf="errors.fromDate">
+                {{ errors.fromDate }}
+            </div>
+
+            <div class="error-text" *ngIf="errors.toDate">
+                {{ errors.toDate }}
+            </div>
+
+            <div class="error-text" *ngIf="errors.date">
+                {{ errors.date }}
+            </div>
 
             <app-schedule-picker [(model)]="scheduleModel" [showScheduleDay]="false"></app-schedule-picker>
+
+            <div class="error-text" *ngIf="errors.time">
+                {{ errors.time }}
+            </div>
 
             <p class="helper-text pt-1">(Schedule time slot is optional. Leave empty for 24/7 streaming.)</p>
         </div>
@@ -94,6 +120,9 @@
                         <i class="material-symbols-outlined">remove</i>
                     </button>
                     <input type="number" class="counter-input text-center" [(ngModel)]="playsPerDay" min="0" />
+                    <div class="error-text" *ngIf="errors.playsPerDay">
+                        {{ errors.playsPerDay }}
+                    </div>
                     <button class="counter-btn" (click)="incrementPlays()">
                         <i class="material-symbols-outlined">add</i>
                     </button>
@@ -203,9 +232,18 @@
                     <img src="/dash/tick-circle.svg" alt=""> <span>Add to Waiting List</span>
                 </button>
 
-                <button (click)="onPublishAds()" class="footer-btn btn-publish d-flex gap-1 align-items-center">
-                    <i class="material-symbols-outlined action-icon">cloud_upload</i>
-                    <span>Publish Advertisement</span>
+                <button (click)="addAdvertisement()"
+                    class="footer-btn btn-publish d-flex align-items-center justify-content-center"
+                    [disabled]="loading">
+                    <ng-container *ngIf="loading; else normalContent">
+                        <mat-progress-spinner diameter="20" strokeWidth="3" mode="indeterminate">
+                        </mat-progress-spinner>
+                    </ng-container>
+
+                    <ng-template #normalContent>
+                        <i class="material-symbols-outlined action-icon">cloud_upload</i>
+                        <span>Upload File</span>
+                    </ng-template>
                 </button>
             </div>
         </div>

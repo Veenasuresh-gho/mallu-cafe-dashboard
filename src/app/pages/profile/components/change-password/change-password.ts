@@ -29,31 +29,45 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './change-password.html',
   styleUrl: './change-password.css',
 })
-export class ChangePassword {
 
+
+export class ChangePassword {
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
 
-
   newPassword = '';
   confirmPassword = '';
 
-  constructor(private dialogRef: MatDialogRef<ChangePassword>, private toastr: ToastrService) { }
+  newPasswordTouched = false;
+  confirmPasswordTouched = false;
+  constructor(private dialogRef: MatDialogRef<ChangePassword>, private toastr: ToastrService) {}
 
   close() {
     this.dialogRef.close();
   }
 
-
-
-
-
-
   resetPassword() {
 
     if (!this.newPassword || !this.confirmPassword) {
-      alert('Please fill all fields');
+      this.toastr.error('Please fill all fields');
+      return;
+    }
+
+    if (this.newPassword.length < 8) {
+      this.toastr.error('Password must be at least 8 characters long');
+      return;
+    }
+
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d).+$/;
+
+    if (!passwordPattern.test(this.newPassword)) {
+      this.toastr.error('Password must contain both letters and numbers');
+      return;
+    }
+
+    if (this.newPassword !== this.confirmPassword) {
+      this.toastr.error('Passwords do not match');
       return;
     }
 
@@ -66,8 +80,8 @@ export class ChangePassword {
 
     const tv = [
       { T: 'dk1', V: userId },
-      { T: 'c1', V: this.confirmPassword },
-      { T: 'c2', V: this.newPassword },
+      { T: 'c1', V: this.newPassword },
+      { T: 'c2', V: this.confirmPassword },
       { T: 'c10', V: '11' }
     ];
 
@@ -85,7 +99,7 @@ export class ChangePassword {
         this.toastr.success('Password reset successful');
         this.dialogRef.close(true);
       } else {
-        this.toastr.error(r.Info || 'Invalid current password');
+        this.toastr.error(r.Info || 'Password reset failed');
       }
 
     });

@@ -47,6 +47,7 @@ export class ForgotPassword implements OnDestroy {
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
   toast = inject(ToastService);
+  testOtp: number | null = null;
   constructor(
     private fb: FormBuilder,
     private router: Router, private toastr: ToastrService
@@ -89,7 +90,52 @@ export class ForgotPassword implements OnDestroy {
   resendCode() {
     if (this.timer > 0) return;
     console.log('Resend OTP API call');
-    this.startTimer();
+
+  const { email } = this.loginForm.value;
+
+  this.tv = [
+    { T: 'dk1', V: email },
+    { T: 'c10', V: '9' },
+  ];
+
+  this.srv.getdata('teammember', this.tv).pipe(
+    catchError(err => {
+      this.toast.show({
+        title: 'Error ❌',
+        description: 'Something went wrong!',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+      return of(null);
+    })
+  ).subscribe((r: any) => {
+
+    if (!r) return; 
+
+    if (r.Status === 1) {
+
+      const u = r.Data[0][0];
+     
+       this.testOtp = u.otp;
+      this.toast.show({
+        title: 'OTP resent successfully 🎉',
+        description: 'OTP resent successfully!',
+        variant: 'success',
+        position: 'toast-bottom-center'
+      });
+
+      this.startTimer();
+      this.cdr.detectChanges();
+
+    } else {
+      this.toast.show({
+        title: 'Failed ❌',
+        description: r.Info || 'Failed to resend OTP',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+    }
+  });
   }
 
   formatTime(sec: number): string {
@@ -199,6 +245,8 @@ export class ForgotPassword implements OnDestroy {
 
       const u = r.Data[0][0];
       this.otpId = u.id;
+     
+       this.testOtp = u.msg;
 
       this.toast.show({
         title: 'OTP Sent 🎉',

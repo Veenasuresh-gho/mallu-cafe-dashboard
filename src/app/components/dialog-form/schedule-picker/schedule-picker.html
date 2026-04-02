@@ -58,12 +58,19 @@
 
       <div class="schedule-box-right">
         <div class="select-wrapper">
-          <select [(ngModel)]="fromTime" (ngModelChange)="emitChange()" name="fromTime" required [ngClass]="{'selected': fromTime}">
-            <option value="" disabled selected hidden>10:00</option>
-            <option *ngFor="let t of times" [value]="t">
-              {{ t }}
-            </option>
-          </select>
+          <!-- FROM TIME -->
+<select 
+  [(ngModel)]="fromTime" 
+  (ngModelChange)="emitChange()" 
+  name="fromTime"
+  [ngClass]="{'selected': fromTime}">
+
+  <option value="" disabled hidden>Select Time</option>
+
+  <option *ngFor="let t of times" [value]="t">
+    {{ t }}
+  </option>
+</select>
           <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
         </div>
       </div>
@@ -75,12 +82,18 @@
 
     <div class="schedule-box-rightEnd">
       <div class="select-wrapper">
-        <select [(ngModel)]="toTime" (ngModelChange)="emitChange()" name="toTime" [ngClass]="{'selected': toTime}">
-          <option value="" disabled selected hidden>11:30</option>
-          <option *ngFor="let t of times" [value]="t">
-            {{ t }}
-          </option>
-        </select>
+       <select 
+  [(ngModel)]="toTime" 
+  (ngModelChange)="emitChange()" 
+  name="toTime"
+  [ngClass]="{'selected': toTime}">
+
+  <option value="" disabled hidden>Select Time</option>
+
+  <option *ngFor="let t of times" [value]="t">
+    {{ t }}
+  </option>
+</select>
         <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
       </div>
     </div>

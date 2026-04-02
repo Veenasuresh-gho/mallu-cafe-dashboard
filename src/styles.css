@@ -149,3 +149,14 @@ body {
   gap: 8px;
   align-items: flex-start;
 }
+
+.error-text {
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0%;
+  color: var(--primary-color);
+  margin-top: 5px;
+}
+

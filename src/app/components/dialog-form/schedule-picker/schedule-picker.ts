@@ -35,24 +35,10 @@ export class SchedulePicker {
   toDay = '';
   fromTime = '';
   toTime = '';
-  isDayOpen: boolean = false;
 
-toggleDayDropdown() {
-  this.isDayOpen = !this.isDayOpen;
-}
-
-selectDay(day: any) {
-  this.fromDay = day.value;
-  this.isDayOpen = false;
-  this.emitChange(); // keep your existing API flow
-}
-
-getSelectedDayLabel() {
-  return this.days.find(d => d.value === this.fromDay)?.label;
-}
+  errors: any = {}; // <-- store validation messages
 
   ngOnInit() {
-    // initialize from parent if exists
     if (this.model) {
       this.fromDay = this.model.fromDay || '';
       this.toDay = this.model.toDay || '';
@@ -62,11 +48,34 @@ getSelectedDayLabel() {
   }
 
   emitChange() {
+    this.validate(); // validate on every change
     this.modelChange.emit({
       fromDay: this.fromDay,
       toDay: this.toDay,
       fromTime: this.fromTime,
       toTime: this.toTime
     });
+  }
+
+  validate() {
+    this.errors = {};
+
+    // Day validation
+    if (!this.fromDay) this.errors.fromDay = 'Please select a start day';
+    if (!this.toDay) this.errors.toDay = 'Please select an end day';
+    if (this.fromDay && this.toDay && parseInt(this.toDay) < parseInt(this.fromDay)) {
+      this.errors.toDay = 'End day must be after start day';
+    }
+
+    // Time validation
+    if (!this.fromTime) this.errors.fromTime = 'Please select a start time';
+    if (!this.toTime) this.errors.toTime = 'Please select an end time';
+    if (this.fromTime && this.toTime) {
+      const [fromH, fromM] = this.fromTime.split(':').map(Number);
+      const [toH, toM] = this.toTime.split(':').map(Number);
+      if (toH < fromH || (toH === fromH && toM <= fromM)) {
+        this.errors.toTime = 'End time must be after start time';
+      }
+    }
   }
 }

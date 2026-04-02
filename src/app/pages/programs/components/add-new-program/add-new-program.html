@@ -8,8 +8,8 @@
         <app-form-input (modelChange)="clearError('programTitle')" label="Program Title *" [(model)]="programTitle"
             placeholder="Enter program name" name="programTitle">
         </app-form-input>
-        <div class="error-text" *ngIf="errors.programTitle">
-            {{ errors.programTitle }}
+        <div class="error-text " *ngIf="errors.programTitle">
+            <img src="/program/warn.svg " class="small mb-1"> {{ errors.programTitle }}
         </div>
 
         <app-form-select label="Host / RJ *" (modelChange)="clearError('host')" [options]="hosts"
@@ -17,25 +17,25 @@
             [(model)]="selectedHost">
         </app-form-select>
         <div class="error-text" *ngIf="errors.host">
-            {{ errors.host }}
+            <img src="/program/warn.svg " class="small mb-1"> {{ errors.host }}
         </div>
 
         <app-form-select label="Category *" (modelChange)="clearError('category')" [options]="categoryOptions"
             optionLabel="DisplyText" optionValue="DataValue" [(model)]="selectedCategory">
         </app-form-select>
         <div class="error-text" *ngIf="errors.category">
-            {{ errors.category }}
+            <img src="/program/warn.svg " class="small mb-1"> {{ errors.category }}
         </div>
 
         <app-schedule-picker (modelChange)="clearError('schedule'); clearError('time')"
             [(model)]="selectedSchedule"></app-schedule-picker>
-        <div class="error-text" *ngIf="errors.schedule">
+        <!-- <div class="error-text" *ngIf="errors.schedule">
             {{ errors.schedule }}
         </div>
 
         <div class="error-text" *ngIf="errors.time">
             {{ errors.time }}
-        </div>
+        </div> -->
 
         <div class="form-group">
             <label class="input-label" for="thumbnail">Thumbnail</label>
@@ -68,7 +68,6 @@
                     <span>Allow calls</span>
                 </div>
 
-                <!-- Disable calls -->
                 <div class="custom-radio" [class.selected]="selectedType === 'disable'"
                     (click)="selectedType = 'disable'; clearError('type')">
                     <div class="circle"></div>
@@ -77,7 +76,7 @@
             </div>
 
             <div class="error-text" *ngIf="errors.type">
-                {{ errors.type }}
+                <img src="/program/warn.svg " class="small mb-1"> {{ errors.type }}
             </div>
         </div>
 

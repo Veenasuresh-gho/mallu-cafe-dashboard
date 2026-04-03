@@ -11,26 +11,26 @@ import { MatDivider } from '@angular/material/divider';
 export class Perfomance {
   stats = [
     {
-      icon: 'mic',
+      icon: '/profile/microphone.svg',
       label: 'Shows Hosted',
       count: '120'
     },
     {
-      icon: 'headphones',
+      icon: '/profile/headphone.svg',
       label: 'Listener Engagement ',
       count: '85%',
 
-      trendIcon: 'trending_up',
+      trendIcon: '/profile/arrowUp.svg',
       trendColor: 'text-success'
     },
     {
-      icon: 'favorite',
+      icon: '/profile/heart.svg',
       label: 'Favourites ',
       count: '1450',
 
     },
     {
-      icon: 'call',
+      icon: '/profile/call-received.svg',
       label: 'Calls Received',
       count: '310',
 

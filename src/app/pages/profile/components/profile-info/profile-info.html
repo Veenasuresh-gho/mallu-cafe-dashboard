@@ -64,21 +64,24 @@
   </div>
 
   <!-- RIGHT SIDE -->
-  <div class="col-md-9">
+  <div class="col-md-8 mx-2 ">
     <div class="row">
 
       <!-- Column 1 -->
       <div class="col-md-4">
         <div class="mb-3">
-          <label class="form-label input-label">Full Name</label>
-          <input type="text" class="form-control input-txt" placeholder="Shijo M sebastian" />
+          <!-- <label class="form-label input-label">Full Name</label>
+          <input type="text" class="form-control input-txt" placeholder="Shijo M sebastian" /> -->
+          <app-form-input  label="Full Name" [(model)]="fullName"
+            placeholder="Shijo M sebastian" name="fullName">
+        </app-form-input>
         </div>
 
         <div>
           <label class="form-label input-label">Phone Number</label>
           <div class="input-group">
-            <span class="input-group-text input-label">+1</span>
-            <input type="text" class="form-control input-txt" placeholder="202 555 0143" />
+            <span class="input-group-text input-label p-2">+1</span>
+            <input type="text" class="form-control input-txt p-2" placeholder="202 555 0143" />
           </div>
         </div>
       </div>
@@ -86,14 +89,20 @@
       <!-- Column 2 -->
       <div class="col-md-4">
         <div class="mb-3">
-          <label class="form-label input-label">Designation / Role</label>
-          <input type="text" class="form-control input-txt" placeholder="Radio Jockey" />
+          <!-- <label class="form-label input-label">Designation / Role</label>
+          <input type="text" class="form-control input-txt" placeholder="Radio Jockey" /> -->
+          <app-form-input label="Designation / Role" [(model)]="Designation"
+            placeholder="Radio Jockey" name="Designation">
+        </app-form-input>
         </div>
 
-        <div>
-          <label class="form-label input-label">Email</label>
+        <div class="pt-2">
+          <!-- <label class="form-label input-label">Email</label>
           <input type="email" class="form-control input-txt"
-            placeholder="rj.shijosebastian345@gmail.com" />
+            placeholder="rj.shijosebastian345@gmail.com" /> -->
+            <app-form-input label="Email" [(model)]="email"
+            placeholder="rj.shijosebastian345@gmail.com" name="email">
+        </app-form-input>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-3 ">
     <div class="d-flex flex-column justify-content-start">
       <p class="mainHead mb-1 ">Media Contributions</p>
       <small class="subHeading">
@@ -8,20 +8,17 @@
     </div>
   </div>
 
-  <div class="col-md-8">
+  <div class="col-md-8 mx-2">
     <ul class="list-unstyled d-flex gap-4 mb-0 mt-2 flex-wrap">
 
       @for (item of mediaStats; track item) {
       <li class="d-flex align-items-center gap-2">
         <div class="d-flex gap-1">
-          <span class="material-symbols-outlined d-flex align-items-center justify-content-center"
-            [ngClass]="item.isCircle ? 'bg-dark text-white rounded-circle' : ''"
-            [style.width]="item.isCircle ? '20px' : null" [style.height]="item.isCircle ? '20px' : null"
-            [style.fontSize]="item.isCircle ? '16px' : null">
-            {{ item.icon }}</span>
          
-          <span class="PerformanceData pt-1">{{ item.label }}:</span>
-           <span class="countData pt-1">{{ item.count }}</span>
+              <img [src]="item.icon" class="icon-img" width="16" height="16" />
+
+          <span class="PerformanceData ">{{ item.label }}:</span>
+           <span class="countData ">{{ item.count }}</span>
         </div>
       </li>
       }

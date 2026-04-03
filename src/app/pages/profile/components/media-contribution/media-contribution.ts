@@ -11,18 +11,18 @@ import { MatDivider } from '@angular/material/divider';
 export class MediaContribution {
   mediaStats = [
   {
-    icon: 'podcasts',
+    icon: '/profile/airdrop.svg',
     label: 'Podcasts',
     count:'14',
 
   },
   {
-    icon: 'videocam',
+    icon: '/profile/video-icon.svg',
     label: 'Featured',
     count: '6',
   },
   {
-    icon: 'arrow_right',
+    icon: '/profile/video.svg',
     label: 'Shorts',
     count:'2',
     isCircle: true 

@@ -13,12 +13,14 @@ import { FooterButton } from '../../components/dialog-form/footer-button/footer-
 import { GHOService } from '../../services/ghosrvs';
 import { GHOUtitity } from '../../services/utilities';
 import { ghoresult, tags } from '../../../model/ghomodel';
+import { FormsModule } from '@angular/forms';
 // import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-profile',
+  standalone: true,
   imports: [MatDividerModule, ProfileInfo, AssignedPrgm, Perfomance, MediaContribution, Settings,
-    Permission, FooterButton],
+    Permission, FooterButton,FormsModule],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -30,6 +32,10 @@ export class Profile {
   res: ghoresult = new ghoresult();
   loading = false;
   ds: [] = [];
+  profile: any = {};
+  assignedPrograms: any[] = [];
+  performance: any[] = [];
+  media: any = {};
 
   constructor(private dialog: MatDialog) { }
 
@@ -54,32 +60,39 @@ export class Profile {
     this.getProfile();
   }
 
-  getProfile(): void {
-    this.loading = true;
-    const userId = this.srv.getsession('id');
-    const tv = [
-      { T: 'dk1', V: userId },
-      { T: 'c10', V: '3' }
-    ];
 
-    this.srv.getdata('teammember',tv)
-      .subscribe({
-        next: (r) => {
+getProfile(): void {
+  this.loading = true;
 
-          this.ds = r.Data[0].map((item: any) => ({
-            ...item,
+  const userId = this.srv.getsession('id');
 
-          }));
+  const tv = [
+    { T: 'dk1', V: userId },
+    { T: 'c10', V: '3' }
+  ];
 
+  this.srv.getdata('teammember', tv)
+    .subscribe({
+      next: (r) => {
 
-          this.loading = false;
+        const data = r.Data;
 
-        },
-        error: (err) => {
-          console.error('API Error:', err);
-          this.loading = false;
-        }
-      });
-  }
+        this.profile = data[0]?.[0] || {};
+        console.log('profile',this.profile);
+
+        this.assignedPrograms = data[1] || [];
+
+        this.performance = data[2] || [];
+
+        this.media = data[4] || [];
+
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('API Error:', err);
+        this.loading = false;
+      }
+    });
+}
 
 }

@@ -1,6 +1,4 @@
-<div class="schedule-row d-flex">
-
-  <!-- FROM DATE -->
+<!-- <div class="schedule-row d-flex">
 <div class="d-flex main-box">
   <div class="schedule-date px-2" style="width: 135px; ">Schedule Date</div>
   <div class="divider"></div>
@@ -11,12 +9,10 @@
   </div>
 </div>
 
-  <!-- ARROW -->
   <div class="arrow-container ">
     <img src="/program/arrow-right.svg" alt="">
   </div>
 
-  <!-- TO DATE -->
   <div class="schedule-box-right">
     <div class="d-flex justify-content-between  gap-5">
     <span class="px-2" >{{ formatDateForDisplay(toDate) || 'Select Date' }}</span>
@@ -26,17 +22,15 @@
 
 </div>
 
-<!-- CALENDAR POPUP -->
 <div class="calendar-wrapper" *ngIf="isOpen">
   <div class="calendar">
 
-    <!-- DATE VIEW HEADER -->
     <div class="header" *ngIf="viewMode === 'date'">
       <div class="title px-2">
     <span (click)="showMonthPicker()">
         {{ months[currentDate.getMonth()] }}
     </span>
-    &nbsp; <!-- add a space -->
+    &nbsp; 
     <span (click)="showYearPicker()">
         {{ currentDate.getFullYear() }}
     </span>
@@ -48,7 +42,6 @@
       </div>
     </div>
 
-    <!-- MONTH VIEW -->
     <div *ngIf="viewMode === 'month'">
       <div class="header">
         <div class="back px-3" (click)="goBack()">Back</div>
@@ -66,7 +59,6 @@
       </div>
     </div>
 
-    <!-- YEAR VIEW -->
     <div *ngIf="viewMode === 'year'">
       <div class="header">
         <div class="month-label px-3">{{ months[currentDate.getMonth()].substring(0,3) }}</div>
@@ -83,7 +75,6 @@
       </div>
     </div>
 
-    <!-- WEEK + DAYS (ONLY DATE VIEW) -->
     <ng-container *ngIf="viewMode === 'date'">
       <div class="week">
         <div *ngFor="let d of weekDays">{{ d }}</div>
@@ -100,4 +91,140 @@
     </ng-container>
 
   </div>
+</div> -->
+
+<div class="schedule-row d-flex">
+
+  <!-- FROM DATE -->
+  <div class="d-flex main-box">
+    <div class="schedule-date px-2" style="width: 135px;">Schedule Date</div>
+    <div class="divider"></div>
+
+    <div class="date-box">
+  
+  <span class="date-text">
+    {{ formatDateForDisplay(fromDate) || 'Select Date' }}
+  </span>
+
+  <div class="calendar-trigger">
+    <img src="/advertise/calendar.svg"
+         (click)="openCalendar('from', $event)"
+         class="calendar-icon">
+
+    <div class="calendar-wrapper from-calendar"
+         *ngIf="openFor === 'from'"
+         (click)="$event.stopPropagation()">
+      <ng-container *ngTemplateOutlet="calendarTemplate"></ng-container>
+    </div>
+  </div>
+
 </div>
+  </div>
+
+  <!-- ARROW -->
+  <div class="arrow-container">
+    <img src="/program/arrow-right.svg" alt="">
+  </div>
+
+  <!-- TO DATE -->
+  <div class="schedule-box-right">
+    <div class="d-flex justify-content-between gap-5">
+      <span class="px-2">{{ formatDateForDisplay(toDate) || 'Select Date' }}</span>
+
+      <div class="calendar-trigger">
+        <img src="/advertise/calendar.svg" (click)="openCalendar('to', $event); " class="calendar-icon">
+
+        <!-- TO CALENDAR -->
+        <div class="calendar-wrapper to-calendar" *ngIf="openFor === 'to'" (click)="$event.stopPropagation()">
+          <ng-container *ngTemplateOutlet="calendarTemplate"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================= CALENDAR TEMPLATE ================= -->
+<ng-template #calendarTemplate>
+  <div class="calendar">
+
+    <!-- HEADER -->
+    <div class="header" *ngIf="viewMode === 'date'">
+      <div class="title px-2">
+        <span (click)="showMonthPicker()">
+          {{ months[currentDate.getMonth()] }}
+        </span>
+        &nbsp;
+        <span (click)="showYearPicker()">
+          {{ currentDate.getFullYear() }}
+        </span>
+      </div>
+
+      <div class="nav px-2">
+        <button (click)="prev()">
+          <img src="/calendar/arrow-left.svg" class="arrow-icon" />
+        </button>
+        <button (click)="next()">
+          <img src="/calendar/arrow-right.svg" class="arrow-icon" />
+        </button>
+      </div>
+    </div>
+
+    <!-- MONTH VIEW -->
+    <div *ngIf="viewMode === 'month'">
+      <div class="header">
+        <div class="back px-3" (click)="goBack()">Back</div>
+
+        <div class="year-nav px-3">
+          <button (click)="prev()"><img src="/calendar/arrow-left.svg" class="arrow-icon" /></button>
+          <span>{{ currentDate.getFullYear() }}</span>
+          <button (click)="next()"><img src="/calendar/arrow-right.svg" class="arrow-icon" /></button>
+        </div>
+      </div>
+
+      <div class="grid month-grid">
+        <div *ngFor="let m of months; let i = index" [class.active]="i === currentDate.getMonth()"
+          (click)="selectMonth(i)">
+          {{ m.substring(0,3) }}
+        </div>
+      </div>
+    </div>
+
+    <!-- YEAR VIEW -->
+    <div *ngIf="viewMode === 'year'">
+      <div class="header">
+        <div class="month-label px-3">
+          {{ months[currentDate.getMonth()].substring(0,3) }}
+        </div>
+
+        <div class="year-nav">
+          <button (click)="prevYears()"><img src="/calendar/arrow-left.svg" class="arrow-icon" /></button>
+          <span>{{ currentDate.getFullYear() }}</span>
+          <button (click)="nextYears()"><img src="/calendar/arrow-right.svg" class="arrow-icon" /></button>
+        </div>
+      </div>
+
+      <div class="grid year-grid">
+        <div *ngFor="let y of years" [class.active]="y === currentDate.getFullYear()" (click)="selectYear(y)">
+          {{ y }}
+        </div>
+      </div>
+    </div>
+
+    <!-- DAYS -->
+    <ng-container *ngIf="viewMode === 'date'">
+
+      <div class="week">
+        <div *ngFor="let d of weekDays">{{ d }}</div>
+      </div>
+
+      <div class="grid">
+        <div class="day" *ngFor="let d of getDays()" [class.active]="d.currentMonth && isSelected(d.day)"
+          [class.other]="!d.currentMonth" (click)="d.currentMonth && selectDate(d.day)">
+          {{ d.day < 10 ? ('0' + d.day) : d.day }} </div>
+        </div>
+
+    </ng-container>
+
+  </div>
+</ng-template>

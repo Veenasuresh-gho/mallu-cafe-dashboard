@@ -1,8 +1,15 @@
 <div class="dialog-box ">
     <div class="heading-box d-flex justify-content-between align-items-center">
         <div>
-            <p class="main-title">Add New Advertisement</p>
-            <p class="main-subtitle">Upload and schedule your ad campaign</p>
+            <p class="main-title">
+                {{ isEditMode ? 'Edit Advertisement' : 'Add New Advertisement' }}
+            </p>
+            <p class="main-subtitle">
+                {{ isEditMode
+                ? 'Update your advertisement details and schedule'
+                : 'Upload and schedule your ad campaign'
+                }}
+            </p>
         </div>
         <button class="close-btn btn-cancel" (click)="close()">
             <img src="/program/close-circle.svg" alt="">
@@ -57,26 +64,32 @@
         </p>
 
         <div class="upload-container">
-            <div class="d-flex gap-2 file-preview">
-                <img src="/dash/file-preview.svg" width="24px" height="24px" alt="">
+            <div class="d-flex align-items-center justify-content-between file-preview">
 
-                <div>
-                    <p class="title">
-                        {{ fileName || 'No file selected' }}
-                    </p>
-                    <p class="subtitle">
-                        Upload an audio, video or image file to continue
-                    </p>
+                <!-- LEFT SIDE -->
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/dash/file-preview.svg" width="24px" height="24px" alt="">
+
+                    <div>
+                        <p class="title mb-0">
+                            {{ fileName || 'No file selected' }}
+                        </p>
+                        <p class="subtitle mb-0">
+                            Upload an audio, video or image file to continue
+                        </p>
+                    </div>
                 </div>
+
+
+                <button *ngIf="isEditMode" class="btn-delete d-flex align-items-center justify-content-center">
+                    <mat-icon>delete</mat-icon>
+                </button>
+
             </div>
         </div>
         <div class="custom-line-sub" style="margin-top: 36px;"></div>
 
-
-
-
         <app-step-badge [stepNumber]="3" title="Schedule Advertisement"></app-step-badge>
-
 
         <div class="px-4 mb-4">
             <label class="input-label my-2">Schedule</label>
@@ -227,25 +240,28 @@
                 <p class="">Cancel</p>
             </button>
 
-            <div class="d-flex footer">
-                <button class="footer-btn btn-wait d-flex gap-1 align-items-center py-2 px-3">
-                    <img src="/dash/tick-circle.svg" alt=""> <span>Add to Waiting List</span>
-                </button>
 
-                <button (click)="addAdvertisement()"
-                    class="footer-btn btn-publish d-flex align-items-center justify-content-center"
-                    [disabled]="loading">
-                    <ng-container *ngIf="loading; else normalContent">
-                        <mat-progress-spinner diameter="20" strokeWidth="3" mode="indeterminate">
-                        </mat-progress-spinner>
-                    </ng-container>
 
-                    <ng-template #normalContent>
-                        <i class="material-symbols-outlined action-icon">cloud_upload</i>
-                        <span>Upload File</span>
-                    </ng-template>
-                </button>
-            </div>
+
+          <button 
+  (click)="isEditMode ? editAdvertisement() : addAdvertisement()"
+  class="footer-btn btn-publish d-flex align-items-center justify-content-center"
+  [disabled]="loading">
+
+  <ng-container *ngIf="loading; else normalContent">
+    <mat-progress-spinner diameter="20" strokeWidth="3" mode="indeterminate">
+    </mat-progress-spinner>
+  </ng-container>
+
+  <ng-template #normalContent>
+    <i class="material-symbols-outlined action-icon">cloud_upload</i>
+    <span>
+      {{ isEditMode ? 'Update File' : 'Upload File' }}
+    </span>
+  </ng-template>
+
+</button>
+
         </div>
     </mat-dialog-content>
 </div>

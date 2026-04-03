@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
@@ -33,9 +33,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   templateUrl: './upload-ad-file.html',
   styleUrl: './upload-ad-file.css',
 })
-export class UploadAdFile {
+export class UploadAdFile implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<UploadAdFile>) { }
+  constructor(private dialogRef: MatDialogRef<UploadAdFile>,@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   toast = inject(ToastService);
   srv = inject(GHOService);
@@ -62,10 +62,9 @@ export class UploadAdFile {
   fileName: string = '';
 
   loading = false;
-
   errors: any = {};
-
   id: string = '';
+  isEditMode = false;
 
   statusMap: any = {
     active: 1,
@@ -73,6 +72,55 @@ export class UploadAdFile {
     published: 3,
     expired: 4
   };
+
+  ngOnInit(): void {
+  if (this.data?.mode === 'edit') {
+    this.isEditMode = true;
+    this.populateForm(this.data.advertisement);
+     console.log('Advertisement Data:', this.data.advertisement);
+  }
+}
+
+formatTimeForInput(time: string): string {
+  if (!time) return '';
+  return time.slice(0, 5); // "06:00:00" → "06:00"
+}
+
+populateForm(ad: any) {
+  this.programTitle = ad.Title;
+  this.AdvertiserName = ad.AdvertiserName;
+  this.fromDate = ad.StartDate;
+  this.toDate = ad.EndDate;
+  this.playsPerDay = ad.PlaybackCount;
+  this.additionalNotes = ad.Notes;
+  this.selectedStatus = this.getStatusKey(ad.Status);
+    this.scheduleModel = {
+  fromTime: this.formatTimeForInput(ad.StartTime),
+  toTime: this.formatTimeForInput(ad.EndTime)
+};
+
+  // Optional preview
+  this.fileName = ad.FileName;
+
+  this.id = ad.ID;
+  // If you have delivery flags from API
+  this.adsEnabled = ad.IsAudioVideoAd === 1 || ad.IsAudioVideoAd === 3;
+  const promo = +ad.IsLatestPromotion;
+this.adsEnabled = [1, 3].includes(promo);
+this.promotionsEnabled = [2, 3].includes(promo);
+}
+
+
+getStatusKey(status: string): string {
+  const map: any = {
+    'Active': 'active',
+    'Waiting List': 'waiting',
+    'Published': 'published',
+    'Expired': 'expired'
+  };
+
+  return map[status?.trim()] || 'active';
+}
 
   getStatusValue(): number {
     return this.statusMap[this.selectedStatus] || 0;
@@ -111,9 +159,9 @@ export class UploadAdFile {
       this.errors.AdvertiserName = 'Advertiser name is required';
     }
 
-    if (!this.selectedFile) {
-      this.errors.file = 'Please upload a file';
-    }
+    if (!this.selectedFile && !this.isEditMode) {
+  this.errors.file = 'Please upload a file';
+}
 
     if (!this.fromDate) {
       this.errors.fromDate = 'Start date is required';
@@ -176,7 +224,6 @@ export class UploadAdFile {
     }
 
     this.loading = true;
-
     const payload = {
       Title: this.programTitle,
       AdvertiserName: this.AdvertiserName,
@@ -190,8 +237,6 @@ export class UploadAdFile {
       EndTime: this.scheduleModel?.toTime || '',
       AdType: this.getFileType(this.selectedFile)
     };
-
-    console.log('payloaded', payload);
 
     const userId = this.srv.getsession('id');
 
@@ -240,6 +285,75 @@ export class UploadAdFile {
         }
       });
   }
+
+  editAdvertisement(): void {
+  if (!this.validateAdvertisementForm()) return;
+
+  this.loading = true;
+
+  const payload: any = {
+    Title: this.programTitle,
+    AdvertiserName: this.AdvertiserName,
+    StartDate: this.fromDate,
+    EndDate: this.toDate,
+    PlaybackCount: this.playsPerDay,
+    IsLatestPromotion: this.getAdType(),
+    Notes: this.additionalNotes,
+    Status: this.getStatusValue(),
+    StartTime: this.scheduleModel?.fromTime || '',
+    EndTime: this.scheduleModel?.toTime || ''
+  };
+
+  // ✅ Only send AdType if new file selected
+  if (this.selectedFile) {
+    payload.AdType = this.getFileType(this.selectedFile);
+  }
+
+  const userId = this.srv.getsession('id');
+
+  this.tv = [
+    { T: 'dk1', V: this.id }, // ✅ FIXED
+    { T: 'c1', V: JSON.stringify(payload) },
+    { T: 'c10', V: '2' }
+  ];
+
+  this.srv.getdata('advertisement', this.tv).subscribe({
+    next: async (r) => {
+      if (r.Status === 1) {
+
+        // ✅ Upload only if new file selected
+        if (this.selectedFile) {
+          const success = await this.srv.handleFileUpload(
+            this.id,
+            userId,
+            this.selectedFile,
+            '7'
+          );
+
+          if (!success) {
+            this.loading = false;
+            // this.showUploadError();
+            return;
+          }
+        }
+
+        this.loading = false;
+
+        this.toast.show({
+          title: 'Advertisement updated successfully! 🎉',
+          description: '',
+          variant: 'success',
+          position: 'toast-bottom-center'
+        });
+
+        this.dialogRef.close(true);
+      }
+    },
+    error: () => {
+      this.loading = false;
+    }
+  });
+}
 
   close() {
     this.dialogRef.close();

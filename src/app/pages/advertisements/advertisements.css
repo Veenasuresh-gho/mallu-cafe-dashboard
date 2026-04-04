@@ -214,3 +214,37 @@
 ::ng-deep .mat-mdc-progress-spinner circle {
   stroke: var(--primary-color) !important;
 }
+
+/* force full width inside mat-menu */
+.menu-content-left {
+  display: flex;
+  justify-content: space-between;  
+  align-items: center;
+  width: 100%;
+
+}
+
+/* fix Angular Material wrapper */
+.mat-mdc-menu-item .menu-content-left {
+  width: 100%;
+  padding: 0px;
+}
+
+/* text styling */
+.menu-text {
+  font-size: 13px;
+  font-weight: 400;
+  color: #333;
+}
+
+/* icon styling */
+.menu-content-left mat-icon {
+  font-size: 20px;
+  color: #555;
+  margin-left: 25px;
+}
+
+/* divider spacing */
+mat-divider {
+  margin: 4px 0;
+}

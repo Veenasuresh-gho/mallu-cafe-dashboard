@@ -15,14 +15,14 @@
 
 .date-box {
   padding: 2px 10px;
-  width: 160px; /* slightly wider */
+  width: 150px;
   cursor: pointer;
-  background-color: #F9F9F9;
-  margin-left: -2px; /* shift left */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: border 0.2s ease;
+ font-size: 12px;
+  font-weight: 400;
+  position: relative; /* 🔥 VERY IMPORTANT */
 }
 
 .date-box:hover {
@@ -49,8 +49,8 @@
   
 }
 .arrow-container{
-  margin-left: 26px;
-  margin-right: 10px;
+  margin-left: 18px;
+  margin-right: 15px;
 }
 
 .arrow-container img {
@@ -66,12 +66,6 @@
   cursor: pointer;
 }
 
-/* CALENDAR POPUP WRAPPER */
-.calendar-wrapper {
-  position: absolute;
-  top: 40px; 
-  z-index: 9999;
-}
 
 /* CALENDAR BOX */
 .calendar {
@@ -199,4 +193,38 @@
   height: 41px;
   font-size: 12px;
   font-weight: 400;
+}
+
+.calendar-trigger {
+  position: relative;
+  display: inline-block;
+}
+
+
+
+.calendar-trigger {
+  position: relative;
+}
+
+
+/* FROM → shift right */
+.from-calendar {
+  left: 0;
+}
+
+/* TO → align right */
+.to-calendar {
+  right: 0;
+}
+
+.calendar-wrapper {
+  position: absolute;
+  top: 40px;
+  z-index: 99999;
+}
+
+.schedule-row,
+.main-box,
+.schedule-box-right {
+  overflow: visible !important;
 }

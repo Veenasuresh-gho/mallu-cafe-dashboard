@@ -17,12 +17,13 @@ import { GHOUtitity } from '../../services/utilities';
 import { ghoresult, tags } from '../../../model/ghomodel';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ToastService } from '../../services/toastService';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-advertisements',
   imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule,
      MatInputModule, MatSelectModule, FormsModule, MatButtonModule, MatMenuModule,
-      PrimaryButton,MatProgressSpinnerModule],
+      PrimaryButton,MatProgressSpinnerModule,MatDividerModule],
   templateUrl: './advertisements.html',
   styleUrl: './advertisements.css',
 })
@@ -42,6 +43,22 @@ export class Advertisements {
   dialogRef.afterClosed().subscribe((result) => {
     if (result === true) {
       this.getAdvertisements(); 
+    }
+  });
+}
+
+editAdvertisement(row: any) {
+  this.dialog.open(UploadAdFile, {
+       width: '90%',
+    maxWidth: '600px',
+    maxHeight: '95vh',
+    data: {
+      mode: 'edit',
+      advertisement: row
+    }
+  }).afterClosed().subscribe(res => {
+    if (res) {
+      this.getAdvertisements(); // refresh table
     }
   });
 }

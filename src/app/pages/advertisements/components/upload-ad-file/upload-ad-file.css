@@ -823,3 +823,18 @@
   font-size: 12px;
   margin-top: 4px;
 }
+.btn-delete {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.btn-delete mat-icon {
+  font-size: 20px;
+  color: #757575;
+}
+
+.btn-delete:hover mat-icon {
+  color: #D80905; 
+}

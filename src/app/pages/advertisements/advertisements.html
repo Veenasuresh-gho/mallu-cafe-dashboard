@@ -54,7 +54,7 @@
         </div>
 
     </div>
-        @if(loading){
+    @if(loading){
     <div class="spinner-container">
         <mat-spinner diameter="40"></mat-spinner>
     </div>
@@ -71,40 +71,32 @@
                 </div>
             </td> -->
             <td mat-cell *matCellDef="let row">
-  <div class="advertisement-cell">
+                <div class="advertisement-cell">
 
-    <!-- AUDIO (FIRST PRIORITY) -->
-    <ng-container *ngIf="isAudio(row._url); else notAudio">
-      <img src="/advertise/audio.svg" class="avatar" />
-    </ng-container>
+                    <!-- AUDIO (FIRST PRIORITY) -->
+                    <ng-container *ngIf="isAudio(row._url); else notAudio">
+                        <img src="/advertise/audio.svg" class="avatar" />
+                    </ng-container>
 
-    <!-- NON-AUDIO -->
-    <ng-template #notAudio>
+                    <!-- NON-AUDIO -->
+                    <ng-template #notAudio>
 
-      <!-- IMAGE -->
-      <img *ngIf="isImage(row._url)"
-           [src]="row._url"
-           class="avatar"
-           (error)="onImgError($event)" />
+                        <!-- IMAGE -->
+                        <img *ngIf="isImage(row._url)" [src]="row._url" class="avatar" (error)="onImgError($event)" />
 
-      <!-- VIDEO -->
-      <video *ngIf="isVideo(row._url)"
-             [src]="row._url"
-             class="avatar"
-             muted
-             preload="metadata">
-      </video>
+                        <!-- VIDEO -->
+                        <video *ngIf="isVideo(row._url)" [src]="row._url" class="avatar" muted preload="metadata">
+                        </video>
 
-      <!-- FALLBACK -->
-      <img *ngIf="!isImage(row._url) && !isVideo(row._url)"
-           src="/assets/file-icon.svg"
-           class="avatar" />
+                        <!-- FALLBACK -->
+                        <img *ngIf="!isImage(row._url) && !isVideo(row._url)" src="/assets/file-icon.svg"
+                            class="avatar" />
 
-    </ng-template>
+                    </ng-template>
 
-    <div class="advertisement-name">{{ row.FileName }}</div>
-  </div>
-</td>
+                    <div class="advertisement-name">{{ row.FileName }}</div>
+                </div>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="advertiser">
@@ -155,24 +147,41 @@
                 </button>
 
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item>
-                        <i class="material-symbols-outlined action-icon px-2">cloud_upload</i>
-                        <span>Publish</span>
-                    </button>
-                    <button mat-menu-item>
-                        <mat-icon>edit</mat-icon>
-                        <span>Edit</span>
-                    </button>
-
-                    <button  (click)="deleteAdvertisement(row.ID)" mat-menu-item>
-                        <mat-icon>delete</mat-icon>
-                        <span>Delete</span>
-                    </button>
 
                     <button mat-menu-item>
-                        <mat-icon>visibility</mat-icon>
-                        <span>View</span>
+                        <span class="menu-content-left">
+                            <span class="menu-text px-2">Publish AD</span>
+                            <mat-icon>notifications</mat-icon>
+                        </span>
                     </button>
+
+                    <mat-divider></mat-divider>
+
+                    <button mat-menu-item (click)="editAdvertisement(row)">
+                        <span class="menu-content-left">
+                            <span class="menu-text px-2">Edit</span>
+                            <mat-icon>edit</mat-icon>
+                        </span>
+                    </button>
+
+                    <mat-divider></mat-divider>
+
+                    <button mat-menu-item>
+                        <span class="menu-content-left">
+                            <span class="menu-text px-2">Close Ad</span>
+                            <mat-icon>cancel</mat-icon>
+                        </span>
+                    </button>
+
+                    <mat-divider></mat-divider>
+
+                    <button mat-menu-item (click)="deleteAdvertisement(row.ID)">
+                        <span class="menu-content-left">
+                            <span class="menu-text px-2">Delete</span>
+                            <mat-icon>delete</mat-icon>
+                        </span>
+                    </button>
+
                 </mat-menu>
 
             </td>
@@ -182,7 +191,7 @@
         <tr mat-row *matRowDef="let row; columns: columns;"></tr>
 
     </table>
-}
+    }
 
     <mat-paginator [length]="22" [pageSize]="7" [pageSizeOptions]="[7]" showFirstLastButtons>
     </mat-paginator>

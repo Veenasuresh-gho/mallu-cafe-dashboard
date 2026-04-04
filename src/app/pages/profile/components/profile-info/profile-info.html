@@ -1,56 +1,3 @@
-<!-- <div class="row">
-  <div class="col-md-3">
-    <div class="d-flex flex-column justify-content-start">
-      <p class="mainHead mb-1 ">Profile Info</p>
-      <small class="subHeading">
-        Personal and contact details.
-      </small>
-    </div>
-  </div>
- <div class="col-md-8">
-   <div class="">
-    <div class="mb-3">
-      <label class="form-label input-label">Full Name</label>
-      <input type="text" class="form-control input-label" placeholder="Shijo M sebastian" />
-    </div>
-
-    <div>
-      <label class="form-label input-label">Phone Number</label>
-      <div class="input-group">
-        <span class="input-group-text input-label">+1</span>
-        <input type="text" class="form-control input-label" placeholder="202 555 0143" />
-      </div>
-    </div>
-
-  </div>
-
-  <div class="col-md-3">
-
-    <div class="mb-3">
-      <label class="form-label input-label">Designation / Role</label>
-      <input type="text" class="form-control input-label" placeholder="Radio Jockey" />
-    </div>
-
-    <div>
-      <label class="form-label input-label">Email</label>
-      <input type="email" class="form-control input-label" placeholder="rj.shijosebastian345@gmail.com" />
-    </div>
-
-  </div>
-
-  <div class="col-md-3 d-flex align-items-end">
-    <button class="btn border border-danger d-flex align-items-center justify-content-center gap-2 save-btn"
-      style="background-color: var( --primary-color)1A;">
-      <span class="material-symbols-outlined text-white bg-danger rounded-circle small">
-        check
-      </span>
-      Save changes
-    </button>
-  </div>
- </div>
-
-</div> -->
-
 <div class="row">
 
   <!-- LEFT SIDE -->
@@ -70,18 +17,27 @@
       <!-- Column 1 -->
       <div class="col-md-4">
         <div class="mb-3">
-          <!-- <label class="form-label input-label">Full Name</label>
-          <input type="text" class="form-control input-txt" placeholder="Shijo M sebastian" /> -->
-          <app-form-input  label="Full Name" [(model)]="fullName"
-            placeholder="Shijo M sebastian" name="fullName">
-        </app-form-input>
+          <label class="form-label input-label">Full Name</label>
+          <input 
+            type="text"
+            class="form-control input-txt"
+            [value]="profile?.FullName || ''"
+            readonly
+          />
         </div>
 
         <div>
           <label class="form-label input-label">Phone Number</label>
           <div class="input-group">
-            <span class="input-group-text input-label p-2">+1</span>
-            <input type="text" class="form-control input-txt p-2" placeholder="202 555 0143" />
+            <span class="input-group-text input-label">
+              +{{ profile?.CountryCode || '' }}
+            </span>
+            <input 
+              type="text"
+              class="form-control input-txt"
+              [value]="profile?.Phone || ''"
+              readonly
+            />
           </div>
         </div>
       </div>
@@ -89,40 +45,29 @@
       <!-- Column 2 -->
       <div class="col-md-4">
         <div class="mb-3">
-          <!-- <label class="form-label input-label">Designation / Role</label>
-          <input type="text" class="form-control input-txt" placeholder="Radio Jockey" /> -->
-          <app-form-input label="Designation / Role" [(model)]="Designation"
-            placeholder="Radio Jockey" name="Designation">
-        </app-form-input>
+          <label class="form-label input-label">Designation / Role</label>
+          <input 
+            type="text"
+            class="form-control input-txt"
+            [value]="profile?.Role || ''"
+            readonly
+          />
         </div>
 
-        <div class="pt-2">
-          <!-- <label class="form-label input-label">Email</label>
-          <input type="email" class="form-control input-txt"
-            placeholder="rj.shijosebastian345@gmail.com" /> -->
-            <app-form-input label="Email" [(model)]="email"
-            placeholder="rj.shijosebastian345@gmail.com" name="email">
-        </app-form-input>
+        <div>
+          <label class="form-label input-label">Email</label>
+          <input 
+            type="email"
+            class="form-control input-txt"
+            [value]="profile?.Email || ''"
+            readonly
+          />
         </div>
       </div>
-
-      <!-- Column 3 (Button) -->
-      <!-- <div class="col-md-4 d-flex align-items-end">
-        <button
-          class="btn border border-danger save-btn d-flex align-items-center justify-content-center gap-2 w-75"
-          style="background-color: var( --primary-color)1A;">
-          
-          <span class="material-symbols-outlined text-white bg-danger rounded-circle d-flex align-items-center justify-content-center"
-                style="width: 20px; height: 20px; font-size: 14px;">
-            check
-          </span>
-
-          Save changes
-        </button>
-      </div> -->
 
     </div>
   </div>
 
 </div>
+
 <mat-divider class="text-[#E4E4E4] my-4"></mat-divider>

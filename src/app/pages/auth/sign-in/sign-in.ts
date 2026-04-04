@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,13 +45,14 @@ export class SignIn {
   loginForm!: FormGroup;
     toast = inject(ToastService);
 
-  constructor(private fb: FormBuilder,private router: Router,private toastr: ToastrService) {
+  constructor(private fb: FormBuilder,private router: Router,private toastr: ToastrService,private cd: ChangeDetectorRef) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
   }
   
+
 
 loginclick(): void {
   this.submitted = true;
@@ -66,57 +67,60 @@ loginclick(): void {
     return;
   }
 
-  this.loading = true; 
+  this.loading = true;
+  this.cd.detectChanges(); 
+
   this.srv.clearsession();
 
   const { email, password } = this.loginForm.value;
+
   this.tv = [
     { T: 'dk1', V: email },
     { T: 'dk2', V: password },
     { T: 'c10', V: '5' },
   ];
 
-  this.srv.getdata('teammember', this.tv)
-    .subscribe({
-      next: (r) => {
-        this.loading = false; // stop spinner first
+  this.srv.getdata('teammember', this.tv).subscribe({
+    next: (r) => {
+      this.loading = false;
+      this.cd.detectChanges(); 
 
-        if (r.Status === 1) {
-          const u = r.Data[0][0];
+      if (r.Status === 1) {
+        const u = r.Data[0][0];
 
-          this.srv.setsession('tkn', u['Token']);
-          this.srv.setsession('id', u['ID']);
+        this.srv.setsession('tkn', u['Token']);
+        this.srv.setsession('id', u['ID']);
 
-          this.toast.show({
-            title: 'Login successful! 🎉',
-            description: 'You have successfully logged in',
-            variant: 'success',
-            position: 'toast-bottom-center'
-          });
-
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.toast.show({
-            title: 'Login failed ❌',
-            description: r.Info || 'Invalid email or password',
-            variant: 'error',
-            position: 'toast-bottom-center'
-          });
-        }
-      },
-      error: (err) => {
-        console.error('Login API Error:', err);
-        this.loading = false; // stop spinner even on error
         this.toast.show({
-          title: 'Error ❌',
-          description: 'Something went wrong!',
+          title: 'Login successful! 🎉',
+          description: 'You have successfully logged in',
+          variant: 'success',
+          position: 'toast-bottom-center'
+        });
+
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.toast.show({
+          title: 'Login failed ❌',
+          description: r.Info || 'Invalid email or password',
           variant: 'error',
-          position: 'toast-bottom-center',
-          
-          
+          position: 'toast-bottom-center'
         });
       }
-    });
-}
+    },
+    error: (err) => {
+      console.error('Login API Error:', err);
 
+      this.loading = false;
+      this.cd.detectChanges();
+
+      this.toast.show({
+        title: 'Error ❌',
+        description: 'Something went wrong!',
+        variant: 'error',
+        position: 'toast-bottom-center',
+      });
+    }
+  });
+}
 }

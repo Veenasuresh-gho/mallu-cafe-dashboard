@@ -13,6 +13,7 @@ import { GHOService } from '../../../services/ghosrvs';
 import { GHOUtitity } from '../../../services/utilities';
 import { ghoresult, tags } from '../../../../model/ghomodel';
 import { ToastService } from '../../../services/toastService';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-forgot-password',
@@ -21,7 +22,7 @@ import { ToastService } from '../../../services/toastService';
     CommonModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    RouterModule, MatIconModule, MatButtonModule, MatInputModule
+    RouterModule, MatIconModule, MatButtonModule, MatInputModule,MatProgressSpinnerModule
   ],
   templateUrl: './forgot-password.html',
   styleUrl: './forgot-password.css',
@@ -45,12 +46,14 @@ export class ForgotPassword implements OnDestroy {
   private cdr = inject(ChangeDetectorRef);
 
   tv: tags[] = [];
+  loading = false;
   res: ghoresult = new ghoresult();
   toast = inject(ToastService);
   testOtp: number | null = null;
   constructor(
     private fb: FormBuilder,
-    private router: Router, private toastr: ToastrService
+    private router: Router, private toastr: ToastrService,
+
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
@@ -145,19 +148,16 @@ export class ForgotPassword implements OnDestroy {
   onOtpInput(event: Event, index: number) {
     const input = event.target as HTMLInputElement;
     const value = input.value;
-
     if (!/^[0-9]$/.test(value)) {
       input.value = '';
       this.otpValues[index] = '';
       return;
     }
-
     this.otpValues[index] = value;
 
     const next = input.nextElementSibling as HTMLInputElement;
     if (next) next.focus();
   }
-
   onKeyDown(event: KeyboardEvent, index: number) {
     const input = event.target as HTMLInputElement;
 
@@ -171,43 +171,10 @@ export class ForgotPassword implements OnDestroy {
   }
 
 
-  // verifyEmail(): void {
-  //   this.submitted = true;
-  //   if (this.loginForm.invalid) {
-  //     this.toastr.warning('Please enter a valid email');
-  //     return;
-  //   }
-  //   this.srv.clearsession();
-  //   const { email } = this.loginForm.value;
-  //   this.tv = [
-  //     { T: 'dk1', V: email },
-  //     { T: 'c10', V: '6' },
-  //   ];
 
-  //   this.srv.getdata('teammember', this.tv).pipe(
-  //     catchError(err => {
-  //       this.toastr.error('Something went wrong!');
-  //       return of(null);
-  //     })
-
-  //   ).subscribe((r: any) => {
-  //     if (!r) return; 
-  //     if (r.Status === 1) {
-  //       const u = r.Data[0][0];
-  //       this.otpId = u.id;
-  //       this.toastr.success('OTP sent successfully!');
-  //       this.isOtpScreen = true;
-  //       this.startTimer();
-  //       this.cdr.detectChanges();
-  //     } else {
-  //       this.toastr.error(r.Info || 'Failed to send OTP');
-  //     }
-  //   });
-  // }
 
   verifyEmail(): void {
   this.submitted = true;
-
   if (this.loginForm.invalid) {
     this.toast.show({
       title: 'Warning ⚠️',
@@ -217,18 +184,18 @@ export class ForgotPassword implements OnDestroy {
     });
     return;
   }
-
+  this.loading = true;
+  this.cdr.detectChanges();
   this.srv.clearsession();
-
   const { email } = this.loginForm.value;
-
   this.tv = [
     { T: 'dk1', V: email },
     { T: 'c10', V: '6' },
   ];
-
   this.srv.getdata('teammember', this.tv).pipe(
     catchError(err => {
+      this.loading = false;
+      this.cdr.detectChanges();
       this.toast.show({
         title: 'Error ❌',
         description: 'Something went wrong!',
@@ -238,8 +205,10 @@ export class ForgotPassword implements OnDestroy {
       return of(null);
     })
   ).subscribe((r: any) => {
+    this.loading = false;
+    this.cdr.detectChanges();
 
-    if (!r) return; // stop if error
+    if (!r) return; 
 
     if (r.Status === 1) {
 
@@ -261,6 +230,8 @@ export class ForgotPassword implements OnDestroy {
       this.cdr.detectChanges();
 
     } else {
+      this.loading = false;
+      this.cdr.detectChanges();
       this.toast.show({
         title: 'Failed ❌',
         description: r.Info || 'Failed to send OTP',
@@ -271,48 +242,9 @@ export class ForgotPassword implements OnDestroy {
   });
 }
 
-
-  // verifyOtp() {
-
-  //   const otp = this.otpValues.join('');
-  //   if (otp.length !== 6) {
-  //     this.toastr.warning('Enter complete OTP');
-  //     return;
-  //   }
-
-  //   this.tv = [
-  //     { T: 'dk1', V: this.otpId },
-  //     { T: 'dk2', V: otp },
-  //     { T: 'c10', V: '7' }
-  //   ];
-
-  //   this.srv.getdata('teammember', this.tv).pipe(
-  //     catchError(err => {
-  //       this.toastr.error('Something went wrong!');
-  //       return of(null);
-  //     })
-
-  //   ).subscribe((r: any) => {
-
-  //     if (!r) return;
-
-  //     if (r.Status === 1) {
-  //       const u = r.Data[0][0];
-  //       this.otpToken = u.Token;
-  //       this.toastr.success('OTP verified successfully!');
-  //       this.isOtpVerified = true;
-  //       this.cdr.detectChanges();
-        
-
-  //     } else {
-  //       this.toastr.error(r.Info || 'Invalid OTP');
-  //     }
-  //   });
-  // }
-
-  verifyOtp() {
+verifyOtp() {
   const otp = this.otpValues.join('');
-  
+
   if (otp.length !== 6) {
     this.toast.show({
       title: 'Warning ⚠️',
@@ -323,6 +255,9 @@ export class ForgotPassword implements OnDestroy {
     return;
   }
 
+  this.loading = true;
+  this.cdr.detectChanges(); 
+
   this.tv = [
     { T: 'dk1', V: this.otpId },
     { T: 'dk2', V: otp },
@@ -331,15 +266,21 @@ export class ForgotPassword implements OnDestroy {
 
   this.srv.getdata('teammember', this.tv).pipe(
     catchError(err => {
+      this.loading = false;
+      this.cdr.detectChanges();
+
       this.toast.show({
         title: 'Error ❌',
         description: 'Something went wrong!',
         variant: 'error',
         position: 'toast-bottom-center'
       });
+
       return of(null);
     })
   ).subscribe((r: any) => {
+    this.loading = false;
+    this.cdr.detectChanges(); 
 
     if (!r) return;
 
@@ -355,7 +296,6 @@ export class ForgotPassword implements OnDestroy {
       });
 
       this.isOtpVerified = true;
-      this.cdr.detectChanges();
 
     } else {
       this.toast.show({
@@ -371,7 +311,6 @@ export class ForgotPassword implements OnDestroy {
 
 resetPassword() {
   this.submitted = true;
-
   if (this.passwordForm.invalid) return;
 
   const password = this.passwordForm.get('password')?.value;
@@ -387,6 +326,9 @@ resetPassword() {
     return;
   }
 
+  this.loading = true;
+  this.cdr.detectChanges(); 
+
   this.tv = [
     { T: 'dk1', V: this.otpToken },
     { T: 'dk2', V: password },
@@ -395,34 +337,39 @@ resetPassword() {
 
   this.srv.getdata('teammember', this.tv).pipe(
     catchError(err => {
+      this.loading = false;                
+      this.cdr.detectChanges();           
+
       this.toast.show({
         title: 'Error ❌',
         description: 'Something went wrong!',
         variant: 'error',
         position: 'toast-bottom-center'
       });
+
       return of(null);
     })
   ).subscribe((r: any) => {
+    this.loading = false;
+    this.cdr.detectChanges();  
 
     if (!r) return;
 
     if (r.Status === 1) {
       this.toast.show({
-        title: 'Password Reset Successfull! 🎉',
-        description: 'Your password has been updated successfully,You can now log in with your new password',
+        title: 'Password Reset Successful! 🎉',
+        description: 'You can now log in with your new password',
         variant: 'success',
         position: 'toast-bottom-center'
       });
 
-      this.isOtpVerified = true;
-      this.cdr.detectChanges();
-      this.router.navigate(['/sign-in']);
-
+      this.router.navigate(['/sign-in']); // no need detectChanges after this
     } else {
+      this.loading = false;                
+      this.cdr.detectChanges(); 
       this.toast.show({
         title: 'Failed ❌',
-        description: r.Info || 'Invalid OTP',
+        description: r.Info || 'Reset failed',
         variant: 'error',
         position: 'toast-bottom-center'
       });

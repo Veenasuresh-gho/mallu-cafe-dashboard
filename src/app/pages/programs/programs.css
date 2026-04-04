@@ -27,28 +27,31 @@ color: var(--muted-input);
     font-family: 'Poppins', sans-serif;
 }
 
-.custom-table th {
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--primary-text);
-    border: 1px solid white;
-    background: #F8F8F8;
-    padding: 3px 16px;
-    height: 36px;
-}
-
+.custom-table th,
 .custom-table td {
     font-size: 12px;
-    padding: 16px;
+    padding: 8px 12px;
     border-bottom: 1px solid #eeeeee;
     background-color: #ffffff;
+    max-width: 150px; /* fixed width for all columns */
+    white-space: nowrap; /* prevent wrapping */
+    overflow: hidden; /* hide overflowing text */
+    text-overflow: ellipsis; /* show ... if text overflows */
+}
+
+.custom-table th {
+    font-weight: 500;
+    color: var(--primary-text);
+    background: #F8F8F8;
 }
 
 .program-cell {
     display: flex;
     align-items: center;
     gap: 10px;
+    max-width: 150px;
 }
+
 
 .avatar {
     width: 24px;
@@ -60,11 +63,17 @@ color: var(--muted-input);
 .program-name {
     font-size: 12px;
     font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .user {
     font-weight: 400;
     font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .interaction {

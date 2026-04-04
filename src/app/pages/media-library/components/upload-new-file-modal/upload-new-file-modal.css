@@ -390,10 +390,15 @@ background-color: #FFFFFF;
   flex-grow: 1;
   color: #000;
 }
-/* Show placeholder when empty */
 .editable-part:empty::before {
   content: attr(data-placeholder);
-  color: #999; /* placeholder color */
-  pointer-events: none; /* click passes through */
+  color: #999; 
+  pointer-events: none; 
   user-select: none;
+}
+
+.disabled-section {
+  opacity: 0.5;           
+  filter: grayscale(100%); 
+  cursor: not-allowed;
 }

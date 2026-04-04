@@ -28,3 +28,7 @@
 :host ::ng-deep .custom-btn .mat-mdc-button-persistent-ripple::before {
   opacity: 0 !important;
 }
+
+:host ::ng-deep .custom-btn mat-progress-spinner circle {
+  stroke: var(--primary-color) !important;
+}

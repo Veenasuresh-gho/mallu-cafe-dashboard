@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 
 @Component({
@@ -7,4 +7,7 @@ import { MatDivider } from '@angular/material/divider';
   templateUrl: './assigned-prgm.html',
   styleUrl: './assigned-prgm.css',
 })
-export class AssignedPrgm {}
+export class AssignedPrgm {
+
+   @Input() assignedPrograms: any = {};
+}

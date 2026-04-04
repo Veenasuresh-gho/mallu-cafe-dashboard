@@ -16,7 +16,7 @@
             <div class="d-flex align-items-center gap-3 flex-wrap">
 
                 <div>
-                    <img src="/profile/profile-pic.png" alt="profile" class="rounded" width="80" height="80"
+                    <img src="/profile/profile-fallback-1.png" alt="profile" class="rounded" width="80" height="80"
                         style="object-fit: cover;" />
                 </div>
 
@@ -42,16 +42,16 @@
     </div>
     <mat-divider class="text-muted my-4"></mat-divider>
     <div>
-        <app-profile-info></app-profile-info>
+        <app-profile-info [profile]="profile"></app-profile-info>
     </div>
     <div>
-        <app-assigned-prgm></app-assigned-prgm>
+        <app-assigned-prgm  [assignedPrograms]="assignedPrograms"></app-assigned-prgm>
     </div>
     <div>
         <app-perfomance></app-perfomance>
     </div>
     <div>
-        <app-media-contribution></app-media-contribution>
+        <app-media-contribution [mediaContributions]="media"></app-media-contribution>
     </div>
     <div>
         <app-permission></app-permission>

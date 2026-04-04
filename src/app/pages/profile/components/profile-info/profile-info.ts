@@ -1,10 +1,18 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'app-profile-info',
-  imports: [MatDivider],
+  standalone: true, // ✅ ADD THIS (VERY IMPORTANT)
+  imports: [MatDivider, CommonModule, FormsModule],
   templateUrl: './profile-info.html',
   styleUrl: './profile-info.css',
 })
-export class ProfileInfo {}
+export class ProfileInfo {
+
+  @Input() profile: any = {};
+
+
+}

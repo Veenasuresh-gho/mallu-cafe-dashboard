@@ -30,6 +30,10 @@
             <span class="">Supported formats: MP3, WAV, MP4
             </span>
         </p>
+        <div class="error-text px-4" *ngIf="errors.file">
+            <img src="/program/warn.svg" class="small mb-1">
+            {{ errors.file }}
+        </div>
         <div class="custom-line-sub"></div>
         <app-step-badge [stepNumber]="2" title="Program Information" class=""></app-step-badge>
 
@@ -43,9 +47,12 @@
         </div>
         <div [ngSwitch]="selectedMediaType">
 
-            <app-pre-scheduled *ngSwitchCase="'1'" [programList]="programList" [fileType]="extension"
-                (programSelected)="onProgramSelected($event)">
-            </app-pre-scheduled>
+            <div *ngSwitchCase="'1'" [class.disabled-section]="!selectedMediaType">
+                <app-pre-scheduled [programList]="programList" [fileType]="extension"
+                    (programSelected)="onProgramSelected($event)" (validationChange)="isPreScheduledValid = $event">
+                </app-pre-scheduled>
+            </div>
+
             <app-podcast-file *ngSwitchCase="'2'"></app-podcast-file>
 
             <app-video-file *ngSwitchCase="'3'"></app-video-file>
@@ -53,7 +60,10 @@
             <app-shorts *ngSwitchCase="'4'"></app-shorts>
 
             <div *ngSwitchDefault>
-                <app-default></app-default>
+                <div class="disabled-section">
+                    <app-pre-scheduled [programList]="programList" [fileType]="extension">
+                    </app-pre-scheduled>
+                </div>
             </div>
 
         </div>

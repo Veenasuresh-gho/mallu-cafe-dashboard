@@ -24,33 +24,59 @@ export class PreScheduled implements OnChanges {
   selectedProgramId: any = null;
   selectedProgramName: string = '';
   programId: string = '';
+  errors: any = {};
 
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
   @Input() disabled: boolean = false;
   @Output() programSelected = new EventEmitter<any>();
+  @Output() validationChange = new EventEmitter<boolean>();
+
 
   typedText: string = '';
   selectedType: string = '';
 
-  onThumbnailTypeChange(type: string) {
-    this.selectedType = type;
+  validateForm(): boolean {
+    this.errors = {};
 
-    if (type === 'program') {
-      this.getProgramDetails();
+    if (!this.fileType?.trim()) {
+      this.errors.category = 'File type is required';
     }
+
+    if (!this.selectedProgramId) {
+      this.errors.program = 'Please select a program';
+    }
+
+    if (!this.typedText || this.typedText.length !== 8) {
+      this.errors.date = 'Enter valid date (DD/MM/YY)';
+    }
+
+    if (!this.selectedType) {
+      this.errors.type = 'Please choose thumbnail type';
+    }
+
+    return Object.keys(this.errors).length === 0;
   }
 
-  onProgramChange(value: any) {
-    this.selectedProgramId = value;
+onThumbnailTypeChange(type: string) {
+  this.selectedType = type;
 
-    const selected = this.programList.find(p => p.DataValue === value);
-
-    this.selectedProgramName = selected?.DisplayText || '';
-    this.programId = selected?.ProgramID || '';
-
-    this.emitData();
+  if (type === 'program') {
+    this.getProgramDetails();
   }
+
+  this.emitData();
+}
+ onProgramChange(value: any) {
+  this.selectedProgramId = value;
+
+  const selected = this.programList.find(p => p.DataValue === value);
+
+  this.selectedProgramName = selected?.DisplayText || '';
+  this.programId = selected?.ProgramID || '';
+
+  this.emitData();
+}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['programList']) {
@@ -106,10 +132,12 @@ export class PreScheduled implements OnChanges {
   }
 
   emitData() {
+    const isValid = this.validateForm();
+
     const cleanDate = this.typedText.replace(/\//g, '');
     const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
 
-    var fileName = '';
+    let fileName = '';
 
     if (cleanProgramName && cleanDate && this.fileType) {
       fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
@@ -120,7 +148,10 @@ export class PreScheduled implements OnChanges {
       programName: cleanProgramName,
       typedText: this.typedText,
       fileName: fileName,
-      fullData: this.programList.find(p => p.ProgramID === this.programId)
+      fullData: this.programList.find(p => p.ProgramID === this.programId),
+      isValid: isValid
     });
+
+    this.validationChange.emit(isValid); // 🔥 important
   }
 }

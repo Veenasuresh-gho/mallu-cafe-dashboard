@@ -15,11 +15,11 @@
     <mat-progress-spinner
       diameter="18"
       strokeWidth="3"
+      color="accent"
       mode="indeterminate">
     </mat-progress-spinner>
   </ng-container>
 
-  <!-- ✅ Normal State -->
   <ng-template #normalContent>
     <mat-icon *ngIf="icon && !iconSrc">{{ icon }}</mat-icon>
     <img *ngIf="iconSrc" [src]="iconSrc" class="btn-icon" />

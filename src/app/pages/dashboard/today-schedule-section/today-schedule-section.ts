@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { CustomCalendar } from '../../../components/custom-calendar/custom-calendar';
 import { UpdateFileUpload } from '../../../components/update-file-upload/update-file-upload';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,8 @@ import { ghoresult, tags } from '../../../../model/ghomodel';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Skelton } from '../../../components/skelton/skelton';
+import { FormsModule } from '@angular/forms';
+import { PrimaryButton } from '../../../components/primary-button/primary-button';
 
 export interface Schedule {
   id: string;
@@ -29,7 +31,7 @@ export interface Schedule {
   selector: 'today-schedule-section',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CustomCalendar, UpdateFileUpload, CommonModule, Skelton],
+  imports: [CustomCalendar, UpdateFileUpload, CommonModule, Skelton, FormsModule, PrimaryButton],
   templateUrl: './today-schedule-section.html',
   styleUrl: './today-schedule-section.css',
 })
@@ -37,9 +39,10 @@ export class TodayScheduleSection implements OnInit {
 
   constructor(private cdr: ChangeDetectorRef) { }
 
-
+  urlValue: string = '';
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
+  @Output() publishStatus = new EventEmitter<{ isPublic: boolean, url: string, isPublish: boolean }>();
 
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
@@ -61,6 +64,46 @@ export class TodayScheduleSection implements OnInit {
       this.cdr.markForCheck();
     }, 60000);
 
+  }
+
+
+
+  addPublish(item: Schedule): void {
+    const [start, end] = item.TimeRange.split(' - ');
+    const payload = {
+      ProgramID: item.ProgramID,
+      StreamURL: this.urlValue,
+      HostName: item.HostName,
+      StartTime: start,
+      EndTime: end,
+    }
+
+    this.loading = true;
+
+    this.tv = [
+      { T: 'c1', V: JSON.stringify(payload) },
+      { T: 'c10', V: '7' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: async (r) => {
+          this.loading = false;
+          // this.cdr.detectChanges();
+          const publishedUrl = this.urlValue;
+          const isPublic = !!publishedUrl;
+
+          this.publishStatus.emit({
+            isPublic: isPublic,
+            url: publishedUrl,
+            isPublish: true
+          });
+        },
+        error: () => {
+          this.loading = false;
+          // this.cdr.detectChanges();
+        }
+      });
   }
 
   onDateChange(date: Date) {
@@ -95,6 +138,7 @@ export class TodayScheduleSection implements OnInit {
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
         this.schedules = [...(r.Data[0] as Schedule[])];
+        console.log(this.schedules)
         this.updateCurrentProgram();
         this.loading = false;
         this.cdr.detectChanges();
@@ -126,7 +170,6 @@ export class TodayScheduleSection implements OnInit {
     let nextProgram: Schedule | null = null;
     let minDiff = Infinity;
 
-    // 🔥 Find LIVE + NEXT
     for (let item of this.schedules) {
 
       if (!item.TimeRange || !item.TimeRange.includes(' - ')) continue;

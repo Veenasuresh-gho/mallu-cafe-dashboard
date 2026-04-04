@@ -195,6 +195,7 @@ export class UploadNewFileModal implements OnInit {
       this.addmediaPre();
     }
   }
+
   addmediaPre(): void {
     if (!this.selectedFile) return;
 

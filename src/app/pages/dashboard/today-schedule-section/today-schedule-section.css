@@ -113,7 +113,7 @@
 
     .files-not {
         font-size: 10px;
-        
+
         color: var(--primary-color);
     }
 
@@ -137,4 +137,10 @@
 
     .meterial-icons {
         color: var(--success);
+    }
+
+    .past-program {
+        opacity: 0.5;
+        filter: grayscale(100%);
+        pointer-events: none;
     }

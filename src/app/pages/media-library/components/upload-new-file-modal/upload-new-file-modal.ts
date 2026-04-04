@@ -22,6 +22,7 @@ import { ghoresult, tags } from '../../../../../model/ghomodel';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { PrimaryButton } from '../../../../components/primary-button/primary-button';
+import { ToastService } from '../../../../services/toastService';
 
 @Component({
   selector: 'app-upload-new-file-modal',
@@ -50,7 +51,7 @@ export class UploadNewFileModal implements OnInit {
   userId: string = '';
   finalfileName: string = '';
   loading = false;
-
+  isPreScheduledValid = false;
 
   ngOnInit(): void {
     this.userId = sessionStorage.getItem('id') || '';
@@ -76,12 +77,27 @@ export class UploadNewFileModal implements OnInit {
   selectedProgramData: any = null;
   selectedFile: File | null = null;
   originalFileName: string = '';
+  errors: any = {};
 
 
   typedText: string = '';
   mediaTypeOptions: any[] = [];
   programList: any[] = [];
+  toast = inject(ToastService);
+  maxSize = 1.5 * 1024 * 1024 * 1024;
+  validateForm(): boolean {
+    this.errors = {};
 
+    if (!this.selectedFile) {
+      this.errors.file = 'Please upload a media file';
+    }
+
+    if (!this.selectedMediaType) {
+      this.errors.type = 'Please select media type';
+    }
+
+    return Object.keys(this.errors).length === 0;
+  }
 
   get isDisabled(): boolean {
     return !this.fileName || !this.selectedMediaType;
@@ -123,11 +139,18 @@ export class UploadNewFileModal implements OnInit {
 
     this.updateFileName();
 
-    console.log('Selected Program:', data);
   }
 
   onFileSelected(file: File) {
     if (!file) return;
+
+    if (file.size > this.maxSize) {
+      this.errors.file = 'File size should be less than 1.5 GB';
+
+      return;
+    }
+
+    if (this.errors.file) delete this.errors.file;
 
     this.selectedFile = file;
     this.originalFileName = file.name;
@@ -154,7 +177,6 @@ export class UploadNewFileModal implements OnInit {
       if (isVideo) {
         const width = (media as HTMLVideoElement).videoWidth;
         const height = (media as HTMLVideoElement).videoHeight;
-
         this.dimension = `${width} x ${height} • ${duration}`;
       } else {
         this.dimension = duration;
@@ -166,13 +188,13 @@ export class UploadNewFileModal implements OnInit {
 
     media.src = url;
   }
-
   uploadFile() {
+    if (!this.validateForm()) return;
+
     if (this.selectedMediaType === "1") {
       this.addmediaPre();
     }
   }
-
   addmediaPre(): void {
     if (!this.selectedFile) return;
 
@@ -192,16 +214,35 @@ export class UploadNewFileModal implements OnInit {
           if (r.Status === 1 && r.Data?.length) {
             this.id = r.Data[0]?.[0]?.ID || this.programId;
 
-            await this.srv.handleFileUpload(
+            const success = await this.srv.handleFileUpload(
               this.id,
               this.userId,
               file,
               '5'
             );
+
+            this.loading = false;
+            if (success) {
+              this.toast.show({
+                title: 'Prescheduled Program media uploaded! 🎉',
+                description: 'media added successfully',
+                variant: 'success',
+                position: 'toast-bottom-right'
+              });
+
+              this.dialogRef.close(true);
+            } else {
+              this.toast.show({
+                title: 'Upload failed ❌',
+                description: 'File upload failed',
+                variant: 'error',
+                position: 'toast-bottom-right'
+              });
+            }
+            this.cdr.detectChanges();
           }
 
-          this.loading = false;
-          this.cdr.detectChanges();
+
         },
         error: () => {
           this.loading = false;
@@ -209,7 +250,6 @@ export class UploadNewFileModal implements OnInit {
         }
       });
   }
-
 
 
   openModalAddPodcast() {

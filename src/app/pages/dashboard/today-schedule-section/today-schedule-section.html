@@ -116,7 +116,8 @@
 
             @if(!currentProgram || item.id !== currentProgram.id) {
 
-            <div class="d-flex flex-column gap-2 px-3 py-2 on-air-section border-b">
+            <div class="d-flex flex-column gap-2 px-3 py-2 on-air-section border-b"
+                [ngClass]="{ 'past-program': item.status === 'past' }">
 
                 <p class="mb-0 status d-flex align-items-center gap-1">
                     @if(item.status === 'next') {

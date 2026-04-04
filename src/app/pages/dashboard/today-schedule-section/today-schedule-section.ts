@@ -119,18 +119,6 @@ export class TodayScheduleSection implements OnInit {
     const isToday =
       this.selectedDate.toDateString() === now.toDateString();
 
-    // 🔥 NOT TODAY → reset everything
-    if (!isToday) {
-      this.currentProgram = null;
-
-      this.schedules = this.schedules.map(item => ({
-        ...item,
-        status: 'past' // or undefined if you don’t want status at all
-      }));
-
-      return;
-    }
-
     const currentMin = now.getHours() * 60 + now.getMinutes();
 
     this.currentProgram = null;
@@ -138,7 +126,7 @@ export class TodayScheduleSection implements OnInit {
     let nextProgram: Schedule | null = null;
     let minDiff = Infinity;
 
-    // 🔥 PASS 1 → find live + next
+    // 🔥 Find LIVE + NEXT
     for (let item of this.schedules) {
 
       if (!item.TimeRange || !item.TimeRange.includes(' - ')) continue;
@@ -150,13 +138,11 @@ export class TodayScheduleSection implements OnInit {
 
       if (endMin === 0) endMin = 1440;
 
-      // LIVE
-      if (currentMin >= startMin && currentMin < endMin) {
+      if (isToday && currentMin >= startMin && currentMin < endMin) {
         this.currentProgram = item;
       }
 
-      // NEXT
-      if (startMin > currentMin) {
+      if (isToday && startMin > currentMin) {
         const diff = startMin - currentMin;
 
         if (diff < minDiff) {
@@ -166,17 +152,32 @@ export class TodayScheduleSection implements OnInit {
       }
     }
 
-    this.schedules = this.schedules.map(item => {
+    this.schedules = this.schedules
+      .map(item => {
 
-      let status: 'live' | 'next' | 'past' = 'past';
+        let status: 'live' | 'next' | 'past' | undefined = undefined;
 
-      if (this.currentProgram && item.id === this.currentProgram.id) {
-        status = 'live';
-      } else if (nextProgram && item.id === nextProgram.id) {
-        status = 'next';
-      }
+        if (this.currentProgram && item.id === this.currentProgram.id) {
+          status = 'live';
+        } else if (nextProgram && item.id === nextProgram.id) {
+          status = 'next';
+        } else {
+          const [start] = item.TimeRange.split(' - ');
+          const startMin = this.getMinutes(start);
 
-      return { ...item, status };
-    });
+          if (
+            (isToday && startMin < currentMin) ||
+            (!isToday && this.selectedDate < new Date())
+          ) {
+            status = 'past';
+          }
+        }
+
+        return { ...item, status };
+      })
+      .sort((a, b) => {
+        const order: any = { live: 0, next: 1, past: 2, undefined: 1 };
+        return order[a.status!] - order[b.status!];
+      });
   }
 }

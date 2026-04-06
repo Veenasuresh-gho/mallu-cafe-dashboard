@@ -200,17 +200,18 @@
 
   <!-- Video container -->
   <div class="image-container">
-    <div class="iframe-wrapper">
-      <iframe
-        [src]="videoUrl"
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-      ></iframe>
-    </div>
-
+    
+<div class="iframe-wrapper" *ngIf="showVideo && reloadIframe">
+  <iframe
+    [src]="videoUrl"
+    width="100%"
+    height="300"
+    frameborder="0"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
     <div class="overlay-gradient"></div>
-
     <!-- Top left overlay: program title + host -->
     <div class="overlay-top-left">
       <div class="program-title">

@@ -714,18 +714,39 @@ input:checked+.slider:before {
 
 .iframe-wrapper {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
+  inset: 0;
+  z-index: 1;
 }
 
 .iframe-wrapper iframe {
   width: 100%;
   height: 100%;
-  border: 0;
-  object-fit: cover;
+  pointer-events: auto;
+}
+
+.unmute-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  background: rgba(0,0,0,0.4);
+  z-index: 2;
+
+  pointer-events: none; /* 🔥 IMPORTANT */
+}
+
+.unmute-text {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 5px;
 }
 
 .overlay-gradient {
@@ -736,14 +757,13 @@ input:checked+.slider:before {
   z-index: 1;
 }
 
+.overlay-gradient,
 .overlay-top-left,
-.overlay-top-right,
 .overlay-bottom-left,
+.overlay-top-right,
 .overlay-bottom-right {
-  position: absolute;
-  z-index: 2;
+  pointer-events: none !important; /* 🔥 MUST */
 }
-
 .overlay-top-left { top: 10px; left: 10px; color: white; }
 .overlay-top-right { top: 10px; right: 10px; color: white; }
 .overlay-bottom-left { bottom: 10px; left: 10px; color: white; }

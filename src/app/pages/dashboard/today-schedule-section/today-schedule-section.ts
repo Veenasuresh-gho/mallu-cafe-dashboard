@@ -67,6 +67,8 @@ export class TodayScheduleSection implements OnInit {
   }
 
   addPublish(item: Schedule): void {
+
+    
     const [start, end] = item.TimeRange.split(' - ');
     const payload = {
       ProgramID: item.ProgramID,
@@ -74,6 +76,7 @@ export class TodayScheduleSection implements OnInit {
       HostName: item.HostName,
       StartTime: start,
       EndTime: end,
+      IsLive:'1'
     }
 
     this.loading = true;
@@ -92,7 +95,7 @@ export class TodayScheduleSection implements OnInit {
             const isPublic = !!publishedUrl;
 
             this.tv = [
-              { T: 'dk1', V: String(item.ProgramID) },
+              { T: 'dk1', V: String(item.id) },
               { T: 'c10', V: '14' }
             ];
             this.srv.getdata('program', this.tv)

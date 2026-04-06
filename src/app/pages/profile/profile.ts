@@ -14,13 +14,14 @@ import { GHOService } from '../../services/ghosrvs';
 import { GHOUtitity } from '../../services/utilities';
 import { ghoresult, tags } from '../../../model/ghomodel';
 import { FormsModule } from '@angular/forms';
+import { InputTime } from '../../components/dialog/input-time/input-time';
 // import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [MatDividerModule, ProfileInfo, AssignedPrgm, Perfomance, MediaContribution, Settings,
-    Permission, FooterButton,FormsModule],
+    Permission, FooterButton,FormsModule,InputTime],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })

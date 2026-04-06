@@ -1,0 +1,110 @@
+<div class="form-group">
+
+  <label class="input-label">Schedule Time</label>
+
+  <div class="schedule-row mt-2">
+
+    <!-- FROM -->
+    <div class="schedule-box">
+      <div class="label input-field">Schedule Time</div>
+      <div class="divider"></div>
+
+      <div class="schedule-box-right">
+        <div class="select-wrapper">
+          <!-- <select 
+            [(ngModel)]="fromTime"
+            (ngModelChange)="emitChange()"
+            name="fromTime"
+             [ngClass]="{'selected-border': fromTime}">
+
+            <option value="" disabled hidden >2:00 PM </option>
+
+            <option *ngFor="let t of times" [value]="t">
+              {{ t }}
+            </option>
+          </select> -->
+          <div class="time-input" (click)="togglePicker('from')">
+            {{ fromTime || '2:00 PM ' }}
+            <img src="/program/dropdown.svg" class="dropdown-icon" />
+          </div>
+
+          <!-- TIME PICKER -->
+          <div class="time-picker" *ngIf="activePicker === 'from'">
+
+            <div class="time-columns">
+
+  <!-- HOURS -->
+  <div class="time-col" #hourCol>
+    <div 
+      *ngFor="let h of hours"
+      (click)="selectHour(h)"
+      [class.active]="h === selectedHour">
+
+      {{ h }}
+    </div>
+  </div>
+
+  <!-- MINUTES -->
+  <div class="time-col" #minuteCol>
+    <div 
+      *ngFor="let m of minutes"
+      (click)="selectMinute(m)"
+      [class.active]="m === selectedMinute">
+
+      {{ m }}
+    </div>
+  </div>
+
+  <!-- 🔥 AM PM INLINE (same row feeling) -->
+  <div class="ampm-inline">
+
+    <div 
+      class="ampm-btn"
+      (click)="selectPeriod('AM')"
+      [class.active]="period === 'AM'">
+      AM
+    </div>
+
+    <div 
+      class="ampm-btn"
+      (click)="selectPeriod('PM')"
+      [class.active]="period === 'PM'">
+      PM
+    </div>
+
+  </div>
+
+</div>
+
+            <button class="ok-btn" (click)="confirmTime()">OK</button>
+          </div>
+
+          <img src="/program/dropdown.svg" class="dropdown-icon" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div class="arrow-container">
+      <img src="/program/arrow-right.svg" />
+    </div>
+
+    <!-- TO -->
+    <div class="schedule-box-rightEnd">
+      <div class="select-wrapper">
+        <select [(ngModel)]="toTime" (ngModelChange)="emitChange()" name="toTime" [ngClass]="{'selected': toTime}">
+
+          <option value="" disabled hidden>Select Time</option>
+
+          <option *ngFor="let t of times" [value]="t">
+            {{ t }}
+          </option>
+        </select>
+
+        <img src="/program/dropdown.svg" class="dropdown-icon" />
+      </div>
+    </div>
+
+  </div>
+
+</div>

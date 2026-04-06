@@ -1,0 +1,236 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-label {
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.schedule-row {
+  display: flex;
+  align-items: center;
+  height: 36px;
+}
+
+.schedule-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  height: 36px;
+  background: #fff;
+}
+
+.label {
+  width: 139px;
+  padding: 10px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.divider {
+  width: 1px;
+  height: 100%;
+  background: #e0e0e0;
+}
+
+.schedule-box-right,
+.schedule-box-rightEnd {
+  display: flex;
+  align-items: center;
+  width: 165px;
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.select-wrapper select {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  border: none;
+  font-size: 12px;
+  appearance: none;
+  background: transparent;
+}
+
+.select-wrapper select.selected {
+  color: #312F2F;
+}
+.schedule-box-rightEnd{
+    border: 1px solid #ddd; 
+    border-radius: 6px;
+}
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.arrow-container {
+  width: 83px;
+  display: flex;
+  justify-content: center;
+}
+.time-input {
+  height: 36px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  color: #757575;
+  font-size: 12px;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+/* POPUP */
+.time-picker {
+  position: absolute;
+  top: 45px;
+  width: 200px;
+  height: 190px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  z-index: 1000;
+  padding: 10px;
+}
+
+/* SCROLL COLUMNS */
+.time-columns {
+  display: flex;
+  gap: 10px;
+  max-height: 150px;
+  align-items: center;
+}
+
+/* EACH COLUMN */
+.time-col {
+  overflow-y: auto;
+  height: 120px;
+  width: 50px;
+  font-size: 12px;
+  text-align: center;
+   scrollbar-width: none;
+}
+.time-col::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+/* ITEMS */
+.time-col div {
+  padding: 6px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+/* ACTIVE */
+.time-col div.active {
+  color: red;
+  font-weight: 600;
+}
+
+/* AM PM */
+.ampm div {
+  padding: 6px;
+}
+
+/* BUTTON */
+.ok-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 6px;
+  font-size: 12px;
+  background: #f5cfcf;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.ampm-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.ampm-tabs div {
+  padding: 4px 10px;
+  font-size: 11px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #f1f1f1;
+  color: #777;
+}
+
+.ampm-tabs div.active {
+  background: #D80905;
+  color: #fff;
+}
+.time-columns {
+  display: flex;
+  align-items: center; /* 🔥 important */
+  gap: 10px;
+}
+
+/* Keep columns scrollable */
+.time-col {
+  overflow-y: auto;
+  height: 120px;
+  width: 50px;
+  text-align: center;
+
+  scrollbar-width: none;
+}
+
+.time-col::-webkit-scrollbar {
+  display: none;
+}
+
+/* Items */
+.time-col div {
+  padding: 6px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+/* Selected row */
+.time-col div.active {
+  color: red;
+  font-weight: 600;
+}
+
+/* 🔥 AM PM inline */
+.ampm-inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 120px;
+
+  /* 🔥 center it to match selected row */
+  justify-content: center;
+}
+
+/* Buttons */
+.ampm-btn {
+  padding: 4px 8px;
+  font-size: 11px;
+  border-radius: 4px;
+  background: #eee;
+  color: #666;
+  cursor: pointer;
+}
+
+/* Active */
+.ampm-btn.active {
+  background: #D80905;
+  color: #fff;
+}

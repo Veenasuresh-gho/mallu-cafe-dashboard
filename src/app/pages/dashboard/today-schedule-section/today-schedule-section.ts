@@ -66,9 +66,9 @@ export class TodayScheduleSection implements OnInit {
 
   }
 
-
-
   addPublish(item: Schedule): void {
+
+    
     const [start, end] = item.TimeRange.split(' - ');
     const payload = {
       ProgramID: item.ProgramID,
@@ -76,6 +76,7 @@ export class TodayScheduleSection implements OnInit {
       HostName: item.HostName,
       StartTime: start,
       EndTime: end,
+      IsLive:'1'
     }
 
     this.loading = true;
@@ -88,20 +89,29 @@ export class TodayScheduleSection implements OnInit {
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: async (r) => {
-          this.loading = false;
-          // this.cdr.detectChanges();
-          const publishedUrl = this.urlValue;
-          const isPublic = !!publishedUrl;
+          if (r.Status === 1) {
+            this.loading = false;
+            const publishedUrl = this.urlValue;
+            const isPublic = !!publishedUrl;
 
-          this.publishStatus.emit({
-            isPublic: isPublic,
-            url: publishedUrl,
-            isPublish: true
-          });
+            this.tv = [
+              { T: 'dk1', V: String(item.id) },
+              { T: 'c10', V: '14' }
+            ];
+            this.srv.getdata('program', this.tv)
+              .subscribe({
+                next: async (r) => {
+                  this.publishStatus.emit({
+                    isPublic: isPublic,
+                    url: publishedUrl,
+                    isPublish: true
+                  });
+                }
+              })
+          }
         },
         error: () => {
           this.loading = false;
-          // this.cdr.detectChanges();
         }
       });
   }
@@ -138,7 +148,6 @@ export class TodayScheduleSection implements OnInit {
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
         this.schedules = [...(r.Data[0] as Schedule[])];
-        console.log(this.schedules)
         this.updateCurrentProgram();
         this.loading = false;
         this.cdr.detectChanges();

@@ -16,6 +16,9 @@ export class MusicPlayer implements OnChanges {
   @Input() publishInfo!: { isPublic: boolean; url: string; isPublish: boolean } | null;
 
   videoUrl!: SafeResourceUrl;
+  videoId: string = '';
+  showVideo: boolean = false;
+
   backgroundUrl: string = '/dash/live-bg-img.jpg';
   hostAvatarUrl: string = '/dash/host-img.jpg';
 
@@ -25,32 +28,56 @@ export class MusicPlayer implements OnChanges {
   shareCount: string = '102';
   viewCount: string = '4.2K';
   likeCount: string = '517';
-
+  platform: 'youtube' | 'facebook' | 'unknown' = 'unknown';
   isAutoPlay: boolean = true;
 
   constructor(private sanitizer: DomSanitizer) {
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://www.youtube.com/embed/2PSyCG7yfKw?autoplay=1&mute=1'
-    );
-    console.log(this.videoUrl)
+
   }
 
 ngOnChanges(changes: SimpleChanges) {
   const url = this.publishInfo?.url;
 
-  if (this.publishInfo?.isPublic && this.publishInfo.isPublish && url) {
+  if (!url) {
+    this.showVideo = false;
+    return;
+  }
 
-    const match = url.match(/(?:youtu\.be\/|v=)([^?&]+)/);
+  // 🔍 Detect platform
+  if (url.includes('youtube') || url.includes('youtu.be')) {
+    this.platform = 'youtube';
+  } else if (url.includes('facebook.com') || url.includes('fb.watch')) {
+    this.platform = 'facebook';
+  } else {
+    this.platform = 'unknown';
+  }
 
-    if (match) {
-      const videoId = match[1];
+  if (this.publishInfo?.isPublic && this.publishInfo.isPublish) {
 
-      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playsinline=1`;
+    if (this.platform === 'youtube') {
+      const match = url.match(/(?:youtu\.be\/|v=)([^?&]+)/);
 
-      this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+      if (match) {
+        this.videoId = match[1];
 
+        const embedUrl = `https://www.youtube.com/embed/${this.videoId}?autoplay=1&mute=1&playsinline=1`;
+
+        this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+        this.showVideo = true;
+        return;
+      }
+    }
+
+    if (this.platform === 'facebook') {
+      const fbEmbedUrl = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&autoplay=1`;
+
+      this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fbEmbedUrl);
+      this.showVideo = true;
+      return;
     }
   }
+
+  this.showVideo = false;
 }
 
   onPlayAd() {

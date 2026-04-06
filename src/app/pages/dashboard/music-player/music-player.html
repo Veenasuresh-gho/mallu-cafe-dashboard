@@ -200,15 +200,19 @@
 
   <!-- Video container -->
   <div class="image-container">
-    <div class="iframe-wrapper">
-      <iframe
-        [src]="videoUrl"
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-      ></iframe>
-    </div>
+  <div class="iframe-wrapper">
+  <iframe
+    [src]="videoUrl"
+    frameborder="0"
+    allow="autoplay; encrypted-media"
+    allowfullscreen>
+  </iframe>
 
+  <!-- Simple hint -->
+  <div class="unmute-text">
+    🔊 Click video to hear sound
+  </div>
+</div>
     <div class="overlay-gradient"></div>
 
     <!-- Top left overlay: program title + host -->

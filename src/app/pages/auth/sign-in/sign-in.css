@@ -7,9 +7,17 @@
     min-height: 100vh; 
 }
 
-.login-card {
+/* .login-card {
     height: 590px;
     width: 1100px;
+    border-radius: 10px;
+    overflow: hidden;
+} */
+
+.login-card {
+    width: 90%;
+    max-width: 1100px;
+    min-height: 500px;
     border-radius: 10px;
     overflow: hidden;
 }
@@ -26,7 +34,6 @@
     object-fit: cover;
 }
 
-/* LABEL */
 label {
     display: block;
     margin-bottom: 6px;
@@ -35,12 +42,14 @@ label {
     font-weight: 500;
 }
 
-/* MATERIAL FIELD FULL WIDTH */
 .full-width {
     width: 400px;
 }
 
-/* CUSTOM MATERIAL FIELD STYLE */
+/* .full-width {
+    width: 100%;
+} */
+
 :host ::ng-deep .custom-mat-field .mat-mdc-text-field-wrapper {
     border-radius: 6px !important;
     border: 1px solid #CFCFCF !important;
@@ -48,12 +57,10 @@ label {
     align-items: center;
 }
 
-/* REMOVE DEFAULT MATERIAL OUTLINE */
 :host ::ng-deep .custom-mat-field .mdc-notched-outline {
     display: none !important;
 }
 
-/* INPUT ALIGNMENT */
 :host ::ng-deep .custom-mat-field .mat-mdc-form-field-infix {
     padding: 0 0px !important;
     min-height: 40px !important;
@@ -63,28 +70,24 @@ label {
 :host ::ng-deep .custom-mat-field {
     margin-bottom: 0 !important;
 }
-/* Fix suffix icon spacing */
 :host ::ng-deep .mat-mdc-form-field-icon-suffix {
     margin-right: 4px !important;
 }
 
-/* Reduce button padding */
 :host ::ng-deep .mat-mdc-icon-button {
     padding: 4px !important;
     width: 28px;
     height: 28px;
 }
-/* INPUT TEXT */
+
 :host ::ng-deep .custom-mat-field input {
     font-size: 14px;
 }
 
-/* FOCUS BORDER */
 :host ::ng-deep .custom-mat-field.mat-focused .mat-mdc-text-field-wrapper {
     border: 1px solid #1976d2 !important;
 }
 
-/* ICON */
 :host ::ng-deep .mat-mdc-icon-button {
     width: 32px;
     height: 32px;
@@ -118,9 +121,16 @@ label {
     font-family: 'Poppins', sans-serif;
 }
 
-.form-container {
+/* .form-container {
     max-width: 420px;
     margin: auto;
+} */
+
+.form-container {
+    width: 100%;
+    max-width: 420px;
+    margin: auto;
+    padding: 0 16px; /* add spacing on small screens */
 }
 
 .form-group {
@@ -243,7 +253,7 @@ label {
 }
 
 :host ::ng-deep .custom-mat-field.mat-focused .mat-mdc-text-field-wrapper {
-    border: 1px solid #ff4d4f !important; /* Red */
+    border: 1px solid #ff4d4f !important; 
 }
 
 
@@ -253,7 +263,6 @@ label {
   cursor: not-allowed;
 }
 
-/* Spinner wrapper */
 .spinner-wrapper {
   display: flex;
   align-items: center;
@@ -262,4 +271,45 @@ label {
 
 ::ng-deep .mat-mdc-progress-spinner circle {
   stroke: red !important;
+}
+
+
+@media (max-width: 992px) {
+  .login-card {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .logo {
+    width: 100%;
+    height: 0px;
+  }
+
+  .signin-form {
+    width: 100%;
+    padding: 20px 0;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .login-card {
+    width: 95%;
+  }
+
+  .logo {
+    display: none; 
+  }
+
+  .welcome-head {
+    font-size: 18px;
+  }
+
+  .welcome-text {
+    font-size: 11px;
+  }
+
+  .login-btn {
+    height: 40px;
+  }
 }

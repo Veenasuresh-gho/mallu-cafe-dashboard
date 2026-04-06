@@ -14,3 +14,23 @@
     font-family: Red Hat Display;
     color: #636363;
 }
+
+.icon-box {
+  width: 18px;
+  height: 18px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid;
+}
+
+.icon-success {
+  background-color: #e8f5e9;   
+  color: black;             
+  border-color: none;
+}
+
+.icon-fail {
+  background-color: #f7f2f2;   
+  color: black;            
+  border-color: black;
+}

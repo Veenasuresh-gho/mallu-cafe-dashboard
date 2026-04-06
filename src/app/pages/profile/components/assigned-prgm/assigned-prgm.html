@@ -15,53 +15,47 @@
 
     @if (assignedPrograms?.length > 0) {
 
-      <div class="row">
+    <div class="row">
 
-        @for (program of assignedPrograms; track program) {
+      @for (program of assignedPrograms; track program) {
 
-          <div class="col-md-4 mb-3">
+      <div class="col-md-4 mb-3">
 
-            <div class="d-flex gap-3">
-              
-              <img 
-                src="/profile/mike-fallback.jpg" 
-                alt="profile" 
-                class="rounded" 
-                width="80" 
-                height="80"
-                style="object-fit: cover;" 
-              />
+        <div class="d-flex gap-3">
 
-              <div class="d-flex flex-column gap-1">
+          <img [src]="program?._url || '/profile/mike-fallback.jpg'" alt="profile" class="rounded" width="75"
+            height="65" style="object-fit: cover;" />
 
-                <!-- Status -->
-                <span class="active-btn">
-                  ● {{ program.CategoryName || 'Active' }}
-                </span>
+          <div class="d-flex flex-column gap-1">
 
-                <!-- Title -->
-                <span class="radio-btn">
-                  {{ program.Title }}
-                </span>
+            <!-- Status -->
+            <span class="active-btn">
+              ● {{ program.CategoryName || 'Active' }}
+            </span>
 
-                <!-- Timing -->
-                <span class="timing">
-                  {{ program.DayRange }} • {{ program.TimeRange }}
-                </span>
+            <!-- Title -->
+            <span class="radio-btn">
+              {{ program.Title }}
+            </span>
 
-              </div>
-
-            </div>
+            <!-- Timing -->
+            <span class="timing">
+              {{ program.DayRange }} • {{ program.TimeRange }}
+            </span>
 
           </div>
 
-        }
+        </div>
 
       </div>
 
+      }
+
+    </div>
+
     } @else {
 
-      <p class="text-muted">No programs assigned</p>
+    <p class="no-program-text ">No programs assigned</p>
 
     }
 

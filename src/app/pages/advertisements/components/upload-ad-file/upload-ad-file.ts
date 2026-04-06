@@ -64,6 +64,7 @@ export class UploadAdFile implements OnInit {
   loading = false;
   errors: any = {};
   id: string = '';
+  advertisementID:string="";
   isEditMode = false;
 
   statusMap: any = {
@@ -104,6 +105,7 @@ populateForm(ad: any) {
   this.fileName = ad.FileName;
 
   this.id = ad.ID;
+  this.advertisementID=ad.id1
   // If you have delivery flags from API
   this.adsEnabled = ad.IsAudioVideoAd === 1 || ad.IsAudioVideoAd === 3;
   const promo = +ad.IsLatestPromotion;
@@ -292,7 +294,6 @@ getStatusKey(status: string): string {
 
   editAdvertisement(): void {
   if (!this.validateAdvertisementForm()) return;
-
   this.loading = true;
   this.cd.detectChanges();
   const payload: any = {
@@ -307,7 +308,6 @@ getStatusKey(status: string): string {
     StartTime: this.scheduleModel?.fromTime || '',
     EndTime: this.scheduleModel?.toTime || ''
   };
-
   if (this.selectedFile) {
     payload.AdType = this.getFileType(this.selectedFile);
   }
@@ -323,15 +323,13 @@ getStatusKey(status: string): string {
   this.srv.getdata('advertisement', this.tv).subscribe({
     next: async (r) => {
       if (r.Status === 1) {
-
         if (this.selectedFile) {
           const success = await this.srv.handleFileUpload(
-            this.id,
+            this.advertisementID,
             userId,
             this.selectedFile,
             '7'
           );
-
           if (!success) {
             this.loading = false;
              this.cd.detectChanges();
@@ -340,8 +338,7 @@ getStatusKey(status: string): string {
         }
 
         this.loading = false;
-         this.cd.detectChanges();
-
+        this.cd.detectChanges();
         this.toast.show({
           title: 'Advertisement updated successfully! 🎉',
           description: '',
@@ -350,6 +347,15 @@ getStatusKey(status: string): string {
         });
 
         this.dialogRef.close(true);
+      }else {
+        this.loading = false;
+        this.toast.show({
+          title: 'Failed to update advertisement ❌',
+          description: r?.Info || 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
+           this.cd.detectChanges();
       }
     },
     error: () => {
@@ -358,6 +364,8 @@ getStatusKey(status: string): string {
     }
   });
 }
+
+
 deleteUpload(fileUploadID: any) {
   console.log('🚀 deleteUpload called with fileUploadID:', fileUploadID);
 

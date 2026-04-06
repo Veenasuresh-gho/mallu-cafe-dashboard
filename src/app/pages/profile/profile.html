@@ -16,8 +16,8 @@
             <div class="d-flex align-items-center gap-3 flex-wrap">
 
                 <div>
-                    <img src="/profile/profile-fallback-1.png" alt="profile" class="rounded" width="80" height="80"
-                        style="object-fit: cover;" />
+                    <img [src]="profile?._url || '/profile/profile-fallback-1.png'" alt="profile" class="rounded"
+                        width="80" height="80" style="object-fit: cover;" />
                 </div>
 
                 <div class="d-flex gap-2 align-items-end pt-4 mt-3">
@@ -25,15 +25,15 @@
                     <label class=" upload-btn mb-0 d-flex align-items-center gap-2">
                         <img src="/program/upload-icon.svg" alt="">
                         Upload new image
-                        <input type="file" class="d-none">
+                        <input (change)="onFileSelected($event)" type="file" class="d-none">
                     </label>
 
-                    <button class="btn btn-create delete-btn border d-flex align-items-center gap-2">
-                         <img src="/profile/trash-gray.svg" alt="">
+                    <button (click)="deleteProfilePic(profile?.fid)" class="btn btn-create delete-btn border d-flex align-items-center gap-2">
+                        <img src="/profile/trash-gray.svg" alt="">
 
                         Delete
                     </button>
-         
+
                 </div>
 
             </div>
@@ -45,16 +45,16 @@
         <app-profile-info [profile]="profile"></app-profile-info>
     </div>
     <div>
-        <app-assigned-prgm  [assignedPrograms]="assignedPrograms"></app-assigned-prgm>
+        <app-assigned-prgm [assignedPrograms]="assignedPrograms"></app-assigned-prgm>
     </div>
     <div>
-        <app-perfomance></app-perfomance>
+        <app-perfomance [performance]="performance" ></app-perfomance>
     </div>
     <div>
         <app-media-contribution [mediaContributions]="media"></app-media-contribution>
     </div>
     <div>
-        <app-permission></app-permission>
+        <app-permission [profile]="profile"></app-permission>
     </div>
     <mat-divider class="text-secondary bg-muted my-4"></mat-divider>
     <div>

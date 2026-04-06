@@ -25,6 +25,8 @@ export interface Schedule {
   IsCallAllowed: boolean;
   IsFileUploaded: boolean;
   status?: 'live' | 'next' | 'past';
+
+  urlValue?: string; // ✅ per-item input
 }
 
 @Component({
@@ -68,15 +70,15 @@ export class TodayScheduleSection implements OnInit {
 
   addPublish(item: Schedule): void {
 
-    
+
     const [start, end] = item.TimeRange.split(' - ');
     const payload = {
       ProgramID: item.ProgramID,
-      StreamURL: this.urlValue,
+      StreamURL: item.urlValue || '',
       HostName: item.HostName,
       StartTime: start,
       EndTime: end,
-      IsLive:'1'
+      IsLive: '1'
     }
 
     this.loading = true;

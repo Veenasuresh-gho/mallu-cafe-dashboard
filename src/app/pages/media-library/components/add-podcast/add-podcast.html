@@ -17,7 +17,7 @@
          <div class="form-row px-4 ">
            
            
-            <app-form-input label="Podcast Category Name *" placeholder="e.g. Music, Sports, Movies" name="programTitle"></app-form-input>
+            <app-form-input label="Podcast Category Name *" placeholder="e.g. Music, Sports, Movies" name="programTitle" [(model)]="categoryName"></app-form-input>
 
                 <p class="helper-text" style="padding-bottom: 16px;">Once added, this category can be selected while creating podcast episodes.</p>
             
@@ -46,7 +46,7 @@
         <div class="dialog-actions d-flex justify-content-between my-4 mx-3 gap-2">
           
                  <app-cancel-button class="pt-2" (click)=" close()"></app-cancel-button>
-        <app-footer-button text="Add Category" icon="/upload/add-square.svg" type="button" class="mx-2">
+        <app-footer-button text="Add Category" (click)="addCategory()" icon="/upload/add-square.svg" type="button" class="mx-2">
         </app-footer-button>
            
         </div>

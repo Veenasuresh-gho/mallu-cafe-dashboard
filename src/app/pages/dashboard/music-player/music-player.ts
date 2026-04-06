@@ -159,8 +159,26 @@ export class MusicPlayer implements OnInit, OnChanges {
     this.isVideoLoading = false; // 🔥 STOP LOADER
   }
 
-  ngOnChanges() { }
+ngOnChanges(): void {
+  if (!this.publishInfo || !this.publishInfo.isPublish) return;
 
+  const url = this.publishInfo.url;
+  if (!url) return;
+
+  // 🎬 update player
+  this.prepareVideo(url);
+
+  // 🔥 CALL API AFTER PUBLISH
+  this.tv = [{ T: 'c10', V: '13' }];
+
+  this.srv.getdata('program', this.tv).subscribe({
+    next: (r) => {
+      this.programDetails = r?.Data?.[0]?.[0];
+      this.cdr.detectChanges();
+    },
+    error: (err) => console.error(err)
+  });
+}
   // ✅ KEEP AS IS
   onPlayAd() {
     console.log('User clicked: Play Ad');

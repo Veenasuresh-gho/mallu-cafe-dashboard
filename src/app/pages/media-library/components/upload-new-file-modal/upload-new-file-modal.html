@@ -52,8 +52,11 @@
                     (programSelected)="onProgramSelected($event)" (validationChange)="isPreScheduledValid = $event">
                 </app-pre-scheduled>
             </div>
+            <div *ngSwitchCase="'2'">
+                <app-podcast-file [programList]="programList" [fileType]="extension"
+                    (programSelected)="onProgramSelected($event)" ></app-podcast-file>
+            </div>
 
-            <app-podcast-file *ngSwitchCase="'2'"></app-podcast-file>
 
             <app-video-file *ngSwitchCase="'3'"></app-video-file>
 

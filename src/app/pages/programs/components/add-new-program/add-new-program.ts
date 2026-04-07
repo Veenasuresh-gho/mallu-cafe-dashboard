@@ -146,24 +146,24 @@ export class AddNewProgram implements OnInit {
     });
   }
 
-onFileSelected(event: any) {
-  const file = event.target.files[0];
-  if (!file) return;
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-  if (!file.type.startsWith('image/')) {
-    this.errors.file = 'Only image files allowed';
-    return;
+    if (!file.type.startsWith('image/')) {
+      this.errors.file = 'Only image files allowed';
+      return;
+    }
+
+    const cleanName = file.name.replace(/[^a-zA-Z0-9._]/g, '');
+    this.selectedFile = new File([file], cleanName, {
+      type: file.type
+    });
+
+    this.fileName = cleanName;
+
+    this.clearError('file');
   }
-
-  const cleanName = file.name.replace(/[^a-zA-Z0-9._]/g, '');
-  this.selectedFile = new File([file], cleanName, {
-    type: file.type
-  });
-
-  this.fileName = cleanName;
-
-  this.clearError('file');
-}
   addProgram(): void {
     if (!this.validateForm()) return;
 

@@ -25,6 +25,7 @@ export class PreScheduled implements OnChanges {
   selectedProgramName: string = '';
   programId: string = '';
   errors: any = {};
+  programDetails: any = {};
 
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
@@ -58,25 +59,25 @@ export class PreScheduled implements OnChanges {
     return Object.keys(this.errors).length === 0;
   }
 
-onThumbnailTypeChange(type: string) {
-  this.selectedType = type;
+  onThumbnailTypeChange(type: string) {
+    this.selectedType = type;
 
-  if (type === 'program') {
-    this.getProgramDetails();
+    if (type === 'program') {
+      this.getProgramDetails();
+    }
+
+    this.emitData();
   }
+  onProgramChange(value: any) {
+    this.selectedProgramId = value;
 
-  this.emitData();
-}
- onProgramChange(value: any) {
-  this.selectedProgramId = value;
+    const selected = this.programList.find(p => p.DataValue === value);
 
-  const selected = this.programList.find(p => p.DataValue === value);
+    this.selectedProgramName = selected?.DisplayText || '';
+    this.programId = selected?.ProgramID || '';
 
-  this.selectedProgramName = selected?.DisplayText || '';
-  this.programId = selected?.ProgramID || '';
-
-  this.emitData();
-}
+    this.emitData();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['programList']) {
@@ -92,15 +93,13 @@ onThumbnailTypeChange(type: string) {
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
-          // this.ds = r.Data[0];
-          // this.dataSource.data = this.ds;
-          // this.dataSource._updateChangeSubscription();
-          // this.loading = false;
-          // this.cdr.markForCheck();
+          if (r.Status === 1) {
+            this.programDetails = r.Data[0][0];
+            console.log(this.programDetails)
+          }
         },
         error: (err) => {
           console.error('API Error:', err);
-          // this.loading = false;
         }
       });
   }
@@ -152,6 +151,6 @@ onThumbnailTypeChange(type: string) {
       isValid: isValid
     });
 
-    this.validationChange.emit(isValid); // 🔥 important
+    this.validationChange.emit(isValid);
   }
 }

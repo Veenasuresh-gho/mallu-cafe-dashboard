@@ -75,6 +75,8 @@ export class UploadAdFile implements OnInit {
   advertisementID: string = "";
   isEditMode = false;
 
+  
+
   statusMap: any = {
     active: 1,
     waiting: 2,
@@ -92,8 +94,10 @@ export class UploadAdFile implements OnInit {
 
   formatTimeForInput(time: string): string {
     if (!time) return '';
-    return time.slice(0, 5); // "06:00:00" → "06:00"
+    return time.slice(0, 5); 
   }
+
+ 
 
   populateForm(ad: any) {
     console.log('ad', ad);
@@ -183,15 +187,15 @@ export class UploadAdFile implements OnInit {
       this.errors.toDate = 'End date is required';
     }
 
-    if (this.fromDate && this.toDate && this.fromDate > this.toDate) {
-      this.errors.date = 'End date must be after start date';
-    }
+    // if (this.fromDate && this.toDate && this.fromDate > this.toDate) {
+    //   this.errors.date = 'End date must be after start date';
+    // }
 
 
 
-    if (!this.playsPerDay || this.playsPerDay <= 0) {
-      this.errors.playsPerDay = 'Playback count must be greater than 0';
-    }
+    // if (!this.playsPerDay || this.playsPerDay <= 0) {
+    //   this.errors.playsPerDay = 'Playback count must be greater than 0';
+    // }
 
     if (!this.selectedStatus) {
       this.errors.status = 'Please select status';
@@ -242,12 +246,12 @@ export class UploadAdFile implements OnInit {
       AdvertiserName: this.AdvertiserName,
       StartDate: this.fromDate,
       EndDate: this.toDate,
-      PlaybackCount: this.playsPerDay,
+      // PlaybackCount: this.playsPerDay,
       IsLatestPromotion: this.getAdType(),
       Notes: this.additionalNotes,
       Status: this.getStatusValue(),
-      StartTime: this.scheduleModel?.fromTime || '',
-      EndTime: this.scheduleModel?.toTime || '',
+      // StartTime: this.scheduleModel?.fromTime || '',
+      // EndTime: this.scheduleModel?.toTime || '',
       AdType: this.getFileType(this.selectedFile)
     };
 
@@ -312,12 +316,12 @@ export class UploadAdFile implements OnInit {
       AdvertiserName: this.AdvertiserName,
       StartDate: this.fromDate,
       EndDate: this.toDate,
-      PlaybackCount: this.playsPerDay,
+      // PlaybackCount: this.playsPerDay,
       IsLatestPromotion: this.getAdType(),
       Notes: this.additionalNotes,
       Status: this.getStatusValue(),
-      StartTime: this.scheduleModel?.fromTime || '',
-      EndTime: this.scheduleModel?.toTime || ''
+      // StartTime: this.scheduleModel?.fromTime || '',
+      // EndTime: this.scheduleModel?.toTime || ''
     };
     if (this.selectedFile) {
       payload.AdType = this.getFileType(this.selectedFile);

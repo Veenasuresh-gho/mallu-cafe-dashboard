@@ -119,7 +119,7 @@
         <ng-container matColumnDef="adPlayCount">
             <th mat-header-cell *matHeaderCellDef>Ad Play Count</th>
             <td mat-cell *matCellDef="let row">
-                {{ row.PlaybackCount }} plays / {{row.TotalDays}} days
+                {{row.TotalDays}} days
             </td>
         </ng-container>
 
@@ -143,7 +143,7 @@
             <td mat-cell *matCellDef="let row">
 
                 <button mat-icon-button [matMenuTriggerFor]="menu">
-                    <mat-icon>more_horiz</mat-icon> <!-- ✅ horizontal dots -->
+                    <mat-icon>more_horiz</mat-icon>
                 </button>
 
                 <mat-menu #menu="matMenu">

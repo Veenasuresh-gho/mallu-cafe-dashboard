@@ -81,7 +81,7 @@
                 </div>
 
 
-                <button (click)="deleteUpload(fid)"  *ngIf="isEditMode" class="btn-delete d-flex align-items-center justify-content-center">
+                <button (click)="deleteUpload(fid)"  *ngIf="isEditMode && fileName" class="btn-delete d-flex align-items-center justify-content-center">
                     <mat-icon>delete</mat-icon>
                 </button>
 

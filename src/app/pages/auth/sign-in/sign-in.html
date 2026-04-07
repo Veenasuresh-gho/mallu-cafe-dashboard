@@ -24,7 +24,7 @@
                 <label>Email Address</label>
 
                 <mat-form-field appearance="outline" class="full-width custom-mat-field">
-                  <input matInput type="email" placeholder="e.g. smithjohn45@gmail.com" formControlName="email" />
+                  <input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" matInput type="email" placeholder="e.g. smithjohn45@gmail.com" formControlName="email" />
 
                   @if (loginForm.get('email')?.hasError('required')) {
                   <mat-error>Email is required</mat-error>
@@ -40,7 +40,7 @@
 
                 <mat-form-field appearance="outline" class="full-width custom-mat-field">
 
-                  <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter your password"
+                  <input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" matInput [type]="hide ? 'password' : 'text'" placeholder="Enter your password"
                     formControlName="password" />
 
                   <button mat-icon-button matSuffix type="button" (click)="hide = !hide">

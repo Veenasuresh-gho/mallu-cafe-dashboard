@@ -18,12 +18,9 @@
       <div class="col-md-4">
         <div class="mb-3">
           <label class="form-label input-label">Full Name</label>
-          <input 
-            type="text"
-            class="form-control input-txt"
-            [value]="profile?.FullName || ''"
-            readonly
-          />
+          <input type="text" class="form-control input-txt"
+          (focus)="enableEdit()"
+           [value]="profile?.FullName || ''" readonly />
         </div>
 
         <div>
@@ -32,12 +29,9 @@
             <span class="input-group-text input-label">
               +{{ profile?.CountryCode || '' }}
             </span>
-            <input 
-              type="text"
-              class="form-control input-txt"
-              [value]="profile?.Phone || ''"
-              readonly
-            />
+            <input type="text" class="form-control input-txt"
+            (focus)="enableEdit()"
+             [value]="profile?.Phone || ''" readonly />
           </div>
         </div>
       </div>
@@ -46,27 +40,31 @@
       <div class="col-md-4">
         <div class="mb-3">
           <label class="form-label input-label">Designation / Role</label>
-          <input 
-            type="text"
-            class="form-control input-txt"
-            [value]="profile?.Role || ''"
-            readonly
-          />
+          <input type="text" class="form-control input-txt"
+          (focus)="enableEdit()"
+           [value]="profile?.Role || ''" readonly />
         </div>
 
         <div>
           <label class="form-label input-label">Email</label>
-          <input 
-            type="email"
-            class="form-control input-txt"
-            [value]="profile?.Email || ''"
-            readonly
-          />
+          <input type="email" class="form-control input-txt"
+          (focus)="enableEdit()"
+           [value]="profile?.Email || ''" readonly />
+        </div>
+      </div>
+
+      <!-- NEW Column 3 -->
+      <div class="col-md-4 d-flex flex-column justify-content-end">
+        <div *ngIf="isEditing">
+          <app-primary-button class="save-btn " [label]="'Save Changes'" iconSrc="/upload/tick-circle.svg">
+          </app-primary-button>
         </div>
       </div>
 
     </div>
   </div>
+  <!-- RIGHT END -->
+
 
 </div>
 

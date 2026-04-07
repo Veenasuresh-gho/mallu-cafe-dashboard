@@ -55,7 +55,17 @@
   width: 100%;
   height: 100%;
 }
-
+/* 🔥 NEW */
+.selection-line {
+  position: absolute;
+  top: 60px; /* center of scroll area */
+  left: 8px;
+  right: 8px;
+  height: 32px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 6px;
+  pointer-events: none;
+}
 .select-wrapper select {
   width: 100%;
   height: 100%;
@@ -133,10 +143,29 @@
   display: none; /* Chrome, Safari */
 }
 /* ITEMS */
-.time-col div {
+/* .time-col div {
   padding: 6px;
   cursor: pointer;
   color: #aaa;
+} */
+ .time-col div {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.time-col div {
+  color: #bbb;
+}
+
+.time-col div.active {
+  color: #D80905;
+  font-weight: 600;
+}
+
+/* 🔥 add smooth fade */
+.time-col {
+  mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
 }
 
 /* ACTIVE */

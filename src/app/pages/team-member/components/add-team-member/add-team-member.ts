@@ -16,6 +16,7 @@ import { GHOUtitity } from '../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormMultiSelect } from '../../../../components/dialog-form/form-multiselect/form-multiselect';
+import { ToastService } from '../../../../services/toastService';
 
 
 @Component({
@@ -48,12 +49,14 @@ export class AddTeamMember implements OnInit {
   fileType: string = '';
   documentTypeId: string = '';
   cdr = inject(ChangeDetectorRef);
-
+   toast = inject(ToastService);
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
+
+  
 
   ngOnInit(): void {
     this.userId = sessionStorage.getItem('id') || '';
@@ -79,47 +82,88 @@ export class AddTeamMember implements OnInit {
   }
 
   addTeamMenber(): void {
+  const permissionPayload: any = {};
+  this.permissions.forEach(p => {
+    permissionPayload[p.key] = p.checked ? '1' : '0';
+  });
+  const payload = {
+    FullName: this.fullName,
+    Role: this.role,
+    Phone: this.phone,
+    Email: this.email,
+    CountryID: this.countryId,
+    selectedPrograms: this.selectedPrograms.map(p => p.DataValue).join(','),
+    ...permissionPayload
+  };
+  this.loading = true;
+  this.tv = [
+    { T: 'c1', V: JSON.stringify(payload) },
+    { T: 'c10', V: '1' }
+  ];
 
-    const payload = {
-      FullName: this.fullName,
-      Role: this.role,
-      Phone: this.phone,
-      Email: this.email,
-      CountryID: this.countryId,
-      selectedPrograms:this.selectedPrograms,
-    };
+  this.srv.getdata('teammember', this.tv)
+    .subscribe({
+      next: (r) => {
 
-    this.loading = true;
-    this.tv = [
-      { T: 'c1', V: JSON.stringify(payload) },
-      { T: 'c10', V: '1' }
-    ];
+        if (r.Status == 1) {
+          this.id = r.Data[0][0].Id;
 
-    this.srv.getdata('teammember', this.tv)
-      .subscribe({
-        next: async (r) => {
-          if (r.Status == 1) {
-            this.id = r.Data[0][0].Id;
-
-            const success = await this.srv.handleFileUpload(
-              this.id,
-              this.userId,
-              this.selectedFile,
-              this.documentTypeId = '1'
-            );
-
-            this.loading = false;
-            this.dialogRef.close(true);
-          }
-        },
-        error: (err) => {
-          console.error('API Error:', err);
           this.loading = false;
+          this.toast.show({
+            title: 'Team member added 🎉',
+            description: 'User created successfully',
+            variant: 'success',
+            position: 'toast-bottom-center'
+          });
+
+          this.dialogRef.close(true);
+          if (this.selectedFile) {
+            this.handleUpload(this.id);
+          }
         }
+      },
+
+      error: (err) => {
+        console.error('API Error:', err);
+        this.loading = false;
+
+        this.toast.show({
+          title: 'Server error 🚨',
+          description: 'Please try again later',
+          variant: 'error',
+          position: 'toast-bottom-center'
+        });
+      }
+    });
+}
+
+handleUpload(id: string) {
+  this.srv.handleFileUpload(
+    id,
+    this.userId,
+    this.selectedFile,
+    '9'
+  ).then((success: boolean) => {
+
+    if (!success) {
+      this.toast.show({
+        title: 'Upload failed ❌',
+        description: 'Profile upload failed',
+        variant: 'error',
+        position: 'toast-bottom-center'
       });
-      console.log('team-meber data',payload);
-      
-  }
+    }
+
+  }).catch((err: any) => {
+    console.error('Upload error:', err);
+    this.toast.show({
+      title: 'Upload error 🚨',
+      description: 'Something went wrong while uploading',
+      variant: 'error',
+      position: 'toast-bottom-center'
+    });
+  });
+}
 
   getRoles(): void {
     this.loading = true;
@@ -179,12 +223,12 @@ export class AddTeamMember implements OnInit {
 
   selectedPrograms: any[] = [];
 
-  permissions = [
-    { name: 'Media Upload', checked: false },
-    { name: 'Ad Management', checked: false },
-    { name: 'Program Management', checked: false },
-    { name: 'Member Management', checked: false }
-  ];
+permissions = [
+  { name: 'Media Upload', key: 'IsMediaUploadPermission', checked: false },
+  { name: 'Ad Management', key: 'IsAdManagePermission', checked: false },
+  { name: 'Program Management', key: 'IsProgramManagePermission', checked: false },
+  { name: 'Member Management', key: 'IsMemberManagePersmission', checked: false }
+];
 
   isFullAccess = false;
 

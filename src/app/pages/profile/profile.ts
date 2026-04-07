@@ -163,7 +163,7 @@ export class Profile {
 
   this.tv = [
     { T: 'dk1', V: userId },
-    { T: 'dk2', V: '' },
+    { T: 'dk2', V: '9' },
     { T: 'c1', V: fileUploadID },
     { T: 'c10', V: '4' }
   ];
@@ -173,7 +173,7 @@ export class Profile {
       console.log('✅ API Response:', r);
 
       this.loading = false;
-      this.cd.detectChanges(); // 🔥 FIX: update UI safely
+      this.cd.detectChanges(); 
 
       if (r.Status === 1) {
         this.getProfile()

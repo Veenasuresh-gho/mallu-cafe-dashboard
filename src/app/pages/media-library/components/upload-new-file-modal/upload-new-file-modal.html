@@ -16,12 +16,55 @@
         <app-step-badge [stepNumber]="1" title="Upload Media File"></app-step-badge>
         <div class="px-4">
 
-            <app-upload-box [uploadText]="originalFileName || 'Upload Broadcast Media File'" [subText]="originalFileName 
+            <!-- <app-upload-box [uploadText]="originalFileName || 'Upload Broadcast Media File'" [subText]="originalFileName 
     ? fileSize + (dimension ? ' • ' + dimension : '') 
     : 'Drag & drop your file here, or click to browse'" [accept]="'audio/mp3, video/mp4'"
                 [sizeText]="'MP3, MP4 • Max size: 1.5 GB'" (fileSelected)="onFileSelected($event)">
+            </app-upload-box> -->
+            <app-upload-box [uploadText]="'Upload Broadcast Media File'" [subText]="'Drag & drop your file here, or click to browse'" [accept]="'audio/mp3, video/mp4'"
+                [sizeText]="'MP3, MP4 • Max size: 1.5 GB'" (fileSelected)="onFileSelected($event)">
             </app-upload-box>
+            <!-- uploaded file -->
+            
 
+        </div>
+        <div class="px-3 mt-2">
+            <div class="file-card d-flex gap-1 justify-content-between " *ngIf="fileName">
+                <!-- Left: icon + name -->
+                <div class="file-info d-flex ">
+<!-- IMAGE -->
+<img 
+  *ngIf="isImageType()" 
+  [src]="previewUrl" 
+  class="file-icon" 
+/>
+
+<!-- VIDEO -->
+<video 
+  *ngIf="isVideoType()" 
+  [src]="previewUrl" 
+  class="file-icon"
+  muted
+></video>
+
+<!-- FALLBACK -->
+<img 
+  *ngIf="!isImageType() && !isVideoType()" 
+  src="/upload/file-default.svg" 
+  class="file-icon" 
+/>
+
+                    <div class="d-flex file-details justify-content-between align-items-center w-100">
+                        <div class="file-name">{{ fileName }} <img src="/upload/green-tick.svg" class="mb-1" alt=""></div> 
+                        <div class="file-size px-2">{{ fileSize }}</div>
+                    </div>
+                </div>
+
+                <!-- Right: delete button -->
+                 <div (click)="removeFile()" class="delete-btn">
+                     <img src="/upload/trash-gray.svg" alt="">
+                 </div>
+            </div>
         </div>
         <p class="d-flex gap-1 pt-2 pb-3 helper-text px-4 ">
             <span class="material-symbols-outlined helper-text-icon">

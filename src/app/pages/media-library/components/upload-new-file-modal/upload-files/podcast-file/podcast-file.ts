@@ -9,10 +9,13 @@ import { AddPodcast } from '../../../add-podcast/add-podcast';
 import { GHOService } from '../../../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../../../model/ghomodel';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-podcast-file',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormSelect, FormInput, StepBadge, MatRadioButton, MatRadioGroup, FormsModule],
   templateUrl: './podcast-file.html',
   styleUrls: ['./podcast-file.css'],
@@ -27,6 +30,8 @@ export class PodcastFile implements OnInit {
   utl = inject(GHOUtitity);
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
+  cdr = inject(ChangeDetectorRef)
+
 
   catogories: any[] = [];
   selectedCatogory: any = {};
@@ -36,7 +41,7 @@ export class PodcastFile implements OnInit {
   errors: any = {};
   selectedCategoryId: string = '';
   title: string = '';
-
+  programDetails: any = {};
 
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
@@ -118,7 +123,17 @@ export class PodcastFile implements OnInit {
     this.subtitle = value;
     this.emitData();
   }
+  onThumbnailTypeChange(type: string) {
+    this.selectedType = type;
 
+    if (type === 'program' && this.programId) {
+      this.getProgramDetails();
+    }
+
+    this.cdr.markForCheck();
+
+    this.emitData();
+  }
 
   getProgramDetails(): void {
     this.tv = [
@@ -129,13 +144,17 @@ export class PodcastFile implements OnInit {
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
-
+          if (r.Status === 1) {
+            this.programDetails = r.Data[0][0];
+            this.cdr.markForCheck();
+          }
         },
         error: (err) => {
           console.error('API Error:', err);
         }
       });
   }
+
 
   openModalAddPodcast() {
     const dialogRef = this.dialog.open(AddPodcast, {

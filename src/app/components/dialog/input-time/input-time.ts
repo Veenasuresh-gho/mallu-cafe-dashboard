@@ -80,30 +80,22 @@ togglePicker(type: 'from' | 'to') {
   this.activePicker = this.activePicker === type ? null : type;
 }
 
-// selectHour(h: string) {
-//   this.selectedHour = h;
-// }
+selectedIndex: number = 0;
+
 selectHour(h: string) {
   this.selectedHour = h;
+  this.selectedIndex = this.hours.indexOf(h);
 
-  // this.scrollToCenter(index, this.hourCol);
-
-  // 🔥 also align minute column
-  // const minuteIndex = this.minutes.indexOf(this.selectedMinute);
-  // this.scrollToCenter(minuteIndex, this.minuteCol);
+  const index = this.hours.indexOf(h);
+  this.scrollToCenter(index, this.hourCol);
 }
 
-// selectMinute(m: string) {
-//   this.selectedMinute = m;
-// }
 selectMinute(m: string) {
   this.selectedMinute = m;
+  this.selectedIndex = this.hours.indexOf(m);
 
-  // this.scrollToCenter(index, this.minuteCol);
-
-  // 🔥 also align hour column
-  // const hourIndex = this.hours.indexOf(this.selectedHour);
-  // this.scrollToCenter(hourIndex, this.hourCol);
+  const index = this.minutes.indexOf(m);
+  this.scrollToCenter(index, this.minuteCol);
 }
 selectPeriod(p: 'AM' | 'PM') {
   this.period = p;

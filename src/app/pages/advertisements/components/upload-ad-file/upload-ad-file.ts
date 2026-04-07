@@ -19,6 +19,7 @@ import { GHOUtitity } from '../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { InputTime } from '../../../../components/dialog/input-time/input-time';
 
 @Component({
   selector: 'app-upload-ad-file',
@@ -28,7 +29,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormField, MatSelect, MatOption, MatIcon,
     StepBadge, FormInput, UploadBox, FormSelect,
     SchedulePicker, Checkbox, ScheduleDateRange,
-    CommonModule, PrimaryButton, MatProgressSpinnerModule,
+    CommonModule, PrimaryButton, MatProgressSpinnerModule,InputTime
   ],
   templateUrl: './upload-ad-file.html',
   styleUrl: './upload-ad-file.css',
@@ -44,13 +45,20 @@ export class UploadAdFile implements OnInit {
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
 
+scheduleModel = {
+  fromTime: '',
+  toTime: ''
+};
+
   programTitle: string = '';
   AdvertiserName: string = '';
   additionalNotes: string = '';
 
   fromDate: string = '';
   toDate: string = '';
-  scheduleModel: any = {};
+  fromTime: string = '';
+  toTime: string = '';
+  // scheduleModel: any = {};
 
   playsPerDay: number = 5;
   selectedStatus: string = 'active';
@@ -290,6 +298,8 @@ getStatusKey(status: string): string {
           this.loading = false;
         }
       });
+      console.log('time is:',payload);
+      
   }
 
   editAdvertisement(): void {

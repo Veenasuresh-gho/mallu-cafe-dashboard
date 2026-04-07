@@ -17,6 +17,11 @@
   font-weight: 400;
   color: #636363;
 }
+.input-txt:focus {
+  border-color: #D80905 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 .input-txt{
   font-family: Poppins;
   font-size: 12px;

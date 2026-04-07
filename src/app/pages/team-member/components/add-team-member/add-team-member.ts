@@ -15,13 +15,14 @@ import { GHOService } from '../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 import { ChangeDetectorRef } from '@angular/core';
+import { FormMultiSelect } from '../../../../components/dialog-form/form-multiselect/form-multiselect';
 
 
 @Component({
   selector: 'app-add-team-member',
   imports: [MatDialogContent, MatDialogActions, MatDialogClose, FormsModule, CommonModule,
     MatFormField, MatLabel, MatSelect, MatOption, MatSelectTrigger, MatChipsModule, MatSlideToggle, PrimaryButton,
-    FormInput, FormSelect, CancelButton, FooterButton
+    FormInput, FormSelect, CancelButton, FooterButton,FormMultiSelect
   ],
   templateUrl: './add-team-member.html',
   styleUrl: './add-team-member.css',
@@ -84,7 +85,8 @@ export class AddTeamMember implements OnInit {
       Role: this.role,
       Phone: this.phone,
       Email: this.email,
-      CountryID: this.countryId
+      CountryID: this.countryId,
+      selectedPrograms:this.selectedPrograms,
     };
 
     this.loading = true;
@@ -115,6 +117,8 @@ export class AddTeamMember implements OnInit {
           this.loading = false;
         }
       });
+      console.log('team-meber data',payload);
+      
   }
 
   getRoles(): void {

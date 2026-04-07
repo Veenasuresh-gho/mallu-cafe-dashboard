@@ -154,19 +154,6 @@
   align-items: center;
   justify-content: center;
 }
-.time-col div {
-  color: #bbb;
-}
-
-.time-col div.active {
-  color: #D80905;
-  font-weight: 600;
-}
-
-/* 🔥 add smooth fade */
-.time-col {
-  mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
-}
 
 /* ACTIVE */
 .time-col div.active {
@@ -178,7 +165,17 @@
 .ampm div {
   padding: 6px;
 }
-
+.selection-line {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  right: 8px;
+  height: 32px;
+  transform: translateY(-50%);
+  background: #f3f3f3;
+  border-radius: 6px;
+  z-index: 0;
+}
 /* BUTTON */
 .ok-btn {
   width: 100%;
@@ -213,18 +210,20 @@
 }
 .time-columns {
   display: flex;
-  align-items: center; /* 🔥 important */
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
 }
 
 /* Keep columns scrollable */
 .time-col {
-  overflow-y: auto;
   height: 120px;
-  width: 50px;
+  width: 45px;
+  overflow-y: auto;
   text-align: center;
-
-  scrollbar-width: none;
+  position: relative;
+  z-index: 1; /* above selection line */
 }
 
 .time-col::-webkit-scrollbar {
@@ -233,34 +232,36 @@
 
 /* Items */
 .time-col div {
-  padding: 6px;
-  color: #aaa;
-  cursor: pointer;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  font-size: 12px;
 }
 
 /* Selected row */
 .time-col div.active {
-  color: red;
+  color: #D80905;
   font-weight: 600;
 }
 
 /* 🔥 AM PM inline */
 .ampm-inline {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  height: 120px;
-  /* 🔥 center it to match selected row */
+  flex-direction: row;
   justify-content: center;
+  gap: 6px;
+  z-index: 1;
 }
 
 /* Buttons */
 .ampm-btn {
-  padding: 2px 6px;
+  padding: 4px 8px;
   font-size: 11px;
   border-radius: 4px;
   background: #eee;
-  color: #666;
+  color: #777;
   cursor: pointer;
 }
 

@@ -123,9 +123,14 @@ export class GHOService {
   }
 
   async uploadFile(fileId: string, fileType: string, file: File, fileName: string): Promise<number> {
+    
     try {
       const getRes = await this.awsfileuploadinfo(fileName, fileType).toPromise();
       const uploadUrl = getRes?.Url;
+
+      console.log('Upload URL response:', getRes);
+console.log('Upload URL:', uploadUrl);
+console.log('Uploading file:', file);
       if (!uploadUrl) {
         this.openDialog('Error', 'e', 'Upload URL missing');
         return 0;

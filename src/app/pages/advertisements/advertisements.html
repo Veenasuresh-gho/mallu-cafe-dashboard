@@ -148,7 +148,7 @@
 
                 <mat-menu #menu="matMenu">
 
-                    <button mat-menu-item>
+                    <button (click)="publishAdvertisement(row.ID)" mat-menu-item>
                         <span class="menu-content-left">
                             <span class="menu-text px-2">Publish AD</span>
                             <mat-icon>notifications</mat-icon>
@@ -166,7 +166,7 @@
 
                     <mat-divider></mat-divider>
 
-                    <button mat-menu-item>
+                    <button (click)="closeAdvertisement(row.ID)" mat-menu-item>
                         <span class="menu-content-left">
                             <span class="menu-text px-2">Close Ad</span>
                             <mat-icon>cancel</mat-icon>

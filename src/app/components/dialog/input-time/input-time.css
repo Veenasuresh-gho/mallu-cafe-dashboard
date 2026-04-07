@@ -21,6 +21,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   height: 36px;
+  color: #757575;
   background: #fff;
 }
 
@@ -41,10 +42,14 @@
 .schedule-box-right,
 .schedule-box-rightEnd {
   display: flex;
+  height: 36px;
   align-items: center;
   width: 165px;
 }
-
+.schedule-box-rightEnd{
+  width: 155px;
+  margin-left: 3px;
+}
 .select-wrapper {
   position: relative;
   width: 100%;
@@ -76,13 +81,13 @@
 }
 
 .arrow-container {
-  width: 83px;
+  width: 73px;
   display: flex;
   justify-content: center;
 }
 .time-input {
   height: 36px;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   border-radius: 8px;
   padding: 10px;
   display: flex;
@@ -97,13 +102,14 @@
 .time-picker {
   position: absolute;
   top: 45px;
-  width: 200px;
+  /* right: 20px; */
+  width: 165px;
   height: 190px;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
   z-index: 1000;
-  padding: 10px;
+  padding: 6px;
 }
 
 /* SCROLL COLUMNS */
@@ -152,6 +158,7 @@
   font-size: 12px;
   background: #f5cfcf;
   border: none;
+  color: #D80905;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -214,14 +221,13 @@
   align-items: center;
   gap: 6px;
   height: 120px;
-
   /* 🔥 center it to match selected row */
   justify-content: center;
 }
 
 /* Buttons */
 .ampm-btn {
-  padding: 4px 8px;
+  padding: 2px 6px;
   font-size: 11px;
   border-radius: 4px;
   background: #eee;

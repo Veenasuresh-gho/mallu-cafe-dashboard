@@ -14,8 +14,8 @@
 }
 
 .date-box {
-  padding: 2px 10px;
-  width: 150px;
+  padding: 2px 6px;
+  width: 159px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -54,7 +54,7 @@
 }
 
 .arrow-container img {
-  width: 25px;
+  width: 24px;
   height: 24px;
   
 }
@@ -183,14 +183,20 @@
 
 /* SMALL STYLING FIX */
 .schedule-box-right .value, .main-box .d-flex.schedule-date {
-  background-color: #f8f9fa;
+  background-color: #CFCFCF;
   /* padding: 5px 8px; */
   border-radius: 8px;
 }
-
+.date-text{
+  color: #757575;
+}
+.dateToBox{
+  gap: 42px;
+}
 .schedule-box-right{
-  width: 170px;
-  height: 41px;
+  width: 165px;
+  height: 36px;
+  color: #757575;
   font-size: 12px;
   font-weight: 400;
 }

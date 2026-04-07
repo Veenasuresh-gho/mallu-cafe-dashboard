@@ -81,7 +81,7 @@
                 </div>
 
 
-                <button *ngIf="isEditMode" class="btn-delete d-flex align-items-center justify-content-center">
+                <button (click)="deleteUpload(fid)"  *ngIf="isEditMode" class="btn-delete d-flex align-items-center justify-content-center">
                     <mat-icon>delete</mat-icon>
                 </button>
 
@@ -109,7 +109,10 @@
                 {{ errors.date }}
             </div>
 
-            <app-schedule-picker [(model)]="scheduleModel" [showScheduleDay]="false"></app-schedule-picker>
+            <!-- <app-schedule-picker [(model)]="scheduleModel" [showScheduleDay]="false"></app-schedule-picker> -->
+<app-input-time
+  [(model)]="scheduleModel">
+</app-input-time>
 
             <div class="error-text" *ngIf="errors.time">
                 {{ errors.time }}
@@ -230,6 +233,9 @@
                     [(checked)]="promotionsEnabled">
                 </app-checkbox>
             </div>
+             <div class="error-text" *ngIf="errors.delivery">
+    {{ errors.delivery }}
+  </div>
         </div>
 
         <hr>
@@ -243,24 +249,23 @@
 
 
 
-          <button 
-  (click)="isEditMode ? editAdvertisement() : addAdvertisement()"
-  class="footer-btn btn-publish d-flex align-items-center justify-content-center"
-  [disabled]="loading">
+            <button (click)="isEditMode ? editAdvertisement() : addAdvertisement()"
+                class="footer-btn btn-publish d-flex align-items-center justify-content-center" [disabled]="loading">
 
-  <ng-container *ngIf="loading; else normalContent">
-    <mat-progress-spinner diameter="20" strokeWidth="3" mode="indeterminate">
-    </mat-progress-spinner>
-  </ng-container>
+                <ng-container *ngIf="loading; else normalContent">
+                    <mat-progress-spinner diameter="20" strokeWidth="3" mode="indeterminate">
+                    </mat-progress-spinner>
+                </ng-container>
 
-  <ng-template #normalContent>
-    <i class="material-symbols-outlined action-icon">cloud_upload</i>
-    <span>
-      {{ isEditMode ? 'Update File' : 'Upload File' }}
-    </span>
-  </ng-template>
+                <ng-template #normalContent>
+                    <i class="material-symbols-outlined action-icon">cloud_upload</i>
+                    <span>
+                        {{ isEditMode ? 'Update File' : 'Upload File' }}
+                    </span>
+                </ng-template>
 
-</button>
+            </button>
+            
 
         </div>
     </mat-dialog-content>

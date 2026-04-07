@@ -164,8 +164,80 @@ getAdvertisements(): void {
     });
 }
 
-   deleteAdvertisement(id: any) {
+  publishAdvertisement(id: any) {
+  const tv = [
+    { T: 'dk1', V: id },
+    { T: 'c10', V: '5' }
+  ];
+  this.srv.getdata('advertisement', tv).subscribe({
+    next: (r: any) => {
+      if (r && r.Status === 1) {
+        this.toast.show({
+          title: 'Advertisement published successfully! ',
+          description: 'Advertisement has been successfully published',
+          variant: 'success',
+          position: 'toast-bottom-center'
+        });
+        this.getAdvertisements(); 
+      } else {
+        this.toast.show({
+          title: 'Failed to publish advertisement ❌',
+          description: r?.Info || 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-center'
+        });
+      }
+    },
+    error: () => {
+      this.loading = false;
+      this.toast.show({
+        title: 'Error ❌',
+        description: 'Server error while publishing advertisement',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
 
+    }
+  });
+}
+
+  closeAdvertisement(id: any) {
+  const tv = [
+    { T: 'dk1', V: id },
+    { T: 'c10', V: '6' }
+  ];
+  this.srv.getdata('advertisement', tv).subscribe({
+    next: (r: any) => {
+      if (r && r.Status === 1) {
+        this.toast.show({
+          title: 'Advertisement closed successfully! ',
+          description: 'Advertisement has been successfully closed',
+          variant: 'success',
+          position: 'toast-bottom-center'
+        });
+        this.getAdvertisements(); 
+      } else {
+        this.toast.show({
+          title: 'Failed to close advertisement ❌',
+          description: r?.Info || 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-center'
+        });
+      }
+    },
+    error: () => {
+      this.loading = false;
+      this.toast.show({
+        title: 'Error ❌',
+        description: 'Server error while closing advertisement',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+    }
+  });
+}
+
+   deleteAdvertisement(id: any) {
   this.loading = true;
 
   const tv = [
@@ -202,7 +274,6 @@ getAdvertisements(): void {
     },
 
     error: () => {
-
       this.loading = false;
 
       this.toast.show({

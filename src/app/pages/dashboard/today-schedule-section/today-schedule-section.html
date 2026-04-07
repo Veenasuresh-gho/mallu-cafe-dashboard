@@ -16,12 +16,7 @@
 
     <div class="schedules-content scroll-container">
 
-        <!-- ===================== -->
-        <!-- 🔄 LOADING STATE -->
-        <!-- ===================== -->
         @if(loading) {
-
-        <!-- CURRENT PROGRAM SKELETON -->
         <div class="px-3 py-2 border mb-2 d-flex gap-2 align-items-center">
             <app-skelton type="avatar"></app-skelton>
 
@@ -46,12 +41,8 @@
 
         }
 
-        <!-- ===================== -->
-        <!-- ✅ DATA STATE -->
-        <!-- ===================== -->
         @else {
 
-        <!-- CURRENT PROGRAM -->
         @if(currentProgram) {
 
         <div class="d-flex flex-column gap-2 px-3 py-2 on-air-content border">
@@ -116,7 +107,8 @@
 
             @if(!currentProgram || item.id !== currentProgram.id) {
 
-            <div class="d-flex flex-column gap-2 px-3 py-2 on-air-section border-b">
+            <div class="d-flex flex-column gap-2 px-3 py-2 on-air-section border-b"
+                [ngClass]="{ 'past-program': item.status === 'past' }">
 
                 <p class="mb-0 status d-flex align-items-center gap-1">
                     @if(item.status === 'next') {
@@ -133,7 +125,6 @@
                     <div class="gap-1 d-flex flex-column">
                         <p class="song-name mb-0 fw-semibold">{{item.Title}}</p>
                         <p class="time mb-0 text-muted">{{item.TimeRange}}</p>
-
                         <p class="name d-flex align-items-center gap-2 mb-0">
                             <img src="/main/headphone_icon.svg" class="headphone-icon" />
                             <span>{{item.HostName}}</span>
@@ -141,6 +132,29 @@
                     </div>
                 </div>
 
+                @if(item.CategoryName==="Live"){
+                <div class="live-text d-flex align-items-center gap-1">
+                    <img src="/dash/info-accent.svg" alt="" />
+                    <p class="mb-0">Streaming Not Started</p>
+                </div>
+
+                <div class="d-flex gap-2 align-items-center url-row">
+                    <div class="url-input-wrapper flex-grow">
+                        <span class="url-prefix">
+                            <img src="/dash/url-icon.svg" class="url-icon" />
+                            url://
+                        </span>
+
+                        <input type="text" class="url-input" placeholder="Paste here..." [(ngModel)]="urlValue" />
+                    </div>
+
+                    <app-primary-button class="btn-auto"  (clicked)="addPublish(item)" [loading]="loading" [label]="'Publish'"
+                        iconSrc="/dash/publish.svg">
+                    </app-primary-button>
+
+                </div>
+                }
+                @if(item.CategoryName !=="Live"){
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="view d-flex align-items-center gap-2">
                         <div>
@@ -167,6 +181,8 @@
                     }
 
                 </div>
+                }
+
 
             </div>
 

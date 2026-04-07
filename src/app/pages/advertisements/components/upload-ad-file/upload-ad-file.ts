@@ -1,4 +1,4 @@
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatFormField } from '@angular/material/form-field';
@@ -19,6 +19,7 @@ import { GHOUtitity } from '../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { InputTime } from '../../../../components/dialog/input-time/input-time';
 
 @Component({
   selector: 'app-upload-ad-file',
@@ -28,14 +29,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormField, MatSelect, MatOption, MatIcon,
     StepBadge, FormInput, UploadBox, FormSelect,
     SchedulePicker, Checkbox, ScheduleDateRange,
-    CommonModule, PrimaryButton, MatProgressSpinnerModule
+    CommonModule, PrimaryButton, MatProgressSpinnerModule,InputTime
   ],
   templateUrl: './upload-ad-file.html',
   styleUrl: './upload-ad-file.css',
 })
 export class UploadAdFile implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<UploadAdFile>,@Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private dialogRef: MatDialogRef<UploadAdFile>,@Inject(MAT_DIALOG_DATA) public data: any,private cd: ChangeDetectorRef) { }
 
   toast = inject(ToastService);
   srv = inject(GHOService);
@@ -44,13 +45,20 @@ export class UploadAdFile implements OnInit {
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
 
+scheduleModel = {
+  fromTime: '',
+  toTime: ''
+};
+
   programTitle: string = '';
   AdvertiserName: string = '';
   additionalNotes: string = '';
 
   fromDate: string = '';
   toDate: string = '';
-  scheduleModel: any = {};
+  fromTime: string = '';
+  toTime: string = '';
+  // scheduleModel: any = {};
 
   playsPerDay: number = 5;
   selectedStatus: string = 'active';
@@ -60,7 +68,7 @@ export class UploadAdFile implements OnInit {
 
   selectedFile!: File;
   fileName: string = '';
-
+  fid: string = '';
   loading = false;
   errors: any = {};
   id: string = '';
@@ -94,10 +102,11 @@ populateForm(ad: any) {
   this.playsPerDay = ad.PlaybackCount;
   this.additionalNotes = ad.Notes;
   this.selectedStatus = this.getStatusKey(ad.Status);
-    this.scheduleModel = {
+  this.scheduleModel = {
   fromTime: this.formatTimeForInput(ad.StartTime),
-  toTime: this.formatTimeForInput(ad.EndTime)
+  toTime: this.formatTimeForInput(ad.EndTime),
 };
+  this.fid = ad.fid;
 
   // Optional preview
   this.fileName = ad.FileName;
@@ -224,6 +233,7 @@ getStatusKey(status: string): string {
     }
 
     this.loading = true;
+    this.cd.detectChanges();
     const payload = {
       Title: this.programTitle,
       AdvertiserName: this.AdvertiserName,
@@ -260,7 +270,7 @@ getStatusKey(status: string): string {
             );
 
             this.loading = false;
-
+            this.cd.detectChanges();
             if (success) {
               this.toast.show({
                 title: 'Advertisement created successfully! 🎉',
@@ -271,6 +281,8 @@ getStatusKey(status: string): string {
 
               this.dialogRef.close(true);
             } else {
+               this.loading = false;
+               this.cd.detectChanges();
               this.toast.show({
                 title: 'Upload failed ❌',
                 description: 'File upload failed',
@@ -284,13 +296,15 @@ getStatusKey(status: string): string {
           this.loading = false;
         }
       });
+      console.log('time is:',payload);
+      
   }
 
   editAdvertisement(): void {
   if (!this.validateAdvertisementForm()) return;
 
   this.loading = true;
-
+  this.cd.detectChanges();
   const payload: any = {
     Title: this.programTitle,
     AdvertiserName: this.AdvertiserName,
@@ -304,7 +318,6 @@ getStatusKey(status: string): string {
     EndTime: this.scheduleModel?.toTime || ''
   };
 
-  // ✅ Only send AdType if new file selected
   if (this.selectedFile) {
     payload.AdType = this.getFileType(this.selectedFile);
   }
@@ -312,7 +325,7 @@ getStatusKey(status: string): string {
   const userId = this.srv.getsession('id');
 
   this.tv = [
-    { T: 'dk1', V: this.id }, // ✅ FIXED
+    { T: 'dk1', V: this.id }, 
     { T: 'c1', V: JSON.stringify(payload) },
     { T: 'c10', V: '2' }
   ];
@@ -321,7 +334,6 @@ getStatusKey(status: string): string {
     next: async (r) => {
       if (r.Status === 1) {
 
-        // ✅ Upload only if new file selected
         if (this.selectedFile) {
           const success = await this.srv.handleFileUpload(
             this.id,
@@ -332,12 +344,13 @@ getStatusKey(status: string): string {
 
           if (!success) {
             this.loading = false;
-            // this.showUploadError();
+             this.cd.detectChanges();
             return;
           }
         }
 
         this.loading = false;
+         this.cd.detectChanges();
 
         this.toast.show({
           title: 'Advertisement updated successfully! 🎉',
@@ -351,6 +364,64 @@ getStatusKey(status: string): string {
     },
     error: () => {
       this.loading = false;
+       this.cd.detectChanges();
+    }
+  });
+}
+deleteUpload(fileUploadID: any) {
+  console.log('🚀 deleteUpload called with fileUploadID:', fileUploadID);
+
+  if (!fileUploadID) return;
+
+  this.loading = true;
+  this.cd.detectChanges(); 
+
+  const userId = this.srv.getsession('id');
+
+  this.tv = [
+    { T: 'dk1', V: userId },
+    { T: 'dk2', V: '7' },
+    { T: 'c1', V: this.fid },
+    { T: 'c3', V: this.id },
+    { T: 'c10', V: '4' }
+  ];
+
+  this.srv.getdata('fileupload', this.tv).subscribe({
+    next: (r: any) => {
+      console.log('✅ API Response:', r);
+
+      this.loading = false;
+      this.cd.detectChanges(); // 🔥 FIX: update UI safely
+
+      if (r.Status === 1) {
+        this.toast.show({
+          title: 'File deleted successfully! 🎉',
+          description: '',
+          variant: 'success',
+          position: 'toast-bottom-center'
+        });
+      } else {
+        const apiMsg = r.Data?.[0]?.[0]?.msg || 'Please try again';
+        this.toast.show({
+          title: 'Failed to delete file',
+          description: apiMsg,
+          variant: 'error',
+          position: 'toast-bottom-center'
+        });
+      }
+    },
+    error: (err) => {
+      console.error('💥 Error:', err);
+
+      this.loading = false;
+      this.cd.detectChanges(); // 🔥 FIX
+
+      this.toast.show({
+        title: 'Error deleting file',
+        description: 'Please try again later',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
     }
   });
 }

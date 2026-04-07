@@ -3,6 +3,10 @@
     <app-form-select label="Program *" [options]="programList" optionLabel="DisplayText" optionValue="DataValue"
         [(model)]="selectedProgramId" (modelChange)="onProgramChange($event)">
     </app-form-select>
+    <div class="error-text" *ngIf="errors.program">
+        <img src="/program/warn.svg" class="small mb-1">
+        {{ errors.program }}
+    </div>
 </div>
 
 <div class="custom-line-sub" style="margin-top: 14px;"></div>
@@ -19,6 +23,13 @@
         </div>
         <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
     </div>
+    <div class="error-text" *ngIf="errors.date">
+        <img src="/program/warn.svg" class="small mb-1">
+        {{ errors.date }}
+    </div>
+</div>
+<div class="error-text" *ngIf="errors.type">
+    <img src="/program/warn.svg " class="small mb-1"> {{ errors.type }}
 </div>
 <div class="custom-line-sub"></div>
 

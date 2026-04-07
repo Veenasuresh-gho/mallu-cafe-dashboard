@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { MatDividerModule } from '@angular/material/divider';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { MatDivider, MatDividerModule } from '@angular/material/divider';
 import { ProfileInfo } from './components/profile-info/profile-info';
 import { AssignedPrgm } from './components/assigned-prgm/assigned-prgm';
 import { Perfomance } from './components/perfomance/perfomance';
@@ -14,14 +14,14 @@ import { GHOService } from '../../services/ghosrvs';
 import { GHOUtitity } from '../../services/utilities';
 import { ghoresult, tags } from '../../../model/ghomodel';
 import { FormsModule } from '@angular/forms';
-import { InputTime } from '../../components/dialog/input-time/input-time';
+import { CommonModule } from '@angular/common';
 // import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [MatDividerModule, ProfileInfo, AssignedPrgm, Perfomance, MediaContribution, Settings,
-    Permission, FooterButton,FormsModule,InputTime],
+    Permission, FooterButton,FormsModule,MatDivider, CommonModule, ],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -38,7 +38,7 @@ export class Profile {
   performance: any[] = [];
   media: any = {};
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,private cdr: ChangeDetectorRef) { }
 
   openModal() {
     this.dialog.open(ManageMember, {
@@ -86,7 +86,7 @@ getProfile(): void {
         this.performance = data[2] || [];
 
         this.media = data[4] || [];
-
+        this.cdr.detectChanges();
         this.loading = false;
       },
       error: (err) => {

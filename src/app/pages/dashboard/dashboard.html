@@ -1,11 +1,11 @@
 <div class="d-flex gap-3">
   <div class="left-section">
-    <today-schedule-section></today-schedule-section>
+    <today-schedule-section (publishStatus)="onPublishStatus($event)"></today-schedule-section>
   </div>
 
   <div class="right-section">
     <app-summary></app-summary>
-    <music-player></music-player>
+    <music-player [publishInfo]="musicPublishInfo"></music-player>
   </div>
 
 </div>

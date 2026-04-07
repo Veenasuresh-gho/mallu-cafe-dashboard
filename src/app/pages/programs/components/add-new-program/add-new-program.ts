@@ -50,10 +50,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class AddNewProgram implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<AddNewProgram>) {}
+  constructor(private dialogRef: MatDialogRef<AddNewProgram>) { }
 
-  loading = false;          
-  initialLoading = false;   
+  loading = false;
+  initialLoading = false;
 
   toast = inject(ToastService);
   srv = inject(GHOService);
@@ -146,26 +146,29 @@ export class AddNewProgram implements OnInit {
     });
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (!file) return;
+onFileSelected(event: any) {
+  const file = event.target.files[0];
+  if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      this.errors.file = 'Only image files allowed';
-      return;
-    }
-
-    this.selectedFile = file;
-    this.fileName = file.name;
-
-    this.clearError('file');
+  if (!file.type.startsWith('image/')) {
+    this.errors.file = 'Only image files allowed';
+    return;
   }
 
+  const cleanName = file.name.replace(/[^a-zA-Z0-9._]/g, '');
+  this.selectedFile = new File([file], cleanName, {
+    type: file.type
+  });
+
+  this.fileName = cleanName;
+
+  this.clearError('file');
+}
   addProgram(): void {
     if (!this.validateForm()) return;
 
     this.loading = true;
-    
+
     const payload = {
       Title: this.programTitle,
       CategoryID: this.selectedCategory,

@@ -29,7 +29,7 @@ export class InputTime implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.setValuesFromModel();
-    this.emitChange();
+    // this.emitChange();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -108,15 +108,22 @@ selectMinute(m: string) {
 selectPeriod(p: 'AM' | 'PM') {
   this.period = p;
 }
-
+timeModel = {
+  fromTime: '',
+  toTime: ''
+};
 confirmTime() {
   const time = `${this.selectedHour}:${this.selectedMinute} ${this.period}`;
 
-  if (this.activePicker === 'from') {
-    this.fromTime = time;
-  } else {
-    this.toTime = time;
-  }
+ if (this.activePicker === 'from') {
+  this.fromTime = time;
+  
+}
+
+if (this.activePicker === 'to') {
+  this.toTime = time;
+  
+}
 
   this.activePicker = null;
   this.emitChange();

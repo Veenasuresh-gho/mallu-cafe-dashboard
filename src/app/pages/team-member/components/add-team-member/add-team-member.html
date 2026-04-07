@@ -24,10 +24,11 @@
 
         <div class="d-flex gap-3 px-4">
             <div class="upload-wrapper">
-                <div class="upload-photo">
-                    <img  [src]="previewUrl || '/team/profile-circle.svg'"   alt="user" class="profile-img">
-                    <label class="upload-btn mt-3">
-                        <input type="file"  accept="image/*"  hidden (change)="onPhotoSelected($event)" />
+                <div class="upload-photo" [ngStyle]="previewUrl ? {'background-image': 'url(' + previewUrl + ')'} : {}">
+                    <!-- <img [src]="previewUrl || '/team/profile-circle.svg'" alt="user" class="profile-img"> -->
+                    <img *ngIf="!previewUrl" src="/team/profile-circle.svg" alt="user" class="profile-img">
+                    <label class="upload-btn">
+                        <input type="file" accept="image/*" hidden (change)="onPhotoSelected($event)" />
                         <span>Upload Photo</span>
                     </label>
                 </div>
@@ -78,8 +79,8 @@
                 <div style="gap: 0px;">
                     <input type="text" class="input-field email-input px-2" [(ngModel)]="email" name="email"
                         placeholder="e.g., test@gmail.com" />
-                    <small class="helper-text">This email will be used for login access &
-                        communication.</small>
+                    <p class="helper-text pt-1">This email will be used for login access &
+                        communication.</p>
                 </div>
 
             </div>
@@ -90,36 +91,35 @@
             <div class="step-badge">3</div>
             <p class="subtitle mb-0">Program Assignment</p>
         </div>
-        <mat-label class="input-label px-4 mb-1">Assigned Programs</mat-label>
 
         <div class="px-4">
-            <mat-form-field class="assigned-programs" appearance="outline">
+            <!-- <mat-form-field class="assigned-programs" appearance="outline">
 
-              <mat-select multiple [(value)]="selectedPrograms"
-    placeholder="- Select Program Category -"
-    panelClass="custom-select-panel">
+                <mat-select multiple [(value)]="selectedPrograms" placeholder="- Select Program Category -"
+                    panelClass="custom-select-panel">
 
-    <!-- Selected chips -->
-    <mat-select-trigger class="bg-white">
-        <mat-chip-set>
-            @for (item of selectedPrograms; track item) {
-                <mat-chip [removable]="true" (removed)="remove(item)">
-                    {{ item.DisplayText }}
-                    <button matChipRemove class="small"
-                        style="color: var(--primary-color)">✕</button>
-                </mat-chip>
-            }
-        </mat-chip-set>
-    </mat-select-trigger>
+                    <mat-select-trigger class="bg-white">
+                        <mat-chip-set>
+                            @for (item of selectedPrograms; track item) {
+                            <mat-chip [removable]="true" (removed)="remove(item)">
+                                {{ item.DisplayText }}
+                                <button matChipRemove class="small" style="color: var(--primary-color)">✕</button>
+                            </mat-chip>
+                            }
+                        </mat-chip-set>
+                    </mat-select-trigger>
 
-    @for (item of programList; track item) {
-        <mat-option [value]="item">
-            {{ item.DisplayText }}
-        </mat-option>
-    }
+                    @for (item of programList; track item) {
+                    <mat-option [value]="item">
+                        {{ item.DisplayText }}
+                    </mat-option>
+                    }
 
-</mat-select>
-            </mat-form-field>
+                </mat-select>
+            </mat-form-field> -->
+            <app-form-multiselect label="Assigned Programs" [options]="programList" [(selectedItems)]="selectedPrograms"
+                placeholder="-Select program-" optionLabel="DisplayText">
+            </app-form-multiselect>
         </div>
 
         <p class="helper-text py-2 px-4">Multiple programs can be assigned.</p>
@@ -161,10 +161,10 @@
                 <p>Cancel</p>
             </button>
 
-            <app-primary-button (click)="addTeamMemberClick()"  style="margin-right: 24px;" label="Add Member"
+            <app-primary-button (click)="addTeamMemberClick()" style="margin-right: 24px;" label="Add Member"
                 iconSrc="/main/add.svg"></app-primary-button>
 
-            
+
         </div>
 
     </mat-dialog-content>

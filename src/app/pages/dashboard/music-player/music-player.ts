@@ -1,37 +1,63 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatIcon } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'music-player',
-  imports: [MatSliderModule,MatSlideToggleModule,MatIcon,FormsModule],
+  standalone: true,
+  imports: [MatSliderModule, MatSlideToggleModule, MatIconModule, FormsModule],
   templateUrl: './music-player.html',
-  styleUrl: './music-player.css',
+  styleUrls: ['./music-player.css'],
 })
-export class MusicPlayer {
+export class MusicPlayer implements OnChanges {
+  @Input() publishInfo!: { isPublic: boolean; url: string; isPublish: boolean } | null;
 
-  // live
-   // Update these URLs to resolve your real assets dynamically
-  backgroundUrl: string = '/dash/live-bg-img.jpg'; 
+  videoUrl!: SafeResourceUrl;
+  backgroundUrl: string = '/dash/live-bg-img.jpg';
   hostAvatarUrl: string = '/dash/host-img.jpg';
-  
-  // Dummy Data variables
+
   facebookUrl: string = 'https://www.facebook.com/Ma..';
-  isAutoPlay: boolean = false;
   favoriteCount: number = 455;
   liveTime: string = '00:36';
-  
   shareCount: string = '102';
   viewCount: string = '4.2K';
   likeCount: string = '517';
-  // Action Triggers
+
+  isAutoPlay: boolean = true;
+
+  constructor(private sanitizer: DomSanitizer) {
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      'https://www.youtube.com/embed/2PSyCG7yfKw?autoplay=1&mute=1'
+    );
+    console.log(this.videoUrl)
+  }
+
+ngOnChanges(changes: SimpleChanges) {
+  const url = this.publishInfo?.url;
+
+  if (this.publishInfo?.isPublic && this.publishInfo.isPublish && url) {
+
+    const match = url.match(/(?:youtu\.be\/|v=)([^?&]+)/);
+
+    if (match) {
+      const videoId = match[1];
+
+      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playsinline=1`;
+
+      this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+
+    }
+  }
+}
+
   onPlayAd() {
     console.log('User clicked: Play Ad');
   }
+
   onGoToFacebook() {
-    console.log('Redirecting to Facebook Live...');
     window.open(this.facebookUrl, '_blank');
   }
 }

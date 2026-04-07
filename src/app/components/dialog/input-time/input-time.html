@@ -1,7 +1,4 @@
 <div class="form-group">
-
-  <label class="input-label">Schedule Time</label>
-
   <div class="schedule-row mt-2">
 
     <!-- FROM -->
@@ -24,7 +21,7 @@
             </option>
           </select> -->
           <div class="time-input" (click)="togglePicker('from')">
-            {{ fromTime || '2:00 PM ' }}
+            {{ fromTime || '10:00  AM ' }}
             <img src="/program/dropdown.svg" class="dropdown-icon" />
           </div>
 
@@ -33,48 +30,36 @@
 
             <div class="time-columns">
 
-  <!-- HOURS -->
-  <div class="time-col" #hourCol>
-    <div 
-      *ngFor="let h of hours"
-      (click)="selectHour(h)"
-      [class.active]="h === selectedHour">
+              <!-- HOURS -->
+              <div class="time-col" #hourCol>
+                <div *ngFor="let h of hours" (click)="selectHour(h)" [class.active]="h === selectedHour">
 
-      {{ h }}
-    </div>
-  </div>
+                  {{ h }}
+                </div>
+              </div>
 
-  <!-- MINUTES -->
-  <div class="time-col" #minuteCol>
-    <div 
-      *ngFor="let m of minutes"
-      (click)="selectMinute(m)"
-      [class.active]="m === selectedMinute">
+              <!-- MINUTES -->
+              <div class="time-col" #minuteCol>
+                <div *ngFor="let m of minutes" (click)="selectMinute(m)" [class.active]="m === selectedMinute">
 
-      {{ m }}
-    </div>
-  </div>
+                  {{ m }}
+                </div>
+              </div>
 
-  <!-- 🔥 AM PM INLINE (same row feeling) -->
-  <div class="ampm-inline">
+              <!--  AM PM INLINE (same row feeling) -->
+              <div class="ampm-inline">
 
-    <div 
-      class="ampm-btn"
-      (click)="selectPeriod('AM')"
-      [class.active]="period === 'AM'">
-      AM
-    </div>
+                <div class="ampm-btn" (click)="selectPeriod('AM')" [class.active]="period === 'AM'">
+                  AM
+                </div>
 
-    <div 
-      class="ampm-btn"
-      (click)="selectPeriod('PM')"
-      [class.active]="period === 'PM'">
-      PM
-    </div>
+                <div class="ampm-btn" (click)="selectPeriod('PM')" [class.active]="period === 'PM'">
+                  PM
+                </div>
 
-  </div>
+              </div>
 
-</div>
+            </div>
 
             <button class="ok-btn" (click)="confirmTime()">OK</button>
           </div>
@@ -92,14 +77,55 @@
     <!-- TO -->
     <div class="schedule-box-rightEnd">
       <div class="select-wrapper">
-        <select [(ngModel)]="toTime" (ngModelChange)="emitChange()" name="toTime" [ngClass]="{'selected': toTime}">
+        <!-- <select [(ngModel)]="toTime" (ngModelChange)="emitChange()" name="toTime" [ngClass]="{'selected': toTime}">
 
           <option value="" disabled hidden>Select Time</option>
 
           <option *ngFor="let t of times" [value]="t">
             {{ t }}
           </option>
-        </select>
+        </select> -->
+        <div class="time-input" (click)="togglePicker('to')">
+          {{ toTime || '11:30  AM' }}
+          <img src="/program/dropdown.svg" class="dropdown-icon" />
+        </div>
+
+        <!-- TIME PICKER -->
+        <div class="time-picker" *ngIf="activePicker === 'to'">
+
+          <div class="time-columns">
+
+            <!-- HOURS -->
+            <div class="time-col">
+              <div *ngFor="let h of hours" (click)="selectHour(h)" [class.active]="h === selectedHour">
+
+                {{ h }}
+              </div>
+            </div>
+
+            <!-- MINUTES -->
+            <div class="time-col">
+              <div *ngFor="let m of minutes" (click)="selectMinute(m)" [class.active]="m === selectedMinute">
+
+                {{ m }}
+              </div>
+            </div>
+
+            <!-- AM PM -->
+            <div class="ampm-inline">
+              <div class="ampm-btn" (click)="selectPeriod('AM')" [class.active]="period === 'AM'">
+                AM
+              </div>
+
+              <div class="ampm-btn" (click)="selectPeriod('PM')" [class.active]="period === 'PM'">
+                PM
+              </div>
+            </div>
+
+          </div>
+
+          <button class="ok-btn" (click)="confirmTime()">OK</button>
+        </div>
 
         <img src="/program/dropdown.svg" class="dropdown-icon" />
       </div>

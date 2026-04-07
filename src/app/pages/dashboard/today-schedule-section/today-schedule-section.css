@@ -158,6 +158,15 @@
         letter-spacing: 0%;
     }
 
+    .live-text-started{
+         color: var(--success);
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 10px;
+        line-height: 10px;
+        letter-spacing: 0%;
+    }
+
     .url-row {
         width: 100%;
     }

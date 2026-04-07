@@ -25,6 +25,8 @@ export interface Schedule {
   IsCallAllowed: boolean;
   IsFileUploaded: boolean;
   status?: 'live' | 'next' | 'past';
+
+  urlValue?: string; // ✅ per-item input
 }
 
 @Component({
@@ -66,45 +68,57 @@ export class TodayScheduleSection implements OnInit {
 
   }
 
+addPublish(item: Schedule): void {
 
+  const [start, end] = item.TimeRange.split(' - ');
 
-  addPublish(item: Schedule): void {
-    const [start, end] = item.TimeRange.split(' - ');
-    const payload = {
-      ProgramID: item.ProgramID,
-      StreamURL: this.urlValue,
-      HostName: item.HostName,
-      StartTime: start,
-      EndTime: end,
-    }
+  const payload = {
+    ProgramID: item.ProgramID,
+    StreamURL: item.urlValue || '', // ✅ correct
+    HostName: item.HostName,
+    StartTime: start,
+    EndTime: end,
+    IsLive: '1'
+  };
 
-    this.loading = true;
+  this.loading = true;
 
-    this.tv = [
-      { T: 'c1', V: JSON.stringify(payload) },
-      { T: 'c10', V: '7' }
-    ];
+  this.tv = [
+    { T: 'c1', V: JSON.stringify(payload) },
+    { T: 'c10', V: '7' }
+  ];
 
-    this.srv.getdata('program', this.tv)
-      .subscribe({
-        next: async (r) => {
+  this.srv.getdata('program', this.tv)
+    .subscribe({
+      next: (r) => {
+        if (r.Status === 1) {
+
           this.loading = false;
-          // this.cdr.detectChanges();
-          const publishedUrl = this.urlValue;
-          const isPublic = !!publishedUrl;
 
-          this.publishStatus.emit({
-            isPublic: isPublic,
-            url: publishedUrl,
-            isPublish: true
-          });
-        },
-        error: () => {
-          this.loading = false;
-          // this.cdr.detectChanges();
+          const publishedUrl = item.urlValue || ''; // ✅ FIXED
+
+          this.tv = [
+            { T: 'dk1', V: String(item.id) },
+            { T: 'c10', V: '14' }
+          ];
+
+          this.srv.getdata('program', this.tv)
+            .subscribe({
+              next: () => {
+                this.publishStatus.emit({
+                  isPublic: !!publishedUrl,
+                  url: publishedUrl,
+                  isPublish: true
+                });
+              }
+            });
         }
-      });
-  }
+      },
+      error: () => {
+        this.loading = false;
+      }
+    });
+}
 
   onDateChange(date: Date) {
     this.selectedDate = date;
@@ -138,7 +152,6 @@ export class TodayScheduleSection implements OnInit {
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
         this.schedules = [...(r.Data[0] as Schedule[])];
-        console.log(this.schedules)
         this.updateCurrentProgram();
         this.loading = false;
         this.cdr.detectChanges();

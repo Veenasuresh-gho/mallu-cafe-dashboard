@@ -73,7 +73,6 @@ loginclick(): void {
   this.srv.clearsession();
 
   const { email, password } = this.loginForm.value;
-
   this.tv = [
     { T: 'dk1', V: email },
     { T: 'dk2', V: password },

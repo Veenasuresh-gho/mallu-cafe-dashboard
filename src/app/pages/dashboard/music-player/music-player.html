@@ -2,19 +2,23 @@
 <div class="main-body schedules-content">
   <div class="card-header ">
     <div class="title-block">
-      <h2 class="title">Cinema Stories from Script to Screen (EP 22)</h2>
-      <p class="subtitle"> Monday - Friday 08:00 - 09:00 am </p>
+      <h2 class="title">{{programDetails?.Title}}</h2>
+      <p class="subtitle"> {{programDetails?.Schedule}} </p>
     </div>
     <div class="on-air-status">
       <span class="dot"></span> On Air
     </div>
   </div>
-  <div class="p-4 rounded my-2 custom-card-bg">
+  <div class="p-4 rounded my-3 custom-card-bg" [ngStyle]="{
+    'background-image': programDetails?.ThumbnailUrl 
+      ? 'radial-gradient(circle, transparent 50%, rgba(0,0,0,0.75) 100%), url(' + programDetails?.ThumbnailUrl + ')'
+      : ' background: linear-gradient(to right, #B84141, #950000);'
+  }" style="background-size: cover; background-position: center;">
     <div class="d-flex justify-content-between">
       <div class="text-white">
         <div class="d-flex gap-2">
           <img src="/dash/playlist.svg" alt="">
-          <p class="card-title">OM SHANTI OM</p>
+          <p class="card-title">{{programDetails?.Title}}</p>
         </div>
 
         <p class="card-subtitle pt-1">Current Active Listeners: <span class="fw-[700]">400+</span></p>
@@ -47,7 +51,7 @@
         <img src="/dash/rjImg.png" class="rounded-circle" width="40" height="40" alt="" style="object-fit: cover;" />
         <div>
           <p class="duration mb-0">Hosted by</p>
-          <p class="card-subtitle text-white mb-0">RJ Anjali</p>
+          <p class="card-subtitle text-white mb-0">{{programDetails?.HostName}}</p>
         </div>
       </div>
     </div>
@@ -94,19 +98,23 @@
 <!-- <div class="main-body ">
   <div class="card-header ">
     <div class="title-block">
-      <h2 class="title">Cinema Stories from Script to Screen (EP 22)</h2>
-      <p class="subtitle "> Monday - Friday 08:00 - 09:00 am </p>
+      <h2 class="title">{{programDetails?.Title}}</h2>
+      <p class="subtitle "> {{programDetails?.Schedule}} </p>
     </div>
     <div class="on-air-status">
       <span class="dot"></span> On Air
     </div>
   </div>
-  <div class="p-4 rounded my-3 custom-card-bg-movies">
+  <div class="p-4 rounded my-3 custom-card-bg-movies" [ngStyle]="{
+    'background-image': programDetails?.ThumbnailUrl 
+      ? 'radial-gradient(circle, transparent 50%, rgba(0,0,0,0.75) 100%), url(' + programDetails?.ThumbnailUrl + ')'
+      : 'radial-gradient(circle, transparent 50%, rgba(0,0,0,0.75) 100%), url(/dash/bg-movies.jpg)'
+  }" style="background-size: cover; background-position: center;">
     <div class="d-flex justify-content-between">
       <div class="text-white">
         <div class="d-flex gap-2">
           <img src="/dash/playlist.svg" class="pb-3" alt="">
-          <p class="card-title-movies">#Movies: Reviews, Insights and Behind-the-Scenes Moments</p>
+          <p class="card-title-movies">#{{programDetails?.Title}}: {{programDetails?.Subtitle}}</p>
         </div>
       </div>
       <div class="onAir-box ">

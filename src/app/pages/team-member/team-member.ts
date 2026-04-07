@@ -34,9 +34,9 @@ export class TeamMember implements OnInit {
 
   openModal() {
     const dialogRef = this.dialog.open(AddTeamMember, {
-      width: '90%',
+    width: '90%',
       maxWidth: '600px',
-      maxHeight: '94vh',
+      maxHeight: '95vh',
       disableClose: true,
     });
 

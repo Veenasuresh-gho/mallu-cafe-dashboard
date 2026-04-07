@@ -52,6 +52,7 @@ export class UploadNewFileModal implements OnInit {
   finalfileName: string = '';
   loading = false;
   isPreScheduledValid = false;
+  previewUrl: string = '';
 
   ngOnInit(): void {
     this.userId = sessionStorage.getItem('id') || '';
@@ -82,6 +83,25 @@ export class UploadNewFileModal implements OnInit {
   title: string = '';
   subtitle: string = '';
 
+
+
+
+removeFile() {
+   if (this.previewUrl) {
+    URL.revokeObjectURL(this.previewUrl);
+  }
+
+  this.fileName = '';
+  this.fileSize = '';
+  this.previewUrl = '';
+  this.selectedFile = null;
+}
+
+formatFileSize(bytes: number): string {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
 
   typedText: string = '';
   mediaTypeOptions: any[] = [];
@@ -148,7 +168,12 @@ export class UploadNewFileModal implements OnInit {
     this.updateFileName();
 
   }
-
+isImageType(): boolean {
+  return this.fileType.startsWith('image');
+}
+isVideoType(): boolean {
+  return this.fileType.startsWith('video');
+}
   onFileSelected(file: File) {
     if (!file) return;
 
@@ -168,7 +193,7 @@ export class UploadNewFileModal implements OnInit {
     }
 
     this.updateFileName();
-
+this.previewUrl = URL.createObjectURL(file);
     this.fileSize = (file.size / 1024 / 1024).toFixed(2) + ' MB';
     this.fileType = file.type;
     this.extension = file.name.split('.').pop()?.toLowerCase() || '';

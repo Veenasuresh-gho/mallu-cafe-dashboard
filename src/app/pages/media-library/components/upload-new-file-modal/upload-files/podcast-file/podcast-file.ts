@@ -119,6 +119,7 @@ export class PodcastFile implements OnInit {
     this.emitData();
   }
 
+
   getProgramDetails(): void {
     this.tv = [
       { T: 'dk1', V: this.programId },

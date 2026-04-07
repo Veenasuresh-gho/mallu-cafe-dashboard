@@ -320,7 +320,31 @@ export class UploadNewFileModal implements OnInit {
       });
   }
 
+  addPublish() {
 
+    if (this.selectedMediaType === "1") {
+      this.addPreSchedulePublish();
+    } else if (this.selectedMediaType === '2') {
+
+    }
+  }
+
+  addPreSchedulePublish() {
+    this.tv = [
+      { T: 'dk1', V: this.programId },
+      { T: 'c10', V: '14' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: (r) => {
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+        }
+      });
+
+  }
   openModalAddPodcast() {
     this.dialog.open(AddPodcast, {
       width: '90%',

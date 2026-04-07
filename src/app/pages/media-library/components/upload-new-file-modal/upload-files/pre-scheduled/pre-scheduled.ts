@@ -6,12 +6,17 @@ import { FormsModule } from '@angular/forms';
 import { GHOService } from '../../../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../../../model/ghomodel';
+import { JsonPipe } from '@angular/common';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-pre-scheduled',
   standalone: true,
-  imports: [FormSelect, StepBadge, MatRadioModule, FormsModule],
+  imports: [FormSelect, StepBadge, MatRadioModule, FormsModule, JsonPipe],
   templateUrl: './pre-scheduled.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './pre-scheduled.css',
 })
 export class PreScheduled implements OnChanges {
@@ -20,6 +25,7 @@ export class PreScheduled implements OnChanges {
   utl = inject(GHOUtitity);
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
+  cdr = inject(ChangeDetectorRef)
 
   selectedProgramId: any = null;
   selectedProgramName: string = '';
@@ -62,12 +68,15 @@ export class PreScheduled implements OnChanges {
   onThumbnailTypeChange(type: string) {
     this.selectedType = type;
 
-    if (type === 'program') {
+    if (type === 'program' && this.programId) {
       this.getProgramDetails();
     }
 
+    this.cdr.markForCheck();
+
     this.emitData();
   }
+  
   onProgramChange(value: any) {
     this.selectedProgramId = value;
 
@@ -75,6 +84,12 @@ export class PreScheduled implements OnChanges {
 
     this.selectedProgramName = selected?.DisplayText || '';
     this.programId = selected?.ProgramID || '';
+
+    if (this.selectedType === 'program' && this.programId) {
+      this.getProgramDetails();
+    }
+
+    this.cdr.markForCheck(); // ✅ for OnPush
 
     this.emitData();
   }
@@ -95,7 +110,7 @@ export class PreScheduled implements OnChanges {
         next: (r) => {
           if (r.Status === 1) {
             this.programDetails = r.Data[0][0];
-            console.log(this.programDetails)
+            this.cdr.markForCheck();
           }
         },
         error: (err) => {
@@ -146,9 +161,9 @@ export class PreScheduled implements OnChanges {
       programId: this.programId,
       programName: cleanProgramName,
       typedText: this.typedText,
-      fileName: fileName,
+      fileName,
       fullData: this.programList.find(p => p.ProgramID === this.programId),
-      isValid: isValid
+      isValid
     });
 
     this.validationChange.emit(isValid);

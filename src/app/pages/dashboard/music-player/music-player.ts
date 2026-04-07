@@ -54,7 +54,6 @@ export class MusicPlayer implements OnInit, OnChanges {
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
 
-  // 🎵 AUDIO STATE
   audio = new Audio();
   isPlaying: boolean = false;
   currentTime: number = 0;
@@ -116,7 +115,7 @@ handleMedia(url: string) {
   if (['mp4', 'webm', 'ogg'].includes(ext)) {
     this.isAudio = false;
     this.showVideo = true;
-    this.platform = 'unknown'; // important
+    this.platform = 'unknown';
     this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     return;
   }
@@ -131,7 +130,6 @@ handleMedia(url: string) {
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
         this.programDetails = r?.Data?.[0]?.[0];
-
         const url = this.programDetails?._url;
         this.handleMedia(url);
 

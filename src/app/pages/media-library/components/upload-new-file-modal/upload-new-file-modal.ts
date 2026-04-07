@@ -86,22 +86,22 @@ export class UploadNewFileModal implements OnInit {
 
 
 
-removeFile() {
-   if (this.previewUrl) {
-    URL.revokeObjectURL(this.previewUrl);
+  removeFile() {
+    if (this.previewUrl) {
+      URL.revokeObjectURL(this.previewUrl);
+    }
+
+    this.fileName = '';
+    this.fileSize = '';
+    this.previewUrl = '';
+    this.selectedFile = null;
   }
 
-  this.fileName = '';
-  this.fileSize = '';
-  this.previewUrl = '';
-  this.selectedFile = null;
-}
-
-formatFileSize(bytes: number): string {
-  if (bytes < 1024) return bytes + ' B';
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-}
+  formatFileSize(bytes: number): string {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
 
   typedText: string = '';
   mediaTypeOptions: any[] = [];
@@ -168,12 +168,12 @@ formatFileSize(bytes: number): string {
     this.updateFileName();
 
   }
-isImageType(): boolean {
-  return this.fileType.startsWith('image');
-}
-isVideoType(): boolean {
-  return this.fileType.startsWith('video');
-}
+  isImageType(): boolean {
+    return this.fileType.startsWith('image');
+  }
+  isVideoType(): boolean {
+    return this.fileType.startsWith('video');
+  }
   onFileSelected(file: File) {
     if (!file) return;
 
@@ -193,7 +193,7 @@ isVideoType(): boolean {
     }
 
     this.updateFileName();
-this.previewUrl = URL.createObjectURL(file);
+    this.previewUrl = URL.createObjectURL(file);
     this.fileSize = (file.size / 1024 / 1024).toFixed(2) + ' MB';
     this.fileType = file.type;
     this.extension = file.name.split('.').pop()?.toLowerCase() || '';
@@ -259,14 +259,26 @@ this.previewUrl = URL.createObjectURL(file);
 
             this.loading = false;
             if (success) {
-              this.toast.show({
-                title: 'Podcast media uploaded! 🎉',
-                description: 'Podcast media added successfully',
-                variant: 'success',
-                position: 'toast-bottom-right'
-              });
+              this.tv = [
+                { T: 'dk1', V: this.programId },
+                { T: 'c10', V: '16' }
+              ];
+              this.srv.getdata('program', this.tv)
+                .subscribe({
+                  next: async (r) => {
+                    if (r.Status === 1) {
+                      this.toast.show({
+                        title: 'Prescheduled media uploaded! 🎉',
+                        description: 'Prescheduled media added successfully',
+                        variant: 'success',
+                        position: 'toast-bottom-right'
+                      });
 
-              this.dialogRef.close(true);
+                      this.dialogRef.close(true);
+                    }
+                  }
+                })
+
             } else {
               this.toast.show({
                 title: 'Upload failed ❌',
@@ -317,6 +329,7 @@ this.previewUrl = URL.createObjectURL(file);
 
             this.loading = false;
             if (success) {
+
               this.toast.show({
                 title: 'Podcast Program media uploaded! 🎉',
                 description: 'media added successfully',
@@ -335,8 +348,6 @@ this.previewUrl = URL.createObjectURL(file);
             }
             this.cdr.detectChanges();
           }
-
-
         },
         error: () => {
           this.loading = false;
@@ -403,7 +414,7 @@ this.previewUrl = URL.createObjectURL(file);
     return new Promise((resolve) => {
       this.tv = [
         { T: 'dk1', V: this.selectedMediaType },
-        { T: 'c10', V: '5' }
+        { T: 'c10', V: '23' }
       ];
 
       this.srv.getdata('program', this.tv)

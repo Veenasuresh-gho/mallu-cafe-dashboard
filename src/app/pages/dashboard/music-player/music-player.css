@@ -200,7 +200,7 @@ mat-slider {
 
 }
 
-.custom-card-bg-movies {
+/* .custom-card-bg-movies {
   overflow: hidden;
   padding: 66px 16px;
   border-radius: 10px;
@@ -209,6 +209,15 @@ mat-slider {
     radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.749) 100%),
     url('/dash/bg-movies.jpg');
   background-position-y: 20%;
+  background-size: cover;
+} */
+
+.custom-card-bg-movies {
+  overflow: hidden;
+  padding: 66px 16px;
+  border-radius: 10px;
+  width: 100%;
+  background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.75) 100%);
   background-size: cover;
 }
 .movies-bg{

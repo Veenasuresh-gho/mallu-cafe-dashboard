@@ -6,12 +6,17 @@ import { FormsModule } from '@angular/forms';
 import { GHOService } from '../../../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../../../model/ghomodel';
+import { JsonPipe } from '@angular/common';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-pre-scheduled',
   standalone: true,
-  imports: [FormSelect, StepBadge, MatRadioModule, FormsModule],
+  imports: [FormSelect, StepBadge, MatRadioModule, FormsModule, JsonPipe],
   templateUrl: './pre-scheduled.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './pre-scheduled.css',
 })
 export class PreScheduled implements OnChanges {
@@ -20,11 +25,13 @@ export class PreScheduled implements OnChanges {
   utl = inject(GHOUtitity);
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
+  cdr = inject(ChangeDetectorRef)
 
   selectedProgramId: any = null;
   selectedProgramName: string = '';
   programId: string = '';
   errors: any = {};
+  programDetails: any = {};
 
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
@@ -58,25 +65,34 @@ export class PreScheduled implements OnChanges {
     return Object.keys(this.errors).length === 0;
   }
 
-onThumbnailTypeChange(type: string) {
-  this.selectedType = type;
+  onThumbnailTypeChange(type: string) {
+    this.selectedType = type;
 
-  if (type === 'program') {
-    this.getProgramDetails();
+    if (type === 'program' && this.programId) {
+      this.getProgramDetails();
+    }
+
+    this.cdr.markForCheck();
+
+    this.emitData();
   }
+  
+  onProgramChange(value: any) {
+    this.selectedProgramId = value;
 
-  this.emitData();
-}
- onProgramChange(value: any) {
-  this.selectedProgramId = value;
+    const selected = this.programList.find(p => p.DataValue === value);
 
-  const selected = this.programList.find(p => p.DataValue === value);
+    this.selectedProgramName = selected?.DisplayText || '';
+    this.programId = selected?.ProgramID || '';
 
-  this.selectedProgramName = selected?.DisplayText || '';
-  this.programId = selected?.ProgramID || '';
+    if (this.selectedType === 'program' && this.programId) {
+      this.getProgramDetails();
+    }
 
-  this.emitData();
-}
+    this.cdr.markForCheck(); // ✅ for OnPush
+
+    this.emitData();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['programList']) {
@@ -92,15 +108,13 @@ onThumbnailTypeChange(type: string) {
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
-          // this.ds = r.Data[0];
-          // this.dataSource.data = this.ds;
-          // this.dataSource._updateChangeSubscription();
-          // this.loading = false;
-          // this.cdr.markForCheck();
+          if (r.Status === 1) {
+            this.programDetails = r.Data[0][0];
+            this.cdr.markForCheck();
+          }
         },
         error: (err) => {
           console.error('API Error:', err);
-          // this.loading = false;
         }
       });
   }
@@ -147,11 +161,11 @@ onThumbnailTypeChange(type: string) {
       programId: this.programId,
       programName: cleanProgramName,
       typedText: this.typedText,
-      fileName: fileName,
+      fileName,
       fullData: this.programList.find(p => p.ProgramID === this.programId),
-      isValid: isValid
+      isValid
     });
 
-    this.validationChange.emit(isValid); // 🔥 important
+    this.validationChange.emit(isValid);
   }
 }

@@ -74,7 +74,7 @@ addPublish(item: Schedule): void {
 
   const payload = {
     ProgramID: item.ProgramID,
-    StreamURL: item.urlValue || '', // ✅ correct
+    StreamURL: item.urlValue || '', 
     HostName: item.HostName,
     StartTime: start,
     EndTime: end,
@@ -95,7 +95,7 @@ addPublish(item: Schedule): void {
 
           this.loading = false;
 
-          const publishedUrl = item.urlValue || ''; // ✅ FIXED
+          const publishedUrl = item.urlValue || ''; 
 
           this.tv = [
             { T: 'dk1', V: String(item.id) },

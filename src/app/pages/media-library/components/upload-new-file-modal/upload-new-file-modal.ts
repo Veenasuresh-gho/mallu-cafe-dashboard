@@ -77,7 +77,10 @@ export class UploadNewFileModal implements OnInit {
   selectedProgramData: any = null;
   selectedFile: File | null = null;
   originalFileName: string = '';
+  selectedCategoryId: string = '';
   errors: any = {};
+  title: string = '';
+  subtitle: string = '';
 
 
   typedText: string = '';
@@ -129,7 +132,12 @@ export class UploadNewFileModal implements OnInit {
     this.selectedProgramId = data.programId;
     this.selectedProgramName = data.programName;
     this.selectedProgramData = data.fullData;
+    this.selectedCategoryId = data.categoryId;
     this.programId = data?.programId;
+
+    this.title = data.title;
+    this.subtitle = data.subtitle;
+
 
     this.finalfileName = data?.fileName || '';
 
@@ -193,6 +201,8 @@ export class UploadNewFileModal implements OnInit {
 
     if (this.selectedMediaType === "1") {
       this.addmediaPre();
+    } else if (this.selectedMediaType === '2') {
+      this.addmediaPodcast();
     }
   }
 
@@ -225,7 +235,65 @@ export class UploadNewFileModal implements OnInit {
             this.loading = false;
             if (success) {
               this.toast.show({
-                title: 'Prescheduled Program media uploaded! 🎉',
+                title: 'Podcast media uploaded! 🎉',
+                description: 'Podcast media added successfully',
+                variant: 'success',
+                position: 'toast-bottom-right'
+              });
+
+              this.dialogRef.close(true);
+            } else {
+              this.toast.show({
+                title: 'Upload failed ❌',
+                description: 'File upload failed',
+                variant: 'error',
+                position: 'toast-bottom-right'
+              });
+            }
+            this.cdr.detectChanges();
+          }
+
+
+        },
+        error: () => {
+          this.loading = false;
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  addmediaPodcast(): void {
+    if (!this.selectedFile) return;
+
+    const file = this.selectedFile;
+
+    this.loading = true;
+    console.log(this.selectedCategoryId)
+    this.tv = [
+      { T: 'dk1', V: this.programId },
+      { T: 'dk2', V: this.selectedCategoryId },
+      { T: 'c1', V: this.title },
+      { T: 'c2', V: this.subtitle },
+      { T: 'c10', V: '20' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: async (r) => {
+          if (r.Status === 1 && r.Data?.length) {
+            this.id = r.Data[0]?.[0]?.EpisodeID || this.programId;
+
+            const success = await this.srv.handleFileUpload(
+              this.id,
+              this.userId,
+              file,
+              '6'
+            );
+
+            this.loading = false;
+            if (success) {
+              this.toast.show({
+                title: 'Podcast Program media uploaded! 🎉',
                 description: 'media added successfully',
                 variant: 'success',
                 position: 'toast-bottom-right'
@@ -252,7 +320,31 @@ export class UploadNewFileModal implements OnInit {
       });
   }
 
+  addPublish() {
 
+    if (this.selectedMediaType === "1") {
+      this.addPreSchedulePublish();
+    } else if (this.selectedMediaType === '2') {
+
+    }
+  }
+
+  addPreSchedulePublish() {
+    this.tv = [
+      { T: 'dk1', V: this.programId },
+      { T: 'c10', V: '14' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: (r) => {
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+        }
+      });
+
+  }
   openModalAddPodcast() {
     this.dialog.open(AddPodcast, {
       width: '90%',

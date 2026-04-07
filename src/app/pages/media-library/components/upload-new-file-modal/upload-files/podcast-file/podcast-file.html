@@ -1,6 +1,7 @@
 <div class="d-flex align-items-center justify-content-center gap-2">
-    <app-form-select label="Podcast Category Name " style="width:498px ;" [options]="catogories" optionLabel="DisplayText" optionValue="DataValue"
-        placeholder="e.g., Music / Entertainment / Sports" name="host">
+    <app-form-select label="Podcast Category Name " style="width:498px ;" [options]="catogories"
+        optionLabel="DisplayText" optionValue="DataValue" placeholder="e.g., Music / Entertainment / Sports"
+        name="host" (modelChange)="onCategoryChange($event)">
     </app-form-select>
     <div class="adding-btn">
         <button class="add-btn" (click)="openModalAddPodcast()">
@@ -15,8 +16,8 @@
 
 <div class="form-row px-4">
 
-    <app-form-select label="Program Name " [options]="['Om Shanti Om', 'Om Shanti Om']"
-        placeholder="- Select Program Name -" name="host">
+    <app-form-select label="Program Name " [options]="programList" optionLabel="DisplayText" optionValue="DataValue"
+        (modelChange)="onProgramChange($event)" placeholder="- Select Program Name -" name="host">
     </app-form-select>
 
 </div>
@@ -29,11 +30,16 @@
 <div class="form-row px-4 pt-3">
     <div class="form-group">
         <div class="input-prefix-wrapper">
-            <span class="prefix">ProgramName//</span>
+            <span class="prefix">{{selectedProgramName}}//</span>
             <div class="editable-part" contenteditable="true" (input)="onTextChange($event)"
-                data-placeholder="230926.mp3"></div>
+                [attr.data-placeholder]="'160326.' + fileType">
+            </div>
         </div>
         <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
+    </div>
+    <div class="error-text" *ngIf="errors.date">
+        <img src="/program/warn.svg" class="small mb-1">
+        {{ errors.date }}
     </div>
 </div>
 <div class="custom-line-sub"></div>
@@ -66,25 +72,25 @@
         <div class="form-group">
             <label class="input-label" for="thumbnail">Thumbnail</label>
 
-        <div class="file-upload">
-  <!-- Upload button -->
-  <label class="upload-btn d-flex align-items-center gap-2">
-      <input id="thumbnail" type="file" hidden />
-      <img src="/program/upload-icon.svg" alt="">
-      <p class="m-0">Upload Image</p>
-  </label>
+            <div class="file-upload">
+                <!-- Upload button -->
+                <label class="upload-btn d-flex align-items-center gap-2">
+                    <input id="thumbnail" type="file" hidden />
+                    <img src="/program/upload-icon.svg" alt="">
+                    <p class="m-0">Upload Image</p>
+                </label>
 
-  <!-- File info -->
-  <div class="upload-content d-flex justify-content-between align-items-center">
-      <span class="file-name px-2">IMG13428.JPEG</span>
-<div class="division">
-</div>
-      <div class="upload-actions d-flex align-items-center gap-2">
-          <img src="/upload/eye.svg" alt="">
-          <p class="m-0">View image</p>
-      </div>
-  </div>
-</div>
+                <!-- File info -->
+                <div class="upload-content d-flex justify-content-between align-items-center">
+                    <span class="file-name px-2">IMG13428.JPEG</span>
+                    <div class="division">
+                    </div>
+                    <div class="upload-actions d-flex align-items-center gap-2">
+                        <img src="/upload/eye.svg" alt="">
+                        <p class="m-0">View image</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -102,17 +108,18 @@
     <div class="form-row px-4">
         <div class="form-group">
 
-            <!-- <app-form-input label="Subtitle *" customClass="large-input"
-                placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects"
-                name="programTitle">
-            </app-form-input> -->
+            <app-form-input label="Title *" customClass="large-input"
+                placeholder="e.g. eg. Celebrity Talk – Exclusive Interview with Actor Nivin Pauly"
+                name="title"  [(model)]="title"  (modelChange)="onTitleChange($event)">  
+
+            </app-form-input>
             <div class="form-row">
                 <label class="input-label">Subtitle *</label>
 
             </div>
             <textarea class="input-field textarea-field "
                 placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects"
-                [(ngModel)]="subtitle" rows="2" name="programTitle"></textarea>
+               [(ngModel)]="subtitle"  (ngModelChange)="onSubtitleChange($event)" rows="2" name="subtitle"></textarea>
             <p class="helper-text ">Keep it short and engaging for listeners.</p>
 
         </div>

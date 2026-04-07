@@ -52,8 +52,11 @@
                     (programSelected)="onProgramSelected($event)" (validationChange)="isPreScheduledValid = $event">
                 </app-pre-scheduled>
             </div>
+            <div *ngSwitchCase="'2'">
+                <app-podcast-file [programList]="programList" [fileType]="extension"
+                    (programSelected)="onProgramSelected($event)" ></app-podcast-file>
+            </div>
 
-            <app-podcast-file *ngSwitchCase="'2'"></app-podcast-file>
 
             <app-video-file *ngSwitchCase="'3'"></app-video-file>
 
@@ -80,7 +83,7 @@
                         <img src="/upload/save-icon.svg" alt="">
                         <span>Save it as private</span>
                     </button>
-                    <button type="submit" class="btn-publish d-flex">
+                    <button (click)="addPublish()" type="submit" class="btn-publish d-flex">
                         <img src="/upload/public-icon.svg" alt="">
                         <span>Publish</span>
                     </button>

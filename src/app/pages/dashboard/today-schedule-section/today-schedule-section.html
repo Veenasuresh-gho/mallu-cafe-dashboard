@@ -17,61 +17,135 @@
     <div class="schedules-content scroll-container">
 
         @if(loading) {
-            <div class="px-3 py-2 border mb-2 d-flex gap-2 align-items-center">
-                <app-skelton type="avatar"></app-skelton>
+        <div class="px-3 py-2 border mb-2 d-flex gap-2 align-items-center">
+            <app-skelton type="avatar"></app-skelton>
 
-                <div class="w-100 d-flex flex-column gap-2">
-                    <app-skelton type="title"></app-skelton>
-                    <app-skelton type="text"></app-skelton>
-                    <app-skelton type="text"></app-skelton>
-                </div>
+            <div class="w-100 d-flex flex-column gap-2">
+                <app-skelton type="title"></app-skelton>
+                <app-skelton type="text"></app-skelton>
+                <app-skelton type="text"></app-skelton>
             </div>
+        </div>
 
-            @for(i of [1,2,3,4,5]; track i) {
-                <div class="px-3 py-2 border-b d-flex gap-2 align-items-center">
-                    <app-skelton type="avatar"></app-skelton>
-                    <div class="w-100 d-flex flex-column gap-2">
-                        <app-skelton type="title"></app-skelton>
-                        <app-skelton type="text"></app-skelton>
-                    </div>
-                </div>
-            }
+        @for(i of [1,2,3,4,5]; track i) {
+        <div class="px-3 py-2 border-b d-flex gap-2 align-items-center">
+            <app-skelton type="avatar"></app-skelton>
+            <div class="w-100 d-flex flex-column gap-2">
+                <app-skelton type="title"></app-skelton>
+                <app-skelton type="text"></app-skelton>
+            </div>
+        </div>
+        }
         }
 
         @else {
 
-            <!-- CURRENT PROGRAM -->
-            @if(currentProgram) {
-            <div class="d-flex flex-column gap-2 px-3 py-2 on-air-content border">
+        @if(currentProgram) {
+        <div class="d-flex flex-column gap-2 px-3 py-2 on-air-content border">
 
-                <div class="on-air d-flex align-items-center mt-2 gap-2">
-                    <p class="mb-2 small">🟢 Broadcast Status</p>
-                    <p class="mb-2 d-flex align-items-center gap-1">
-                        <span class="material-icons" style="font-size:16px;color: var(--success);">
-                            radio_button_checked
-                        </span>
-                        <span class="on-air-text small">On Air</span>
+            <div class="on-air d-flex align-items-center mt-2 gap-2">
+                <p class="mb-2 small">🟢 Broadcast Status</p>
+                <p class="mb-2 d-flex align-items-center gap-1">
+                    <span class="material-icons" style="font-size:16px;color: var(--success);">
+                        radio_button_checked
+                    </span>
+                    <span class="on-air-text small">On Air</span>
+                </p>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <div class="rjImage">
+                    <img [src]="currentProgram.ThumbnailURL" />
+                </div>
+
+                <div class="gap-1 d-flex flex-column">
+                    <p class="song-name mb-0 fw-semibold">{{ currentProgram.Title }}</p>
+                    <p class="time mb-0 text-muted">{{ currentProgram.TimeRange }}</p>
+                    <p class="name d-flex align-items-center gap-1 mb-0">
+                        <img src="/main/headphone_icon.svg" class="headphone-icon" />
+                        <span>{{ currentProgram.HostName }}</span>
                     </p>
                 </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="listeners mb-0">
+                    Current Active Listeners:
+                    <span class="fw-bold" style="color: var(--primary-text);">400+</span>
+                </p>
+
+                @if(currentProgram.IsFileUploaded) {
+                <p class="mb-0">
+                    <img src="/main/tick.svg" />
+                    <span class="files px-1">Files Uploaded</span>
+                </p>
+                } @else {
+                <p class="mb-0">
+                    <img src="/dash/info.svg" />
+                    <span class="files-not px-1">Files not Uploaded</span>
+                </p>
+                }
+            </div>
+            @if(currentProgram.CategoryName==="Live"){
+            <div class="live-text-started d-flex align-items-center gap-1">
+                <p class="mb-0">Streaming Started</p>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center url-row">
+                <div class="url-input-wrapper flex-grow">
+                    <span class="url-prefix">
+                        <img src="/dash/url-icon.svg" class="url-icon" />
+                        url://
+                    </span>
+
+                    <input type="text" class="url-input" placeholder="Paste here..."
+                        [(ngModel)]="currentProgram!.urlValue" />
+                </div>
+
+                <app-primary-button class="btn-auto" (clicked)="addPublish(currentProgram)" [loading]="loading"
+                    [label]="'Publish'" iconSrc="/dash/publish.svg">
+                </app-primary-button>
+            </div>
+            }
+
+        </div>
+        }
+
+        <!-- LIST -->
+        <div class="pt-1">
+
+            @for(item of schedules; track item.id) {
+
+            @if(!currentProgram || item.id !== currentProgram.id) {
+
+            <div class="d-flex flex-column gap-2 px-3 py-2 on-air-section border-b"
+                [ngClass]="{ 'past-program': item.status === 'past' }">
+
+                <p class="mb-0 status d-flex align-items-center gap-1">
+                    @if(item.status === 'next') {
+                    <img src="/main/navbar/info.svg" class="icon-sm" />
+                    <span class="text-muted" style="font-size: 12px;">Next</span>
+                    }
+                </p>
 
                 <div class="d-flex align-items-center gap-2">
                     <div class="rjImage">
-                        <img [src]="currentProgram.ThumbnailURL" />
+                        <img [src]="item.ThumbnailURL" loading="lazy">
                     </div>
 
                     <div class="gap-1 d-flex flex-column">
-                        <p class="song-name mb-0 fw-semibold">{{ currentProgram.Title }}</p>
-                        <p class="time mb-0 text-muted">{{ currentProgram.TimeRange }}</p>
-                        <p class="name d-flex align-items-center gap-1 mb-0">
+                        <p class="song-name mb-0 fw-semibold">{{item.Title}}</p>
+                        <p class="time mb-0 text-muted">{{item.TimeRange}}</p>
+                        <p class="name d-flex align-items-center gap-2 mb-0">
                             <img src="/main/headphone_icon.svg" class="headphone-icon" />
-                            <span>{{ currentProgram.HostName }}</span>
+                            <span>{{item.HostName}}</span>
                         </p>
                     </div>
                 </div>
 
-                @if(currentProgram.CategoryName==="Live"){
-                <div class="live-text-started d-flex align-items-center gap-1">
-                    <p class="mb-0">Streaming Started</p>
+                @if(item.CategoryName==="Live"){
+                <div class="live-text d-flex align-items-center gap-1">
+                    <img src="/dash/info-accent.svg" />
+                    <p class="mb-0">Streaming Not Started</p>
                 </div>
 
                 <div class="d-flex gap-2 align-items-center url-row">
@@ -81,98 +155,52 @@
                             url://
                         </span>
 
-                        <!-- ✅ FIX -->
-                        <input 
-                            type="text" 
-                            class="url-input" 
-                            placeholder="Paste here..." 
-                            [(ngModel)]="currentProgram!.urlValue" 
-                        />
+                        <input type="text" class="url-input" placeholder="Paste here..." [(ngModel)]="item.urlValue" />
                     </div>
 
-                    <app-primary-button
-                        class="btn-auto"
-                        (clicked)="addPublish(currentProgram)"
-                        [loading]="loading"
-                        [label]="'Publish'"
-                        iconSrc="/dash/publish.svg">
+                    <app-primary-button class="btn-auto" (clicked)="addPublish(item)" [loading]="loading"
+                        [label]="'Publish'" iconSrc="/dash/publish.svg">
                     </app-primary-button>
                 </div>
                 }
 
-            </div>
-            }
+                @if(item.CategoryName !=="Live"){
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="view d-flex align-items-center gap-2">
+                        <div>
+                            <img src="/main/visibility.svg">
+                            <span class="px-1">View File</span>
+                        </div>
 
-            <!-- LIST -->
-            <div class="pt-1">
+                        <div>
+                            <img src="/main/update.svg">
+                            <span (click)="openDialog()" class="px-1">Update</span>
+                        </div>
+                    </div>
 
-                @for(item of schedules; track item.id) {
-
-                @if(!currentProgram || item.id !== currentProgram.id) {
-
-                <div class="d-flex flex-column gap-2 px-3 py-2 on-air-section border-b"
-                     [ngClass]="{ 'past-program': item.status === 'past' }">
-
-                    <p class="mb-0 status d-flex align-items-center gap-1">
-                        @if(item.status === 'next') {
-                            <img src="/main/navbar/info.svg" class="icon-sm" />
-                            <span class="text-muted" style="font-size: 12px;">Next</span>
-                        }
+                    @if(item.IsFileUploaded) {
+                    <p class="mb-0">
+                        <img src="/main/tick.svg" />
+                        <span class="files px-1">Files Uploaded</span>
                     </p>
-
-                    <div class="d-flex align-items-center gap-2">
-                        <div class="rjImage">
-                            <img [src]="item.ThumbnailURL" loading="lazy">
-                        </div>
-
-                        <div class="gap-1 d-flex flex-column">
-                            <p class="song-name mb-0 fw-semibold">{{item.Title}}</p>
-                            <p class="time mb-0 text-muted">{{item.TimeRange}}</p>
-                            <p class="name d-flex align-items-center gap-2 mb-0">
-                                <img src="/main/headphone_icon.svg" class="headphone-icon" />
-                                <span>{{item.HostName}}</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    @if(item.CategoryName==="Live"){
-                    <div class="live-text d-flex align-items-center gap-1">
-                        <img src="/dash/info-accent.svg" />
-                        <p class="mb-0">Streaming Not Started</p>
-                    </div>
-
-                    <div class="d-flex gap-2 align-items-center url-row">
-                        <div class="url-input-wrapper flex-grow">
-                            <span class="url-prefix">
-                                <img src="/dash/url-icon.svg" class="url-icon" />
-                                url://
-                            </span>
-
-                            <input 
-                                type="text" 
-                                class="url-input" 
-                                placeholder="Paste here..." 
-                                [(ngModel)]="item.urlValue" 
-                            />
-                        </div>
-
-                        <app-primary-button
-                            class="btn-auto"
-                            (clicked)="addPublish(item)"
-                            [loading]="loading"
-                            [label]="'Publish'"
-                            iconSrc="/dash/publish.svg">
-                        </app-primary-button>
-                    </div>
+                    } @else {
+                    <p class="mb-0">
+                        <img src="/dash/info.svg" />
+                        <span class="files-not px-1">Files not Uploaded</span>
+                    </p>
                     }
 
                 </div>
-
                 }
 
-                }
 
             </div>
+
+            }
+
+            }
+
+        </div>
 
         }
 

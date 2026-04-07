@@ -151,6 +151,7 @@ addPublish(item: Schedule): void {
 
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
+        console.log(r)
         this.schedules = [...(r.Data[0] as Schedule[])];
         this.updateCurrentProgram();
         this.loading = false;

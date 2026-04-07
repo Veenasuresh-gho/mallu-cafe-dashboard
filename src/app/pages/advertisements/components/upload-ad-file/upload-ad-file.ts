@@ -19,6 +19,7 @@ import { GHOUtitity } from '../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { InputTime } from '../../../../components/dialog/input-time/input-time';
 
 @Component({
   selector: 'app-upload-ad-file',
@@ -28,14 +29,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormField, MatSelect, MatOption, MatIcon,
     StepBadge, FormInput, UploadBox, FormSelect,
     SchedulePicker, Checkbox, ScheduleDateRange,
-    CommonModule, PrimaryButton, MatProgressSpinnerModule,
+    CommonModule, PrimaryButton, MatProgressSpinnerModule, InputTime
   ],
   templateUrl: './upload-ad-file.html',
   styleUrl: './upload-ad-file.css',
 })
 export class UploadAdFile implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<UploadAdFile>,@Inject(MAT_DIALOG_DATA) public data: any,private cd: ChangeDetectorRef) { }
+  constructor(private dialogRef: MatDialogRef<UploadAdFile>, @Inject(MAT_DIALOG_DATA) public data: any, private cd: ChangeDetectorRef) { }
 
   toast = inject(ToastService);
   srv = inject(GHOService);
@@ -44,13 +45,20 @@ export class UploadAdFile implements OnInit {
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
 
+  scheduleModel = {
+    fromTime: '',
+    toTime: ''
+  };
+
   programTitle: string = '';
   AdvertiserName: string = '';
   additionalNotes: string = '';
 
   fromDate: string = '';
   toDate: string = '';
-  scheduleModel: any = {};
+  fromTime: string = '';
+  toTime: string = '';
+  // scheduleModel: any = {};
 
   playsPerDay: number = 5;
   selectedStatus: string = 'active';
@@ -64,7 +72,7 @@ export class UploadAdFile implements OnInit {
   loading = false;
   errors: any = {};
   id: string = '';
-  advertisementID:string="";
+  advertisementID: string = "";
   isEditMode = false;
 
   statusMap: any = {
@@ -75,55 +83,56 @@ export class UploadAdFile implements OnInit {
   };
 
   ngOnInit(): void {
-  if (this.data?.mode === 'edit') {
-    this.isEditMode = true;
-    this.populateForm(this.data.advertisement);
-     console.log('Advertisement Data:', this.data.advertisement);
+    if (this.data?.mode === 'edit') {
+      this.isEditMode = true;
+      this.populateForm(this.data.advertisement);
+      console.log('Advertisement Data:', this.data.advertisement);
+    }
   }
-}
 
-formatTimeForInput(time: string): string {
-  if (!time) return '';
-  return time.slice(0, 5); // "06:00:00" → "06:00"
-}
+  formatTimeForInput(time: string): string {
+    if (!time) return '';
+    return time.slice(0, 5); // "06:00:00" → "06:00"
+  }
 
-populateForm(ad: any) {
-  this.programTitle = ad.Title;
-  this.AdvertiserName = ad.AdvertiserName;
-  this.fromDate = ad.StartDate;
-  this.toDate = ad.EndDate;
-  this.playsPerDay = ad.PlaybackCount;
-  this.additionalNotes = ad.Notes;
-  this.selectedStatus = this.getStatusKey(ad.Status);
-  this.scheduleModel = {
-  fromTime: this.formatTimeForInput(ad.StartTime),
-  toTime: this.formatTimeForInput(ad.EndTime),
-};
-  this.fid = ad.fid;
+  populateForm(ad: any) {
+    console.log('ad', ad);
+    this.programTitle = ad.Title;
+    this.AdvertiserName = ad.AdvertiserName;
+    this.fromDate = ad.StartDate;
+    this.toDate = ad.EndDate;
+    this.playsPerDay = ad.PlaybackCount;
+    this.additionalNotes = ad.Notes;
+    this.selectedStatus = this.getStatusKey(ad.Status);
+    this.scheduleModel = {
+      fromTime: this.formatTimeForInput(ad.StartTime),
+      toTime: this.formatTimeForInput(ad.EndTime),
+    };
+    this.fid = ad.fid;
 
-  // Optional preview
-  this.fileName = ad.FileName;
+    // Optional preview
+    this.fileName = ad.FileName;
 
-  this.id = ad.ID;
-  this.advertisementID=ad.id1
-  // If you have delivery flags from API
-  this.adsEnabled = ad.IsAudioVideoAd === 1 || ad.IsAudioVideoAd === 3;
-  const promo = +ad.IsLatestPromotion;
-this.adsEnabled = [1, 3].includes(promo);
-this.promotionsEnabled = [2, 3].includes(promo);
-}
+    this.id = ad.id1;
+    this.advertisementID = ad.id1
+    // If you have delivery flags from API
+    this.adsEnabled = ad.IsAudioVideoAd === 1 || ad.IsAudioVideoAd === 3;
+    const promo = +ad.IsLatestPromotion;
+    this.adsEnabled = [1, 3].includes(promo);
+    this.promotionsEnabled = [2, 3].includes(promo);
+  }
 
 
-getStatusKey(status: string): string {
-  const map: any = {
-    'Active': 'active',
-    'Waiting List': 'waiting',
-    'Published': 'published',
-    'Expired': 'expired'
-  };
+  getStatusKey(status: string): string {
+    const map: any = {
+      'Active': 'active',
+      'Waiting List': 'waiting',
+      'Published': 'published',
+      'Expired': 'expired'
+    };
 
-  return map[status?.trim()] || 'active';
-}
+    return map[status?.trim()] || 'active';
+  }
 
   getStatusValue(): number {
     return this.statusMap[this.selectedStatus] || 0;
@@ -163,8 +172,8 @@ getStatusKey(status: string): string {
     }
 
     if (!this.selectedFile && !this.isEditMode) {
-  this.errors.file = 'Please upload a file';
-}
+      this.errors.file = 'Please upload a file';
+    }
 
     if (!this.fromDate) {
       this.errors.fromDate = 'Start date is required';
@@ -195,10 +204,10 @@ getStatusKey(status: string): string {
       this.errors.time = 'Please select both start and end time';
     }
     if (!this.adsEnabled && !this.promotionsEnabled) {
-  this.errors.delivery = 'Please select at least one delivery option';
-} else {
-  delete this.errors.delivery;
-}
+      this.errors.delivery = 'Please select at least one delivery option';
+    } else {
+      delete this.errors.delivery;
+    }
 
     return Object.keys(this.errors).length === 0;
   }
@@ -275,8 +284,8 @@ getStatusKey(status: string): string {
 
               this.dialogRef.close(true);
             } else {
-               this.loading = false;
-               this.cd.detectChanges();
+              this.loading = false;
+              this.cd.detectChanges();
               this.toast.show({
                 title: 'Upload failed ❌',
                 description: 'File upload failed',
@@ -290,139 +299,134 @@ getStatusKey(status: string): string {
           this.loading = false;
         }
       });
+    console.log('time is:', payload);
+
   }
 
   editAdvertisement(): void {
-  if (!this.validateAdvertisementForm()) return;
-  this.loading = true;
-  this.cd.detectChanges();
-  const payload: any = {
-    Title: this.programTitle,
-    AdvertiserName: this.AdvertiserName,
-    StartDate: this.fromDate,
-    EndDate: this.toDate,
-    PlaybackCount: this.playsPerDay,
-    IsLatestPromotion: this.getAdType(),
-    Notes: this.additionalNotes,
-    Status: this.getStatusValue(),
-    StartTime: this.scheduleModel?.fromTime || '',
-    EndTime: this.scheduleModel?.toTime || ''
-  };
-  if (this.selectedFile) {
-    payload.AdType = this.getFileType(this.selectedFile);
+    if (!this.validateAdvertisementForm()) return;
+    this.loading = true;
+    this.cd.detectChanges();
+    const payload: any = {
+      Title: this.programTitle,
+      AdvertiserName: this.AdvertiserName,
+      StartDate: this.fromDate,
+      EndDate: this.toDate,
+      PlaybackCount: this.playsPerDay,
+      IsLatestPromotion: this.getAdType(),
+      Notes: this.additionalNotes,
+      Status: this.getStatusValue(),
+      StartTime: this.scheduleModel?.fromTime || '',
+      EndTime: this.scheduleModel?.toTime || ''
+    };
+    if (this.selectedFile) {
+      payload.AdType = this.getFileType(this.selectedFile);
+    }
+
+    const userId = this.srv.getsession('id');
+
+    this.tv = [
+      { T: 'dk1', V: this.id },
+      { T: 'c1', V: JSON.stringify(payload) },
+      { T: 'c10', V: '2' }
+    ];
+
+    this.srv.getdata('advertisement', this.tv).subscribe({
+      next: async (r) => {
+        if (r.Status === 1) {
+          if (this.selectedFile) {
+            const success = await this.srv.handleFileUpload(
+              this.advertisementID,
+              userId,
+              this.selectedFile,
+              '7'
+            );
+            if (!success) {
+              this.loading = false;
+              this.cd.detectChanges();
+              return;
+            }
+          }
+
+          this.loading = false;
+          this.cd.detectChanges();
+          this.toast.show({
+            title: 'Advertisement updated successfully! 🎉',
+            description: '',
+            variant: 'success',
+            position: 'toast-bottom-center'
+          });
+
+          this.dialogRef.close(true);
+        } else {
+          this.loading = false;
+          this.toast.show({
+            title: 'Failed to update advertisement ❌',
+            description: r?.Info || 'Something went wrong',
+            variant: 'error',
+            position: 'toast-bottom-right'
+          });
+          this.cd.detectChanges();
+        }
+      },
+      error: () => {
+        this.loading = false;
+        this.cd.detectChanges();
+      }
+    });
   }
 
-  const userId = this.srv.getsession('id');
 
-  this.tv = [
-    { T: 'dk1', V: this.id }, 
-    { T: 'c1', V: JSON.stringify(payload) },
-    { T: 'c10', V: '2' }
-  ];
-
-  this.srv.getdata('advertisement', this.tv).subscribe({
-    next: async (r) => {
-      if (r.Status === 1) {
-        if (this.selectedFile) {
-          const success = await this.srv.handleFileUpload(
-            this.advertisementID,
-            userId,
-            this.selectedFile,
-            '7'
-          );
-          if (!success) {
-            this.loading = false;
-             this.cd.detectChanges();
-            return;
-          }
+  deleteUpload(fileUploadID: any) {
+    if (!fileUploadID) return;
+    this.loading = true;
+    this.cd.detectChanges();
+    const userId = this.srv.getsession('id');
+    this.tv = [
+      { T: 'dk1', V: userId },
+      { T: 'dk2', V: '7' },
+      { T: 'c1', V: this.fid },
+      { T: 'c3', V: this.id },
+      { T: 'c10', V: '4' }
+    ];
+    this.srv.getdata('fileupload', this.tv).subscribe({
+      next: (r: any) => {
+        this.loading = false;
+        this.cd.detectChanges();
+        if (r.Status === 1) {
+          this.toast.show({
+            title: 'File deleted successfully! 🎉',
+            description: '',
+            variant: 'success',
+            position: 'toast-bottom-right'
+          });
+          this.selectedFile = undefined as any;
+          this.fileName = '';
+          this.fid = '';
+          this.cd.detectChanges();
+        } else {
+          const apiMsg = r.Data?.[0]?.[0]?.msg || 'Please try again';
+          this.toast.show({
+            title: 'Failed to delete file',
+            description: apiMsg,
+            variant: 'error',
+            position: 'toast-bottom-right'
+          });
         }
-
+      },
+      error: (err) => {
+        console.error('💥 Error:', err);
         this.loading = false;
         this.cd.detectChanges();
         this.toast.show({
-          title: 'Advertisement updated successfully! 🎉',
-          description: '',
-          variant: 'success',
-          position: 'toast-bottom-center'
-        });
-
-        this.dialogRef.close(true);
-      }else {
-        this.loading = false;
-        this.toast.show({
-          title: 'Failed to update advertisement ❌',
-          description: r?.Info || 'Something went wrong',
+          title: 'Error deleting file',
+          description: 'Please try again later',
           variant: 'error',
           position: 'toast-bottom-right'
         });
-           this.cd.detectChanges();
       }
-    },
-    error: () => {
-      this.loading = false;
-       this.cd.detectChanges();
-    }
-  });
-}
-
-
-deleteUpload(fileUploadID: any) {
-  console.log('🚀 deleteUpload called with fileUploadID:', fileUploadID);
-
-  if (!fileUploadID) return;
-
-  this.loading = true;
-  this.cd.detectChanges(); 
-
-  const userId = this.srv.getsession('id');
-
-  this.tv = [
-    { T: 'dk1', V: userId },
-    { T: 'dk2', V: '7' },
-    { T: 'c1', V: this.fid },
-    { T: 'c3', V: this.id },
-    { T: 'c10', V: '4' }
-  ];
-
-  this.srv.getdata('fileupload', this.tv).subscribe({
-    next: (r: any) => {
-      console.log('✅ API Response:', r);
-
-      this.loading = false;
-      this.cd.detectChanges(); // 🔥 FIX: update UI safely
-
-      if (r.Status === 1) {
-        this.toast.show({
-          title: 'File deleted successfully! 🎉',
-          description: '',
-          variant: 'success',
-          position: 'toast-bottom-center'
-        });
-      } else {
-        const apiMsg = r.Data?.[0]?.[0]?.msg || 'Please try again';
-        this.toast.show({
-          title: 'Failed to delete file',
-          description: apiMsg,
-          variant: 'error',
-          position: 'toast-bottom-center'
-        });
-      }
-    },
-    error: (err) => {
-      console.error('💥 Error:', err);
-
-      this.loading = false;
-      this.cd.detectChanges(); // 🔥 FIX
-
-      this.toast.show({
-        title: 'Error deleting file',
-        description: 'Please try again later',
-        variant: 'error',
-        position: 'toast-bottom-center'
-      });
-    }
-  });
-}
+    });
+  }
 
   close() {
     this.dialogRef.close();

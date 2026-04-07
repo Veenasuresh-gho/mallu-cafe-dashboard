@@ -81,7 +81,7 @@
                 </div>
 
 
-                <button (click)="deleteUpload(fid)"  *ngIf="isEditMode" class="btn-delete d-flex align-items-center justify-content-center">
+                <button (click)="deleteUpload(fid)"  *ngIf="isEditMode && fileName" class="btn-delete d-flex align-items-center justify-content-center">
                     <mat-icon>delete</mat-icon>
                 </button>
 
@@ -109,7 +109,10 @@
                 {{ errors.date }}
             </div>
 
-            <app-schedule-picker [(model)]="scheduleModel" [showScheduleDay]="false"></app-schedule-picker>
+            <!-- <app-schedule-picker [(model)]="scheduleModel" [showScheduleDay]="false"></app-schedule-picker> -->
+<app-input-time
+  [(model)]="scheduleModel">
+</app-input-time>
 
             <div class="error-text" *ngIf="errors.time">
                 {{ errors.time }}

@@ -17,15 +17,19 @@
   font-weight: 400;
   color: #636363;
 }
+.input-txt:focus {
+  border-color: #D80905 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 .input-txt{
   font-family: Poppins;
   font-size: 12px;
   font-weight: 400;
+  height: 36px;
   color: #312F2F;
 }
 .save-btn{
-  font-weight: 700;
-  font-family: Red Hat Display;
-  font-size: 12px;
-  font-style: bold;
+  display: flex;
+  align-items: end;
 }

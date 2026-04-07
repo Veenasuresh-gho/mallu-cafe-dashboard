@@ -81,7 +81,7 @@ export class AddTeamMember implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  addTeamMenber(): void {
+  addTeamMember(): void {
   const permissionPayload: any = {};
   this.permissions.forEach(p => {
     permissionPayload[p.key] = p.checked ? '1' : '0';
@@ -166,7 +166,6 @@ handleUpload(id: string) {
 }
 
   getRoles(): void {
-    this.loading = true;
     this.tv = [
       { T: 'dk1', V: "ROLES" },
       { T: 'c10', V: '3' }
@@ -179,7 +178,6 @@ handleUpload(id: string) {
         },
         error: (err) => {
           console.error('API Error:', err);
-          this.loading = false;
         }
       });
   }
@@ -197,10 +195,10 @@ handleUpload(id: string) {
   }
 
   addTeamMemberClick() {
-    this.addTeamMenber();
+    this.addTeamMember();
   }
   getProgramList(): void {
-    this.loading = true;
+    // this.loading = true;
     this.tv = [{ T: 'c10', V: '3' }];
 
     this.srv.getdata('program', this.tv)

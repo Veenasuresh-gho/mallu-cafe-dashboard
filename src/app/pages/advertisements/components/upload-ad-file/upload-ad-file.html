@@ -110,23 +110,25 @@
             </div>
 
             <!-- <app-schedule-picker [(model)]="scheduleModel" [showScheduleDay]="false"></app-schedule-picker> -->
-            <app-input-time [(model)]="scheduleModel" ></app-input-time>
+<!-- <app-input-time
+  [(model)]="scheduleModel">
+</app-input-time> -->
 
-            <div class="error-text" *ngIf="errors.time">
+            <!-- <div class="error-text" *ngIf="errors.time">
                 {{ errors.time }}
-            </div>
+            </div> -->
 
-            <p class="helper-text pt-1">(Schedule time slot is optional. Leave empty for 24/7 streaming.)</p>
+            <!-- <p class="helper-text pt-1">(Schedule time slot is optional. Leave empty for 24/7 streaming.)</p> -->
         </div>
 
         <div class="custom-line-sub px-4"></div>
 
 
-        <app-step-badge [stepNumber]="4" title="Playback Settings"></app-step-badge>
+        <!-- <app-step-badge [stepNumber]="4" title="Playback Settings"></app-step-badge> -->
 
 
 
-        <div class="px-4 mb-4 mt-2 d-flex justify-content-between align-items-start gap-4">
+        <!-- <div class="px-4 mb-4 mt-2 d-flex justify-content-between align-items-start gap-4">
             <div class="w-50">
                 <label class="input-label mb-2">No. of Plays per Day *</label>
                 <div class="counter-input-group d-flex align-items-center mb-1">
@@ -156,11 +158,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="custom-line-sub px-4"></div>
 
-        <app-step-badge [stepNumber]="5" title="Status"></app-step-badge>
+        <app-step-badge [stepNumber]="4" title="Status"></app-step-badge>
 
 
         <div class="px-4 mb-4 mt-3">

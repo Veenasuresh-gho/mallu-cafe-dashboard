@@ -18,9 +18,8 @@
       <div class="col-md-4">
         <div class="mb-3">
           <label class="form-label input-label">Full Name</label>
-          <input type="text" class="form-control input-txt"
-          (focus)="enableEdit()"
-           [value]="profile?.FullName || ''" readonly />
+          <input type="text" class="form-control input-txt" [(ngModel)]="profile.FullName" [readonly]="!isEditing"
+            (focus)="enableEdit()" />
         </div>
 
         <div>
@@ -29,34 +28,45 @@
             <span class="input-group-text input-label">
               +{{ profile?.CountryCode || '' }}
             </span>
-            <input type="text" class="form-control input-txt"
-            (focus)="enableEdit()"
-             [value]="profile?.Phone || ''" readonly />
+            <input type="text" class="form-control input-txt" [(ngModel)]="profile.Phone" [readonly]="!isEditing"
+              (focus)="enableEdit()" />
+
           </div>
         </div>
       </div>
 
       <!-- Column 2 -->
       <div class="col-md-4">
+        <!-- <div class="mb-3">
+          <label class="form-label input-label">Designation / Role</label>
+          <input type="text" class="form-control input-txt" [(ngModel)]="profile.Role" [readonly]="!isEditing" (focus)="enableEdit()" />
+        </div> -->
+
         <div class="mb-3">
           <label class="form-label input-label">Designation / Role</label>
-          <input type="text" class="form-control input-txt"
-          (focus)="enableEdit()"
-           [value]="profile?.Role || ''" readonly />
+
+          <select *ngIf="roles?.length" class="form-control input-txt" [(ngModel)]="profile.Role"
+            [disabled]="!isEditing" (focus)="enableEdit()">
+            <option [ngValue]="null" disabled>Select Role</option>
+
+            <option *ngFor="let role of roles" [ngValue]="role.DisplyText">
+              {{ role.DisplyText }}
+            </option>
+          </select>
         </div>
 
         <div>
           <label class="form-label input-label">Email</label>
-          <input type="email" class="form-control input-txt"
-          (focus)="enableEdit()"
-           [value]="profile?.Email || ''" readonly />
+          <input type="email" class="form-control input-txt" [(ngModel)]="profile.Email" [readonly]="!isEditing"
+            (focus)="enableEdit()" />
         </div>
       </div>
 
       <!-- NEW Column 3 -->
       <div class="col-md-4 d-flex flex-column justify-content-end">
         <div *ngIf="isEditing">
-          <app-primary-button class="save-btn " [label]="'Save Changes'" iconSrc="/upload/tick-circle.svg">
+          <app-primary-button [loading]="loading" (click)="editProfileDetails()" class="save-btn "
+            [label]="'Save Changes'" iconSrc="/upload/tick-circle.svg">
           </app-primary-button>
         </div>
       </div>

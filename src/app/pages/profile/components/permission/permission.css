@@ -24,13 +24,13 @@
 }
 
 .icon-success {
-  background-color: #e8f5e9;   
+  background-color: white;   
   color: black;             
   border-color: none;
 }
 
 .icon-fail {
-  background-color: #f7f2f2;   
+  background-color: white;   
   color: black;            
   border-color: black;
 }

@@ -76,11 +76,7 @@ export class MediaLibrary implements OnInit {
       .subscribe({
         next: (r) => {
           console.log(r)
-          // this.ds = r.Data[0];
-          // this.dataSource.data = this.ds;
-          // this.dataSource._updateChangeSubscription();
-          // this.loading = false;
-          // this.cdr.markForCheck();
+         
         },
         error: (err) => {
           console.error('API Error:', err);

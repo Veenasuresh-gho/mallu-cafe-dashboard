@@ -5,11 +5,10 @@ export const routes: Routes = [
 
   {
     path: '',
-    // redirectTo: () => {
-    //   const token = sessionStorage.getItem('tkn');
-    //   return token ? 'dashboard' : 'sign-in';
-    // },  
-    redirectTo:'dashboard',
+    redirectTo: () => {
+      const token = sessionStorage.getItem('tkn');
+      return token ? 'dashboard' : 'sign-in';
+    },  
     pathMatch: 'full'
   },
 
@@ -28,7 +27,7 @@ export const routes: Routes = [
 
   {
     path: '',
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./layout/dashboard-layout/dashboard-layout')
         .then(m => m.DashboardLayout),

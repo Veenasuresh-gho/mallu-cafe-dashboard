@@ -77,6 +77,7 @@ export class Programs implements OnInit {
       .subscribe({
         next: (r) => {
           this.ds = r.Data[0];
+          console.log(this.ds)
           this.dataSource.data = this.ds;
           this.dataSource._updateChangeSubscription();
           this.loading = false;

@@ -100,7 +100,7 @@
 }
 .upload-img {
   width: 100%;
-  height: 95px;
+  height: 100%;
   border-radius: 16px;
   object-fit: cover;       
   object-position: center; 

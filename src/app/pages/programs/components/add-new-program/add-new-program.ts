@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -50,8 +50,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class AddNewProgram implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<AddNewProgram>) { }
-
+  constructor(
+    private dialogRef: MatDialogRef<AddNewProgram>,
+    private cdr: ChangeDetectorRef
+  ) { }
   loading = false;
   initialLoading = false;
 
@@ -185,45 +187,60 @@ export class AddNewProgram implements OnInit {
       { T: 'c10', V: '1' }
     ];
 
-    this.srv.getdata('program', this.tv)
-      .subscribe({
-        next: async (r) => {
+    this.srv.getdata('program', this.tv).subscribe({
+      next: async (r) => {
+        if (r.Status === 1) {
 
-          if (r.Status === 1) {
-            this.id = r.Data[0][0].id;
+          const program = r?.Data?.[0]?.[0];
 
-            const success = await this.srv.handleFileUpload(
-              this.id,
-              this.userId,
-              this.selectedFile,
-              '2'
-            );
+          this.id = program.id;
 
-            this.loading = false;
+          const success = await this.srv.handleFileUpload(
+            this.id,
+            this.userId,
+            this.selectedFile,
+            '2'
+          );
 
-            if (success) {
-              this.toast.show({
-                title: 'Program created successfully! 🎉',
-                description: 'Program created successfully',
-                variant: 'success',
-                position: 'toast-bottom-right'
-              });
 
-              this.dialogRef.close(true);
-            } else {
-              this.toast.show({
-                title: 'Upload failed ❌',
-                description: 'File upload failed',
-                variant: 'error',
-                position: 'toast-bottom-right'
-              });
-            }
+          if (success) {
+            this.toast.show({
+              title: `${program?.msg || 'Program created successfully'} 🎉`,
+              description: 'Program created successfully',
+              variant: 'success',
+              position: 'toast-bottom-right'
+            });
+
+            this.dialogRef.close(true);
+          } else {
+            this.toast.show({
+              title: 'Upload failed ❌',
+              description: 'File upload failed',
+              variant: 'error',
+              position: 'toast-bottom-right'
+            });
           }
-        },
-        error: () => {
-          this.loading = false;
+
         }
-      });
+
+
+      },
+
+      error: (err) => {
+        console.error(err);
+
+        this.loading = false;
+
+        this.toast.show({
+          title: 'Something went wrong ❌',
+          description: 'Please try again',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
+
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   close() {

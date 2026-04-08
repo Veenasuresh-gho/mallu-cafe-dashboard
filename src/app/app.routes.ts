@@ -8,7 +8,7 @@ export const routes: Routes = [
     redirectTo: () => {
       const token = sessionStorage.getItem('tkn');
       return token ? 'dashboard' : 'sign-in';
-    },
+    },  
     pathMatch: 'full'
   },
 

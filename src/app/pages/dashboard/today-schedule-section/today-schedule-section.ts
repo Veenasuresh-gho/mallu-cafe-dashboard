@@ -10,6 +10,9 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Skelton } from '../../../components/skelton/skelton';
 import { FormsModule } from '@angular/forms';
 import { PrimaryButton } from '../../../components/primary-button/primary-button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 export interface Schedule {
   id: string;
@@ -33,7 +36,7 @@ export interface Schedule {
   selector: 'today-schedule-section',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CustomCalendar, UpdateFileUpload, CommonModule, Skelton, FormsModule, PrimaryButton],
+  imports: [CustomCalendar, UpdateFileUpload, CommonModule, Skelton, FormsModule, PrimaryButton, MatButtonModule, MatIconModule, MatMenuModule],
   templateUrl: './today-schedule-section.html',
   styleUrl: './today-schedule-section.css',
 })
@@ -54,6 +57,27 @@ export class TodayScheduleSection implements OnInit {
   currentProgram: Schedule | null = null;
   selectedDate: Date = new Date();
 
+  publishProgram(program: any) {
+    this.tv = [
+      { T: 'dk1', V: program.id },
+      { T: 'c10', V: '14' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: (r) => {
+          this.publishStatus.emit({
+            isPublic: true,
+            url: '',
+            isPublish: true
+          });
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+        }
+      });
+  }
+
 
   showDialog = false;
 
@@ -68,57 +92,61 @@ export class TodayScheduleSection implements OnInit {
 
   }
 
-addPublish(item: Schedule): void {
 
-  const [start, end] = item.TimeRange.split(' - ');
 
-  const payload = {
-    ProgramID: item.ProgramID,
-    StreamURL: item.urlValue || '', 
-    HostName: item.HostName,
-    StartTime: start,
-    EndTime: end,
-    IsLive: '1'
-  };
+  addPublish(item: Schedule): void {
 
-  this.loading = true;
+    const [start, end] = item.TimeRange.split(' - ');
 
-  this.tv = [
-    { T: 'c1', V: JSON.stringify(payload) },
-    { T: 'c10', V: '7' }
-  ];
+    const payload = {
+      ProgramID: item.ProgramID,
+      StreamURL: item.urlValue || '',
+      HostName: item.HostName,
+      StartTime: start,
+      EndTime: end,
+      IsLive: '1'
+    };
 
-  this.srv.getdata('program', this.tv)
-    .subscribe({
-      next: (r) => {
-        if (r.Status === 1) {
+    this.loading = true;
 
+    this.tv = [
+      { T: 'c1', V: JSON.stringify(payload) },
+      { T: 'c10', V: '7' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: (r) => {
+          if (r.Status === 1) {
+
+            this.loading = false;
+
+            const publishedUrl = item.urlValue || '';
+
+            this.tv = [
+              { T: 'dk1', V: String(item.id) },
+              { T: 'c10', V: '14' }
+            ];
+
+            this.srv.getdata('program', this.tv)
+              .subscribe({
+                next: () => {
+                  this.publishStatus.emit({
+                    isPublic: !!publishedUrl,
+                    url: publishedUrl,
+                    isPublish: true
+                  });
+                }
+              });
+          }
+        },
+        error: () => {
           this.loading = false;
-
-          const publishedUrl = item.urlValue || ''; 
-
-          this.tv = [
-            { T: 'dk1', V: String(item.id) },
-            { T: 'c10', V: '14' }
-          ];
-
-          this.srv.getdata('program', this.tv)
-            .subscribe({
-              next: () => {
-                this.publishStatus.emit({
-                  isPublic: !!publishedUrl,
-                  url: publishedUrl,
-                  isPublish: true
-                });
-              }
-            });
         }
-      },
-      error: () => {
-        this.loading = false;
-      }
-    });
-}
+      });
+  }
+
+
 
   onDateChange(date: Date) {
     this.selectedDate = date;
@@ -151,6 +179,7 @@ addPublish(item: Schedule): void {
 
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
+        console.log(r)
         this.schedules = [...(r.Data[0] as Schedule[])];
         this.updateCurrentProgram();
         this.loading = false;

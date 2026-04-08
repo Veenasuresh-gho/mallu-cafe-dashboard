@@ -32,3 +32,8 @@
 :host ::ng-deep .custom-btn mat-progress-spinner circle {
   stroke: var(--primary-color) !important;
 }
+
+.custom-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -33,6 +33,8 @@ export class MusicPlayer implements OnInit, OnChanges {
 
   isAudio: boolean = false;
 
+  noLive: boolean = false;
+
   backgroundUrl: string = '/dash/live-bg-img.jpg';
   hostAvatarUrl: string = '/dash/host-img.jpg';
   facebookUrl: string = 'https://www.facebook.com/Ma..';
@@ -52,7 +54,6 @@ export class MusicPlayer implements OnInit, OnChanges {
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
 
-  // 🎵 AUDIO STATE
   audio = new Audio();
   isPlaying: boolean = false;
   currentTime: number = 0;
@@ -65,7 +66,6 @@ export class MusicPlayer implements OnInit, OnChanges {
     private cdr: ChangeDetectorRef
   ) {}
 
-  // ✅ GET FILE EXTENSION
   getFileExtension(url: string): string {
     try {
       const cleanUrl = url.split('?')[0];
@@ -76,7 +76,6 @@ export class MusicPlayer implements OnInit, OnChanges {
     }
   }
 
-  // ✅ INIT AUDIO
   initAudio(url: string) {
     this.audio.src = url;
     this.audio.load();
@@ -95,27 +94,35 @@ export class MusicPlayer implements OnInit, OnChanges {
       this.isPlaying = false;
     };
 
-    // 🔥 autoplay support
     if (this.isAutoPlay) {
       this.audio.play();
       this.isPlaying = true;
     }
   }
 
-  handleMedia(url: string) {
-    if (!url) return;
+handleMedia(url: string) {
+  if (!url) return;
 
-    const ext = this.getFileExtension(url);
+  const ext = this.getFileExtension(url);
 
-    if (ext === 'mp3') {
-      this.isAudio = true;
-      this.showVideo = false;
-      this.initAudio(url);
-    } else {
-      this.isAudio = false;
-      this.prepareVideo(url);
-    }
+  if (ext === 'mp3') {
+    this.isAudio = true;
+    this.showVideo = false;
+    this.initAudio(url);
+    return;
   }
+
+  if (['mp4', 'webm', 'ogg'].includes(ext)) {
+    this.isAudio = false;
+    this.showVideo = true;
+    this.platform = 'unknown';
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    return;
+  }
+
+  this.isAudio = false;
+  this.prepareVideo(url);
+}
 
   ngOnInit(): void {
     this.tv = [{ T: 'c10', V: '13' }];
@@ -123,7 +130,6 @@ export class MusicPlayer implements OnInit, OnChanges {
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
         this.programDetails = r?.Data?.[0]?.[0];
-
         const url = this.programDetails?._url;
         this.handleMedia(url);
 
@@ -133,7 +139,6 @@ export class MusicPlayer implements OnInit, OnChanges {
     });
   }
 
-  // ✅ ON INPUT CHANGE
   ngOnChanges(): void {
     if (!this.publishInfo || !this.publishInfo.isPublish) return;
 

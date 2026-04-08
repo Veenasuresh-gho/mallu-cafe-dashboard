@@ -2,7 +2,7 @@
   mat-button
   disableRipple
   class="custom-btn d-flex align-items-center justify-content-center gap-2"
-  [disabled]="loading"
+  [disabled]="loading || disabled"
   [ngClass]="{
     'mat-stroked-button': type === 'stroked',
     'mat-flat-button': type === 'flat',

@@ -83,6 +83,7 @@ export class UploadNewFileModal implements OnInit {
   errors: any = {};
   title: string = '';
   subtitle: string = '';
+  thumbnailFile: File | null = null;
 
   removeFile() {
     if (this.previewUrl) {
@@ -156,16 +157,19 @@ export class UploadNewFileModal implements OnInit {
     this.title = data.title;
     this.subtitle = data.subtitle;
 
-
     this.finalfileName = data?.fileName || '';
+
+    this.thumbnailFile = data.thumbnailFile || null;
+
+    console.log('Thumbnail File:', this.thumbnailFile);
 
     if (this.selectedFile && this.finalfileName) {
       this.renameFile();
     }
 
     this.updateFileName();
-
   }
+
   isImageType(): boolean {
     return this.fileType.startsWith('image');
   }
@@ -259,6 +263,7 @@ export class UploadNewFileModal implements OnInit {
 
             this.loading = false;
             if (success) {
+
               this.tv = [
                 { T: 'dk1', V: this.programId },
                 { T: 'c10', V: '16' }
@@ -267,6 +272,12 @@ export class UploadNewFileModal implements OnInit {
                 .subscribe({
                   next: async (r) => {
                     if (r.Status === 1) {
+                      const ThumbnailAddsuccess = await this.srv.handleFileUpload(
+                        this.id,
+                        this.userId,
+                        this.thumbnailFile,
+                        '3'
+                      );
                       this.toast.show({
                         title: 'Video uploaded! 🎉',
                         description: 'Video added successfully',
@@ -305,7 +316,6 @@ export class UploadNewFileModal implements OnInit {
     const file = this.selectedFile;
 
     this.loading = true;
-    console.log(this.selectedCategoryId)
     this.tv = [
       { T: 'dk1', V: this.programId },
       { T: 'dk2', V: this.selectedCategoryId },
@@ -360,12 +370,14 @@ export class UploadNewFileModal implements OnInit {
     if (!this.selectedFile) return;
 
     const file = this.selectedFile;
+
     const payload = {
       Title: this.title,
       Subtitle: this.subtitle
     };
+
     this.loading = true;
-    console.log(this.selectedMediaType)
+
     this.tv = [
       { T: 'dk1', V: this.userId },
       { T: 'dk2', V: this.selectedMediaType },
@@ -377,34 +389,47 @@ export class UploadNewFileModal implements OnInit {
       .subscribe({
         next: async (r) => {
           if (r.Status === 1 && r.Data?.length) {
+
             this.id = r.Data[0]?.[0]?.id || this.programId;
 
-            const success = await this.srv.handleFileUpload(
+            const videoSuccess = await this.srv.handleFileUpload(
               this.id,
               this.userId,
               file,
               '4'
             );
 
-            this.loading = false;
-            if (success) {
-
-              this.toast.show({
-                title: 'Podcast Program media uploaded! 🎉',
-                description: 'media added successfully',
-                variant: 'success',
-                position: 'toast-bottom-right'
-              });
-
-              this.dialogRef.close(true);
-            } else {
+            if (!videoSuccess) {
+              this.loading = false;
               this.toast.show({
                 title: 'Upload failed ❌',
-                description: 'File upload failed',
+                description: 'Video upload failed',
                 variant: 'error',
                 position: 'toast-bottom-right'
               });
+              return;
             }
+
+            if (this.thumbnailFile) {
+              console.log(this.thumbnailFile)
+              await this.srv.handleFileUpload(
+                this.id,
+                this.userId,
+                this.thumbnailFile,
+                '3'
+              );
+            }
+
+            this.loading = false;
+
+            this.toast.show({
+              title: 'Video uploaded! 🎉',
+              description: 'Video + thumbnail uploaded successfully',
+              variant: 'success',
+              position: 'toast-bottom-right'
+            });
+
+            this.dialogRef.close(true);
             this.cdr.detectChanges();
           }
         },

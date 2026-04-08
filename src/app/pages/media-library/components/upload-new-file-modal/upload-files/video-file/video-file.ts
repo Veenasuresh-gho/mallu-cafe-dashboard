@@ -88,6 +88,7 @@ export class VideoFile implements OnChanges {
 
       fullData: this.programList.find(p => p.ProgramID === this.programId),
 
+      thumbnailFile: this.selectedFile
     });
 
   }
@@ -116,7 +117,8 @@ export class VideoFile implements OnChanges {
     this.typedText = value;
     this.emitData();
   }
-  onFileSelected(file: File) {
-    console.log('Selected file:', file);
-  }
+ onFileSelected(file: File) {
+  this.selectedFile = file;
+  this.emitData(); 
+}
 }

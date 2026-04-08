@@ -1,6 +1,5 @@
 <div>
 
-    <!-- HEADER -->
     <div class="program-schedules d-flex justify-content-between">
         <div>
             <h6>Today’s Program Schedules</h6>
@@ -53,27 +52,47 @@
                 </p>
             </div>
 
-            <div class="d-flex align-items-center gap-2">
-                <div class="rjImage">
-                    <img [src]="currentProgram.ThumbnailURL" />
+            <div class="d-flex justify-content-between w-100">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rjImage">
+                        <img [src]="currentProgram.ThumbnailURL" />
+                    </div>
+
+                    <div class="gap-1 d-flex flex-column">
+                        <p class="song-name mb-0 fw-semibold">{{ currentProgram.Title }}</p>
+                        <p class="time mb-0 text-muted">{{ currentProgram.TimeRange }}</p>
+                        <p class="name d-flex align-items-center gap-1 mb-0">
+                            <img src="/main/headphone_icon.svg" class="headphone-icon" />
+                            <span>{{ currentProgram.HostName }}</span>
+                        </p>
+                    </div>
                 </div>
 
-                <div class="gap-1 d-flex flex-column">
-                    <p class="song-name mb-0 fw-semibold">{{ currentProgram.Title }}</p>
-                    <p class="time mb-0 text-muted">{{ currentProgram.TimeRange }}</p>
-                    <p class="name d-flex align-items-center gap-1 mb-0">
-                        <img src="/main/headphone_icon.svg" class="headphone-icon" />
-                        <span>{{ currentProgram.HostName }}</span>
-                    </p>
-                </div>
+                @if(currentProgram.CategoryName!=="Live"){
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_horiz</mat-icon>
+                </button>
+                }
             </div>
+
+            <!-- Menu -->
+            <mat-menu #menu="matMenu" panelClass="custom-menu-panel">
+                <div class="custom-menu-item" (click)="currentProgram?.IsFileUploaded && publishProgram(currentProgram)"
+                    [class.disabled]="!currentProgram?.IsFileUploaded">
+                    <span>Publish</span>
+                    <img src="/upload/public-icon.svg" class="menu-icon" />
+                </div>
+            </mat-menu>
+
+
             <div class="d-flex justify-content-between align-items-center">
                 <p class="listeners mb-0">
                     Current Active Listeners:
                     <span class="fw-bold" style="color: var(--primary-text);">400+</span>
                 </p>
-
+                @if(currentProgram.CategoryName!=='Live'){
                 @if(currentProgram.IsFileUploaded) {
+
                 <p class="mb-0">
                     <img src="/main/tick.svg" />
                     <span class="files px-1">Files Uploaded</span>
@@ -84,6 +103,8 @@
                     <span class="files-not px-1">Files not Uploaded</span>
                 </p>
                 }
+                }
+
             </div>
             @if(currentProgram.CategoryName==="Live"){
             <div class="live-text-started d-flex align-items-center gap-1">
@@ -102,11 +123,10 @@
                 </div>
 
                 <app-primary-button class="btn-auto" (clicked)="addPublish(currentProgram)" [loading]="loading"
-                    [label]="'Publish'" iconSrc="/dash/publish.svg">
-                </app-primary-button>
+                    [label]="'Publish'" iconSrc="/dash/publish.svg"
+                    [disabled]="!currentProgram?.urlValue || !currentProgram?.urlValue?.trim()"></app-primary-button>
             </div>
             }
-
         </div>
         }
 
@@ -127,20 +147,37 @@
                     }
                 </p>
 
-                <div class="d-flex align-items-center gap-2">
-                    <div class="rjImage">
-                        <img [src]="item.ThumbnailURL" loading="lazy">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rjImage">
+                            <img [src]="item.ThumbnailURL" loading="lazy">
+                        </div>
+
+                        <div class="gap-1 d-flex flex-column">
+                            <p class="song-name mb-0 fw-semibold">{{item.Title}}</p>
+                            <p class="time mb-0 text-muted">{{item.TimeRange}}</p>
+                            <p class="name d-flex align-items-center gap-2 mb-0">
+                                <img src="/main/headphone_icon.svg" class="headphone-icon" />
+                                <span>{{item.HostName}}</span>
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="gap-1 d-flex flex-column">
-                        <p class="song-name mb-0 fw-semibold">{{item.Title}}</p>
-                        <p class="time mb-0 text-muted">{{item.TimeRange}}</p>
-                        <p class="name d-flex align-items-center gap-2 mb-0">
-                            <img src="/main/headphone_icon.svg" class="headphone-icon" />
-                            <span>{{item.HostName}}</span>
-                        </p>
-                    </div>
+                    @if(item.CategoryName!=="Live"){
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <mat-icon>more_horiz</mat-icon>
+                    </button>
+                    }
                 </div>
+
+                <mat-menu #menu="matMenu" panelClass="custom-menu-panel">
+                    <div class="custom-menu-item" (click)="item?.IsFileUploaded && publishProgram(item)"
+                        [class.disabled]="!item?.IsFileUploaded">
+                        <span>Publish</span>
+                        <img src="/upload/public-icon.svg" class="menu-icon" />
+                    </div>
+                </mat-menu>
+
 
                 @if(item.CategoryName==="Live"){
                 <div class="live-text d-flex align-items-center gap-1">
@@ -159,7 +196,8 @@
                     </div>
 
                     <app-primary-button class="btn-auto" (clicked)="addPublish(item)" [loading]="loading"
-                        [label]="'Publish'" iconSrc="/dash/publish.svg">
+                        [label]="'Publish'" iconSrc="/dash/publish.svg"
+                        [disabled]="!item?.urlValue || !item.urlValue?.trim()">
                     </app-primary-button>
                 </div>
                 }

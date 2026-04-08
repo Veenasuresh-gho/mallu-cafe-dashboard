@@ -189,39 +189,19 @@ export class AddNewProgram implements OnInit {
 
     this.srv.getdata('program', this.tv).subscribe({
       next: async (r) => {
-        try {
-          // ❌ If API failed
-          if (r.Status !== 1) {
-            this.toast.show({
-              title: 'Failed to create program ❌',
-              description: r?.Info || 'Something went wrong',
-              variant: 'error',
-              position: 'toast-bottom-right'
-            });
-            return;
-          }
+        if (r.Status === 1) {
 
           const program = r?.Data?.[0]?.[0];
 
-          if (!program?.id) {
-            this.toast.show({
-              title: 'Invalid response ❌',
-              description: 'Program ID missing',
-              variant: 'error',
-              position: 'toast-bottom-right'
-            });
-            return;
-          }
-
           this.id = program.id;
 
-          // ✅ Upload file safely
           const success = await this.srv.handleFileUpload(
             this.id,
             this.userId,
             this.selectedFile,
             '2'
           );
+
 
           if (success) {
             this.toast.show({
@@ -241,21 +221,9 @@ export class AddNewProgram implements OnInit {
             });
           }
 
-        } catch (err) {
-          console.error('Upload error:', err);
-
-          this.toast.show({
-            title: 'Upload error ❌',
-            description: 'Something went wrong during upload',
-            variant: 'error',
-            position: 'toast-bottom-right'
-          });
-
-        } finally {
-          // ✅ ALWAYS STOP LOADER
-          this.loading = false;
-          this.cdr.detectChanges();
         }
+
+
       },
 
       error: (err) => {

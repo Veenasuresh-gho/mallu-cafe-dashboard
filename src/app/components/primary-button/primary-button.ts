@@ -18,9 +18,10 @@ export class PrimaryButton {
   @Input() iconSrc: string = '';
   @Input() type: 'stroked' | 'flat' | 'raised' | 'danger' | 'ghost' = 'stroked';
   @Output() clicked = new EventEmitter<void>();
+  @Input() disabled: boolean = false;
 
-  onClick() {
-    this.clicked.emit();
-  }
-
+ onClick() {
+  if (this.loading || this.disabled) return;
+  this.clicked.emit();
+}
 }

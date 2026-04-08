@@ -139,7 +139,6 @@ handleMedia(url: string) {
     });
   }
 
-  // ✅ ON INPUT CHANGE
   ngOnChanges(): void {
     if (!this.publishInfo || !this.publishInfo.isPublish) return;
 

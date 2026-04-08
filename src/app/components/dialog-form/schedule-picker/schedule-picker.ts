@@ -21,7 +21,7 @@ export class SchedulePicker implements OnInit, OnChanges {
   isCalendarOpen: boolean = false;
   selectedDate: Date | null = null;
 
-  // 📆 Days
+  //  Days
   days = [
     { label: 'Monday', value: '1' },
     { label: 'Tuesday', value: '2' },
@@ -83,13 +83,13 @@ selectDay(day: any) {
 
   this.open = false;
 
-  // ✅ KEEP YOUR API FLOW SAME
+  //  KEEP YOUR API FLOW SAME
   this.emitChange();
 }
 getDayLabel(value: string): string {
   return this.days.find(d => d.value === value)?.label || '';
 }
-  // 📅 OPEN / CLOSE CALENDAR
+  //  OPEN / CLOSE CALENDAR
   toggleCalendar(): void {
     this.isCalendarOpen = !this.isCalendarOpen;
   }
@@ -98,7 +98,7 @@ getDayLabel(value: string): string {
     this.isCalendarOpen = false;
   }
 
-  // 📅 RECEIVE DATE FROM CHILD
+  //  RECEIVE DATE FROM CHILD
   onDateSelected(date: Date): void {
     if (!date) return;
 
@@ -111,7 +111,7 @@ getDayLabel(value: string): string {
     this.closeCalendar();
   }
 
-  // 📤 EMIT TO PARENT
+  //  EMIT TO PARENT
   emitChange(): void {
     this.modelChange.emit({
       fromDay: this.fromDay || '',

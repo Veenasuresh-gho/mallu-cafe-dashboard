@@ -44,10 +44,9 @@
         </div>
         <div class="custom-line-sub"></div>
 
-        <div class="d-flex align-items-center gap-2 section-title px-4">
-            <div class="step-badge">2</div>
-            <p class="content-title mb-0">Upload Media</p>
-        </div>
+       
+                <app-step-badge [stepNumber]="2" title="Upload Media"></app-step-badge>
+
         <div class="px-4">
 
             <app-upload-box [uploadText]="'Upload Advertisement File'"
@@ -109,10 +108,9 @@
                 {{ errors.date }}
             </div>
 
-            <!-- <app-schedule-picker [(model)]="scheduleModel" [showScheduleDay]="false"></app-schedule-picker> -->
-<!-- <app-input-time
+<app-input-time
   [(model)]="scheduleModel">
-</app-input-time> -->
+</app-input-time>
 
             <!-- <div class="error-text" *ngIf="errors.time">
                 {{ errors.time }}
@@ -121,7 +119,6 @@
             <!-- <p class="helper-text pt-1">(Schedule time slot is optional. Leave empty for 24/7 streaming.)</p> -->
         </div>
 
-        <div class="custom-line-sub px-4"></div>
 
 
         <!-- <app-step-badge [stepNumber]="4" title="Playback Settings"></app-step-badge> -->
@@ -166,7 +163,7 @@
 
 
         <div class="px-4 mb-4 mt-3">
-            <div class="d-flex gap-3" style="height: 78px;">
+            <div class="d-flex gap-3" style="height: 82px;">
                 <!-- Active Card -->
                 <div class="status-card active-card w-50 p-2" [class.selected]="selectedStatus === 'active'"
                     (click)="selectedStatus = 'active'">
@@ -175,7 +172,7 @@
                             <div class="radio-inner" *ngIf="selectedStatus === 'active'" style="color: #D80905;"></div>
                         </div>
                         <div>
-                            <div class="d-flex align-items-center gap-2 mb-2">
+                            <div class="d-flex align-items-center gap-2 mb-1">
                                 <span class="dot success"></span>
                                 <span class="status-title active-color">Active</span>
                             </div>
@@ -188,20 +185,20 @@
                 </div>
 
                 <!-- Waiting Card -->
-                <div class="status-card waiting-card w-50 p-2" [class.selected]="selectedStatus === 'waiting'"
+                <div class="status-card waiting-card w-50" [class.selected]="selectedStatus === 'waiting'"
                     (click)="selectedStatus = 'waiting'">
                     <div class="d-flex gap-2">
                         <div class="radio-circle flex-shrink-0" [class.waiting-checked]="selectedStatus === 'waiting'">
                             <div class="radio-inner" *ngIf="selectedStatus === 'waiting'" style="color: #F2C94C;"></div>
                         </div>
                         <div>
-                            <div class="d-flex align-items-center gap-2 mb-2">
+                            <div class="d-flex align-items-center gap-2 mb-1">
                                 <span class="status-title waiting-color flex-shrink-0 d-flex gap-1">
                                     <img src="/dash/danger.svg" alt="">
                                     Waiting List
                                 </span>
                             </div>
-                            <span class="status-chip waiting-chip">Start Immediately</span>
+                            <span class="status-chip waiting-chip">Review Needed</span>
 
                             <p class="status-desc mb-2">Admin approval required</p>
                         </div>
@@ -219,7 +216,6 @@
                 [(ngModel)]="additionalNotes"></textarea>
             <p class="helper-text mt-1">Optional: Add any specific requirements or comments.</p>
         </div>
-        <div class="custom-line-sub px-4 "></div>
 
         <div class="py-2 px-4">
             <p class="checkbox-title">Choose where this ad should be delivered to users. You can select one or both

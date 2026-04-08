@@ -72,7 +72,23 @@ export class SchedulePicker implements OnInit, OnChanges {
     this.toTime = this.model.toTime || '';
     this.selectedDate = this.model.selectedDate || null;
   }
+open = false;
 
+toggleDropdown() {
+  this.open = !this.open;
+}
+
+selectDay(day: any) {
+  this.fromDay = day.value;
+
+  this.open = false;
+
+  // ✅ KEEP YOUR API FLOW SAME
+  this.emitChange();
+}
+getDayLabel(value: string): string {
+  return this.days.find(d => d.value === value)?.label || '';
+}
   // 📅 OPEN / CLOSE CALENDAR
   toggleCalendar(): void {
     this.isCalendarOpen = !this.isCalendarOpen;

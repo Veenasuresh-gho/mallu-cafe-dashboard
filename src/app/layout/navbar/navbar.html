@@ -35,8 +35,9 @@
 
         
             <div class="d-flex align-items-center gap-1">
-                 <img src="/main/user-image.png" class="profile-img" />
-                <span class="username">RJ Shijo</span>
+                 <img  [src]="profile?._url || '/main/user-image.png'" 
+          class="profile-img"  />
+                <span class="username" >  {{ profile?.FullName || 'User' }}</span>
                 <span class="material-icons icon-sm dropdown-icon">
                     keyboard_arrow_down
                 </span>

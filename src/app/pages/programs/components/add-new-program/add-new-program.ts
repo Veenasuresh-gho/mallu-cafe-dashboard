@@ -24,6 +24,7 @@ import { ToastService } from '../../../../services/toastService';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 
 import { MatIconModule } from '@angular/material/icon';
+import { InputTime } from '../../../../components/dialog/input-time/input-time';
 
 @Component({
   selector: 'app-add-new-program',
@@ -43,7 +44,8 @@ import { MatIconModule } from '@angular/material/icon';
     FooterButton,
     CancelButton,
     PrimaryButton,
-    MatIconModule
+    MatIconModule,
+    InputTime
   ],
   templateUrl: './add-new-program.html',
   styleUrls: ['./add-new-program.css'],
@@ -80,6 +82,11 @@ export class AddNewProgram implements OnInit {
   errors: any = {};
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
+  timeModel = {
+    fromTime: '',
+    toTime: ''
+  };
+
 
   clearError(field: string) {
     if (this.errors[field]) delete this.errors[field];
@@ -100,6 +107,14 @@ export class AddNewProgram implements OnInit {
     this.getInitialData();
   }
 
+  onTimeChange(data: any) {
+    console.log('time from child:', data);
+    this.selectedSchedule = {
+      ...this.selectedSchedule,
+      fromTime: data.fromTime,
+      toTime: data.toTime
+    };
+  }
   getInitialData() {
     this.initialLoading = true;
 
@@ -201,6 +216,7 @@ export class AddNewProgram implements OnInit {
             this.selectedFile,
             '2'
           );
+console.log('add-program-data',payload);
 
 
           if (success) {

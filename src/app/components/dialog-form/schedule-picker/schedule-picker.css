@@ -49,11 +49,15 @@
   height: 36px;
   background: #fff;
 }
-
+.select-wrapper select:focus {
+  outline: none;
+  border: 1px solid #D80905;
+  border-radius: 6px;
+}
 /* Left label */
 .label {
   width: 139px;
-  padding: 10px 12px;
+  padding: 8px 12px;
   font-size: 12px;
   font-weight: 400;
   display: flex;
@@ -73,20 +77,25 @@
 }
 
 /* Right select boxes */
+.schedule-box-right{
+    width: 165px;
+  border: 1px solid #ddd;
+
+}
 .schedule-box-right,
 .schedule-box-rightEnd {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-radius: 8px;
-  height: 40px;
-  width: 165px;
+  height: 36px;
   background: #fff;
   /* overflow: hidden; */
-  padding: 0;
 }
 .schedule-box-rightEnd{
       border: 1px solid #ddd;
+        width: 165px;
+
 }
 
 /* Select wrapper for positioning arrow */
@@ -155,7 +164,8 @@
 }
 
 .option:hover {
-  color: #d92b2b;
+  color: #d92b2b !important;
+  background-color: none !important;
 }
 
 /* Selected state */
@@ -169,7 +179,7 @@
 
 /* Arrow between boxes */
 .arrow-container {
-  width: 83px;
+  width: 76px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -4,11 +4,7 @@
   <div class="schedule-header">
     <label class="input-label" *ngIf="showScheduleDay">Schedule *</label>
 
-    <!-- CALENDAR ICON -->
-    <!-- <div class="calendar-trigger" (click)="toggleCalendar()">
-      <img src="/calendar/icon.png" alt="calendar" />
-      <span *ngIf="selectedDate">{{ selectedDate | date:'mediumDate' }}</span>
-    </div> -->
+
   </div>
 
   <!-- DAY ROW -->
@@ -20,7 +16,8 @@
 
       <div class="schedule-box-right">
         <div class="select-wrapper">
-          <select [(ngModel)]="fromDay" (ngModelChange)="emitChange()" name="fromDay" required [ngClass]="{'selected': fromDay}">
+          <select [(ngModel)]="fromDay" (ngModelChange)="emitChange()" name="fromDay" required
+            [ngClass]="{'selected': fromDay}">
             <option value="" disabled selected hidden>Sunday</option>
             <option *ngFor="let d of days" [value]="d.value">
               {{ d.label }}
@@ -35,7 +32,7 @@
       <img src="/program/arrow-right.svg" alt="">
     </div>
 
-    <div class="schedule-box-rightEnd">
+    <div class="schedule-box-rightEnd ">
       <div class="select-wrapper">
         <select [(ngModel)]="toDay" (ngModelChange)="emitChange()" name="toDay" [ngClass]="{'selected': toDay}">
           <option value="" disabled selected hidden>Saturday</option>
@@ -50,7 +47,7 @@
   </div>
 
   <!-- TIME ROW -->
-  <div class="schedule-row mt-2">
+  <!-- <div class="schedule-row mt-2">
 
     <div class="schedule-box">
       <div class="label input-field">Schedule Time</div>
@@ -58,19 +55,15 @@
 
       <div class="schedule-box-right">
         <div class="select-wrapper">
-          <!-- FROM TIME -->
-<select 
-  [(ngModel)]="fromTime" 
-  (ngModelChange)="emitChange()" 
-  name="fromTime"
-  [ngClass]="{'selected': fromTime}">
+          <select [(ngModel)]="fromTime" (ngModelChange)="emitChange()" name="fromTime"
+            [ngClass]="{'selected': fromTime}">
 
-  <option value="" disabled hidden>Select Time</option>
+            <option value="" disabled hidden>Select Time</option>
 
-  <option *ngFor="let t of times" [value]="t">
-    {{ t }}
-  </option>
-</select>
+            <option *ngFor="let t of times" [value]="t">
+              {{ t }}
+            </option>
+          </select>
           <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
         </div>
       </div>
@@ -82,28 +75,23 @@
 
     <div class="schedule-box-rightEnd">
       <div class="select-wrapper">
-       <select 
-  [(ngModel)]="toTime" 
-  (ngModelChange)="emitChange()" 
-  name="toTime"
-  [ngClass]="{'selected': toTime}">
+        <select [(ngModel)]="toTime" (ngModelChange)="emitChange()" name="toTime" [ngClass]="{'selected': toTime}">
 
-  <option value="" disabled hidden>Select Time</option>
+          <option value="" disabled hidden>Select Time</option>
 
-  <option *ngFor="let t of times" [value]="t">
-    {{ t }}
-  </option>
-</select>
+          <option *ngFor="let t of times" [value]="t">
+            {{ t }}
+          </option>
+        </select>
         <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
       </div>
     </div>
 
   </div>
 
-</div>
+</div> -->
 
-<!-- CALENDAR POPUP -->
-<div class="calendar-overlay" *ngIf="isCalendarOpen" (click)="closeCalendar()">
+<!-- <div class="calendar-overlay" *ngIf="isCalendarOpen" (click)="closeCalendar()">
 
   <div class="calendar-popup" (click)="$event.stopPropagation()">
     <app-custom-calendar
@@ -111,4 +99,4 @@
     </app-custom-calendar>
   </div>
 
-</div>
+</div> -->

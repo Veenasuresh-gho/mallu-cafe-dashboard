@@ -18,12 +18,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { CustomFilterCalender } from '../../components/custom-filter-calender/custom-filter-calender';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { ToastService } from '../../services/toastService';
 
 @Component({
   selector: 'app-programs',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown, MatProgressSpinnerModule,CustomFilterCalender],
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule,
+     MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown, 
+     MatProgressSpinnerModule,CustomFilterCalender,MatMenuModule,MatDividerModule,MatButtonModule],
   templateUrl: './programs.html',
   styleUrl: './programs.css',
 })
@@ -32,22 +38,56 @@ export class Programs implements OnInit {
   constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
   loading = false;
   ds: [] = [];
+  toast = inject(ToastService);
 
+
+
+    // openModal() {
+    //   const dialogRef = this.dialog.open(AddNewProgram, {
+    //     width: '90%',
+    //     maxWidth: '600px',
+    //     maxHeight: '95vh',
+    //     disableClose: true,
+    //   });
+  
+    //   dialogRef.afterClosed().subscribe((res) => {
+    //     if (res) {
+    //       this.getProgramList();
+    //     }
+    //   });
+    // }
 
     openModal() {
-      const dialogRef = this.dialog.open(AddNewProgram, {
-        width: '90%',
+  const dialogRef = this.dialog.open(AddNewProgram, {
+          width: '90%',
         maxWidth: '600px',
         maxHeight: '95vh',
-        disableClose: true,
-      });
-  
-      dialogRef.afterClosed().subscribe((res) => {
-        if (res) {
-          this.getProgramList();
-        }
-      });
+    disableClose: true
+  });
+
+  dialogRef.afterClosed().subscribe(res => {
+    if (res) {
+      this.getProgramList(); 
     }
+  });
+}
+
+editProgram(row: any) {
+  this.dialog.open(AddNewProgram, {
+          width: '90%',
+        maxWidth: '600px',
+        maxHeight: '95vh',
+    disableClose: true,
+    data: {
+      mode: 'edit',
+      program: row
+    }
+  }).afterClosed().subscribe(res => {
+    if (res) {
+      this.getProgramList();
+    }
+  });
+}
 
     
 
@@ -77,7 +117,6 @@ export class Programs implements OnInit {
       .subscribe({
         next: (r) => {
           this.ds = r.Data[0];
-          console.log(this.ds)
           this.dataSource.data = this.ds;
           this.dataSource._updateChangeSubscription();
           this.loading = false;
@@ -106,7 +145,8 @@ export class Programs implements OnInit {
     'host',
     'duration',
     'dayTime',
-    'interaction'
+    'interaction',
+    'actions' 
   ];
 
   programsDropdown: string = 'all';
@@ -127,11 +167,57 @@ onProgramChange(value: string) {
 }
 
 onFilterApplied(data: any) {
-  console.log('Final Filter:', data);
-
-  // ✅ Now confirm selection
   this.programsDropdown = this.tempProgramSelection;
-
   this.isCalendarOpen = false;
 }
+
+  deleteProgram(id: any) {
+  this.loading = true;
+  const tv = [
+    { T: 'dk1', V: id },
+    { T: 'c10', V: '4' }
+  ];
+
+  this.srv.getdata('program', tv).subscribe({
+    next: (r: any) => {
+
+      this.loading = false;
+
+      if (r && r.Status === 1) {
+
+        this.toast.show({
+          title: 'Program deleted successfully! ',
+          description: 'Program has been successfully deleted',
+          variant: 'success',
+          position: 'toast-bottom-center'
+        });
+
+        this.getProgramList(); 
+
+      } else {
+
+        this.toast.show({
+          title: 'Failed to delete Program ❌',
+          description: r?.Info || 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-center'
+        });
+
+      }
+    },
+
+    error: () => {
+      this.loading = false;
+
+      this.toast.show({
+        title: 'Error ❌',
+        description: 'Server error while deleting Program',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+
+    }
+  });
+}
+
 }

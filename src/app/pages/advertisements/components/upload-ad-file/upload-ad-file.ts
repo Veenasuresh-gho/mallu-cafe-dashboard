@@ -88,7 +88,6 @@ export class UploadAdFile implements OnInit {
     if (this.data?.mode === 'edit') {
       this.isEditMode = true;
       this.populateForm(this.data.advertisement);
-      console.log('Advertisement Data:', this.data.advertisement);
     }
   }
 
@@ -97,7 +96,7 @@ export class UploadAdFile implements OnInit {
     return time.slice(0, 5); 
   }
 
- 
+
 
   populateForm(ad: any) {
     console.log('ad', ad);

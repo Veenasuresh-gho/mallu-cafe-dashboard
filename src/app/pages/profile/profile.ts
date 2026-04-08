@@ -84,7 +84,6 @@ export class Profile {
           const data = r.Data;
 
           this.profile = data[0]?.[0] || {};
-          console.log('profile', this.profile);
 
           this.assignedPrograms = data[1] || [];
 
@@ -154,7 +153,6 @@ export class Profile {
   }
 
   deleteProfilePic(fileUploadID: any) {
-  console.log('🚀 deleteUpload called with fileUploadID:', fileUploadID);
   if (!fileUploadID) return;
   this.loading = true;
   this.cd.detectChanges(); 
@@ -170,8 +168,6 @@ export class Profile {
 
   this.srv.getdata('fileupload', this.tv).subscribe({
     next: (r: any) => {
-      console.log('✅ API Response:', r);
-
       this.loading = false;
       this.cd.detectChanges(); 
 

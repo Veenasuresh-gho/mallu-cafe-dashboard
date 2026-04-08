@@ -81,11 +81,25 @@ export class AddTeamMember implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  addTeamMember(): void {
+
+addTeamMember(): void {
+
+  // 🔹 Frontend validation
+  if (!this.fullName || !this.phone || !this.email || !this.role) {
+    this.toast.show({
+      title: 'Missing fields ⚠️',
+      description: 'Please fill all required fields',
+      variant: 'error',
+      position: 'toast-bottom-right'
+    });
+    return;
+  }
+
   const permissionPayload: any = {};
   this.permissions.forEach(p => {
     permissionPayload[p.key] = p.checked ? '1' : '0';
   });
+
   const payload = {
     FullName: this.fullName,
     Role: this.role,
@@ -95,7 +109,9 @@ export class AddTeamMember implements OnInit {
     selectedPrograms: this.selectedPrograms.map(p => p.DataValue).join(','),
     ...permissionPayload
   };
+
   this.loading = true;
+  this.cdr.detectChanges();
   this.tv = [
     { T: 'c1', V: JSON.stringify(payload) },
     { T: 'c10', V: '1' }
@@ -105,10 +121,11 @@ export class AddTeamMember implements OnInit {
     .subscribe({
       next: (r) => {
 
+        this.loading = false; 
+        this.cdr.detectChanges();
         if (r.Status == 1) {
           this.id = r.Data[0][0].Id;
 
-          this.loading = false;
           this.toast.show({
             title: 'Team member added 🎉',
             description: 'User created successfully',
@@ -117,16 +134,27 @@ export class AddTeamMember implements OnInit {
           });
 
           this.dialogRef.close(true);
+
           if (this.selectedFile) {
             this.handleUpload(this.id);
           }
+
+        } else {
+          // 🔴 API validation error
+          this.toast.show({
+            title: 'Validation error ⚠️',
+            description: r.Info || 'Something went wrong',
+            variant: 'error',
+            position: 'toast-bottom-center'
+          });
         }
       },
 
       error: (err) => {
         console.error('API Error:', err);
-        this.loading = false;
 
+        this.loading = false;
+        this.cdr.detectChanges();
         this.toast.show({
           title: 'Server error 🚨',
           description: 'Please try again later',
@@ -197,6 +225,8 @@ handleUpload(id: string) {
   addTeamMemberClick() {
     this.addTeamMember();
   }
+
+
   getProgramList(): void {
     // this.loading = true;
     this.tv = [{ T: 'c10', V: '3' }];

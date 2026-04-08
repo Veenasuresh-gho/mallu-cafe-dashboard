@@ -38,7 +38,7 @@ export class ProfileInfo {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['profile']) {
-      console.log('📦 Profile data received:', this.profile);
+
     }
   }
 
@@ -56,7 +56,6 @@ export class ProfileInfo {
       .subscribe({
         next: (r) => {
           this.roles = r.Data[0] || [];
-          console.log('roles', this.roles);
           if (this.profile?.Role && this.roles.length) {
             const match = this.roles.find(
               role => role.DisplyText === this.profile.Role

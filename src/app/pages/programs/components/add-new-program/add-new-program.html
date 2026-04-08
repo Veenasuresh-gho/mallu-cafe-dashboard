@@ -1,6 +1,10 @@
 <div class="dialog-box">
-    <app-dialog-header-component [title]="'Add New Program'" [subtitle]="'Create and schedule a new program'"
+    <!-- <app-dialog-header-component [title]="'Add New Program'" [subtitle]="'Create and schedule a new program'"
         (closeClicked)="close()">
+    </app-dialog-header-component> -->
+    <app-dialog-header-component [title]="isEditMode ? 'Edit Program' : 'Add New Program'" [subtitle]="isEditMode 
+    ? 'Update your program details' 
+    : 'Create and schedule a new program'" (closeClicked)="close()">
     </app-dialog-header-component>
 
     <form>
@@ -29,7 +33,7 @@
 
         <app-schedule-picker (modelChange)="clearError('schedule'); clearError('time')"
             [(model)]="selectedSchedule"></app-schedule-picker>
-     
+
 
         <div class="form-group">
             <label class="input-label" for="thumbnail">Thumbnail</label>
@@ -39,11 +43,18 @@
                     <input id="thumbnail" type="file" accept="image/*"
                         (change)="onFileSelected($event); clearError('file')" hidden />
                     <img src="/program/upload-icon.svg" alt="">
-                    <p class="pt-3"> Upload Image</p>
+                    <p class=""> Upload Image</p>
                 </label>
 
-                <span class="file-name">
-                    {{ fileName || '- No file uploaded -' }}
+                <span class="file-name d-flex justify-content-between align-items-center w-100">
+                    <span>
+                        {{ fileName || '- No file uploaded -' }}
+                    </span>
+                    <button (click)="deleteUpload(fid)" *ngIf="fileName && isEditMode"
+                        class="btn-delete d-flex align-items-center justify-content-center">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+
                 </span>
             </div>
 
@@ -51,6 +62,7 @@
                 {{ errors.file }}
             </div>
         </div>
+
 
         <div class="form-group">
             <label class="input-label">Listener Interaction *</label>
@@ -80,8 +92,8 @@
 <div class="border footer">
     <div class="dialog-actions d-flex justify-content-end mt-4 mx-4 ">
         <app-cancel-button class="pt-2" (click)="close()"></app-cancel-button>
-        <app-primary-button (clicked)="addProgram()" [loading]="loading" [label]="'Create new program'"
-            iconSrc="/dash/cloud-connection.svg">
+        <app-primary-button (clicked)="isEditMode ? updateProgram() : addProgram()" [loading]="loading"
+            [label]="isEditMode ? 'Update Program' : 'Create New Program'" iconSrc="/dash/cloud-connection.svg">
         </app-primary-button>
     </div>
 </div>

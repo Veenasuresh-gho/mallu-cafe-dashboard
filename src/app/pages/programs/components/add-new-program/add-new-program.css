@@ -343,39 +343,54 @@ select:invalid {
 .file-upload {
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  overflow: hidden;
   width: 100%;
   max-width: 552px;
   height: 36px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
   box-sizing: border-box;
 }
 
+/* ===== LEFT: UPLOAD BUTTON ===== */
 .upload-btn {
   background: #f5f5f5;
-  padding: 10px;
-  cursor: pointer;
-  border-right: 1px solid #ccc;
-  font-size: 14px;
+  padding: 0 10px;
+  height: 100%;
   display: flex;
   align-items: center;
-  gap: 4px;
-  width: 139px;
+  gap: 6px;
+  cursor: pointer;
+  border-right: 1px solid #ccc;
+  min-width: 140px;
+}
+
+.upload-btn img {
+  width: 18px;
+  height: 18px;
 }
 
 .upload-btn p {
-  font-weight: 400;
-  font-family: Poppins;
+  margin: 0;
   font-size: 12px;
-  columns: #312F2F;
+  color: #312F2F;
+  font-family: Poppins;
 }
 
+/* ===== RIGHT: FILE NAME + DELETE ===== */
 .file-name {
-  padding: 8px 12px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
   font-size: 12px;
-  color: #666;
-  flex-grow: 1;
+  color: #374151;
+  overflow: hidden;
+}
+
+/* FILE TEXT (LEFT SIDE) */
+.file-name span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -433,4 +448,80 @@ select:invalid {
 /* Change text color when selected */
 .custom-radio.selected span {
   color: #d92b2b;
+}
+
+/* Container */
+.upload-container {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px;
+  background: #fafafa;
+}
+
+/* Row layout */
+.file-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Left section (icon + text) */
+.file-preview .title {
+  font-size: 10px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.file-preview .subtitle {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* Delete button */
+.btn-delete {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  color: gray;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+  color: rgb(232, 46, 46);
+}
+
+/* Upload block (your existing one enhancement) */
+.file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* Upload button */
+.upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.upload-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+/* File name text */
+.file-name {
+  font-size: 12px;
+  color: #374151;
+}
+
+/* Spacing helper */
+.mt-2 {
+  margin-top: 10px;
 }

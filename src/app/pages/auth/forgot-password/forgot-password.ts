@@ -92,7 +92,6 @@ export class ForgotPassword implements OnDestroy {
 
   resendCode() {
     if (this.timer > 0) return;
-    console.log('Resend OTP API call');
 
   const { email } = this.loginForm.value;
 

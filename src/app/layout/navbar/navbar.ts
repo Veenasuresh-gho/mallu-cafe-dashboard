@@ -72,40 +72,46 @@ export class Navbar {
   currentSong: any = null;
   nextSong: any = null;
 
-  getSongs(): void {
+ getSongs(): void {
 
-    const tv = [
-      { T: 'dk2', V: '' },
-      { T: 'c10', V: '12' }
-    ];
+  const tv = [
+    { T: 'dk2', V: '' },
+    { T: 'c10', V: '12' }
+  ];
 
-    this.srv.getdata('teammember', tv)
-      .subscribe({
-        next: (res) => {
+  this.srv.getdata('teammember', tv)
+    .subscribe({
+      next: (res) => {
 
-          console.log('Songs API:', res);
+        console.log('Songs API:', res);
 
-          const songData = res.Data?.[0]?.[2];
-         
-         this.nextSong = {
-            title: songData.Title
-          };
+        const list = res.Data?.[0] || [];
 
-          this.currentSong =
-            songData.IsStreaming === 1
-              ? { title: songData.Title }
-              : null;
+        
 
-          console.log('FINAL:', {
-            next: this.nextSong,
-            current: this.currentSong
-          });
-        },
+        const current = list.find((item: any) => item.IsStreaming === 1);
 
-        error: (err) => {
-          console.error('Song API Error:', err);
-        }
-      });
-  }
+        const next = list[0];
+
+        this.nextSong = {
+          title: next.Title
+        };
+
+        // SET CURRENT ONLY IF FOUND
+        this.currentSong = current
+          ? { title: current.Title }
+          : null;
+
+        console.log('FINAL:', {
+          next: this.nextSong,
+          current: this.currentSong
+        });
+      },
+
+      error: (err) => {
+        console.error('Song API Error:', err);
+      }
+    });
+}
 
 }

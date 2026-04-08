@@ -102,7 +102,7 @@
 
     <div class="date-box">
 
-      <span class="date-text">
+      <span class="date-text"   [ngClass]="{ 'filled': fromDate }">
         {{ formatDateForDisplay(fromDate) || '24 Apr 2026' }}
       </span>
 
@@ -124,8 +124,8 @@
 
   <!-- TO DATE -->
   <div class="schedule-box-right">
-    <div class="d-flex justify-content-between dateToBox">
-      <span class="px-2">{{ formatDateForDisplay(toDate) || '24 Apr 2026' }}</span>
+    <div class="d-flex justify-content-between dateToBox" >
+      <span class="px-2 date-text" [ngClass]="{ 'filled': toDate }">{{ formatDateForDisplay(toDate) || '24 Apr 2026' }}</span>
 
       <div class="calendar-trigger">
         <img src="/advertise/calendar.svg" (click)="openCalendar('to', $event); " class="calendar-icon">

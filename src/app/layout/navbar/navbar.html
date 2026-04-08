@@ -1,27 +1,28 @@
 <div class="navbar d-flex justify-content-between align-items-center p-3">
 
-    <div class="song-section d-flex align-items-center gap-4">
+  <div class="song-section d-flex align-items-center gap-4">
 
-        <div class="song next d-flex flex-column">
-            <p class="mb-0 title fw-semibold">{{ nextSong.title }}</p>
-            <p class="mb-0 status d-flex align-items-center gap-1">
-                <img src="/main/navbar/info.svg" class="icon-sm" />
-                <span class=" text-muted">Next</span>
-            </p>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="song current d-flex flex-column">
-            <p class="mb-0 title fw-semibold">{{ currentSong.title }}</p>
-            <p class="mb-0 status d-flex align-items-center gap-1">
-                <span class="material-icons icon-sm text-success">
-                    radio_button_checked
-                </span> On Air
-            </p>
-        </div>
-
+    <!-- NEXT (always) -->
+    <div class="song next d-flex flex-column" *ngIf="nextSong">
+        <p class="mb-0 title fw-semibold">{{ nextSong.title }}</p>
+        <p class="mb-0 status d-flex align-items-center gap-1">
+            <img src="/main/navbar/info.svg" class="icon-sm" />
+            <span class="text-muted">Next</span>
+        </p>
     </div>
+
+    <div class="divider" *ngIf="currentSong"></div>
+
+    <div class="song current d-flex flex-column" *ngIf="currentSong">
+        <p class="mb-0 title fw-semibold">{{ currentSong.title }}</p>
+        <p class="mb-0 status d-flex align-items-center gap-1">
+            <span class="material-icons icon-sm text-success">
+                radio_button_checked
+            </span> On Air
+        </p>
+    </div>
+
+</div>
 
     <div class="nav-right">
         <div>
@@ -35,8 +36,9 @@
 
         
             <div class="d-flex align-items-center gap-1">
-                 <img src="/main/user-image.png" class="profile-img" />
-                <span class="username">RJ Shijo</span>
+                 <img  [src]="profile?._url || '/profile/profile-fallback-1.png'" 
+          class="profile-img"  />
+                <span class="username" > {{ profile?.FullName || 'User' }}</span>
                 <span class="material-icons icon-sm dropdown-icon">
                     keyboard_arrow_down
                 </span>

@@ -27,6 +27,11 @@ export class InputTime implements OnInit, OnChanges {
 
   errors: any = {};
 
+  touched = {
+  from: false,
+  to: false
+};
+
   ngOnInit(): void {
     this.setValuesFromModel();
     // this.emitChange();
@@ -72,50 +77,71 @@ hours = Array.from({ length: 12 }, (_, i) =>
 minutes = Array.from({ length: 59 }, (_, i) =>
   (i + 1).toString().padStart(2, '0')
 );
-selectedHour = '00';
-selectedMinute = '00';
-period: 'AM' | 'PM' = 'AM';
+fromState = {
+  hour: '10',
+  minute: '00',
+  period: 'AM' as 'AM' | 'PM',
+  index: 0
+};
+
+toState = {
+  hour: '11',
+  minute: '30',
+  period: 'AM' as 'AM' | 'PM',
+  index: 0
+};
 
 togglePicker(type: 'from' | 'to') {
   this.activePicker = this.activePicker === type ? null : type;
+
+  // mark as active (red state)
+  this.touched[type] = true;
 }
 
 selectedIndex: number = 0;
 
 selectHour(h: string) {
-  this.selectedHour = h;
-  this.selectedIndex = this.hours.indexOf(h);
-
   const index = this.hours.indexOf(h);
-  this.scrollToCenter(index, this.hourCol);
+
+  if (this.activePicker === 'from') {
+    this.fromState.hour = h;
+    this.fromState.index = index;
+  } else {
+    this.toState.hour = h;
+    this.toState.index = index;
+  }
 }
 
 selectMinute(m: string) {
-  this.selectedMinute = m;
-  this.selectedIndex = this.hours.indexOf(m);
-
   const index = this.minutes.indexOf(m);
-  this.scrollToCenter(index, this.minuteCol);
+
+  if (this.activePicker === 'from') {
+    this.fromState.minute = m;
+    this.fromState.index = index;
+  } else {
+    this.toState.minute = m;
+    this.toState.index = index;
+  }
 }
 selectPeriod(p: 'AM' | 'PM') {
-  this.period = p;
+  if (this.activePicker === 'from') {
+    this.fromState.period = p;
+  } else {
+    this.toState.period = p;
+  }
 }
 timeModel = {
   fromTime: '',
   toTime: ''
 };
 confirmTime() {
-  const time = `${this.selectedHour}:${this.selectedMinute} ${this.period}`;
+  if (this.activePicker === 'from') {
+    this.fromTime = `${this.fromState.hour}:${this.fromState.minute} ${this.fromState.period}`;
+  }
 
- if (this.activePicker === 'from') {
-  this.fromTime = time;
-  
-}
-
-if (this.activePicker === 'to') {
-  this.toTime = time;
-  
-}
+  if (this.activePicker === 'to') {
+    this.toTime = `${this.toState.hour}:${this.toState.minute} ${this.toState.period}`;
+  }
 
   this.activePicker = null;
   this.emitChange();

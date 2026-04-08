@@ -47,7 +47,7 @@
   width: 165px;
 }
 .schedule-box-rightEnd{
-  width: 155px;
+  width: 165px;
   margin-left: 3px;
 }
 .select-wrapper {
@@ -97,7 +97,7 @@
 }
 .time-input {
   height: 36px;
-  /* border: 1px solid #ddd; */
+  border: 1px solid transparent;
   border-radius: 8px;
   padding: 10px;
   display: flex;
@@ -106,6 +106,18 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+}
+/* DEFAULT */
+
+
+/* 🔴 ACTIVE (when clicking) */
+.time-input.active-red {
+  border: 1px solid #D80905;
+}
+
+/* ⚫ AFTER SELECTION */
+.time-input.filled-black {
+  color: #312F2F;
 }
 
 /* POPUP */
@@ -179,7 +191,7 @@
 /* BUTTON */
 .ok-btn {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 6px;
   font-size: 12px;
   background: #f5cfcf;

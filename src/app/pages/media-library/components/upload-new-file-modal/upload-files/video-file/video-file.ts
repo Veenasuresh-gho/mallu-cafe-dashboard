@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { StepBadge } from '../../../../../../components/dialog-form/step-badge/step-badge';
 import { FormInput } from '../../../../../../components/dialog-form/form-input/form-input';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
@@ -14,10 +14,9 @@ import { ghoresult, tags } from '../../../../../../../model/ghomodel';
   templateUrl: './video-file.html',
   styleUrl: './video-file.css',
 })
-export class VideoFile {
+export class VideoFile implements OnChanges {
   typedText: string = '';
   selectedType: string = '';
-  subtitle: string = '';
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
   tv: tags[] = [];
@@ -31,27 +30,55 @@ export class VideoFile {
   errors: any = {};
   selectedCategoryId: string = '';
   title: string = '';
-
+  subtitle: string = '';
+  originalFileName: string = '';
+  selectedFile: File | null = null;
 
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
+  @Input() fileName: string = '';
   @Input() disabled: boolean = false;
   @Output() programSelected = new EventEmitter<any>();
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['fileName'] && this.fileName && !this.originalFileName) {
+      this.originalFileName = this.fileName;
+    }
+  }
+
+  getBaseName(name: string): string {
+    if (!name) return '';
+
+    const lastDotIndex = name.lastIndexOf('.');
+    const base = lastDotIndex !== -1
+      ? name.substring(0, lastDotIndex)
+      : name;
+
+    return base.replace(/\s+/g, '');
+  }
+  onTitleChange(value: string) {
+    this.title = value;
+    this.emitData();
+  }
+
+  onSubtitleChange(value: string) {
+    this.subtitle = value;
+    this.emitData();
+  }
 
   emitData() {
 
     const cleanDate = this.typedText.replace(/\//g, '');
-    const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
-
+    const baseName = this.getBaseName(this.originalFileName);
     let fileName = '';
 
-    if (cleanProgramName && cleanDate && this.fileType) {
-      fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
+    if (baseName && cleanDate && this.fileType) {
+      fileName = `${baseName}${cleanDate}.${this.fileType}`;
     }
 
     this.programSelected.emit({
       programId: this.programId,
-      programName: cleanProgramName,
+      programName: baseName,
       categoryId: this.selectedCategoryId,
       typedText: this.typedText,
       fileName: fileName,
@@ -87,7 +114,6 @@ export class VideoFile {
     sel?.addRange(range);
 
     this.typedText = value;
-
     this.emitData();
   }
   onFileSelected(file: File) {

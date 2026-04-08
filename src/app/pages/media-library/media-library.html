@@ -84,15 +84,13 @@
 
     </div>
 
-
-
     <table mat-table [dataSource]="dataSource" class="custom-table">
 
         <ng-container matColumnDef="media">
             <th mat-header-cell *matHeaderCellDef>Uploaded File</th>
             <td mat-cell *matCellDef="let row">
                 <div class="media-cell">
-                    <img [src]="row.ThumbnailUrl" class="avatar" />
+                    <img [src]="row.ThumbnailUrl || '/main/no-image.png'" class="avatar" />
                     <div>
                         <p class="media-name mb-0">{{ row.FileName }}</p>
                         <p class="mb-0 media-size">{{ row.Size }}</p>
@@ -132,18 +130,17 @@
 
         <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef>Upload Status</th>
+
             <td mat-cell *matCellDef="let row">
-                <span class="uploadStatus" [ngClass]="row.statusClass">
+                <span class="uploadStatus" [ngClass]="row.PublishStatus === 1 ? 'published' : 'draft'">
 
-                    <mat-icon *ngIf="row.statusClass === 'published'">check_circle</mat-icon>
+                    <mat-icon *ngIf="row.PublishStatus === 1">check_circle</mat-icon>
+                    <mat-icon *ngIf="row.PublishStatus === null">info</mat-icon>
 
-                    <mat-icon *ngIf="row.statusClass === 'draft'">info</mat-icon>
-
-                    {{ row.uploadStatus }}
+                    {{ row.PublishStatus === 1 ? 'Published' : 'Draft' }}
                 </span>
             </td>
         </ng-container>
-
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
         <tr mat-row *matRowDef="let row; columns: columns;"></tr>
 

@@ -92,8 +92,6 @@ export class TodayScheduleSection implements OnInit {
 
   }
 
-
-
   addPublish(item: Schedule): void {
 
     const [start, end] = item.TimeRange.split(' - ');
@@ -145,8 +143,6 @@ export class TodayScheduleSection implements OnInit {
         }
       });
   }
-
-
 
   onDateChange(date: Date) {
     this.selectedDate = date;

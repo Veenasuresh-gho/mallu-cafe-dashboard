@@ -55,7 +55,8 @@ export class UploadNewFileModal implements OnInit {
   previewUrl: string = '';
 
   ngOnInit(): void {
-    this.userId = sessionStorage.getItem('id') || '';
+    const storedId = sessionStorage.getItem('id');
+    this.userId = storedId ? JSON.parse(storedId) : '';
     this.getMediaTypes();
   }
 
@@ -82,9 +83,6 @@ export class UploadNewFileModal implements OnInit {
   errors: any = {};
   title: string = '';
   subtitle: string = '';
-
-
-
 
   removeFile() {
     if (this.previewUrl) {
@@ -228,6 +226,8 @@ export class UploadNewFileModal implements OnInit {
       this.addmediaPre();
     } else if (this.selectedMediaType === '2') {
       this.addmediaPodcast();
+    } else if (this.selectedMediaType === '3') {
+      this.addVideos();
     }
   }
 
@@ -268,8 +268,8 @@ export class UploadNewFileModal implements OnInit {
                   next: async (r) => {
                     if (r.Status === 1) {
                       this.toast.show({
-                        title: 'Prescheduled media uploaded! 🎉',
-                        description: 'Prescheduled media added successfully',
+                        title: 'Video uploaded! 🎉',
+                        description: 'Video added successfully',
                         variant: 'success',
                         position: 'toast-bottom-right'
                       });
@@ -325,6 +325,65 @@ export class UploadNewFileModal implements OnInit {
               this.userId,
               file,
               '6'
+            );
+
+            this.loading = false;
+            if (success) {
+
+              this.toast.show({
+                title: 'Podcast Program media uploaded! 🎉',
+                description: 'media added successfully',
+                variant: 'success',
+                position: 'toast-bottom-right'
+              });
+
+              this.dialogRef.close(true);
+            } else {
+              this.toast.show({
+                title: 'Upload failed ❌',
+                description: 'File upload failed',
+                variant: 'error',
+                position: 'toast-bottom-right'
+              });
+            }
+            this.cdr.detectChanges();
+          }
+        },
+        error: () => {
+          this.loading = false;
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  addVideos(): void {
+    if (!this.selectedFile) return;
+
+    const file = this.selectedFile;
+    const payload = {
+      Title: this.title,
+      Subtitle: this.subtitle
+    };
+    this.loading = true;
+    console.log(this.selectedMediaType)
+    this.tv = [
+      { T: 'dk1', V: this.userId },
+      { T: 'dk2', V: this.selectedMediaType },
+      { T: 'c1', V: JSON.stringify(payload) },
+      { T: 'c10', V: '21' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: async (r) => {
+          if (r.Status === 1 && r.Data?.length) {
+            this.id = r.Data[0]?.[0]?.id || this.programId;
+
+            const success = await this.srv.handleFileUpload(
+              this.id,
+              this.userId,
+              file,
+              '4'
             );
 
             this.loading = false;

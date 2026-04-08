@@ -286,7 +286,7 @@ verifyOtp() {
 
     if (r.Status === 1) {
       const u = r.Data[0][0];
-      this.otpToken = u.Token;
+      this.otpToken = u.Id;
 
       this.toast.show({
         title: 'OTP Verified 🎉',

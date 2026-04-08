@@ -116,7 +116,7 @@
         font-size: 12px;
         line-height: 12px;
         letter-spacing: 0%;
-        color: var(--primary-text) ;
+        color: var(--primary-text);
 
     }
 
@@ -225,4 +225,60 @@
     .url-input::placeholder {
         color: var(--muted-input);
         font-size: 12px;
+    }
+
+    .custom-menu {
+        padding: 8px !important;
+    }
+
+    .custom-menu-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 10px 14px;
+        background-color: #f2f2f2;
+
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .custom-menu-item:hover {
+        background-color: #e6e6e6;
+    }
+
+    .custom-menu-item mat-icon {
+        font-size: 18px;
+    }
+
+    .menu-icon {
+        width: 18px;
+        height: 18px;
+
+        background-color: #007bff;
+
+        -webkit-mask: url('/dash/publish.svg') no-repeat center;
+        -webkit-mask-size: contain;
+
+        mask: url('/dash/publish.svg') no-repeat center;
+        mask-size: contain;
+    }
+
+    /* Target the menu panel */
+    .custom-menu-panel {
+        background-color: #ffffff !important;
+        border-radius: 12px;
+        padding: 8px;
+    }
+
+    /* Remove default material shadow if you want clean look */
+    .custom-menu-panel .mat-mdc-menu-content {
+        padding: 0 !important;
+    }
+
+    .custom-menu-item.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: not-allowed;
     }

@@ -27,9 +27,10 @@ export interface Schedule {
   DayRange: string;
   IsCallAllowed: boolean;
   IsFileUploaded: boolean;
+  IsStreaming: number;
   status?: 'live' | 'next' | 'past';
 
-  urlValue?: string; // ✅ per-item input
+  urlValue?: string;
 }
 
 @Component({
@@ -55,6 +56,7 @@ export class TodayScheduleSection implements OnInit {
   loading = false;
   schedules: Schedule[] = [];
   currentProgram: Schedule | null = null;
+  streamingProgram: Schedule | null = null;
   selectedDate: Date = new Date();
 
   publishProgram(program: any) {
@@ -86,7 +88,6 @@ export class TodayScheduleSection implements OnInit {
 
 
     setInterval(() => {
-      this.updateCurrentProgram();
       this.cdr.markForCheck();
     }, 60000);
 
@@ -175,8 +176,40 @@ export class TodayScheduleSection implements OnInit {
 
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
-        this.schedules = [...(r.Data[0] as Schedule[])];
-        this.updateCurrentProgram();
+        console.log(r)
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+        const today = new Date();
+
+        const isToday =
+          this.selectedDate.toDateString() === today.toDateString();
+
+        const isPastDate =
+          this.selectedDate < new Date(today.setHours(0, 0, 0, 0));
+
+        this.schedules = (r.Data[0] as Schedule[]).map(item => {
+          if (isPastDate) {
+            return { ...item, status: 'past' };
+          }
+
+          if (isToday) {
+            const end = item.TimeRange.split(' - ')[1];
+            const [h, m] = end.split(':').map(Number);
+            const endMinutes = h * 60 + m;
+
+            return {
+              ...item,
+              status: currentMinutes > endMinutes ? 'past' : undefined
+            };
+          }
+
+          return { ...item };
+        });
+        this.streamingProgram = this.schedules.find(
+          p => p.IsStreaming === 1) || null;
+        this.currentProgram = this.streamingProgram;
+
         this.loading = false;
         this.cdr.detectChanges();
       },
@@ -189,75 +222,4 @@ export class TodayScheduleSection implements OnInit {
     });
   }
 
-  private getMinutes(time: string): number {
-    const [h, m] = time.split(':').map(Number);
-    return h * 60 + m;
-  }
-
-  updateCurrentProgram() {
-    const now = new Date();
-
-    const isToday =
-      this.selectedDate.toDateString() === now.toDateString();
-
-    const currentMin = now.getHours() * 60 + now.getMinutes();
-
-    this.currentProgram = null;
-
-    let nextProgram: Schedule | null = null;
-    let minDiff = Infinity;
-
-    for (let item of this.schedules) {
-
-      if (!item.TimeRange || !item.TimeRange.includes(' - ')) continue;
-
-      const [start, end] = item.TimeRange.split(' - ');
-
-      const startMin = this.getMinutes(start);
-      let endMin = this.getMinutes(end);
-
-      if (endMin === 0) endMin = 1440;
-
-      if (isToday && currentMin >= startMin && currentMin < endMin) {
-        this.currentProgram = item;
-      }
-
-      if (isToday && startMin > currentMin) {
-        const diff = startMin - currentMin;
-
-        if (diff < minDiff) {
-          minDiff = diff;
-          nextProgram = item;
-        }
-      }
-    }
-
-    this.schedules = this.schedules
-      .map(item => {
-
-        let status: 'live' | 'next' | 'past' | undefined = undefined;
-
-        if (this.currentProgram && item.id === this.currentProgram.id) {
-          status = 'live';
-        } else if (nextProgram && item.id === nextProgram.id) {
-          status = 'next';
-        } else {
-          const [start] = item.TimeRange.split(' - ');
-          const startMin = this.getMinutes(start);
-
-          if (
-            (isToday && startMin < currentMin) ||
-            (!isToday && this.selectedDate < new Date())
-          ) {
-            status = 'past';
-          }
-        }
-
-        return { ...item, status };
-      })
-      .sort((a, b) => {
-        const order: any = { live: 0, next: 1, past: 2, undefined: 1 };
-        return order[a.status!] - order[b.status!];
-      });
-  }
 }

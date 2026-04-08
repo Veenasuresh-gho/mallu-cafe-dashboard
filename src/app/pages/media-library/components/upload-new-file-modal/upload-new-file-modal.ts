@@ -161,8 +161,6 @@ export class UploadNewFileModal implements OnInit {
 
     this.thumbnailFile = data.thumbnailFile || null;
 
-    console.log('Thumbnail File:', this.thumbnailFile);
-
     if (this.selectedFile && this.finalfileName) {
       this.renameFile();
     }
@@ -230,7 +228,7 @@ export class UploadNewFileModal implements OnInit {
       this.addmediaPre();
     } else if (this.selectedMediaType === '2') {
       this.addmediaPodcast();
-    } else if (this.selectedMediaType === '3') {
+    } else if (this.selectedMediaType === '3' || this.selectedMediaType === '4') {
       this.addVideos();
     }
   }

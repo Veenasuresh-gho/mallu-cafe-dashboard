@@ -28,15 +28,7 @@ export class Navbar {
   errors: any = {};
   id: any = ''
 
-  // currentSong = {
-  //   title: 'Om Shanti Om',
-  //   status: 'On Air'
-  // };
 
-  // nextSong = {
-  //   title: 'Bollywood Rewind',
-  //   status: 'Next'
-  // };
 
   ngOnInit(): void {
     this.getProfile();
@@ -83,35 +75,37 @@ export class Navbar {
     .subscribe({
       next: (res) => {
 
-        console.log('Songs API:', res);
+console.log('data',res);
 
         const list = res.Data?.[0] || [];
 
         
 
         const current = list.find((item: any) => item.IsStreaming === 1);
+console.log('current',current);
 
         const next = list[0];
 
         this.nextSong = {
           title: next.Title
         };
+        console.log('next song',next);
+        
 
         // SET CURRENT ONLY IF FOUND
         this.currentSong = current
           ? { title: current.Title }
-          : null;
-
-        console.log('FINAL:', {
-          next: this.nextSong,
-          current: this.currentSong
-        });
+          : null;      
       },
 
       error: (err) => {
         console.error('Song API Error:', err);
       }
     });
+    console.log('current song',this.currentSong);
+    console.log('next song',this.nextSong);
+    
+    
 }
 
 }

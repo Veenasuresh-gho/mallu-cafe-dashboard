@@ -13,10 +13,12 @@ import { PrimaryButton } from '../../components/primary-button/primary-button';
 import { GHOService } from '../../services/ghosrvs';
 import { GHOUtitity } from '../../services/utilities';
 import { ghoresult, tags } from '../../../model/ghomodel';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-media-library',
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton],
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton, MatButtonModule, MatMenuModule],
   templateUrl: './media-library.html',
   styleUrl: './media-library.css',
 })
@@ -61,7 +63,31 @@ export class MediaLibrary implements OnInit {
     'member',
     'likes',
     'status',
+    'actions'
   ];
+
+  addPublish(library: any) {
+    this.tv = [
+      { T: 'dk1', V: library?.id },
+      { T: 'c10', V: '14' }
+    ];
+
+    this.srv.getdata('podcast', this.tv)
+      .subscribe({
+        next: (r) => {
+          console.log(r)
+          // this.ds = r.Data[0];
+          // this.dataSource.data = this.ds;
+          // this.dataSource._updateChangeSubscription();
+          // this.loading = false;
+          // this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+          this.loading = false;
+        }
+      });
+  }
 
   getMediaLibrary(): void {
     this.loading = true;
@@ -70,7 +96,6 @@ export class MediaLibrary implements OnInit {
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
-          console.log(r)
           this.ds = r.Data[0];
           this.dataSource.data = this.ds;
           this.dataSource._updateChangeSubscription();
@@ -83,103 +108,4 @@ export class MediaLibrary implements OnInit {
         }
       });
   }
-
-  // dataSource = [
-  //   {
-  //     name: 'OmShantiOm_230326.mp3',
-  //     mediaSize: "56:43 sec  • 108 MB",
-  //     avatar: '/main/rj1.png',
-  //     category: 'Pre-Scheduled',
-  //     categoryClass: 'pre',
-  //     member: 'RJ Anjali',
-  //     likes: '287',
-  //     time: '3 min ago',
-  //     uploadStatus: 'Published',
-  //     statusClass: 'published'
-  //   },
-  //   {
-  //     name: 'BollywoodRewind_230326.mp3',
-  //     mediaSize: "56:43 sec  • 108 MB",
-  //     avatar: '/main/rj2.png',
-  //     category: 'Pre-Scheduled',
-  //     categoryClass: 'pre',
-  //     member: 'RJ Priyanka',
-  //     likes: '169',
-  //     time: '15 min ago',
-  //     uploadStatus: 'Published',
-  //     statusClass: 'published'
-  //   },
-  //   {
-  //     name: 'HungamaRadio_230326.mp3',
-  //     mediaSize: "56:43 sec  • 108 MB",
-  //     avatar: '/main/user-image.png',
-  //     category: 'Pre-Scheduled',
-  //     categoryClass: 'pre',
-  //     member: 'RJ Shijo',
-  //     likes: '88',
-  //     time: '28 min ago',
-  //     uploadStatus: 'Published',
-  //     statusClass: 'published'
-  //   },
-  //   {
-  //     name: 'IndoAmericanNews_230326.mp3',
-  //     mediaSize: "56:43 sec  • 108 MB",
-  //     avatar: '/main/rj3.png',
-  //     category: 'Pre-Scheduled',
-  //     categoryClass: 'pre',
-  //     member: 'RJ Reeva',
-  //     likes: '0',
-  //     time: '1 Mar 26 • 06:34 PM',
-  //     uploadStatus: 'Published',
-  //     statusClass: 'published'
-  //   },
-  //   {
-  //     name: 'Shorts_230326.mp4',
-  //     mediaSize: '56:43 sec  • 23 MB',
-  //     avatar: '/main/shorts.jpg',
-  //     category: 'Shorts',
-  //     categoryClass: 'shorts',
-  //     member: 'RJ Neena',
-  //     likes: '0',
-  //     time: '1 Mar 26 • 06:34 PM',
-  //     uploadStatus: 'Draft',
-  //     statusClass: 'draft'
-  //   },
-  //   {
-  //     name: 'StudioConversations_230326.mp3',
-  //     mediaSize: "56:43 sec  • 108 MB",
-  //     avatar: '/main/rj1.png',
-  //     category: 'Podcast',
-  //     categoryClass: 'podcast',
-  //     member: 'RJ Anjali',
-  //     likes: '0',
-  //     time: '1 Mar 26 • 11:17 AM',
-  //     uploadStatus: 'Draft',
-  //     statusClass: 'draft'
-  //   },
-  //   {
-  //     name: 'Video_230326.mp4',
-  //     mediaSize: '56:43 sec • 229 MB',
-  //     avatar: '/main/video1.jpg',
-  //     category: 'Featured',
-  //     categoryClass: 'featured',
-  //     member: 'RJ Anjali',
-  //     likes: '0',
-  //     time: '1 Mar 26 • 11:17 AM',
-  //     uploadStatus: 'Draft',
-  //     statusClass: 'draft'
-  //   },
-  //   {
-  //     name: 'Video_220326.mp4',
-  //     mediaSize: '56:43 sec • 229 MB',
-  //     avatar: '/main/video2.jpg',
-  //     category: 'Featured',
-  //     categoryClass: 'featured',
-  //     member: 'RJ Anjali',
-  //     likes: '0',
-  //     time: '1 Mar 26 • 11:17 AM',
-  //     uploadStatus: 'Draft',
-  //     statusClass: 'draft'
-  //   }
-  // ];
 } 

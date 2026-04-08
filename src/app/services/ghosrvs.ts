@@ -158,51 +158,56 @@ console.log('Uploading file:', file);
   }
 
 
-  async handleFileUpload(
-    id: string,
-    userId: string,
-    file: File,
-    documentTypeId: string
-  ): Promise<boolean> {
-    try {
+async handleFileUpload(
+  id: string,
+  userId: string,
+  file: File | null,
+  documentTypeId: string
+): Promise<boolean> {
 
-      const tv1: tags[] = [
-        { T: 'dk1', V: userId },
-        { T: 'dk2', V: id },
-        { T: 'c1', V: documentTypeId },
-        { T: 'c2', V: file.name },
-        { T: 'c3', V: file.size.toString() },
-        { T: 'c10', V: '1' }
-      ];
-
-      const res1 = await this.getdata('fileupload', tv1).toPromise();
-
-      const fileUploadId = res1?.Data?.[0]?.[0]?.id;
-      const fileType = res1?.Data?.[0]?.[0]?.FileType;
-      const fileName = res1?.Data?.[0]?.[0]?.FileID
-
-      if (!fileUploadId) return false;
-
-      const status = await this.uploadFile(fileUploadId, fileType, file, fileName);
-
-      if (status !== 2) return false;
-
-      const tv2: tags[] = [
-        { T: 'dk1', V: userId },
-        { T: 'dk2', V: documentTypeId },
-        { T: 'c1', V: fileUploadId },
-        { T: 'c2', V: String(status) },
-        { T: 'c10', V: '2' }
-      ];
-
-      await this.getdata('fileupload', tv2).toPromise();
-
-      return true;
-
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
+  if (!file) {
+    console.warn('No file provided for upload');
+    return false;
   }
+
+  try {
+    const tv1: tags[] = [
+      { T: 'dk1', V: userId },
+      { T: 'dk2', V: id },
+      { T: 'c1', V: documentTypeId },
+      { T: 'c2', V: file.name },
+      { T: 'c3', V: file.size.toString() },
+      { T: 'c10', V: '1' }
+    ];
+
+    const res1 = await this.getdata('fileupload', tv1).toPromise();
+
+    const fileUploadId = res1?.Data?.[0]?.[0]?.id;
+    const fileType = res1?.Data?.[0]?.[0]?.FileType;
+    const fileName = res1?.Data?.[0]?.[0]?.FileID;
+
+    if (!fileUploadId) return false;
+
+    const status = await this.uploadFile(fileUploadId, fileType, file, fileName);
+
+    if (status !== 2) return false;
+
+    const tv2: tags[] = [
+      { T: 'dk1', V: userId },
+      { T: 'dk2', V: documentTypeId },
+      { T: 'c1', V: fileUploadId },
+      { T: 'c2', V: String(status) },
+      { T: 'c10', V: '2' }
+    ];
+
+    await this.getdata('fileupload', tv2).toPromise();
+
+    return true;
+
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
 
 }

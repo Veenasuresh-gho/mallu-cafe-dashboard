@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
   [ngModel]="checked" 
   (ngModelChange)="onCheckedChange($event)"  />
       <div class="content">
-        <span class="title pt-1">{{ title }}</span>
+        <span class="title">{{ title }}</span>
         <p class="description">{{ description }}</p>
       </div>
     </label>

@@ -58,7 +58,6 @@ export class UploadAdFile implements OnInit {
   toDate: string = '';
   fromTime: string = '';
   toTime: string = '';
-  // scheduleModel: any = {};
 
   playsPerDay: number = 5;
   selectedStatus: string = 'active';

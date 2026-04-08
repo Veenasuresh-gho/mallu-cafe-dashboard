@@ -24,6 +24,7 @@ import { ToastService } from '../../../../services/toastService';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 
 import { MatIconModule } from '@angular/material/icon';
+import { InputTime } from '../../../../components/dialog/input-time/input-time';
 
 @Component({
   selector: 'app-add-new-program',
@@ -43,7 +44,8 @@ import { MatIconModule } from '@angular/material/icon';
     FooterButton,
     CancelButton,
     PrimaryButton,
-    MatIconModule
+    MatIconModule,
+    InputTime
   ],
   templateUrl: './add-new-program.html',
   styleUrls: ['./add-new-program.css'],
@@ -82,6 +84,11 @@ export class AddNewProgram implements OnInit {
   errors: any = {};
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
+  timeModel = {
+    fromTime: '',
+    toTime: ''
+  };
+
 
   clearError(field: string) {
     if (this.errors[field]) delete this.errors[field];

@@ -396,6 +396,7 @@
     border: 1px solid #E4E4E4;
     border-radius: 6px;
     cursor: pointer;
+    padding: 10px 12px;
     transition: all 0.2s;
 }
 

@@ -30,7 +30,10 @@
         <app-schedule-picker (modelChange)="clearError('schedule'); clearError('time')"
             [(model)]="selectedSchedule"></app-schedule-picker>
             
-     
+     <app-input-time [(model)]="timeModel"
+  (modelChange)="onTimeChange($event)"
+  >
+</app-input-time>
 
         <div class="form-group">
             <label class="input-label" for="thumbnail">Thumbnail</label>

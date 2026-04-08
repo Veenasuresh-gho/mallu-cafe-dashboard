@@ -27,6 +27,11 @@ export class InputTime implements OnInit, OnChanges {
 
   errors: any = {};
 
+  touched = {
+  from: false,
+  to: false
+};
+
   ngOnInit(): void {
     this.setValuesFromModel();
     // this.emitChange();
@@ -88,6 +93,9 @@ toState = {
 
 togglePicker(type: 'from' | 'to') {
   this.activePicker = this.activePicker === type ? null : type;
+
+  // mark as active (red state)
+  this.touched[type] = true;
 }
 
 selectedIndex: number = 0;

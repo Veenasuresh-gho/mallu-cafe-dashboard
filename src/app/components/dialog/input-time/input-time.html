@@ -8,22 +8,18 @@
 
       <div class="schedule-box-right">
         <div class="select-wrapper">
-          <!-- <select 
-            [(ngModel)]="fromTime"
-            (ngModelChange)="emitChange()"
-            name="fromTime"
-             [ngClass]="{'selected-border': fromTime}">
-
-            <option value="" disabled hidden >2:00 PM </option>
-
-            <option *ngFor="let t of times" [value]="t">
-              {{ t }}
-            </option>
-          </select> -->
-          <div class="time-input" (click)="togglePicker('from')">
-            {{ fromTime || '10:00 AM ' }}
-            <img src="/program/dropdown.svg" class="dropdown-icon" />
-          </div>
+          
+          <div 
+  class="time-input"
+  (click)="togglePicker('from')"
+  [ngClass]="{
+    'active-red': activePicker === 'from',
+    'filled-black': fromTime
+  }"
+>
+  {{ fromTime || '10:00 AM' }}
+  <img src="/program/dropdown.svg" class="dropdown-icon" />
+</div>
           <!-- TIME PICKER -->
           <div class="time-picker" *ngIf="activePicker === 'from'">
 
@@ -81,18 +77,18 @@
     <!-- TO -->
     <div class="schedule-box-rightEnd">
       <div class="select-wrapper">
-        <!-- <select [(ngModel)]="toTime" (ngModelChange)="emitChange()" name="toTime" [ngClass]="{'selected': toTime}">
-
-          <option value="" disabled hidden>Select Time</option>
-
-          <option *ngFor="let t of times" [value]="t">
-            {{ t }}
-          </option>
-        </select> -->
-        <div class="time-input" (click)="togglePicker('to')">
-          {{ toTime || '11:30 AM' }}
-          <img src="/program/dropdown.svg" class="dropdown-icon" />
-        </div>
+       
+        <div 
+  class="time-input"
+  (click)="togglePicker('to')"
+  [ngClass]="{
+    'active-red': activePicker === 'to',
+    'filled-black': toTime
+  }"
+>
+  {{ toTime || '11:30 AM' }}
+  <img src="/program/dropdown.svg" class="dropdown-icon" />
+</div>
 
         <!-- TIME PICKER -->
         <div class="time-picker" *ngIf="activePicker === 'to'">

@@ -114,7 +114,7 @@
   border: none;
   font-weight: 400;;
   background: transparent;
-  padding: 10px; /* space for arrow */
+  padding: 8px; /* space for arrow */
   font-size: 12px;
   cursor: pointer;
   color: var(--muted-input); /* placeholder gray */

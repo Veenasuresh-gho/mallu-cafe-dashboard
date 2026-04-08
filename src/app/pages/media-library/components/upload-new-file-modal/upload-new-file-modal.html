@@ -91,7 +91,7 @@
 
             <app-video-file *ngSwitchCase="'3'" [fileName]="fileName" [fileType]="extension" (programSelected)="onProgramSelected($event)">
             </app-video-file>
-            <app-shorts *ngSwitchCase="'4'"></app-shorts>
+            <app-shorts *ngSwitchCase="'4'" [fileName]="fileName" [fileType]="extension" (programSelected)="onProgramSelected($event)"></app-shorts>
 
             <div *ngSwitchDefault>
                 <div class="disabled-section">

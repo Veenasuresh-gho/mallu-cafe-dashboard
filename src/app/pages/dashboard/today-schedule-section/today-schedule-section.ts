@@ -92,8 +92,6 @@ export class TodayScheduleSection implements OnInit {
 
   }
 
-
-
   addPublish(item: Schedule): void {
 
     const [start, end] = item.TimeRange.split(' - ');
@@ -146,8 +144,6 @@ export class TodayScheduleSection implements OnInit {
       });
   }
 
-
-
   onDateChange(date: Date) {
     this.selectedDate = date;
 
@@ -179,7 +175,6 @@ export class TodayScheduleSection implements OnInit {
 
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
-        console.log(r)
         this.schedules = [...(r.Data[0] as Schedule[])];
         this.updateCurrentProgram();
         this.loading = false;

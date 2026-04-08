@@ -55,7 +55,8 @@ export class UploadNewFileModal implements OnInit {
   previewUrl: string = '';
 
   ngOnInit(): void {
-    this.userId = sessionStorage.getItem('id') || '';
+    const storedId = sessionStorage.getItem('id');
+    this.userId = storedId ? JSON.parse(storedId) : '';
     this.getMediaTypes();
   }
 
@@ -82,9 +83,7 @@ export class UploadNewFileModal implements OnInit {
   errors: any = {};
   title: string = '';
   subtitle: string = '';
-
-
-
+  thumbnailFile: File | null = null;
 
   removeFile() {
     if (this.previewUrl) {
@@ -158,16 +157,19 @@ export class UploadNewFileModal implements OnInit {
     this.title = data.title;
     this.subtitle = data.subtitle;
 
-
     this.finalfileName = data?.fileName || '';
+
+    this.thumbnailFile = data.thumbnailFile || null;
+
+    console.log('Thumbnail File:', this.thumbnailFile);
 
     if (this.selectedFile && this.finalfileName) {
       this.renameFile();
     }
 
     this.updateFileName();
-
   }
+
   isImageType(): boolean {
     return this.fileType.startsWith('image');
   }
@@ -228,6 +230,8 @@ export class UploadNewFileModal implements OnInit {
       this.addmediaPre();
     } else if (this.selectedMediaType === '2') {
       this.addmediaPodcast();
+    } else if (this.selectedMediaType === '3') {
+      this.addVideos();
     }
   }
 
@@ -259,6 +263,7 @@ export class UploadNewFileModal implements OnInit {
 
             this.loading = false;
             if (success) {
+
               this.tv = [
                 { T: 'dk1', V: this.programId },
                 { T: 'c10', V: '16' }
@@ -267,9 +272,15 @@ export class UploadNewFileModal implements OnInit {
                 .subscribe({
                   next: async (r) => {
                     if (r.Status === 1) {
+                      const ThumbnailAddsuccess = await this.srv.handleFileUpload(
+                        this.id,
+                        this.userId,
+                        this.thumbnailFile,
+                        '3'
+                      );
                       this.toast.show({
-                        title: 'Prescheduled media uploaded! 🎉',
-                        description: 'Prescheduled media added successfully',
+                        title: 'Video uploaded! 🎉',
+                        description: 'Video added successfully',
                         variant: 'success',
                         position: 'toast-bottom-right'
                       });
@@ -305,7 +316,6 @@ export class UploadNewFileModal implements OnInit {
     const file = this.selectedFile;
 
     this.loading = true;
-    console.log(this.selectedCategoryId)
     this.tv = [
       { T: 'dk1', V: this.programId },
       { T: 'dk2', V: this.selectedCategoryId },
@@ -346,6 +356,80 @@ export class UploadNewFileModal implements OnInit {
                 position: 'toast-bottom-right'
               });
             }
+            this.cdr.detectChanges();
+          }
+        },
+        error: () => {
+          this.loading = false;
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  addVideos(): void {
+    if (!this.selectedFile) return;
+
+    const file = this.selectedFile;
+
+    const payload = {
+      Title: this.title,
+      Subtitle: this.subtitle
+    };
+
+    this.loading = true;
+
+    this.tv = [
+      { T: 'dk1', V: this.userId },
+      { T: 'dk2', V: this.selectedMediaType },
+      { T: 'c1', V: JSON.stringify(payload) },
+      { T: 'c10', V: '21' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: async (r) => {
+          if (r.Status === 1 && r.Data?.length) {
+
+            this.id = r.Data[0]?.[0]?.id || this.programId;
+
+            const videoSuccess = await this.srv.handleFileUpload(
+              this.id,
+              this.userId,
+              file,
+              '4'
+            );
+
+            if (!videoSuccess) {
+              this.loading = false;
+              this.toast.show({
+                title: 'Upload failed ❌',
+                description: 'Video upload failed',
+                variant: 'error',
+                position: 'toast-bottom-right'
+              });
+              return;
+            }
+
+            if (this.thumbnailFile) {
+              console.log(this.thumbnailFile)
+              await this.srv.handleFileUpload(
+                this.id,
+                this.userId,
+                this.thumbnailFile,
+                '3'
+              );
+            }
+
+            this.loading = false;
+
+            this.toast.show({
+              title: 'Video uploaded! 🎉',
+              description: 'Video + thumbnail uploaded successfully',
+              variant: 'success',
+              position: 'toast-bottom-right'
+            });
+
+            this.dialogRef.close(true);
             this.cdr.detectChanges();
           }
         },

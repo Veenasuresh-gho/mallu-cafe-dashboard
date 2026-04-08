@@ -190,6 +190,9 @@
 .date-text{
   color: #757575;
 }
+.date-text.filled {
+  color: #312F2F;
+}
 .dateToBox{
   gap: 42px;
 }

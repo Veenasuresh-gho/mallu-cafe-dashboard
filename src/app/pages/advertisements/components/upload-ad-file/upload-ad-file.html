@@ -44,10 +44,9 @@
         </div>
         <div class="custom-line-sub"></div>
 
-        <div class="d-flex align-items-center gap-2 section-title px-4">
-            <div class="step-badge">2</div>
-            <p class="content-title mb-0">Upload Media</p>
-        </div>
+       
+                <app-step-badge [stepNumber]="2" title="Upload Media"></app-step-badge>
+
         <div class="px-4">
 
             <app-upload-box [uploadText]="'Upload Advertisement File'"
@@ -109,7 +108,6 @@
                 {{ errors.date }}
             </div>
 
-            <!-- <app-schedule-picker [(model)]="scheduleModel" [showScheduleDay]="false"></app-schedule-picker> -->
 <app-input-time
   [(model)]="scheduleModel">
 </app-input-time>

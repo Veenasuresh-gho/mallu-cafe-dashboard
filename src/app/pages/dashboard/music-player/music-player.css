@@ -349,8 +349,9 @@ mat-slider {
 
 .overlay-bottom-left {
   position: absolute;
-  top: 187.5px;
+  bottom: 24px;
   left: 24px;
+  
 }
 
 .overlay-top-right {

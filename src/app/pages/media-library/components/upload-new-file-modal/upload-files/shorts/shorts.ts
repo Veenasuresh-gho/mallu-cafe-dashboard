@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
 import { StepBadge } from '../../../../../../components/dialog-form/step-badge/step-badge';
 import { FormInput } from '../../../../../../components/dialog-form/form-input/form-input';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { FileUpload } from '../../../../../../components/dialog-form/file-upload/file-upload';
+import { GHOService } from '../../../../../../services/ghosrvs';
+import { GHOUtitity } from '../../../../../../services/utilities';
+import { ghoresult, tags } from '../../../../../../../model/ghomodel';
 
 @Component({
   selector: 'app-shorts',
@@ -12,15 +15,102 @@ import { FileUpload } from '../../../../../../components/dialog-form/file-upload
   styleUrl: './shorts.css',
 })
 export class Shorts {
-    typedText: string = '';
-  selectedType: string = ''; // default selected  
+  typedText: string = '';
+  selectedType: string = '';
+  srv = inject(GHOService);
+  utl = inject(GHOUtitity);
+  tv: tags[] = [];
+  res: ghoresult = new ghoresult();
 
+  catogories: any[] = [];
+  selectedCatogory: any = {};
+  programId: string = '';
+  selectedProgramId: any = null;
+  selectedProgramName: string = '';
+  errors: any = {};
+  selectedCategoryId: string = '';
+  title: string = '';
+  originalFileName: string = '';
+  selectedFile: File | null = null;
 
-onTextChange(event: any) {
-  this.typedText = event.target.innerText;
-  console.log('Full value:', 'ProgramName//' + this.typedText);
-}
-onFileSelected(file: File) {
-  console.log('Selected file:', file);
+  @Input() programList: any[] = [];
+  @Input() fileType: string = '';
+  @Input() fileName: string = '';
+  @Input() disabled: boolean = false;
+  @Output() programSelected = new EventEmitter<any>();
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['fileName'] && this.fileName && !this.originalFileName) {
+      this.originalFileName = this.fileName;
+    }
+  }
+
+  getBaseName(name: string): string {
+    if (!name) return '';
+
+    const lastDotIndex = name.lastIndexOf('.');
+    const base = lastDotIndex !== -1
+      ? name.substring(0, lastDotIndex)
+      : name;
+
+    return base.replace(/\s+/g, '');
+  }
+  onTitleChange(value: string) {
+    this.title = value;
+    this.emitData();
+  }
+
+  emitData() {
+
+    const cleanDate = this.typedText.replace(/\//g, '');
+    const baseName = this.getBaseName(this.originalFileName);
+    let fileName = '';
+
+    if (baseName && cleanDate && this.fileType) {
+      fileName = `${baseName}${cleanDate}.${this.fileType}`;
+    }
+
+    this.programSelected.emit({
+      programId: this.programId,
+      programName: baseName,
+      categoryId: this.selectedCategoryId,
+      typedText: this.typedText,
+      fileName: fileName,
+
+      title: this.title,
+      fullData: this.programList.find(p => p.ProgramID === this.programId),
+
+      thumbnailFile: this.selectedFile
+    });
+
+  }
+
+  onTextChange(event: any) {
+    const el = event.target;
+
+    let value = el.innerText.replace(/\D/g, '').slice(0, 6);
+
+    if (value.length > 2) {
+      value = value.slice(0, 2) + '/' + value.slice(2);
+    }
+    if (value.length > 5) {
+      value = value.slice(0, 5) + '/' + value.slice(5);
+    }
+
+    el.innerText = value;
+
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+
+    this.typedText = value;
+    this.emitData();
+  }
+ onFileSelected(file: File) {
+  this.selectedFile = file;
+  this.emitData(); 
 }
 }

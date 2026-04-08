@@ -55,7 +55,7 @@
             <div class="d-flex justify-content-between w-100">
                 <div class="d-flex align-items-center gap-2">
                     <div class="rjImage">
-                        <img [src]="currentProgram.ThumbnailURL" />
+                      <img [src]="currentProgram.ThumbnailURL || '/main/no-image.png'" />
                     </div>
 
                     <div class="gap-1 d-flex flex-column">
@@ -150,7 +150,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center gap-2">
                         <div class="rjImage">
-                            <img [src]="item.ThumbnailURL" loading="lazy">
+                           <img [src]="item.ThumbnailURL || '/main/no-image.png'" loading="lazy">
                         </div>
 
                         <div class="gap-1 d-flex flex-column">

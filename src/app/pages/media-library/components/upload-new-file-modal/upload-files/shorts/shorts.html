@@ -1,25 +1,25 @@
-       <!-- step 3 -->
+<!-- step 3 -->
 
-        <div class="custom-line-sub" style="margin-top: 14px;"></div>
+<div class="custom-line-sub" style="margin-top: 14px;"></div>
 
-        <app-step-badge [stepNumber]="3" title="Rename File"></app-step-badge>
+<app-step-badge [stepNumber]="3" title="Rename File"></app-step-badge>
 
-        <div class="form-row px-4 pt-3">
-            <div class="form-group">
-                <div class="input-prefix-wrapper input-field">
-                    <span class="prefix">shorts//</span>
-                    <div class="editable-part" contenteditable="true" (input)="onTextChange($event)"
-                        data-placeholder="230926.mp3"></div>
-                </div>
-                <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
+<div class="form-row px-4 pt-3">
+    <div class="form-group">
+      <div class="input-prefix-wrapper">
+            <span class="prefix"> {{ getBaseName(originalFileName) }}//</span>
+            <div class="editable-part" contenteditable="true" (input)="onTextChange($event)"
+                [attr.data-placeholder]="'160326.' + fileType">
             </div>
         </div>
-                    <div class="custom-line-sub "></div>
+        <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
+    </div>
+</div>
+<div class="custom-line-sub "></div>
 
-                <!-- step 4 -->
-        <app-step-badge [stepNumber]="4" title="Thumbnail"></app-step-badge>
+<app-step-badge [stepNumber]="4" title="Thumbnail"></app-step-badge>
 
-      <div class=" px-4">
+<div class=" px-4">
     <div class="form-group pt-1">
         <label class="input-label" for="thumbnail">Custom Thumbnail</label>
 
@@ -30,28 +30,28 @@
     </div>
 
 </div>
-         <!-- step 5 -->
+<!-- step 5 -->
 
-        <div
-           >
+<div>
 
-            <div class="custom-line-sub "></div>
-
-
-            <app-step-badge [stepNumber]="5" title="Public App Content"></app-step-badge>
+    <div class="custom-line-sub "></div>
 
 
-            <div class="form-row px-4 my-2"
-              >
-                <div class="form-group">
-                  
-                        <app-form-input  label="Title *" placeholder="eg. Celebrity Talk – Exclusive Interview with Actor Nivin Pauly" name="Title"></app-form-input>
+    <app-step-badge [stepNumber]="5" title="Public App Content"></app-step-badge>
 
-                        <p class="helper-text">Keep it short and engaging for listeners.</p>
 
-                    </div>
-            </div>
+    <div class="form-row px-4 my-2">
+        <div class="form-group">
 
-          
+            <app-form-input label="Title *"
+                placeholder="eg. Celebrity Talk – Exclusive Interview with Actor Nivin Pauly" name="Title"
+                [(model)]="title" (modelChange)="onTitleChange($event)"></app-form-input>
+
+            <p class="helper-text">Keep it short and engaging for listeners.</p>
 
         </div>
+    </div>
+
+
+
+</div>

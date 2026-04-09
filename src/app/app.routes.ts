@@ -8,7 +8,7 @@ export const routes: Routes = [
     redirectTo: () => {
       const token = sessionStorage.getItem('tkn');
       return token ? 'dashboard' : 'sign-in';
-    },  
+    },
     pathMatch: 'full'
   },
 
@@ -25,6 +25,12 @@ export const routes: Routes = [
         .then(m => m.ForgotPassword)
   },
 
+  {
+    path: 'privacy-policy',
+    loadComponent: () =>
+      import('./pages/settings/settings')
+        .then(m => m.Settings)
+  },
   {
     path: '',
     canActivate: [authGuard],

@@ -10,6 +10,7 @@ import { ManageMember } from '../../../profile/components/manage-member/manage-m
 import { DeleteMember } from '../../../profile/components/delete-member/delete-member';
 import { MatDialog } from '@angular/material/dialog';
 import { FooterButton } from '../../../../components/dialog-form/footer-button/footer-button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-team-member-details',
@@ -21,7 +22,7 @@ import { FooterButton } from '../../../../components/dialog-form/footer-button/f
 })
 export class TeamMemberDetails {
 
-      constructor(private dialog: MatDialog) { }
+      constructor(private dialog: MatDialog,private router: Router) { }
 
   openModal() {
     this.dialog.open(ManageMember, {
@@ -38,4 +39,8 @@ export class TeamMemberDetails {
       disableClose: true
     });
   }
+
+  goToTeamMemberList() {
+  this.router.navigate(['/team-members']);
+}
 }

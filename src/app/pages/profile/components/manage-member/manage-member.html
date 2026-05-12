@@ -11,23 +11,28 @@
 
         <div class="d-flex gap-3 px-4">
             <div class="upload-wrapper">
-                <div class="upload-photo">
+                <div class="upload-photo" [ngStyle]="{
+      'background-image':
+      'url(' + (profile?._url || '/profile/profile-fallback-1.png') + ')'
+    }">
 
-                    <label class="upload-btn ">
-                        <input type="file" hidden />
+                    <label class="upload-btn">
+                        <input (change)="onFileSelected($event)" type="file" hidden />
                         <span>Upload Photo</span>
                     </label>
+
                 </div>
                 <p class="helper-text py-1">Supported formats: JPG, PNG</p>
             </div>
             <div>
                 <div style="width: 376px;">
-                    <app-form-input label="Full Name *" placeholder="Shijo M sebastian" name="name">
+                    <app-form-input label="Full Name *" [(model)]="profile.FullName" name="fullName">
                     </app-form-input>
                 </div>
-                <app-form-select label="Role / Designation *" [options]="['Radio Jockey (RJ)', 'Admin']"
-                    placeholder="- Select Role -" name="host">
+                <app-form-select label="Role / Designation *" [options]="roles" optionLabel="DisplyText"
+                    optionValue="DisplyText" [(model)]="profile.Role" placeholder="- Select Role -" name="host">
                 </app-form-select>
+
                 <p class="helper-text pt-1">This role defines the member’s responsibility in the station.</p>
             </div>
         </div>
@@ -40,12 +45,12 @@
                 <label class="input-label">Mobile Number *</label>
                 <div class="phone-input ">
                     <div class="countrycode">+1</div>
-                    <input type="text" class="phone-number" name="phone" placeholder="202 555 0143" />
+                    <input type="text" class="phone-number" name="phone" [(ngModel)]="profile.Phone" />
                 </div>
                 <small class="helper-text">Used for internal communication.</small>
             </div>
             <div class="email">
-                <app-form-input label="Email Address" placeholder="rj.shijosebastian345@gmail.com" name="name">
+                <app-form-input label="Email Address" [(model)]="profile.Email" name="name">
                 </app-form-input>
                 <p class="helper-text pt-1">This email will be used for login access &
                     communication.
@@ -54,25 +59,44 @@
         </div>
         <div class="custom-line-sub"></div>
 
-      
+
         <app-step-badge [stepNumber]="3" title="Program Assignment"></app-step-badge>
 
-        <div class="px-4 pt-3 ">
-            <button class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
-                Hungama Radio
-                <img src="/manage-member/trash.svg" alt="" (click)="openModalDelete()">
-            </button>
+        <div class="programs-wrapper px-2">
+
+            <div class="programs-wrapper px-2">
+
+                @if ((assignedPrograms ?? []).length > 0) {
+
+                @for (program of assignedPrograms; track program) {
+
+                <div class="program-item pt-2 px-2">
+                    <button class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
+
+                        {{ program?.Title }}
+
+                        <img src="/manage-member/trash.svg" alt="delete" (click)="openModalDelete()">
+                    </button>
+                </div>
+
+                }
+
+                } @else {
+
+                <p class="text-muted no-program-txt px-4 pt-2 text-center">
+                    No programs assigned
+                </p>
+
+                }
+
+            </div>
+
         </div>
-      
-<div class="px-4">
-    <app-form-multiselect
-  label="Assigned Programs"
-  [options]="programs"
-  [(selectedItems)]="selectedPrograms"
-  placeholder="-Select program-"
-  optionLabel="program">
-</app-form-multiselect>
-</div>
+        <div class="px-4">
+            <app-form-multiselect label="Assign New Programs" [options]="programList" [(selectedItems)]="selectedPrograms"
+                placeholder="-Select program-" optionLabel="DisplayText">
+            </app-form-multiselect>
+        </div>
 
         <small class="helper-text px-4">Multiple programs can be assigned.</small>
         <div class="custom-line-sub mt-3"></div>
@@ -92,7 +116,8 @@
 
         </div>
 
-        <div class="helper-text px-4 py-2">Switch this on to allow full access — all permissions will be selected for you.</div>
+        <div class="helper-text px-4 py-2">Switch this on to allow full access — all permissions will be selected for
+            you.</div>
         <div class="input-label px-4 py-1">Access rights and system privilages </div>
         <div class="checkbox-container px-3">
             <span class="p-2" *ngFor="let item of permissions">

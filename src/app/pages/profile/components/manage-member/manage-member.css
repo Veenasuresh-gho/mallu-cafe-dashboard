@@ -90,10 +90,10 @@ color: var(--muted-input);
 /* Upload box */
 .upload-photo {
   position: relative;
-  width: 150px;  /* adjust as needed */
+  width: 150px;  
   height: 160px;
 
-  background-image: url('/profile/profile-pic.png'); /* 👈 your bg image */
+  background-image: url('/profile/profile-pic.png'); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -554,4 +554,32 @@ input[type="checkbox"] {
   height: 34px;
   border-radius: 10px;
   flex: 1;
+}
+
+.no-program-txt {
+  font-size: 13px;
+}
+
+.programs-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.program-item {
+  flex: 0 0 calc(33.33% - 12px);
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .program-item {
+    flex: 0 0 calc(50% - 12px);
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .program-item {
+    flex: 0 0 100%;
+  }
 }

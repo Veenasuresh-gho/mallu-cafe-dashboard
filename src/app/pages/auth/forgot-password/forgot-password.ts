@@ -92,7 +92,6 @@ export class ForgotPassword implements OnDestroy {
 
   resendCode() {
     if (this.timer > 0) return;
-    console.log('Resend OTP API call');
 
   const { email } = this.loginForm.value;
 
@@ -286,7 +285,7 @@ verifyOtp() {
 
     if (r.Status === 1) {
       const u = r.Data[0][0];
-      this.otpToken = u.Token;
+      this.otpToken = u.Id;
 
       this.toast.show({
         title: 'OTP Verified 🎉',

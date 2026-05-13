@@ -90,10 +90,10 @@ color: var(--muted-input);
 /* Upload box */
 .upload-photo {
   position: relative;
-  width: 150px;  /* adjust as needed */
+  width: 150px;  
   height: 160px;
 
-  background-image: url('/profile/profile-pic.png'); /* 👈 your bg image */
+  background-image: url('/profile/profile-pic.png'); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -546,12 +546,34 @@ input[type="checkbox"] {
 
 .btn-delete-member {
   border: none;
-  color: var( --primary-color);
+  color: var(--primary-color);
   background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
   font-weight: 400;
   font-size: 12px;
   font-family: Poppins;
   height: 34px;
   border-radius: 10px;
-  flex: 1;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  white-space: nowrap;
+  width: fit-content;
+
+  padding: 0 12px;
+}
+
+.no-program-txt {
+  font-size: 13px;
+}
+
+.programs-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.program-item {
+  width: fit-content;
 }

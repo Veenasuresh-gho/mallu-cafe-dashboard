@@ -31,7 +31,7 @@ export class Advertisements {
 
   constructor(private dialog: MatDialog) { }
 
-   toast = inject(ToastService);
+  toast = inject(ToastService);
   openModal() {
   const dialogRef = this.dialog.open(UploadAdFile, {
     width: '90%',
@@ -101,7 +101,6 @@ getStatusClass(status: string): string {
   }
 }
 
-
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
   tv: tags[] = [];
@@ -142,20 +141,16 @@ onImgError(event: any) {
 getAdvertisements(): void {
   this.loading = true;
   this.tv = [{ T: 'c10', V: '3' }];
-
   this.srv.getdata('advertisement', this.tv)
     .subscribe({
       next: (r) => {
-
         this.ds = r.Data[0].map((item: any) => ({
           ...item,
           adStatusClass: this.getStatusClass(item.Status)
         }));
-
         this.dataSource.data = this.ds;
         this.dataSource._updateChangeSubscription();
         this.loading = false;
-
       },
       error: (err) => {
         console.error('API Error:', err);
@@ -239,7 +234,6 @@ getAdvertisements(): void {
 
    deleteAdvertisement(id: any) {
   this.loading = true;
-
   const tv = [
     { T: 'dk1', V: id },
     { T: 'c10', V: '4' }

@@ -1,10 +1,10 @@
 <div class="heading-path">
-    <div class="d-flex gap-1">
+    <div (click)="goToTeamMemberList()" class="back-button d-flex gap-1">
         <img src="/team/arrow-left.svg" alt="back_arrow">
         <div class="back-btn">Back</div>
     </div>
     <div>
-        <span class="path-name">Team Members > Shijo M Sebastian </span>
+        <span class="path-name">Team Members >  {{ profile?.FullName }} </span>
     </div>
 </div>
 <div class="team-members">
@@ -19,10 +19,9 @@
         </div>
         <div class="col-md-9">
             <div class="d-flex align-items-center gap-3 flex-wrap">
-
-                <div>
-                    <img src="/profile/profile-pic.png" alt="profile" class="rounded" width="80" height="80"
-                        style="object-fit: cover;" />
+                  <div>
+                    <img [src]="profile?._url || '/profile/profile-fallback-1.png'" alt="profile" class="rounded"
+                        width="80" height="80" style="object-fit: cover;" />
                 </div>
 
                 <div class="d-flex gap-2 align-items-end pt-4 mt-3">
@@ -30,10 +29,10 @@
                     <label class="btn btn-outline-secondary upload-btn mb-0 d-flex align-items-center gap-2">
                         <img src="/program/upload-icon.svg" alt="">
                         Upload new image
-                        <input type="file" class="d-none">
+                        <input (change)="onFileSelected($event)"  type="file" class="d-none">
                     </label>
 
-                    <button class="btn btn-create delete-btn border d-flex align-items-center gap-2">
+                    <button (click)="deleteProfilePic(profile?.fid)" class="btn btn-create delete-btn border d-flex align-items-center gap-2">
                         <img src="/profile/trash-gray.svg" alt="">
 
                         Delete
@@ -48,19 +47,19 @@
     <!-- step-2 -->
     <mat-divider class="text-muted my-4"></mat-divider>
     <div>
-        <app-profile-info></app-profile-info>
+        <app-profile-info [profile]="profile" ></app-profile-info>
     </div>
     <div>
-        <app-assigned-prgm></app-assigned-prgm>
+        <app-assigned-prgm [assignedPrograms]="assignedPrograms"></app-assigned-prgm>
     </div>
     <div>
-        <app-perfomance></app-perfomance>
+        <app-perfomance [performance]="performance"></app-perfomance>
     </div>
     <div>
-        <app-media-contribution></app-media-contribution>
+        <app-media-contribution [mediaContributions]="media"></app-media-contribution>
     </div>
     <div>
-        <app-permission></app-permission>
+        <app-permission [profile]="profile"></app-permission>
     </div>
 
 </div>

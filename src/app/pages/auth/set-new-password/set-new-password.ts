@@ -42,7 +42,6 @@ export class SetNewPassword {
       return;
     }
 
-    console.log('Password reset:', password);
     // Call your API to reset password here
   }
 }

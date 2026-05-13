@@ -17,6 +17,8 @@ import { ghoresult, tags } from '../../../model/ghomodel';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-team-member',
@@ -27,10 +29,11 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class TeamMember implements OnInit {
 
-  constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
+  constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef, private router: Router) { }
 
   loading = false;
   ds: [] = [];
+  
 
   openModal() {
     const dialogRef = this.dialog.open(AddTeamMember, {
@@ -100,4 +103,8 @@ export class TeamMember implements OnInit {
   get showPaginator(): boolean {
     return this.dataSource.data.length > 7;
   }
+
+goToMemberDetails(row: any) {
+  this.router.navigate(['/team-members', row.id]);
+}
 }

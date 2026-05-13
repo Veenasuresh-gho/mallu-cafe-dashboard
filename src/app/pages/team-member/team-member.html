@@ -71,10 +71,19 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="assignedPrograms">
+        <!-- <ng-container matColumnDef="assignedPrograms">
             <th mat-header-cell *matHeaderCellDef>Assigned Programs</th>
             <td mat-cell *matCellDef="let row">
                 {{ row.ProgramList || '-' }}
+            </td>
+        </ng-container> -->
+        <ng-container matColumnDef="assignedPrograms">
+            <th mat-header-cell *matHeaderCellDef>Assigned Programs</th>
+
+            <td mat-cell *matCellDef="let row">
+                <div class="assigned-programs">
+                    {{ row.ProgramList || '-' }}
+                </div>
             </td>
         </ng-container>
 
@@ -93,7 +102,9 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns;" (click)="goToMemberDetails(row)" class="clickable-row">
+        </tr>
+        <!-- <tr mat-row *matRowDef="let row; columns: columns;"></tr> -->
 
     </table>
 

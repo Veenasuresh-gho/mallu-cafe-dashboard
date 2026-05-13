@@ -71,6 +71,10 @@
     border: 1px solid #0000001A;
 
 }
+
+.back-button{
+     cursor: pointer;
+}
 @media (max-width: 768px) {
   .btn-manage-member,
   .btn-delete-member {

@@ -211,3 +211,11 @@ color: var(--muted-input);
 ::ng-deep .mat-mdc-progress-spinner circle {
   stroke: var(--primary-color) !important;
 }
+
+.assigned-programs {
+  max-width: 520px; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}

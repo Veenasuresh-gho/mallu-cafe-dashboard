@@ -22,10 +22,12 @@
   </div>
 
   <!-- DELETE BUTTON -->
-  <button class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
+  <!-- <button class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
     <span class="material-symbols-outlined icon">delete</span>
     Delete Program
-  </button>
+  </button> -->
+  <app-primary-button [loading]="loading" (click)="deleteAssignedProgram()" t style="margin-right: 24px;"
+                label="Delete Program" iconSrc="/upload/profile/delete.svg"></app-primary-button>
   <!-- <app-footer-button style=" padding: 8px 10px;" (click)="close()" text="Delete Program" icon="/profile/trash.svg"
             type="button">
         </app-footer-button> -->

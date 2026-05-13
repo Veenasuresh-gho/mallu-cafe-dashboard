@@ -1,27 +1,26 @@
 <div class="p-4">
-<div class="d-flex justify-content-center align-items-center">
+  <div class="d-flex justify-content-center align-items-center">
     <img src="/profile/delete.svg" alt="">
-</div>
+  </div>
   <p class="title text-center" mat-dialog-title>
- Delete this member?
-</p>
+    Delete this member?
+  </p>
 
-<mat-dialog-content class="subtitle text-center pt-2">
-This will permanently remove this member from the system, including their profile, assigned programs, and access permissions. This action cannot be undone.</mat-dialog-content>
+  <mat-dialog-content class="subtitle text-center pt-2">
+    This will permanently remove this member from the system, including their profile, assigned programs, and access
+    permissions. This action cannot be undone.</mat-dialog-content>
 
   <div class="d-flex justify-content-between flex-column flex-sm-row gap-2 mx-5">
 
-  <!-- CANCEL BUTTON -->
-  <div class="btn-cancel-box" (click)="onClose()">
-    <app-cancel-button></app-cancel-button>
+    <!-- CANCEL BUTTON -->
+    <div class="btn-cancel-box" (click)="onClose()">
+      <app-cancel-button></app-cancel-button>
+    </div>
+
+    <!-- DELETE BUTTON -->
+    <app-primary-button [loading]="loading" (click)="deleteMember()" t style="margin-right: 24px;" label="Delete Member"
+      iconSrc="/upload/profile/delete.svg"></app-primary-button>
+
   </div>
-
-  <!-- DELETE BUTTON -->
-  <button (click)="onClose()" class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
-    <span class="material-symbols-outlined icon">delete</span>
-    Delete Member
-  </button>
-
-</div>
 
 </div>

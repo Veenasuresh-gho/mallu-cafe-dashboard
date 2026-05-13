@@ -546,14 +546,22 @@ input[type="checkbox"] {
 
 .btn-delete-member {
   border: none;
-  color: var( --primary-color);
+  color: var(--primary-color);
   background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
   font-weight: 400;
   font-size: 12px;
   font-family: Poppins;
   height: 34px;
   border-radius: 10px;
-  flex: 1;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  white-space: nowrap;
+  width: fit-content;
+
+  padding: 0 12px;
 }
 
 .no-program-txt {
@@ -567,19 +575,5 @@ input[type="checkbox"] {
 }
 
 .program-item {
-  flex: 0 0 calc(33.33% - 12px);
-}
-
-/* Tablet */
-@media (max-width: 992px) {
-  .program-item {
-    flex: 0 0 calc(50% - 12px);
-  }
-}
-
-/* Mobile */
-@media (max-width: 576px) {
-  .program-item {
-    flex: 0 0 100%;
-  }
+  width: fit-content;
 }

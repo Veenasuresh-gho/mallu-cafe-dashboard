@@ -28,8 +28,8 @@ import { ToastService } from '../../services/toastService';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule,
-     MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown, 
-     MatProgressSpinnerModule,CustomFilterCalender,MatMenuModule,MatDividerModule,MatButtonModule],
+    MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown,
+    MatProgressSpinnerModule, CustomFilterCalender, MatMenuModule, MatDividerModule, MatButtonModule],
   templateUrl: './programs.html',
   styleUrl: './programs.css',
 })
@@ -42,54 +42,54 @@ export class Programs implements OnInit {
 
 
 
-    // openModal() {
-    //   const dialogRef = this.dialog.open(AddNewProgram, {
-    //     width: '90%',
-    //     maxWidth: '600px',
-    //     maxHeight: '95vh',
-    //     disableClose: true,
-    //   });
-  
-    //   dialogRef.afterClosed().subscribe((res) => {
-    //     if (res) {
-    //       this.getProgramList();
-    //     }
-    //   });
-    // }
+  // openModal() {
+  //   const dialogRef = this.dialog.open(AddNewProgram, {
+  //     width: '90%',
+  //     maxWidth: '600px',
+  //     maxHeight: '95vh',
+  //     disableClose: true,
+  //   });
 
-    openModal() {
-  const dialogRef = this.dialog.open(AddNewProgram, {
-          width: '90%',
-        maxWidth: '600px',
-        maxHeight: '95vh',
-    disableClose: true
-  });
+  //   dialogRef.afterClosed().subscribe((res) => {
+  //     if (res) {
+  //       this.getProgramList();
+  //     }
+  //   });
+  // }
 
-  dialogRef.afterClosed().subscribe(res => {
-    if (res) {
-      this.getProgramList(); 
-    }
-  });
-}
+  openModal() {
+    const dialogRef = this.dialog.open(AddNewProgram, {
+      width: '90%',
+      maxWidth: '600px',
+      maxHeight: '95vh',
+      disableClose: true
+    });
 
-editProgram(row: any) {
-  this.dialog.open(AddNewProgram, {
-          width: '90%',
-        maxWidth: '600px',
-        maxHeight: '95vh',
-    disableClose: true,
-    data: {
-      mode: 'edit',
-      program: row
-    }
-  }).afterClosed().subscribe(res => {
-    if (res) {
-      this.getProgramList();
-    }
-  });
-}
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.getProgramList();
+      }
+    });
+  }
 
-    
+  editProgram(row: any) {
+    this.dialog.open(AddNewProgram, {
+      width: '90%',
+      maxWidth: '600px',
+      maxHeight: '95vh',
+      disableClose: true,
+      data: {
+        mode: 'edit',
+        program: row
+      }
+    }).afterClosed().subscribe(res => {
+      if (res) {
+        this.getProgramList();
+      }
+    });
+  }
+
+
 
   ngOnInit(): void {
     this.getProgramList();
@@ -105,8 +105,8 @@ editProgram(row: any) {
     if (p) {
       this.dataSource.paginator = p;
     }
-  } 
-   dataSource = new MatTableDataSource<any>([]);
+  }
+  dataSource = new MatTableDataSource<any>([]);
 
 
   getProgramList(): void {
@@ -146,78 +146,78 @@ editProgram(row: any) {
     'duration',
     'dayTime',
     'interaction',
-    'actions' 
+    'actions'
   ];
 
   programsDropdown: string = 'all';
-tempProgramSelection: string = 'all'; 
-isCalendarOpen: boolean = false;
+  tempProgramSelection: string = 'all';
+  isCalendarOpen: boolean = false;
 
-onProgramChange(value: string) {
-  if (value === 'date') {
-    this.isCalendarOpen = true;
+  onProgramChange(value: string) {
+    if (value === 'date') {
+      this.isCalendarOpen = true;
 
-    // store temporarily, DON'T apply yet
-    this.tempProgramSelection = value;
-  } else {
-    this.programsDropdown = value;
-    this.tempProgramSelection = value;
+      // store temporarily, DON'T apply yet
+      this.tempProgramSelection = value;
+    } else {
+      this.programsDropdown = value;
+      this.tempProgramSelection = value;
+      this.isCalendarOpen = false;
+    }
+  }
+
+  onFilterApplied(data: any) {
+    this.programsDropdown = this.tempProgramSelection;
     this.isCalendarOpen = false;
   }
-}
-
-onFilterApplied(data: any) {
-  this.programsDropdown = this.tempProgramSelection;
-  this.isCalendarOpen = false;
-}
 
   deleteProgram(id: any) {
-  this.loading = true;
-  const tv = [
-    { T: 'dk1', V: id },
-    { T: 'c10', V: '4' }
-  ];
+    this.loading = true;
+    const tv = [
+      { T: 'dk1', V: id },
+      { T: 'c10', V: '4' }
+    ];
 
-  this.srv.getdata('program', tv).subscribe({
-    next: (r: any) => {
+    this.srv.getdata('program', tv).subscribe({
+      next: (r: any) => {
 
-      this.loading = false;
+        this.loading = false;
 
-      if (r && r.Status === 1) {
+        if (r && r.Status === 1) {
+
+          this.toast.show({
+            title: 'Program deleted successfully! ',
+            description: 'Program has been successfully deleted',
+            variant: 'success',
+            position: 'toast-bottom-center'
+          });
+
+          this.getProgramList();
+
+        } else {
+
+          this.toast.show({
+            title: 'Failed to delete Program ❌',
+            description: r?.Info || 'Something went wrong',
+            variant: 'error',
+            position: 'toast-bottom-center'
+          });
+
+        }
+      },
+
+      error: () => {
+        this.loading = false;
 
         this.toast.show({
-          title: 'Program deleted successfully! ',
-          description: 'Program has been successfully deleted',
-          variant: 'success',
-          position: 'toast-bottom-center'
-        });
-
-        this.getProgramList(); 
-
-      } else {
-
-        this.toast.show({
-          title: 'Failed to delete Program ❌',
-          description: r?.Info || 'Something went wrong',
+          title: 'Error ❌',
+          description: 'Server error while deleting Program',
           variant: 'error',
           position: 'toast-bottom-center'
         });
 
       }
-    },
-
-    error: () => {
-      this.loading = false;
-
-      this.toast.show({
-        title: 'Error ❌',
-        description: 'Server error while deleting Program',
-        variant: 'error',
-        position: 'toast-bottom-center'
-      });
-
-    }
-  });
-}
+    });
+  }
 
 }

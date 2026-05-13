@@ -332,96 +332,8 @@ export class AddNewProgram implements OnInit {
     this.dialogRef.close();
   }
 
-  // updateProgram(): void {
-  //   if (!this.validateForm()) return;
-  //   this.loading = true;
-  //   this.cdr.detectChanges();
-  //   const payload = {
-  //     Title: this.programTitle,
-  //     CategoryID: this.selectedCategory,
-  //     ScheduleStartDay: this.selectedSchedule.fromDay,
-  //     ScheduleEndDay: this.selectedSchedule.toDay,
-  //     StartTime: this.selectedSchedule.fromTime,
-  //     EndTime: this.selectedSchedule.toTime,
-  //     HostID: this.selectedHost,
-  //     IsCallAllowed: this.selectedType === "allow" ? 1 : 0
-  //   };
-
-
-  //   this.tv = [
-  //     { T: 'dk1', V: this.id },
-  //     { T: 'c1', V: JSON.stringify(payload) },
-  //     { T: 'c10', V: '2' }
-  //   ];
-
-  //   this.srv.getdata('program', this.tv).subscribe({
-  //     next: async (r) => {
-  //       this.loading = false;
-  //       this.cdr.detectChanges();
-  //       if (r.Status !== 1) {
-  //         this.toast.show({
-  //           title: 'Update failed ❌',
-  //           description: r?.Info || 'Something went wrong',
-  //           variant: 'error',
-  //           position: 'toast-bottom-right'
-  //         });
-  //         return;
-  //       }
-  //       const program = r?.Data?.[0]?.[0];
-  //       this.id = program?.id;
-
-  //       let uploadSuccess = true;
-
-  //       if (this.selectedFile) {
-  //         uploadSuccess = await this.srv.handleFileUpload(
-  //           this.id,
-  //           this.userId,
-  //           this.selectedFile,
-  //           '2'
-  //         );
-  //       }
-
-  //       if (!this.selectedFile && !this.existingImageUrl) {
-  //         // Optional API call if backend supports delete
-  //         // await this.srv.deleteFile(this.id);
-  //       }
-
-  //       if (uploadSuccess) {
-  //         this.toast.show({
-  //           title: `${program?.msg || 'Program updated successfully'} 🎉`,
-  //           description: 'Program updated successfully',
-  //           variant: 'success',
-  //           position: 'toast-bottom-right'
-  //         });
-
-  //         this.dialogRef.close(true);
-  //       } else {
-  //         this.toast.show({
-  //           title: 'Upload failed ❌',
-  //           description: 'File upload failed',
-  //           variant: 'error',
-  //           position: 'toast-bottom-right'
-  //         });
-  //       }
-  //     },
-
-  //     error: (err) => {
-  //       console.error(err);
-  //       this.loading = false;
-  //       this.cdr.detectChanges();
-  //       this.toast.show({
-  //         title: 'Something went wrong ❌',
-  //         description: 'Please try again',
-  //         variant: 'error',
-  //         position: 'toast-bottom-right'
-  //       });
-  //     }
-  //   });
-  // }
-
   updateProgram(): void {
   if (!this.validateForm()) return;
-
   this.loading = true;
   this.cdr.detectChanges();
 
@@ -439,6 +351,7 @@ export class AddNewProgram implements OnInit {
   this.tv = [
     { T: 'dk1', V: this.id },
     { T: 'c1', V: JSON.stringify(payload) },
+    { T: 'c2', V: this.selectedHost },
     { T: 'c10', V: '2' }
   ];
 

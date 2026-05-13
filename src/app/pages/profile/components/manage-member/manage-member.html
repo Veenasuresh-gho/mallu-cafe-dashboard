@@ -75,7 +75,8 @@
 
                         {{ program?.Title }}
 
-                        <img src="/manage-member/trash.svg" alt="delete" (click)="openModalDelete()">
+                        <!-- <img src="/manage-member/trash.svg" alt="delete" (click)="openModalDelete()"> -->
+                        <img src="/manage-member/trash.svg" alt="delete" (click)="openModalDelete(program?.ID)">
                     </button>
                 </div>
 
@@ -93,9 +94,16 @@
 
         </div>
         <div class="px-4">
-            <app-form-multiselect label="Assign New Programs" [options]="programList" [(selectedItems)]="selectedPrograms"
-                placeholder="-Select program-" optionLabel="DisplayText">
-            </app-form-multiselect>
+            <!-- <app-form-multiselect label="Assign New Programs" [options]="programList"
+                [(selectedItems)]="selectedPrograms" placeholder="-Select program-" optionLabel="DisplayText">
+            </app-form-multiselect> -->
+            <app-form-multiselect
+    label="Assign New Programs"
+    [options]="filteredProgramList"
+    [(selectedItems)]="selectedPrograms"
+    placeholder="-Select program-"
+    optionLabel="DisplayText">
+</app-form-multiselect>
         </div>
 
         <small class="helper-text px-4">Multiple programs can be assigned.</small>
@@ -134,10 +142,9 @@
                 <img src="/program/close-circle.svg" width="16px" alt="">
                 <p>Cancel</p>
             </button>
-            <button type="submit" class="btn-create d-flex">
-                <img src="/upload/tick-circle.svg" alt="">
-                <span>Save changes</span>
-            </button>
+
+            <app-primary-button [loading]="loading" (click)="editProfileDetails()" t style="margin-right: 24px;"
+                label="Save changes" iconSrc="/upload/tick-circle.svg"></app-primary-button>
         </mat-dialog-actions>
     </mat-dialog-content>
     <!-- footer -->

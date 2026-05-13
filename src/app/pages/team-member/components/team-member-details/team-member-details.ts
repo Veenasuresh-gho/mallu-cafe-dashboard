@@ -47,21 +47,32 @@ export class TeamMemberDetails {
   constructor(private dialog: MatDialog, private router: Router,private cdr: ChangeDetectorRef,private cd: ChangeDetectorRef) { }
 
   openModal() {
-    this.dialog.open(ManageMember, {
-      width: '620px',
-      maxWidth: '600px',
-      maxHeight: '95vh',
-      disableClose: true,
-      data: {
+  const dialogRef = this.dialog.open(ManageMember, {
+    width: '620px',
+    maxWidth: '600px',
+    maxHeight: '95vh',
+    disableClose: true,
+    data: {
       id: this.id
     }
-    });
-  }
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      this.getProfile();
+    }
+
+  });
+
+}
   openModalDeleteMember() {
     this.dialog.open(DeleteMember, {
       width: '600px',
       maxHeight: '269px',
-      disableClose: true
+      disableClose: true,
+      data: {
+      memberId: this.id,
+    }
     });
   }
 

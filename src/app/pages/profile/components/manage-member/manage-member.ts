@@ -16,12 +16,13 @@ import { GHOUtitity } from '../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 import { ToastService } from '../../../../services/toastService';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 
 @Component({
   selector: 'app-manage-member',
   imports: [MatDialogContent, MatDialogActions, MatDialogClose, FormsModule, CommonModule,
     MatFormField, MatLabel, MatSelect, MatOption, MatSelectTrigger, MatChipsModule, MatSlideToggle,
-    DialogHeaderComponent, StepBadge, FormInput, FormSelect, FormMultiSelect],
+    DialogHeaderComponent, StepBadge, FormInput, FormSelect, FormMultiSelect, PrimaryButton],
   templateUrl: './manage-member.html',
   styleUrl: './manage-member.css',
 })
@@ -47,40 +48,62 @@ export class ManageMember {
   dialogData = inject(MAT_DIALOG_DATA);
   roles: any[] = [];
   programList: any[] = [];
+  filteredProgramList: any[] = [];
   constructor(private dialogRef: MatDialogRef<ManageMember>, private dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef, private cd: ChangeDetectorRef) { }
-
-  programs = [
-    { program: 'Om Shanti Om' },
-    { program: 'Bollywood Rewind' },
-    // { program: 'Hungama Radio' },
-    // { program: 'Indo American News' },
-    // { program: 'Talk with Stars' },
-    // { program: 'Studio Conversations' },
-    // { program: 'Dial In & Speak Out' }
-  ];
 
   selectedPrograms: any[] = [];
 
-  permissions: any[] = [];
+  permissions = [
+    {
+      name: 'Media Upload',
+      key: 'IsMediaUploadPermission',
+      checked: false
+    },
+    {
+      name: 'Ad Management',
+      key: 'IsAdManagePermission',
+      checked: false
+    },
+    {
+      name: 'Program Management',
+      key: 'IsProgramManagePermission',
+      checked: false
+    },
+    {
+      name: 'Member Management',
+      key: 'IsMemberManagePersmission',
+      checked: false
+    }
+  ];
 
   setPermissions() {
+
     this.permissions = [
+
       {
         name: 'Media Upload',
+        key: 'MediaUploadPermission',
         checked: !!this.profile?.MediaUploadPermission
       },
+
       {
         name: 'Ad Management',
+        key: 'AdManagementPermission',
         checked: !!this.profile?.AdManagementPermission
       },
+
       {
         name: 'Program Management',
+        key: 'ProgramManagementPermission',
         checked: !!this.profile?.ProgramManagementPermission
       },
+
       {
         name: 'Member Management',
+        key: 'MemberManagementPermission',
         checked: !!this.profile?.MemberManagementPermission
       }
+
     ];
 
     // toggle ON only if all permissions are true
@@ -96,7 +119,6 @@ export class ManageMember {
   }
 
   getRoles(): void {
-
     this.tv = [
       { T: 'dk1', V: "ROLES" },
       { T: 'c10', V: '3' }
@@ -138,6 +160,7 @@ export class ManageMember {
             DisplayText: item.Title,
             DataValue: item.ProgramID
           }));
+          this.updateFilteredPrograms();
         },
         error: (err) => {
           console.error('API Error:', err);
@@ -153,12 +176,37 @@ export class ManageMember {
   close() {
     this.dialogRef.close();
   }
-  openModalDelete() {
-    this.dialog.open(DeleteProgram, {
-      width: '600px',
-      disableClose: true
-    });
-  }
+
+
+  updateFilteredPrograms(): void {
+
+  const assignedIds = this.assignedPrograms.map(
+    (p: any) => p.id1
+  );
+
+  this.filteredProgramList = this.programList.filter(
+    (program: any) => !assignedIds.includes(program.DataValue)
+  );
+
+}
+
+openModalDelete(programId: string) {
+  const dialogRef = this.dialog.open(DeleteProgram, {
+    width: '600px',
+    disableClose: true,
+    data: {
+      memberId: this.id,
+      programId: programId
+    }
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      this.getProfile();
+    }
+
+  });
+
+}
 
   getProfile(): void {
     this.loading = true;
@@ -175,6 +223,8 @@ export class ManageMember {
           this.assignedPrograms = data[1] || [];
           this.performance = data[2] || [];
           this.media = data[3] || [];
+          this.updateFilteredPrograms();
+          console.log(this.assignedPrograms);
           this.setPermissions();
           this.cdr.detectChanges();
           this.loading = false;
@@ -191,6 +241,7 @@ export class ManageMember {
     this.getProfile();
     this.getRoles();
     this.getProgramList();
+    
   }
 
   clearError(field: string) {
@@ -244,5 +295,108 @@ export class ManageMember {
       });
     }
   }
+
+editProfileDetails(): void {
+
+  if (!this.profile?.FullName || !this.profile?.Email) {
+
+    this.toast.show({
+      title: 'Missing fields ⚠️',
+      description: 'Name and Email are required',
+      variant: 'warning',
+      position: 'toast-bottom-center'
+    });
+
+    return;
+  }
+
+  const selectedRole = this.roles.find(
+    r => r.DisplyText === this.profile.Role
+  );
+
+  const permissionPayload: any = {};
+
+  this.permissions.forEach((p: any) => {
+    permissionPayload[p.key] = p.checked ? '1' : '0';
+  });
+
+  // Main payload
+  const payload = {
+
+    FullName: this.profile.FullName,
+    Role: selectedRole ? selectedRole.DataValue : null,
+    Phone: this.profile.Phone,
+    Email: this.profile.Email,
+    CountryID: this.profile.CountryID,
+
+    ...permissionPayload
+
+  };
+
+  // Separate programs payload
+  const selectedPrograms = this.selectedPrograms
+    .map((p: any) => p.DataValue)
+    .join(',');
+
+  this.loading = true;
+  this.cdr.markForCheck();
+
+  this.tv = [
+    { T: 'dk1', V: this.profile.id },
+    { T: 'c1', V: JSON.stringify(payload) },
+    { T: 'c2', V: selectedPrograms },
+    { T: 'c10', V: '2' }
+  ];
+
+  this.srv.getdata('teammember', this.tv).subscribe({
+
+    next: (r) => {
+
+      this.loading = false;
+      this.cdr.markForCheck();
+
+      if (r.Status == 1) {
+
+        this.toast.show({
+          title: 'Profile updated ✅',
+          description: 'Changes saved successfully',
+          variant: 'success',
+          position: 'toast-bottom-center'
+        });
+
+        this.dialogRef.close(true);
+
+      } else {
+
+        this.toast.show({
+          title: 'Update failed ❌',
+          description: r?.Info || 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
+
+      }
+
+    },
+
+    error: (err) => {
+
+      console.error('API Error:', err);
+
+      this.loading = false;
+      this.cdr.markForCheck();
+
+      this.toast.show({
+        title: 'Server error 🚨',
+        description: 'Please try again later',
+        variant: 'error',
+        position: 'toast-bottom-right'
+      });
+
+    }
+
+  });
+
+}
 
 }

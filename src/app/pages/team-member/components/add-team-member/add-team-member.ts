@@ -106,7 +106,7 @@ addTeamMember(): void {
     Phone: this.phone,
     Email: this.email,
     CountryID: this.countryId,
-    selectedPrograms: this.selectedPrograms.map(p => p.DataValue).join(','),
+    SelectedPrograms: this.selectedPrograms.map(p => p.DataValue).join(','),
     ...permissionPayload
   };
 

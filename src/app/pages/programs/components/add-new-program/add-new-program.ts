@@ -68,6 +68,7 @@ export class AddNewProgram implements OnInit {
   categoryOptions: any[] = [];
   hosts: any[] = [];
   programID: string = '';
+  programDetailsID: string = '';
   programTitle: string = '';
   selectedHost: string = '';
   selectedCategory: string = '';
@@ -80,7 +81,8 @@ export class AddNewProgram implements OnInit {
   userId: string = '';
   id: string = '';
   fid: string = '';
-
+  assignedHosts: any[] = [];
+  filteredHosts: any[] = [];
   errors: any = {};
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
@@ -98,25 +100,82 @@ export class AddNewProgram implements OnInit {
     this.errors = {};
 
     if (!this.programTitle?.trim()) this.errors.programTitle = 'Program title is required';
-    if (!this.selectedHost) this.errors.host = 'Please select a host / RJ';
+    // if (!this.selectedHost) this.errors.host = 'Please select a host / RJ';
+      if (!this.isEditMode && !this.selectedHost) {
+    this.errors.host = 'Please select a host / RJ';
+  }
     if (!this.selectedCategory) this.errors.category = 'Please select a program category';
     if (!this.selectedType) this.errors.type = 'Please choose a call option';
     return Object.keys(this.errors).length === 0;
   }
-
 
   ngOnInit(): void {
     this.userId = sessionStorage.getItem('id') || '';
     this.getInitialData().then(() => {
       if (this.data?.mode === 'edit') {
         this.isEditMode = true;
-        setTimeout(() => {
-          this.populateForm(this.data.program);
-          this.cdr.detectChanges();
-        });
+        this.getProgramDetails(this.data.id);
       }
     });
   }
+
+
+  getProgramDetails(id: string): void {
+    this.loading = true;
+    this.tv = [
+      { T: 'dk1', V: id },
+      { T: 'c10', V: '3' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: (r) => {
+
+          this.loading = false;
+
+          if (r?.Status === 1 && r?.Data?.[0]?.length) {
+
+            const program = r.Data[0][0];
+            this.programDetailsID = program.id;
+            this.getTeamMemberList().then(() => {
+              this.assignedHosts = r?.Data?.[1] || [];
+              this.populateForm(program);
+
+            });
+
+            this.populateForm(program);
+
+          } else {
+
+            this.toast.show({
+              title: 'Failed to load program ❌',
+              description: 'Program details not found',
+              variant: 'error',
+              position: 'toast-bottom-right'
+            });
+          }
+
+          this.cdr.detectChanges();
+        },
+
+        error: (err) => {
+
+          console.error(err);
+
+          this.loading = false;
+
+          this.toast.show({
+            title: 'Error ❌',
+            description: 'Failed to fetch program details',
+            variant: 'error',
+            position: 'toast-bottom-right'
+          });
+
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
 
   populateForm(program: any) {
     this.programTitle = program?.Title || '';
@@ -186,7 +245,15 @@ export class AddNewProgram implements OnInit {
 
   getTeamMemberList(): Promise<void> {
     return new Promise((resolve) => {
-      this.tv = [{ T: 'c10', V: '3' }];
+      this.tv = [
+        { T: 'c10', V: '3' }
+      ];
+      if (this.isEditMode && this.programDetailsID) {
+        this.tv.unshift({
+          T: 'c1',
+          V: this.programDetailsID
+        });
+      }
 
       this.srv.getdata('teammember', this.tv)
         .subscribe({
@@ -194,10 +261,14 @@ export class AddNewProgram implements OnInit {
             const data = r.Data[0];
             this.hosts = data.map((item: any) => ({
               DisplayText: item.FullName,
-              DataValue: item.MemberID
+              DataValue: item.id
             }));
+
+            console.log('hosts', this.hosts);
+
             resolve();
           },
+
           error: () => resolve()
         });
     });
@@ -239,12 +310,11 @@ export class AddNewProgram implements OnInit {
 
     this.clearError('file');
   }
+
   addProgram(): void {
     if (!this.validateForm()) return;
-
     this.loading = true;
     this.cdr.detectChanges();
-
     const payload = {
       Title: this.programTitle,
       CategoryID: this.selectedCategory,
@@ -278,9 +348,7 @@ export class AddNewProgram implements OnInit {
 
         const program = r?.Data?.[0]?.[0];
         this.id = program.id;
-
         let success = true;
-
         if (this.selectedFile) {
           success = await this.srv.handleFileUpload(
             this.id,
@@ -333,120 +401,127 @@ export class AddNewProgram implements OnInit {
   }
 
   updateProgram(): void {
-  if (!this.validateForm()) return;
-  this.loading = true;
-  this.cdr.detectChanges();
+    if (!this.validateForm()) return;
+    this.loading = true;
+    this.cdr.detectChanges();
 
-  const payload = {
-    Title: this.programTitle,
-    CategoryID: this.selectedCategory,
-    ScheduleStartDay: this.selectedSchedule.fromDay,
-    ScheduleEndDay: this.selectedSchedule.toDay,
-    StartTime: this.selectedSchedule.fromTime,
-    EndTime: this.selectedSchedule.toTime,
-    HostID: this.selectedHost,
-    IsCallAllowed: this.selectedType === "allow" ? 1 : 0
-  };
+    const payload = {
+      Title: this.programTitle,
+      CategoryID: this.selectedCategory,
+      ScheduleStartDay: this.selectedSchedule.fromDay,
+      ScheduleEndDay: this.selectedSchedule.toDay,
+      StartTime: this.selectedSchedule.fromTime,
+      EndTime: this.selectedSchedule.toTime,
+      // HostID: this.selectedHost,
+      HostID:'0',
+      IsCallAllowed: this.selectedType === "allow" ? 1 : 0
+    };
 
-  this.tv = [
-    { T: 'dk1', V: this.id },
-    { T: 'c1', V: JSON.stringify(payload) },
-    { T: 'c2', V: this.selectedHost },
-    { T: 'c10', V: '2' }
-  ];
+    const assignedHostIds = this.assignedHosts.map(
+  host => host.HostID
+);
 
-  this.srv.getdata('program', this.tv).subscribe({
-    next: async (r) => {
-      if (r.Status !== 1) {
-        this.loading = false;
-        this.cdr.detectChanges();
+const allHostIds = [...assignedHostIds];
 
-        this.toast.show({
-          title: 'Update failed ❌',
-          description: r?.Info || 'Something went wrong',
-          variant: 'error',
-          position: 'toast-bottom-right'
-        });
-        return;
-      }
+if (
+  this.selectedHost &&
+  !allHostIds.includes(this.selectedHost)
+) {
+  allHostIds.push(this.selectedHost);
+}
 
-      const program = r?.Data?.[0]?.[0];
+    this.tv = [
+      { T: 'dk1', V: this.id },
+      { T: 'c1', V: JSON.stringify(payload) },
+      { T: 'c2', V: this.selectedHost },
+        // { T: 'c2', V: JSON.stringify(allHostIds) },
+      { T: 'c10', V: '2' }
+    ];
 
-      // ✅ Ensure ID is valid
-      const updatedId = program?.id || this.id;
+    this.srv.getdata('program', this.tv).subscribe({
+      next: async (r) => {
+        if (r.Status !== 1) {
+          this.loading = false;
+          this.cdr.detectChanges();
 
-      if (!updatedId) {
-        this.loading = false;
-        this.toast.show({
-          title: 'Invalid program ID ❌',
-          description: 'Cannot upload file without ID',
-          variant: 'error',
-          position: 'toast-bottom-right'
-        });
-        return;
-      }
-
-      let uploadSuccess = true;
-
-      try {
-        // ✅ If new file selected
-        if (this.selectedFile) {
-
-          // 🔥 OPTIONAL: delete old file first
-          if (this.fid) {
-            await this.deleteUpload(this.fid);
-          }
-
-          uploadSuccess = await this.srv.handleFileUpload(
-            updatedId,
-            this.userId,
-            this.selectedFile,
-            '2'
-          );
+          this.toast.show({
+            title: 'Update failed ❌',
+            description: r?.Info || 'Something went wrong',
+            variant: 'error',
+            position: 'toast-bottom-right'
+          });
+          return;
         }
 
-      } catch (e) {
-        console.error('Upload error:', e);
-        uploadSuccess = false;
-      }
+        const program = r?.Data?.[0]?.[0];
 
-      this.loading = false;
-      this.cdr.detectChanges();
+        const updatedId = program?.id || this.id;
 
-      if (uploadSuccess) {
+        if (!updatedId) {
+          this.loading = false;
+          this.toast.show({
+            title: 'Invalid program ID ❌',
+            description: 'Cannot upload file without ID',
+            variant: 'error',
+            position: 'toast-bottom-right'
+          });
+          return;
+        }
+
+        let uploadSuccess = true;
+
+        try {
+          if (this.selectedFile) {
+            if (this.fid) {
+              await this.deleteUpload(this.fid);
+            }
+            uploadSuccess = await this.srv.handleFileUpload(
+              updatedId,
+              this.userId,
+              this.selectedFile,
+              '2'
+            );
+          }
+
+        } catch (e) {
+          console.error('Upload error:', e);
+          uploadSuccess = false;
+        }
+
+        this.loading = false;
+        this.cdr.detectChanges();
+        if (uploadSuccess) {
+          this.toast.show({
+            title: `${program?.msg || 'Program updated successfully'} 🎉`,
+            description: 'Program updated successfully',
+            variant: 'success',
+            position: 'toast-bottom-right'
+          });
+
+          this.dialogRef.close(true);
+        } else {
+          this.toast.show({
+            title: 'Upload failed ❌',
+            description: 'File upload failed',
+            variant: 'error',
+            position: 'toast-bottom-right'
+          });
+        }
+      },
+
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+        this.cdr.detectChanges();
         this.toast.show({
-          title: `${program?.msg || 'Program updated successfully'} 🎉`,
-          description: 'Program updated successfully',
-          variant: 'success',
-          position: 'toast-bottom-right'
-        });
-
-        this.dialogRef.close(true);
-      } else {
-        this.toast.show({
-          title: 'Upload failed ❌',
-          description: 'File upload failed',
+          title: 'Something went wrong ❌',
+          description: 'Please try again',
           variant: 'error',
           position: 'toast-bottom-right'
         });
       }
-    },
-
-    error: (err) => {
-      console.error(err);
-
-      this.loading = false;
-      this.cdr.detectChanges();
-
-      this.toast.show({
-        title: 'Something went wrong ❌',
-        description: 'Please try again',
-        variant: 'error',
-        position: 'toast-bottom-right'
-      });
-    }
-  });
-}
+    });
+  }
 
   deleteUpload(fileUploadID: any) {
     if (!fileUploadID) return;
@@ -503,5 +578,52 @@ export class AddNewProgram implements OnInit {
     this.existingImageUrl = '';
     this.fileName = '';
   }
+
+
+  deleteHostMember(hostID: any): void {
+  this.cdr.markForCheck();
+  this.tv = [
+    { T: 'dk1', V: this.programDetailsID },
+    { T: 'dk2', V: hostID },
+    { T: 'c10', V: '17' }
+  ];
+  this.srv.getdata('program', this.tv).subscribe({
+    next: (r) => {
+      this.cdr.markForCheck();
+      if (r.Status == 1) {
+        this.toast.show({
+          title: 'Host Member removed ✅',
+          description: 'Host Member deleted successfully',
+          variant: 'success',
+          position: 'toast-bottom-right'
+        });
+
+         this.getProgramDetails(this.data.id);
+
+      } else {
+
+        this.toast.show({
+          title: 'Delete failed ❌',
+          description: r?.Info || 'Unable to remove Host Member',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
+      }
+    },
+
+    error: (err) => {
+
+      console.error('API Error:', err);
+      this.cdr.markForCheck();
+
+      this.toast.show({
+        title: 'Server error 🚨',
+        description: 'Please try again later',
+        variant: 'error',
+        position: 'toast-bottom-right'
+      });
+    }
+  });
+}
 
 }

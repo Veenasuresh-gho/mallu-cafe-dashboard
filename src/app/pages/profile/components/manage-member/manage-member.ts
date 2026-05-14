@@ -148,27 +148,59 @@ export class ManageMember {
       });
   }
 
+  // getProgramList(): void {
+  //   this.tv = [{ T: 'c10', V: '3' }];
+  //   this.srv.getdata('program', this.tv)
+  //     .subscribe({
+  //       next: (r) => {
+  //         const data = r.Data[0];
+  //         this.loading = false;
+
+  //         this.programList = data.map((item: any) => ({
+  //           DisplayText: item.Title,
+  //           DataValue: item.ProgramID
+  //         }));
+  //         this.updateFilteredPrograms();
+  //       },
+  //       error: (err) => {
+  //         console.error('API Error:', err);
+  //         this.loading = false;
+  //       }
+  //     });
+  // }
+
+
   getProgramList(): void {
-    this.tv = [{ T: 'c10', V: '3' }];
-    this.srv.getdata('program', this.tv)
-      .subscribe({
-        next: (r) => {
-          const data = r.Data[0];
-          this.loading = false;
 
-          this.programList = data.map((item: any) => ({
-            DisplayText: item.Title,
-            DataValue: item.ProgramID
-          }));
-          this.updateFilteredPrograms();
-        },
-        error: (err) => {
-          console.error('API Error:', err);
-          this.loading = false;
-        }
-      });
-  }
+  this.tv = [{ T: 'c10', V: '3' }];
 
+  this.srv.getdata('program', this.tv)
+    .subscribe({
+      next: (r) => {
+
+        const data = r.Data[0];
+        this.loading = false;
+
+        this.programList = data.map((item: any) => ({
+
+          DisplayText: item.Title,
+
+          DataValue: item.ProgramID,
+
+          IsHostFull: item.IsHostFull
+
+        }));
+
+        this.updateFilteredPrograms();
+
+      },
+
+      error: (err) => {
+        console.error('API Error:', err);
+        this.loading = false;
+      }
+    });
+}
   remove(item: any) {
     this.selectedPrograms = this.selectedPrograms.filter(p => p !== item);
   }
@@ -178,15 +210,27 @@ export class ManageMember {
   }
 
 
-  updateFilteredPrograms(): void {
+updateFilteredPrograms(): void {
 
+  // already assigned program ids
   const assignedIds = this.assignedPrograms.map(
     (p: any) => p.id1
   );
+  this.filteredProgramList = this.programList
+    .filter((program: any) => !assignedIds.includes(program.DataValue))
+    .map((program: any) => ({
 
-  this.filteredProgramList = this.programList.filter(
-    (program: any) => !assignedIds.includes(program.DataValue)
-  );
+      ...program,
+
+      // disable if host full
+      disabled: program.IsHostFull === 1,
+
+      // optional label
+      DisplayText: program.IsHostFull === 1
+        ? `${program.DisplayText} `
+        : program.DisplayText
+
+    }));
 
 }
 

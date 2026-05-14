@@ -227,27 +227,58 @@ handleUpload(id: string) {
   }
 
 
+  // getProgramList(): void {
+  //   // this.loading = true;
+  //   this.tv = [{ T: 'c10', V: '3' }];
+
+  //   this.srv.getdata('program', this.tv)
+  //     .subscribe({
+  //       next: (r) => {
+  //         const data = r.Data[0];
+  //         this.loading = false;
+
+  //         this.programList = data.map((item: any) => ({
+  //           DisplayText: item.Title,
+  //           DataValue: item.ProgramID
+  //         }));
+  //       },
+  //       error: (err) => {
+  //         console.error('API Error:', err);
+  //         this.loading = false;
+  //       }
+  //     });
+  // }
+
   getProgramList(): void {
-    // this.loading = true;
-    this.tv = [{ T: 'c10', V: '3' }];
 
-    this.srv.getdata('program', this.tv)
-      .subscribe({
-        next: (r) => {
-          const data = r.Data[0];
-          this.loading = false;
+  this.tv = [{ T: 'c10', V: '3' }];
 
-          this.programList = data.map((item: any) => ({
-            DisplayText: item.Title,
-            DataValue: item.ProgramID
-          }));
-        },
-        error: (err) => {
-          console.error('API Error:', err);
-          this.loading = false;
-        }
-      });
-  }
+  this.srv.getdata('program', this.tv)
+    .subscribe({
+      next: (r) => {
+
+        const data = r.Data[0];
+        this.loading = false;
+
+        this.programList = data.map((item: any) => ({
+
+          DisplayText: item.IsHostFull
+            ? `${item.Title} `
+            : item.Title,
+
+          DataValue: item.ProgramID,
+
+          disabled: item.IsHostFull === 1
+
+        }));
+
+      },
+      error: (err) => {
+        console.error('API Error:', err);
+        this.loading = false;
+      }
+    });
+}
 
   selectedPrograms: any[] = [];
 

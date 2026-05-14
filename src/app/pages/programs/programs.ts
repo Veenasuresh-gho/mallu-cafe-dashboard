@@ -80,7 +80,8 @@ export class Programs implements OnInit {
       disableClose: true,
       data: {
         mode: 'edit',
-        program: row
+        // program: row
+        id: row.id
       }
     }).afterClosed().subscribe(res => {
       if (res) {

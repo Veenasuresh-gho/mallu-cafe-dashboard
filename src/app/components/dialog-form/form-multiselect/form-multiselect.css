@@ -102,3 +102,35 @@
   pointer-events: none;
   transform: translateY(-50%);
 }
+
+.option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.option:hover {
+  background: #f5f5f5;
+}
+
+/* Disabled option */
+.disabled-option {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+  border-left: 3px solid #ef4444;
+}
+
+/* Prevent hover effect on disabled */
+.disabled-option:hover {
+  background-color: #f3f4f6;
+}
+
+.full-text {
+  color: #ef4444;
+  font-size: 11px;
+  font-weight: 300;
+}

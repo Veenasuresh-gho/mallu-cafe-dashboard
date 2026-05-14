@@ -93,30 +93,6 @@
         </div>
 
         <div class="px-4">
-            <!-- <mat-form-field class="assigned-programs" appearance="outline">
-
-                <mat-select multiple [(value)]="selectedPrograms" placeholder="- Select Program Category -"
-                    panelClass="custom-select-panel">
-
-                    <mat-select-trigger class="bg-white">
-                        <mat-chip-set>
-                            @for (item of selectedPrograms; track item) {
-                            <mat-chip [removable]="true" (removed)="remove(item)">
-                                {{ item.DisplayText }}
-                                <button matChipRemove class="small" style="color: var(--primary-color)">✕</button>
-                            </mat-chip>
-                            }
-                        </mat-chip-set>
-                    </mat-select-trigger>
-
-                    @for (item of programList; track item) {
-                    <mat-option [value]="item">
-                        {{ item.DisplayText }}
-                    </mat-option>
-                    }
-
-                </mat-select>
-            </mat-form-field> -->
             <app-form-multiselect label="Assigned Programs" [options]="programList" [(selectedItems)]="selectedPrograms"
                 placeholder="-Select program-" optionLabel="DisplayText">
             </app-form-multiselect>

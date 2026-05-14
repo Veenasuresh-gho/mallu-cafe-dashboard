@@ -525,3 +525,37 @@ select:invalid {
 .mt-2 {
   margin-top: 10px;
 }
+
+.programs-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.program-item {
+  width: fit-content;
+}
+
+.btn-delete-member {
+  border: none;
+  color: var(--primary-color);
+  background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
+  font-weight: 400;
+  font-size: 12px;
+  font-family: Poppins;
+  height: 34px;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  white-space: nowrap;
+  width: fit-content;
+
+  padding: 0 12px;
+}
+
+.no-program-txt {
+  font-size: 13px;
+}

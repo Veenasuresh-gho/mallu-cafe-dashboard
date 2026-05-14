@@ -23,13 +23,25 @@
 
     <!-- Dropdown -->
     <div class="dropdown" *ngIf="open">
-      <div
+      <!-- <div
         class="option"
         *ngFor="let item of options"
         (click)="select(item)"
       >
         {{ getLabel(item) }}
-      </div>
+      </div> -->
+      <div
+  class="option"
+  *ngFor="let item of options"
+  [class.disabled-option]="item.disabled"
+  (click)="!item.disabled && select(item)"
+>
+  <span>{{ getLabel(item) }}</span>
+
+  <small *ngIf="item.disabled" class="full-text">
+     Maximum Hosts Assigned
+  </small>
+</div>
     </div>
 
     <img src="/program/dropdown.svg" class="dropdown-icon" />

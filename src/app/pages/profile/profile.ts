@@ -43,6 +43,7 @@ export class Profile {
   errors: any = {};
   id: any = ''
   toast = inject(ToastService);
+  isUploading = false;
   constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef,private cd: ChangeDetectorRef) { }
 
   openModal() {
@@ -151,6 +152,9 @@ export class Profile {
       });
     }
   }
+
+ 
+
 
   deleteProfilePic(fileUploadID: any) {
   if (!fileUploadID) return;

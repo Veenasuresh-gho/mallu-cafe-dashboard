@@ -16,10 +16,44 @@
             <img src="/program/warn.svg " class="small mb-1"> {{ errors.programTitle }}
         </div>
 
+        <!-- <app-form-select label="Host / RJ *" (modelChange)="clearError('host')" [options]="hosts"
+            optionLabel="DisplayText" optionValue="DataValue" placeholder="Select host / RJ" name="host"
+            [(model)]="selectedHost">
+        </app-form-select> -->
+        <!-- Assigned Hosts -->
+
         <app-form-select label="Host / RJ *" (modelChange)="clearError('host')" [options]="hosts"
             optionLabel="DisplayText" optionValue="DataValue" placeholder="Select host / RJ" name="host"
             [(model)]="selectedHost">
+
         </app-form-select>
+
+        @if (assignedHosts.length > 0) {
+
+        <div class="programs-wrapper">
+
+            @for (host of assignedHosts; track host.HostID) {
+
+            <div class="program-item pt-2 px-2">
+
+                <button class="btn-delete-member d-flex align-items-center justify-content-center gap-1">
+
+                    {{ host.HostName }}
+
+                    <img src="/manage-member/trash.svg" alt="delete" (click)="deleteHostMember(host.HostID)">
+                </button>
+
+            </div>
+
+            }
+
+        </div>
+
+        }
+
+
+
+
         <div class="error-text" *ngIf="errors.host">
             <img src="/program/warn.svg " class="small mb-1"> {{ errors.host }}
         </div>
@@ -34,8 +68,8 @@
         <app-schedule-picker (modelChange)="clearError('schedule'); clearError('time')"
             [(model)]="selectedSchedule"></app-schedule-picker>
 
-            
-     <!-- <app-input-time [(model)]="timeModel"
+
+        <!-- <app-input-time [(model)]="timeModel"
   (modelChange)="onTimeChange($event)"
   >
 </app-input-time> -->

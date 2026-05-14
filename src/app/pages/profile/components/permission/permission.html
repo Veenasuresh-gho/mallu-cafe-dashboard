@@ -10,21 +10,6 @@
   <div class="col-md-8">
     <!-- <ul class="list-unstyled d-flex gap-3 mb-0 flex-wrap">
 
-    @for (item of permissions; track item) {
-      <li class="d-flex gap-1 align-items-center">
-        <span
-          class="material-symbols-outlined bg-dark text-white rounded d-flex align-items-center justify-content-center"
-          style="width: 16px; height: 16px; font-size: 16px;">
-          {{ item.icon }}
-        </span>
-
-        <span class="PerformanceData">{{ item.name }}</span>
-      </li>
-    }
-  </ul> -->
-
-    <ul class="list-unstyled d-flex gap-3 mb-0 flex-wrap">
-
       @for (item of permissions; track item) {
       <li class="d-flex gap-2 align-items-center">
 
@@ -34,7 +19,6 @@
           {{ item.checked ? 'check' : 'close' }}
         </span>
 
-        <!-- TEXT -->
         <span class="PerformanceData">
           {{ item.name }}
         </span>
@@ -42,24 +26,30 @@
       </li>
       }
 
-    </ul>
+    </ul> -->
+    <ul class="list-unstyled d-flex gap-3 mb-0 flex-wrap">
+
+  @for (item of permissions; track item) {
+  <li class="d-flex gap-2 align-items-center">
+
+    <span
+      class="custom-checkbox"
+      [ngClass]="item.checked ? 'checked' : 'unchecked'">
+
+      <span class="symbol">
+        {{ item.checked ? '✓' : '✕' }}
+      </span>
+
+    </span>
+
+    <span class="PerformanceData">
+      {{ item.name }}
+    </span>
+
+  </li>
+  }
+
+</ul>
   </div>
-  <!-- <div class="col-md-8">
-  <ul class="list-unstyled d-flex gap-4 mb-0 mt-1 flex-wrap">
-
-    @for (item of permissions; track item) {
-      <li class="d-flex align-items-center justify-content-center gap-2">
-
-        <app-checkbox
-          [title]="item.name"
-          
-          [(checked)]="item.checked" >
-        </app-checkbox>
-
-      </li>
-    }
-
-  </ul>
-</div> -->
 
 </div>

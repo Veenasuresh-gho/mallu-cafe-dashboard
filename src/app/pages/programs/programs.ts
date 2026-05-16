@@ -41,22 +41,6 @@ export class Programs implements OnInit {
   toast = inject(ToastService);
 
 
-
-  // openModal() {
-  //   const dialogRef = this.dialog.open(AddNewProgram, {
-  //     width: '90%',
-  //     maxWidth: '600px',
-  //     maxHeight: '95vh',
-  //     disableClose: true,
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((res) => {
-  //     if (res) {
-  //       this.getProgramList();
-  //     }
-  //   });
-  // }
-
   openModal() {
     const dialogRef = this.dialog.open(AddNewProgram, {
       width: '90%',

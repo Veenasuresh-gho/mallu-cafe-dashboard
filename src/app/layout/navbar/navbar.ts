@@ -75,8 +75,6 @@ getSongs(): void {
     .subscribe({
       next: (res) => {
 
-        console.log('API RESPONSE:', res);
-
         const list = res?.Data?.[0] || [];
 
         if (!list.length) {
@@ -114,10 +112,10 @@ getSongs(): void {
           title: next?.Title || 'No song available'
         };
 
-        console.log('FINAL STATE:', {
-          current: this.currentSong,
-          next: this.nextSong
-        });
+        // console.log('FINAL STATE:', {
+        //   current: this.currentSong,
+        //   next: this.nextSong
+        // });
       },
 
       error: (err) => {

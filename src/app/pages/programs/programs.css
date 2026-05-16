@@ -248,3 +248,7 @@ mat-divider {
   outline: none !important;
   box-shadow: none !important;
 }
+.menu-img{
+  width: 19px;
+  height: 19px;   
+}

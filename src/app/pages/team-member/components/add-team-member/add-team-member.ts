@@ -67,9 +67,7 @@ export class AddTeamMember implements OnInit {
   onPhotoSelected(event: any) {
     const file = event.target.files[0];
     if (!file) return;
-
     this.selectedFile = file;
-
     this.fileName = file.name;
     this.fileSize = file.size;
 
@@ -83,8 +81,6 @@ export class AddTeamMember implements OnInit {
 
 
 addTeamMember(): void {
-
-  // 🔹 Frontend validation
   if (!this.fullName || !this.phone || !this.email || !this.role) {
     this.toast.show({
       title: 'Missing fields ⚠️',
@@ -120,12 +116,10 @@ addTeamMember(): void {
   this.srv.getdata('teammember', this.tv)
     .subscribe({
       next: (r) => {
-
         this.loading = false; 
         this.cdr.detectChanges();
         if (r.Status == 1) {
           this.id = r.Data[0][0].Id;
-
           this.toast.show({
             title: 'Team member added 🎉',
             description: 'User created successfully',
@@ -134,32 +128,29 @@ addTeamMember(): void {
           });
 
           this.dialogRef.close(true);
-
           if (this.selectedFile) {
             this.handleUpload(this.id);
           }
 
         } else {
-          // 🔴 API validation error
           this.toast.show({
             title: 'Validation error ⚠️',
             description: r.Info || 'Something went wrong',
             variant: 'error',
-            position: 'toast-bottom-center'
+            position: 'toast-bottom-right'
           });
         }
       },
 
       error: (err) => {
         console.error('API Error:', err);
-
         this.loading = false;
         this.cdr.detectChanges();
         this.toast.show({
           title: 'Server error 🚨',
           description: 'Please try again later',
           variant: 'error',
-          position: 'toast-bottom-center'
+          position: 'toast-bottom-right'
         });
       }
     });
@@ -172,7 +163,6 @@ handleUpload(id: string) {
     this.selectedFile,
     '9'
   ).then((success: boolean) => {
-
     if (!success) {
       this.toast.show({
         title: 'Upload failed ❌',
@@ -212,7 +202,6 @@ handleUpload(id: string) {
 
   onRoleChange(value: string) {
     this.role = value;
-
     if (value === '1') {
       this.isFullAccess = true;
       this.onToggleChange();
@@ -250,28 +239,20 @@ handleUpload(id: string) {
   // }
 
   getProgramList(): void {
-
   this.tv = [{ T: 'c10', V: '3' }];
-
   this.srv.getdata('program', this.tv)
     .subscribe({
       next: (r) => {
 
         const data = r.Data[0];
         this.loading = false;
-
         this.programList = data.map((item: any) => ({
-
           DisplayText: item.IsHostFull
             ? `${item.Title} `
             : item.Title,
-
-          DataValue: item.ProgramID,
-
+          DataValue: item.id,
           disabled: item.IsHostFull === 1
-
         }));
-
       },
       error: (err) => {
         console.error('API Error:', err);

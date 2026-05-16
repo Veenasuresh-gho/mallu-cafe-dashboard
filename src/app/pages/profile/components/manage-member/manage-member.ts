@@ -148,31 +148,10 @@ export class ManageMember {
       });
   }
 
-  // getProgramList(): void {
-  //   this.tv = [{ T: 'c10', V: '3' }];
-  //   this.srv.getdata('program', this.tv)
-  //     .subscribe({
-  //       next: (r) => {
-  //         const data = r.Data[0];
-  //         this.loading = false;
-
-  //         this.programList = data.map((item: any) => ({
-  //           DisplayText: item.Title,
-  //           DataValue: item.ProgramID
-  //         }));
-  //         this.updateFilteredPrograms();
-  //       },
-  //       error: (err) => {
-  //         console.error('API Error:', err);
-  //         this.loading = false;
-  //       }
-  //     });
-  // }
-
-
   getProgramList(): void {
-
-  this.tv = [{ T: 'c10', V: '3' }];
+  this.tv = [
+    { T: 'c1', V: this.id },
+    { T: 'c10', V: '3' }];
 
   this.srv.getdata('program', this.tv)
     .subscribe({
@@ -182,19 +161,14 @@ export class ManageMember {
         this.loading = false;
 
         this.programList = data.map((item: any) => ({
-
           DisplayText: item.Title,
-
-          DataValue: item.ProgramID,
-
+          DataValue: item.id,
           IsHostFull: item.IsHostFull
 
         }));
 
         this.updateFilteredPrograms();
-
       },
-
       error: (err) => {
         console.error('API Error:', err);
         this.loading = false;
@@ -211,17 +185,13 @@ export class ManageMember {
 
 
 updateFilteredPrograms(): void {
-
-  // already assigned program ids
   const assignedIds = this.assignedPrograms.map(
     (p: any) => p.id1
   );
   this.filteredProgramList = this.programList
     .filter((program: any) => !assignedIds.includes(program.DataValue))
     .map((program: any) => ({
-
       ...program,
-
       // disable if host full
       disabled: program.IsHostFull === 1,
 
@@ -268,7 +238,6 @@ openModalDelete(programId: string) {
           this.performance = data[2] || [];
           this.media = data[3] || [];
           this.updateFilteredPrograms();
-          console.log(this.assignedPrograms);
           this.setPermissions();
           this.cdr.detectChanges();
           this.loading = false;
@@ -279,6 +248,8 @@ openModalDelete(programId: string) {
         }
       });
   }
+
+  
 
   ngOnInit(): void {
     this.id = this.dialogData.id;
@@ -341,9 +312,7 @@ openModalDelete(programId: string) {
   }
 
 editProfileDetails(): void {
-
   if (!this.profile?.FullName || !this.profile?.Email) {
-
     this.toast.show({
       title: 'Missing fields ⚠️',
       description: 'Name and Email are required',
@@ -359,7 +328,6 @@ editProfileDetails(): void {
   );
 
   const permissionPayload: any = {};
-
   this.permissions.forEach((p: any) => {
     permissionPayload[p.key] = p.checked ? '1' : '0';
   });
@@ -376,6 +344,7 @@ editProfileDetails(): void {
     ...permissionPayload
 
   };
+
 
   // Separate programs payload
   const selectedPrograms = this.selectedPrograms

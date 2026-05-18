@@ -559,3 +559,16 @@ select:invalid {
 .no-program-txt {
   font-size: 13px;
 }
+
+.adding-btn{
+  margin-top: 30px;
+}
+.add-btn {
+width: 36px;
+height: 36px;
+opacity: 1;
+margin-top: 4px;
+border-radius: 6px;
+border: 1px solid #E4E4E4;
+background-color: #FFFFFF;
+}

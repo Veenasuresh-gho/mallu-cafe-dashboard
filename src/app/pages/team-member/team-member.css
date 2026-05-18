@@ -213,7 +213,7 @@ color: var(--muted-input);
 }
 
 .assigned-programs {
-  max-width: 520px; 
+  max-width: 450px; 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

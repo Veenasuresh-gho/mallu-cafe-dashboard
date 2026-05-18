@@ -94,8 +94,15 @@
 
         <ng-container matColumnDef="host">
             <th mat-header-cell *matHeaderCellDef>Host</th>
+
             <td mat-cell *matCellDef="let row">
-                <div class="user">{{ row.HostName }}</div>
+
+                <div class="user" [matTooltip]="row.HostName" matTooltipClass="custom-tooltip">
+
+                    {{ getHostDisplay(row.HostName) }}
+
+                </div>
+
             </td>
         </ng-container>
 
@@ -141,7 +148,7 @@
                         <span class="menu-content-left">
                             <span class="menu-text px-2">Edit</span>
                             <!-- <mat-icon>edit</mat-icon> -->
-                              <img class="menu-img" src="/program/edit-2.svg" alt="">
+                            <img class="menu-img" src="/program/edit-2.svg" alt="">
                         </span>
                     </button>
 
@@ -151,7 +158,7 @@
                         <span class="menu-content-left">
                             <span class="menu-text px-2">Delete</span>
                             <!-- <mat-icon>delete</mat-icon> -->
-                             <img class="menu-img" src="/program/trash.svg" alt="">
+                            <img class="menu-img" src="/program/trash.svg" alt="">
                         </span>
                     </button>
 

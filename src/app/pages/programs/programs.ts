@@ -22,6 +22,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { ToastService } from '../../services/toastService';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-programs',
@@ -29,7 +30,7 @@ import { ToastService } from '../../services/toastService';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule,
     MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown,
-    MatProgressSpinnerModule, CustomFilterCalender, MatMenuModule, MatDividerModule, MatButtonModule],
+    MatProgressSpinnerModule, CustomFilterCalender, MatMenuModule, MatDividerModule, MatButtonModule,MatTooltipModule],
   templateUrl: './programs.html',
   styleUrl: './programs.css',
 })
@@ -113,6 +114,19 @@ export class Programs implements OnInit {
         }
       });
   }
+
+  getHostDisplay(hosts: string): string {
+
+  if (!hosts) return '';
+
+  const hostArray = hosts.split(',').map(h => h.trim());
+
+  if (hostArray.length <= 1) {
+    return hostArray[0];
+  }
+
+  return `${hostArray[0]}, +${hostArray.length - 1}`;
+}
 
   get showPaginator(): boolean {
     return this.dataSource.data.length > 7;

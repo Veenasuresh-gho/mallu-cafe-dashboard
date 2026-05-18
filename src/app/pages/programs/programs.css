@@ -252,3 +252,23 @@ mat-divider {
   width: 19px;
   height: 19px;   
 }
+
+.user {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.custom-tooltip {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.custom-tooltip .mdc-tooltip__surface {
+  background-color: #4b5563 !important;
+  color: white !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+}

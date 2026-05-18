@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Inject, inject, OnInit } from '@angular/core';
-import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -25,6 +25,7 @@ import { ghoresult, tags } from '../../../../../model/ghomodel';
 
 import { MatIconModule } from '@angular/material/icon';
 import { InputTime } from '../../../../components/dialog/input-time/input-time';
+import { AddPodcast } from '../../../media-library/components/add-podcast/add-podcast';
 
 @Component({
   selector: 'app-add-new-program',
@@ -55,7 +56,7 @@ export class AddNewProgram implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<AddNewProgram>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,private dialog: MatDialog
   ) { }
   loading = false;
   initialLoading = false;
@@ -74,6 +75,9 @@ export class AddNewProgram implements OnInit {
   selectedCategory: string = '';
   selectedSchedule: any = {};
   selectedType: string = '';
+
+  catogories: any[] = [];
+selectedPodcastCategory: string = '';
 
   selectedFile!: File;
   fileName: string = '';
@@ -285,12 +289,15 @@ export class AddNewProgram implements OnInit {
         .subscribe({
           next: (r) => {
             this.categoryOptions = r.Data[0];
+            console.log('dara', this.categoryOptions);
             resolve();
           },
           error: () => resolve()
         });
     });
   }
+
+ 
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -625,5 +632,55 @@ if (
     }
   });
 }
+
+ getPodcastCategory() {
+    this.tv = [{ T: 'c10', V: '4' }];
+    this.srv.getdata('lists', this.tv)
+      .subscribe({
+        next: (r) => {
+          const data = r.Data[0];
+          this.catogories = data.map((item: any) => ({
+            DisplayText: item.Name,
+            DataValue: item.PodcastcategoryID
+          }));
+        }
+      })
+  }
+
+
+onProgramCategoryChange(value: string) {
+
+  this.selectedCategory = value;
+
+  console.log('Selected Category:', value);
+
+  if (value === '2') {
+
+    this.getPodcastCategory();
+
+  }
+}
+
+onPodcastCategoryChange(value: string) {
+
+  this.selectedPodcastCategory = value;
+
+  console.log('Podcast Category:', value);
+
+}
+
+  openModalAddPodcast() {
+    const dialogRef = this.dialog.open(AddPodcast, {
+      width: '90%',
+      maxWidth: '600px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getPodcastCategory();
+      }
+    });
+  }
 
 }

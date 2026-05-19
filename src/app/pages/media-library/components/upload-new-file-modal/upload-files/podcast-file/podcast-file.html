@@ -70,27 +70,41 @@
 
     <div [hidden]="selectedType !== 'custom'" class="">
         <div class="form-group">
-            <label class="input-label" for="thumbnail">Thumbnail</label>
+
+            <label class="input-label" for="thumbnail">
+                Thumbnail
+            </label>
 
             <div class="file-upload">
-                <!-- Upload button -->
-                <label class="upload-btn d-flex align-items-center gap-2">
-                    <input id="thumbnail" type="file" hidden />
+
+                <!-- Upload Button -->
+                <label class="upload-btn d-flex align-items-center gap-2" for="thumbnail">
+
+                    <input id="thumbnail" type="file" hidden accept=".jpg,.jpeg,.png"
+                        (change)="onThumbnailChange($event)" />
+
                     <img src="/program/upload-icon.svg" alt="">
+
                     <p class="m-0">Upload Image</p>
                 </label>
 
-                <!-- File info -->
-                <div class="upload-content d-flex justify-content-between align-items-center">
-                    <span class="file-name px-2">IMG13428.JPEG</span>
-                    <div class="division">
-                    </div>
-                    <div class="upload-actions d-flex align-items-center gap-2">
-                        <img src="/upload/eye.svg" alt="">
-                        <p class="m-0">View image</p>
-                    </div>
+                <!-- File Info -->
+                <div class="upload-content  align-items-center" *ngIf="thumbnailFile">
+                    <span class="file-name px-2">
+                        {{ thumbnailFile?.name }}
+                    </span>
+                    <div class="division"></div>
                 </div>
+
             </div>
+
+            <!-- Image Preview -->
+            <div *ngIf="thumbnailPreview" class="mt-3">
+
+                <img [src]="thumbnailPreview" alt="Thumbnail Preview" class="upload-img" width="100%" />
+
+            </div>
+
         </div>
     </div>
 

@@ -162,7 +162,6 @@ export class UploadNewFileModal implements OnInit {
      this.broadcastDate = data?.typedText || '';
 
     this.thumbnailFile = data.thumbnailFile || null;
-    console.log('Thumbnail File:', this.thumbnailFile);
     if (this.selectedFile && this.finalfileName) {
       this.renameFile();
     }
@@ -510,6 +509,7 @@ export class UploadNewFileModal implements OnInit {
     { T: 'dk2', V: this.selectedCategoryId },
     { T: 'c1', V: this.title },
     { T: 'c2', V: this.subtitle },
+    { T: 'c3', V: this.broadcastDate },
     { T: 'c10', V: '20' }
   ];
 
@@ -533,7 +533,7 @@ export class UploadNewFileModal implements OnInit {
           this.loading = false;
 
           if (success) {
-
+            this.changeFileUploadStatus()
             // Upload Custom Thumbnail
             if (this.thumbnailFile instanceof File) {
 
@@ -633,6 +633,7 @@ export class UploadNewFileModal implements OnInit {
 
             if (!videoSuccess) {
               this.loading = false;
+              this.cdr.detectChanges();
               this.toast.show({
                 title: 'Upload failed ❌',
                 description: 'Video upload failed',
@@ -643,7 +644,6 @@ export class UploadNewFileModal implements OnInit {
             }
 
             if (this.thumbnailFile) {
-              console.log(this.thumbnailFile)
               await this.srv.handleFileUpload(
                 this.id,
                 this.userId,
@@ -676,6 +676,22 @@ export class UploadNewFileModal implements OnInit {
     this.tv = [
       { T: 'dk1', V: this.programId },
       { T: 'c10', V: '14' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: (r) => {
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+        }
+      });
+  }
+
+    changeFileUploadStatus() {
+    this.tv = [
+      { T: 'dk1', V: this.programId },
+      { T: 'c10', V: '16' }
     ];
 
     this.srv.getdata('program', this.tv)

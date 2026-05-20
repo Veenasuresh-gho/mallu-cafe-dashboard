@@ -42,11 +42,23 @@
                     <!-- FALLBACK -->
                     <img *ngIf="!isImageType() && !isVideoType()" src="/upload/file-default.svg" class="file-icon" />
 
-                    <div class="d-flex file-details justify-content-between align-items-center w-100">
+                    <!-- <div class="d-flex file-details justify-content-between align-items-center w-100">
                         <div class="file-name">{{ fileName }} <img src="/upload/green-tick.svg" class="mb-1" alt="">
                         </div>
                         <div class="file-size px-2">{{ fileSize }}</div>
-                    </div>
+                    </div> -->
+                    <div class="d-flex file-details justify-content-between align-items-center w-100">
+    
+    <div class="file-name text-truncate-custom">
+        {{ fileName }}
+        <img src="/upload/green-tick.svg" class="mb-1" alt="">
+    </div>
+
+    <div class="file-size px-2">
+        {{ fileSize }}
+    </div>
+
+</div>
                 </div>
 
                 <div (click)="removeFile()" class="delete-btn">

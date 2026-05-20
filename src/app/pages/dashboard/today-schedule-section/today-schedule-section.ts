@@ -176,7 +176,6 @@ export class TodayScheduleSection implements OnInit {
 
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
-        console.log(r)
         const now = new Date();
         const currentMinutes = now.getHours() * 60 + now.getMinutes();
 

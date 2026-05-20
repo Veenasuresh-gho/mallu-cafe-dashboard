@@ -57,7 +57,6 @@ export class AddPodcast implements OnInit {
           if (r.Status === 1) {
 
             this.id = r.Data[0][0].id;
-            console.log(this.id)
 
             const success = await this.srv.handleFileUpload(
               this.id,

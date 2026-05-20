@@ -197,7 +197,7 @@ export class Profile {
       console.error('💥 Error:', err);
 
       this.loading = false;
-      this.cd.detectChanges(); // 🔥 FIX
+      this.cd.detectChanges(); 
 
       this.toast.show({
         title: 'Error deleting file',

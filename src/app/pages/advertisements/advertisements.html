@@ -146,12 +146,12 @@
                     <mat-icon>more_horiz</mat-icon>
                 </button>
 
-                <mat-menu #menu="matMenu">
+                <!-- <mat-menu #menu="matMenu">
 
-                    <button (click)="publishAdvertisement(row.ID)" mat-menu-item>
+                      <button (click)="publishAdvertisement(row.ID)"  mat-menu-item>
                         <span class="menu-content-left">
                             <span class="menu-text px-2">Publish AD</span>
-                            <mat-icon>notifications</mat-icon>
+                             <img class="menu-img" src="/program/publish.svg" alt="">
                         </span>
                     </button>
 
@@ -160,7 +160,8 @@
                     <button mat-menu-item (click)="editAdvertisement(row)">
                         <span class="menu-content-left">
                             <span class="menu-text px-2">Edit</span>
-                            <mat-icon>edit</mat-icon>
+                            <img class="menu-img" src="/program/edit-2.svg" alt="">
+
                         </span>
                     </button>
 
@@ -169,7 +170,7 @@
                     <button (click)="closeAdvertisement(row.ID)" mat-menu-item>
                         <span class="menu-content-left">
                             <span class="menu-text px-2">Close Ad</span>
-                            <mat-icon>cancel</mat-icon>
+                           <img class="menu-img" src="/program/close.svg" alt="">
                         </span>
                     </button>
 
@@ -178,11 +179,49 @@
                     <button mat-menu-item (click)="deleteAdvertisement(row.ID)">
                         <span class="menu-content-left">
                             <span class="menu-text px-2">Delete</span>
-                            <mat-icon>delete</mat-icon>
+                            <img class="menu-img" src="/program/trash.svg" alt="">
                         </span>
                     </button>
 
-                </mat-menu>
+                </mat-menu> -->
+
+                <mat-menu #menu="matMenu" class="custom-menu" xPosition="before">
+
+    <button (click)="publishAdvertisement(row.ID)" mat-menu-item>
+        <span class="menu-content-left">
+            <span class="menu-text ">Publish AD</span>
+            <img class="menu-img" src="/program/publish.svg" alt="">
+        </span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item (click)="editAdvertisement(row)">
+        <span class="menu-content-left">
+            <span class="menu-text ">Edit</span>
+            <img class="menu-img" src="/program/edit-2.svg" alt="">
+        </span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button (click)="closeAdvertisement(row.ID)" mat-menu-item>
+        <span class="menu-content-left">
+            <span class="menu-text ">Close AD</span>
+            <img class="menu-img" src="/program/close.svg" alt="">
+        </span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item (click)="deleteAdvertisement(row.ID)">
+        <span class="menu-content-left">
+            <span class="menu-text ">Delete</span>
+            <img class="menu-img" src="/program/trash.svg" alt="">
+        </span>
+    </button>
+
+</mat-menu>
 
             </td>
         </ng-container>

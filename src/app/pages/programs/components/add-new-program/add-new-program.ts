@@ -77,7 +77,7 @@ export class AddNewProgram implements OnInit {
   selectedType: string = '';
 
   catogories: any[] = [];
-selectedPodcastCategory: string = '';
+  selectedPodcastCategory: string = '';
 
   selectedFile!: File;
   fileName: string = '';
@@ -165,9 +165,7 @@ selectedPodcastCategory: string = '';
         error: (err) => {
 
           console.error(err);
-
           this.loading = false;
-
           this.toast.show({
             title: 'Error ❌',
             description: 'Failed to fetch program details',
@@ -181,64 +179,143 @@ selectedPodcastCategory: string = '';
   }
 
 
+  // populateForm(program: any) {
+  //   this.programTitle = program?.Title || '';
+  //   const selectedHostObj = this.hosts.find(
+  //     h => h.DisplayText === program.HostName
+  //   );
+  //   this.selectedHost = selectedHostObj?.DataValue || '';
+
+  //   const selectedCategoryObj = this.categoryOptions.find(
+  //     c => c.DisplyText === program.CategoryName
+  //   );
+  //   this.selectedCategory = selectedCategoryObj?.DataValue || '';
+
+  //   const dayMap: any = {
+  //     Mon: '1',
+  //     Tue: '2',
+  //     Wed: '3',
+  //     Thu: '4',
+  //     Fri: '5',
+  //     Sat: '6',
+  //     Sun: '7'
+  //   };
+
+  //   let fromDay = '';
+  //   let toDay = '';
+
+  //   if (program?.DayRange) {
+  //     const [from, to] = program.DayRange.split(' - ');
+  //     fromDay = dayMap[from] || '';
+  //     toDay = dayMap[to] || '';
+  //   }
+
+  //   let fromTime = '';
+  //   let toTime = '';
+
+  //   if (program?.TimeRange) {
+  //     const [fromT, toT] = program.TimeRange.split(' - ');
+  //     fromTime = fromT || '';
+  //     toTime = toT || '';
+  //   }
+
+  //   this.selectedSchedule = {
+  //     fromDay,
+  //     toDay,
+  //     fromTime,
+  //     toTime
+  //   };
+  //   this.fid = program.fid;
+  //   this.programID = program.ProgramID
+  //   this.selectedType = program?.IsCallAllowed ? 'allow' : 'disable';
+  //   this.id = program?.id || '';
+  //   this.existingImageUrl = program?._url || '';
+  //   this.fileName = program?.filename || '';
+  //   this.cdr.detectChanges();
+  // }
+
   populateForm(program: any) {
-    this.programTitle = program?.Title || '';
-    const selectedHostObj = this.hosts.find(
-      h => h.DisplayText === program.HostName
-    );
-    this.selectedHost = selectedHostObj?.DataValue || '';
 
-    const selectedCategoryObj = this.categoryOptions.find(
-      c => c.DisplyText === program.CategoryName
-    );
-    this.selectedCategory = selectedCategoryObj?.DataValue || '';
+  this.programTitle = program?.Title || '';
 
-    const dayMap: any = {
-      Mon: '1',
-      Tue: '2',
-      Wed: '3',
-      Thu: '4',
-      Fri: '5',
-      Sat: '6',
-      Sun: '7'
-    };
+  const selectedHostObj = this.hosts.find(
+    h => h.DisplayText === program.HostName
+  );
 
-    let fromDay = '';
-    let toDay = '';
+  this.selectedHost = selectedHostObj?.DataValue || '';
 
-    if (program?.DayRange) {
-      const [from, to] = program.DayRange.split(' - ');
-      fromDay = dayMap[from] || '';
-      toDay = dayMap[to] || '';
-    }
+  const selectedCategoryObj = this.categoryOptions.find(
+    c => c.DisplyText === program.CategoryName
+  );
 
-    let fromTime = '';
-    let toTime = '';
+  this.selectedCategory = selectedCategoryObj?.DataValue || '';
 
-    if (program?.TimeRange) {
-      const [fromT, toT] = program.TimeRange.split(' - ');
-      fromTime = fromT || '';
-      toTime = toT || '';
-    }
+  // ADD THIS BLOCK
+  if (this.selectedCategory === '2') {
 
-    this.selectedSchedule = {
-      fromDay,
-      toDay,
-      fromTime,
-      toTime
-    };
-    this.fid = program.fid;
-    this.programID = program.ProgramID
-    this.selectedType = program?.IsCallAllowed ? 'allow' : 'disable';
-    this.id = program?.id || '';
-    this.existingImageUrl = program?._url || '';
-    this.fileName = program?.filename || '';
-    this.cdr.detectChanges();
+    this.getPodcastCategory();
+
+    setTimeout(() => {
+
+      const selectedPodcastObj = this.catogories.find(
+        (c: any) => c.DisplayText === program.PodcastCategory
+      );
+
+      this.selectedPodcastCategory =
+        selectedPodcastObj?.DataValue || '';
+
+      this.cdr.detectChanges();
+
+    }, 300);
   }
+
+  const dayMap: any = {
+    Mon: '1',
+    Tue: '2',
+    Wed: '3',
+    Thu: '4',
+    Fri: '5',
+    Sat: '6',
+    Sun: '7'
+  };
+
+  let fromDay = '';
+  let toDay = '';
+
+  if (program?.DayRange) {
+    const [from, to] = program.DayRange.split(' - ');
+    fromDay = dayMap[from] || '';
+    toDay = dayMap[to] || '';
+  }
+
+  let fromTime = '';
+  let toTime = '';
+
+  if (program?.TimeRange) {
+    const [fromT, toT] = program.TimeRange.split(' - ');
+    fromTime = fromT || '';
+    toTime = toT || '';
+  }
+
+  this.selectedSchedule = {
+    fromDay,
+    toDay,
+    fromTime,
+    toTime
+  };
+
+  this.fid = program.fid;
+  this.programID = program.ProgramID;
+  this.selectedType = program?.IsCallAllowed ? 'allow' : 'disable';
+  this.id = program?.id || '';
+  this.existingImageUrl = program?._url || '';
+  this.fileName = program?.filename || '';
+
+  this.cdr.detectChanges();
+}
 
   getInitialData(): Promise<void> {
     this.initialLoading = true;
-
     return Promise.all([
       this.getProgramTypeList(),
       this.getTeamMemberList()
@@ -258,7 +335,6 @@ selectedPodcastCategory: string = '';
           V: this.programDetailsID
         });
       }
-
       this.srv.getdata('teammember', this.tv)
         .subscribe({
           next: (r) => {
@@ -302,12 +378,10 @@ selectedPodcastCategory: string = '';
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (!file) return;
-
     if (!file.type.startsWith('image/')) {
       this.errors.file = 'Only image files allowed';
       return;
     }
-
     const cleanName = file.name.replace(/[^a-zA-Z0-9._]/g, '');
     this.selectedFile = new File([file], cleanName, {
       type: file.type
@@ -335,6 +409,7 @@ selectedPodcastCategory: string = '';
 
     this.tv = [
       { T: 'c1', V: JSON.stringify(payload) },
+      { T: 'c2', V: this.selectedPodcastCategory || '' },
       { T: 'c10', V: '1' }
     ];
 
@@ -441,6 +516,7 @@ if (
       { T: 'dk1', V: this.id },
       { T: 'c1', V: JSON.stringify(payload) },
       { T: 'c2', V: this.selectedHost },
+      { T: 'c3', V: this.selectedPodcastCategory || '' },
         // { T: 'c2', V: JSON.stringify(allHostIds) },
       { T: 'c10', V: '2' }
     ];
@@ -643,6 +719,7 @@ if (
             DisplayText: item.Name,
             DataValue: item.PodcastcategoryID
           }));
+          console.log('this.catogories',this.catogories)
         }
       })
   }
@@ -651,8 +728,6 @@ if (
 onProgramCategoryChange(value: string) {
 
   this.selectedCategory = value;
-
-  console.log('Selected Category:', value);
 
   if (value === '2') {
 

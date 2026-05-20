@@ -28,16 +28,12 @@
         </app-file-upload>
 
         <!-- File Name -->
-        <div class="mt-2" *ngIf="fileSelectedName">
-
-            <span class="file-name">
-                {{ fileSelectedName }}
-            </span>
+        <div *ngIf="fileSelectedName">
 
         </div>
 
         <!-- Image Preview -->
-        <div *ngIf="thumbnailPreview" class="mt-3">
+        <div *ngIf="thumbnailPreview">
 
             <img [src]="thumbnailPreview" alt="Thumbnail Preview" class="upload-img" width="100%" />
 

@@ -184,6 +184,10 @@ export class ManageMember {
   }
 
 
+  getProfileImage(url: string): string {
+  return url ? encodeURI(url) : '/profile/profile-fallback-1.png';
+}
+
 updateFilteredPrograms(): void {
   const assignedIds = this.assignedPrograms.map(
     (p: any) => p.id1

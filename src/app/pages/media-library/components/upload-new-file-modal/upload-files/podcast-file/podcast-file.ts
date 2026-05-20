@@ -72,7 +72,6 @@ export class PodcastFile implements OnInit {
 
   onCategoryChange(value: any) {
     this.selectedCategoryId = value;
-    console.log(this.selectedCategoryId)
     this.emitData();
   }
 

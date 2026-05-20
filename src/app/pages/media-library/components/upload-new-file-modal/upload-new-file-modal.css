@@ -458,3 +458,23 @@ background-color: #FFFFFF;
   filter: grayscale(100%); 
   cursor: not-allowed;
 }
+
+.file-details {
+  min-width: 0;
+}
+
+.file-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.text-truncate-custom {
+  display: block;
+  max-width: 300px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

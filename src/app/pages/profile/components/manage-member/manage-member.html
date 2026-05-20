@@ -11,16 +11,12 @@
 
         <div class="d-flex gap-3 px-4">
             <div class="upload-wrapper">
-                <div class="upload-photo" [ngStyle]="{
-      'background-image':
-      'url(' + (profile?._url || '/profile/profile-fallback-1.png') + ')'
-    }">
-
+    
+                <div class="upload-photo" [ngStyle]="{'background-image': 'url(' + getProfileImage(profile?._url) + ')'}">
                     <label class="upload-btn">
                         <input (change)="onFileSelected($event)" type="file" hidden />
                         <span>Upload Photo</span>
                     </label>
-
                 </div>
                 <p class="helper-text py-1">Supported formats: JPG, PNG</p>
             </div>

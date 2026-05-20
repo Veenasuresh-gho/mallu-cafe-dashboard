@@ -15,10 +15,14 @@ import { GHOUtitity } from '../../services/utilities';
 import { ghoresult, tags } from '../../../model/ghomodel';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { ToastService } from '../../services/toastService';
+import { EditUploadedFile } from './components/edit-uploaded-file/edit-uploaded-file';
 
 @Component({
   selector: 'app-media-library',
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton, MatButtonModule, MatMenuModule],
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule,
+     FormsModule, PrimaryButton, MatButtonModule, MatMenuModule,MatDividerModule],
   templateUrl: './media-library.html',
   styleUrl: './media-library.css',
 })
@@ -30,6 +34,8 @@ export class MediaLibrary implements OnInit {
   res: ghoresult = new ghoresult();
   loading = false;
   ds: [] = [];
+  toast = inject(ToastService);
+  
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
@@ -42,8 +48,31 @@ export class MediaLibrary implements OnInit {
   }
   constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
 
+  // openModal() {
+  //   this.dialog.open(UploadNewFileModal, {
+  //     width: '90%',
+  //     maxWidth: '600px',
+  //     maxHeight: '95vh',
+  //     disableClose: true,
+  //   });
+  // }
+
+
   openModal() {
-    this.dialog.open(UploadNewFileModal, {
+  const dialogRef = this.dialog.open(UploadNewFileModal, {
+    width: '90%',
+    maxWidth: '600px',
+    maxHeight: '95vh',
+    disableClose: true,
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      this.getMediaLibrary();
+    }
+  });
+}
+    openUpdateMediaLibraryModal() {
+    this.dialog.open(EditUploadedFile, {
       width: '90%',
       maxWidth: '600px',
       maxHeight: '95vh',
@@ -85,6 +114,8 @@ export class MediaLibrary implements OnInit {
       });
   }
 
+
+
   getMediaLibrary(): void {
     this.loading = true;
     this.tv = [{ T: 'c10', V: '15' }];
@@ -104,4 +135,58 @@ export class MediaLibrary implements OnInit {
         }
       });
   }
+  
+
+    deleteMediaLibrary(row: any) {
+  if (!row.fid) return;
+  this.loading = true;
+  // this.cd.detectChanges(); 
+
+  const userId = this.srv.getsession('id');
+
+  this.tv = [
+    { T: 'dk1', V: userId },
+    { T: 'dk2', V: row.DocumentTypeID },
+    { T: 'c1', V: row.fid },
+    { T: 'c10', V: '4' }
+  ];
+
+  this.srv.getdata('fileupload', this.tv).subscribe({
+    next: (r: any) => {
+      // this.loading = false;
+      // this.cd.detectChanges(); 
+
+      if (r.Status === 1) {
+        this.getMediaLibrary()
+        this.toast.show({
+          title: 'File deleted successfully! 🎉',
+          description: '',
+          variant: 'success',
+          position: 'toast-bottom-center'
+        });
+      } else {
+        const apiMsg = r.Data?.[0]?.[0]?.msg || 'Please try again';
+        this.toast.show({
+          title: 'Failed to delete file',
+          description: apiMsg,
+          variant: 'error',
+          position: 'toast-bottom-center'
+        });
+      }
+    },
+    error: (err) => {
+      console.error('💥 Error:', err);
+
+      // this.loading = false;
+      // this.cd.detectChanges(); // 🔥 FIX
+
+      this.toast.show({
+        title: 'Error deleting file',
+        description: 'Please try again later',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+    }
+  });
+}
 } 

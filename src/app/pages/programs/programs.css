@@ -272,3 +272,10 @@ mat-divider {
   padding: 8px 12px !important;
   font-size: 13px !important;
 }
+
+
+::ng-deep .mat-mdc-menu-panel {
+  min-width: 140px !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+}

@@ -119,14 +119,28 @@
         <div class="helper-text px-4 py-2">Switch this on to allow full access — all permissions will be selected for
             you.</div>
         <div class="input-label px-4 py-1">Access rights and system privilages </div>
-        <div class="checkbox-container px-3">
+        <!-- <div class="checkbox-container px-3">
             <span class="p-2" *ngFor="let item of permissions">
                 <label class="access-txt">
                     <input type="checkbox" [(ngModel)]="item.checked" name="permission-{{item.name}}" />
                     {{ item.name }}
                 </label>
             </span>
-        </div>
+        </div> -->
+
+        <div class="checkbox-container px-3">
+    <span class="p-2" *ngFor="let item of permissions">
+        <label class="access-txt">
+            <input
+                type="checkbox"
+                [(ngModel)]="item.checked"
+                name="permission-{{item.name}}"
+                (change)="onPermissionChange()"
+            />
+            {{ item.name }}
+        </label>
+    </span>
+</div>
 
         <hr class="px-3">
         <mat-dialog-actions align="end" class="d-flex justify-content-between">

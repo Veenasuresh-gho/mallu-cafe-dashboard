@@ -88,7 +88,7 @@ color: var(--muted-input);
 }
 
 /* Upload box */
-.upload-photo {
+/* .upload-photo {
   position: relative;
   width: 150px;  
   height: 160px;
@@ -105,6 +105,28 @@ color: var(--muted-input);
 
   border-radius: 10px;
   overflow: hidden;
+} */
+
+.upload-photo {
+  position: relative;
+  width: 150px;
+  height: 150px;
+
+  background-image: url('/profile/profile-pic.png');
+
+  background-size: contain; /* changed */
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+  overflow: hidden;
+
+  background-color: #f5f5f5; 
 }
 .custom-line-sub {
   border-top: 1px solid #E4E4E4;
@@ -128,8 +150,8 @@ color: var(--muted-input);
 .upload-btn {
     background: #FFFFFF;
     position: absolute;
-    top:116px ;
-    height: 36px;
+    top:110px ;
+    height: 30px;
     width: 116px;
     border: 1px solid #CFCFCF;
     border-radius: 6px;

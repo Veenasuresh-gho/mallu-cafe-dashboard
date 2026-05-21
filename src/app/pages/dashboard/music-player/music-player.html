@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-between align-items-center mt-5">
-      <div class="">
+      <div (click)="navigateToAD()" class="Ad-button">
         <p class="playAd bg-white px-2 py-1 mb-0 d-flex gap-1">
           <span class="material-symbols-outlined">
             movie_info
@@ -78,12 +78,47 @@
 
       </div>
     </div>
-    <div class="auto-play-wrapper pt-3">
+    <!-- <div class="auto-play-wrapper pt-3">
       <span class="auto-play-label">Auto Play</span>
       <label class="toggle-switch">
         <input type="checkbox" [(ngModel)]="isAutoPlay">
         <span class="slider round"></span>
       </label>
+
+      <div>
+        <img src="/dash/play-btn.png" class="play-btn" alt="" (click)="toggleAudio()" />
+
+        <button class="mute-btn" (click)="toggleMute()">
+          <mat-icon>
+            {{ isMuted ? 'volume_off' : 'volume_up' }}
+          </mat-icon>
+        </button>
+      </div>
+    </div> -->
+
+    <div class="auto-play-wrapper pt-3">
+
+      <div class="d-flex align-items-center gap-2">
+
+        <div class="d-flex align-items-center media-controls">
+          <img src="/dash/play-btn.png" class="play-btn" alt="" (click)="toggleAudio()" />
+          <button class="mute-btn" (click)="toggleMute()">
+            <mat-icon>
+              {{ isMuted ? 'volume_off' : 'volume_up' }}
+            </mat-icon>
+          </button>
+
+        </div>
+        <span class="auto-play-label">Auto Play</span>
+        <label class="toggle-switch">
+          <input type="checkbox" [(ngModel)]="isAutoPlay">
+          <span class="slider round"></span>
+        </label>
+
+      </div>
+
+
+
     </div>
   </div>
 </div>

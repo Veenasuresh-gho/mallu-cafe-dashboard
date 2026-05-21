@@ -1,0 +1,189 @@
+<div class="dialog-box">
+
+    <!-- HEADER -->
+    <div class="dialog-header">
+
+        <div class="header-left">
+
+            <p class="main-title">
+                {{ ds?.FileName }}
+            </p>
+
+            <p class="main-subtitle">
+
+                Uploaded by
+
+                <span>
+                    {{ ds?.HostName }}
+                </span>
+
+            </p>
+
+        </div>
+
+        <button class="close-btn" (click)="close()">
+
+            <mat-icon>
+                close
+            </mat-icon>
+
+        </button>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="dialog-content">
+
+        <!-- LOADING -->
+        <div *ngIf="loading && !ds" class="loading-wrapper">
+
+            <p>Loading media...</p>
+
+        </div>
+
+        <!-- EMPTY -->
+        <div *ngIf="!loading && !ds" class="empty-preview">
+
+            <img src="/upload/file-default.svg" alt="">
+
+            <p>No Media Found</p>
+
+        </div>
+
+        <!-- MAIN -->
+        <div *ngIf="!loading && ds">
+
+            <!-- ====================== -->
+            <!-- IMAGE -->
+            <!-- ====================== -->
+            <div *ngIf="isImageType()" class="preview-wrapper">
+
+                <img [src]="ds?._url" class="preview-media" alt="preview">
+
+            </div>
+
+            <!-- ====================== -->
+            <!-- AUDIO -->
+            <!-- ====================== -->
+             <div *ngIf="isAudioType()">
+            <div  class="audio-layout">
+
+                <!-- PLAYER -->
+                <div class="audio-player-wrapper">
+
+                    <!-- <img src="/upload/audio.svg" class="audio-icon"> -->
+
+                    <audio controls class="audio-player">
+
+                        <source [src]="ds?._url">
+
+                    </audio>
+
+                </div>
+
+            
+            </div>
+
+            <div class="audio-footer">
+
+                <div class="audio-meta">
+
+                    {{ ds?.UploadedDate | date:'d MMM yy' }}
+
+                    •
+
+                    {{ formatFileSize(ds?.Size) }}
+
+                    •
+
+                    {{ ds?.CategoryName }}
+
+                </div>
+
+                <div class="footer-actions">
+
+                    <button class="btn-cancel" (click)="close()">
+
+                        <img src="/program/trash.svg" width="16" alt="">
+
+
+                        <span>Delete</span>
+
+                    </button>
+
+                    <app-primary-button [loading]="loading" [label]="'Publish file'" iconSrc="/media/cloud.svg">
+                    </app-primary-button>
+
+                </div>
+
+            </div>
+
+            </div>
+
+            
+
+            <!-- ====================== -->
+            <!-- VIDEO -->
+            <!-- ====================== -->
+            <div *ngIf="isVideoType()" class="video-layout">
+
+                <video controls class="video-player">
+
+                    <source [src]="ds?._url" type="video/mp4">
+
+                </video>
+
+                <div class="video-footer">
+
+                    <!-- LEFT -->
+                    <div class="audio-meta">
+
+                        {{ ds?.UploadedDate | date:'d MMM yy' }}
+
+                        •
+
+                        {{ formatFileSize(ds?.Size) }}
+
+                        •
+
+                        {{ ds?.CategoryName }}
+
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="footer-actions">
+
+                        <button class="btn-cancel" (click)="close()">
+
+                            <img src="/program/trash.svg" width="16" alt="">
+                            <span>Delete</span>
+
+                        </button>
+
+                        <app-primary-button [loading]="loading" [label]="'Publish file'" iconSrc="/media/cloud.svg">
+                        </app-primary-button>
+
+                    </div>
+
+                </div>
+
+                <!-- ====================== -->
+                <!-- FALLBACK -->
+                <!-- ====================== -->
+                <div *ngIf="
+                    !isImageType() &&
+                    !isVideoType() &&
+                    !isAudioType()
+                " class="empty-preview">
+
+                    <img src="/upload/file-default.svg" alt="">
+
+                    <p>No Preview Available</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>

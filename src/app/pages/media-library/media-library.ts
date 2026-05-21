@@ -18,6 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { ToastService } from '../../services/toastService';
 import { EditUploadedFile } from './components/edit-uploaded-file/edit-uploaded-file';
+import { ViewFile } from './components/view-file/view-file';
 
 @Component({
   selector: 'app-media-library',
@@ -58,6 +59,23 @@ export class MediaLibrary implements OnInit {
   // }
 
 
+ViewFileModal(id: string) {
+  const dialogRef = this.dialog.open(ViewFile, {
+    width: '90%',
+    maxWidth: '650px',
+    maxHeight: '95vh',
+    disableClose: true,
+    data: {
+      id: id
+    }
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      this.getMediaLibrary();
+    }
+  });
+}
+
   openModal() {
   const dialogRef = this.dialog.open(UploadNewFileModal, {
     width: '90%',
@@ -96,8 +114,9 @@ export class MediaLibrary implements OnInit {
   ];
 
   addPublish(library: any) {
+    console.log('library',library);
     this.tv = [
-      { T: 'dk1', V: library?.id },
+      { T: 'dk1', V: library?.AltID },
       { T: 'c10', V: '14' }
     ];
 
@@ -105,7 +124,7 @@ export class MediaLibrary implements OnInit {
       .subscribe({
         next: (r) => {
           console.log(r)
-         
+          this.getMediaLibrary()
         },
         error: (err) => {
           console.error('API Error:', err);
@@ -124,6 +143,7 @@ export class MediaLibrary implements OnInit {
       .subscribe({
         next: (r) => {
           this.ds = r.Data[0];
+          console.log('ds',this.ds);
           this.dataSource.data = this.ds;
           this.dataSource._updateChangeSubscription();
           this.loading = false;

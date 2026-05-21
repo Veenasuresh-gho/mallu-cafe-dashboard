@@ -48,11 +48,8 @@ export class Navbar {
     this.srv.getdata('teammember', tv)
       .subscribe({
         next: (r) => {
-
           const data = r.Data;
-
           this.profile = data[0]?.[0] || {};
-
         },
         error: (err) => {
           console.error('API Error:', err);
@@ -76,7 +73,7 @@ getSongs(): void {
       next: (res) => {
 
         const list = res?.Data?.[0] || [];
-
+     console.log('list',list);
         if (!list.length) {
           this.currentSong = null;
           this.nextSong = { title: '' };

@@ -110,6 +110,10 @@ export class ManageMember {
     this.isFullAccess = this.permissions.every(p => p.checked);
   }
 
+  onPermissionChange() {
+  this.isFullAccess = this.permissions.every(p => p.checked);
+}
+
   isFullAccess = false;
 
   onToggleChange() {
@@ -289,13 +293,13 @@ openModalDelete(programId: string) {
       );
 
       if (success) {
-        this.getProfile();
         this.toast.show({
           title: 'Profile picture uploaded successfully 🎉',
           description: '',
           variant: 'success',
           position: 'toast-bottom-right'
         });
+         this.getProfile();
       } else {
         this.toast.show({
           title: 'Upload failed ❌',

@@ -305,3 +305,13 @@ mat-divider {
   width: 19px;
   height: 19px;   
 }
+::ng-deep .mat-mdc-menu-panel {
+  min-width: 140px !important;
+  max-width: 150px !important;
+  overflow: hidden !important;
+  border-radius: 10px !important;
+}
+
+.menu-icon{
+    padding-left: 8px;
+}

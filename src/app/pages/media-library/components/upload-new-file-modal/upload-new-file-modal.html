@@ -115,12 +115,12 @@
         </div>
         <hr>
         <div class=" footer">
-            <div class="dialog-actions d-flex justify-content-between my-4 mx-3 gap-2">
-
+            <div class="dialog-actions d-flex justify-content-end my-4 mx-3 gap-2">
+<!-- 
                 <button class="close-btn btn-cancel d-flex" (click)="close()">
                     <img src="/program/close-circle.svg" width="16px" alt="">
                     <p>Cancel</p>
-                </button>
+                </button> -->
                 <div class="d-flex gap-2">
                     <!-- <button type="submit" class="btn-save d-flex">
                         <img src="/upload/save-icon.svg" alt="">
@@ -130,6 +130,11 @@
                         <img src="/upload/public-icon.svg" alt="">
                         <span>Publish</span>
                     </button> -->
+
+                     <button class="close-btn btn-cancel d-flex mx-3" (click)="close()">
+                    <img src="/program/close-circle.svg" width="16px" alt="">
+                    <p>Cancel</p>
+                </button>
 
                     <app-primary-button (clicked)="uploadFile()" [loading]="loading" [label]="'Upload File'"
                         iconSrc="/upload/tick-circle.svg">

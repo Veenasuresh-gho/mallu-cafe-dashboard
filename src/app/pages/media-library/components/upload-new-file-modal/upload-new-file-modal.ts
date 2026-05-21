@@ -331,7 +331,7 @@ export class UploadNewFileModal implements OnInit {
 
         if (r.Status === 1 && r.Data?.length) {
 
-          this.id = r.Data[0]?.[0]?.ShowID || this.programId;
+          this.id = r.Data[0]?.[0]?.MediaID || this.programId;
 
           // Upload Main Video
           const success = await this.srv.handleFileUpload(
@@ -388,9 +388,8 @@ export class UploadNewFileModal implements OnInit {
                       variant: 'success',
                       position: 'toast-bottom-right'
                     });
-
+                     this.changeFileUploadStatus()
                     this.dialogRef.close(true);
-
                     this.cdr.detectChanges();
                   }
                 },
@@ -411,7 +410,7 @@ export class UploadNewFileModal implements OnInit {
               });
 
           } else {
-
+            
             this.toast.show({
               title: 'Upload failed ❌',
               description: 'File upload failed',
@@ -427,7 +426,7 @@ export class UploadNewFileModal implements OnInit {
       error: () => {
 
         this.loading = false;
-
+        
         this.toast.show({
           title: 'API Error ❌',
           description: 'Something went wrong',
@@ -520,7 +519,7 @@ export class UploadNewFileModal implements OnInit {
 
         if (r.Status === 1 && r.Data?.length) {
 
-          this.id = r.Data[0]?.[0]?.EpisodeID || this.programId;
+          this.id = r.Data[0]?.[0]?.MediaID || this.programId;
 
           // Upload Podcast File
           const success = await this.srv.handleFileUpload(
@@ -622,7 +621,7 @@ export class UploadNewFileModal implements OnInit {
         next: async (r) => {
           if (r.Status === 1 && r.Data?.length) {
 
-            this.id = r.Data[0]?.[0]?.id || this.programId;
+            this.id = r.Data[0]?.[0]?.MediaID || this.programId;
 
             const videoSuccess = await this.srv.handleFileUpload(
               this.id,
@@ -660,7 +659,7 @@ export class UploadNewFileModal implements OnInit {
               variant: 'success',
               position: 'toast-bottom-right'
             });
-
+            this.changeFileUploadStatus()
             this.dialogRef.close(true);
             this.cdr.detectChanges();
           }

@@ -23,7 +23,7 @@ import { ViewFile } from './components/view-file/view-file';
 @Component({
   selector: 'app-media-library',
   imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule,
-     FormsModule, PrimaryButton, MatButtonModule, MatMenuModule,MatDividerModule],
+    FormsModule, PrimaryButton, MatButtonModule, MatMenuModule, MatDividerModule],
   templateUrl: './media-library.html',
   styleUrl: './media-library.css',
 })
@@ -36,7 +36,7 @@ export class MediaLibrary implements OnInit {
   loading = false;
   ds: [] = [];
   toast = inject(ToastService);
-  
+
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
@@ -49,52 +49,45 @@ export class MediaLibrary implements OnInit {
   }
   constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
 
-  // openModal() {
-  //   this.dialog.open(UploadNewFileModal, {
-  //     width: '90%',
-  //     maxWidth: '600px',
-  //     maxHeight: '95vh',
-  //     disableClose: true,
-  //   });
-  // }
-
-
-ViewFileModal(id: string) {
-  const dialogRef = this.dialog.open(ViewFile, {
-    width: '90%',
-    maxWidth: '650px',
-    maxHeight: '95vh',
-    disableClose: true,
-    data: {
-      id: id
-    }
-  });
-  dialogRef.afterClosed().subscribe((result) => {
-    if (result) {
-      this.getMediaLibrary();
-    }
-  });
-}
+  ViewFileModal(id: string) {
+    const dialogRef = this.dialog.open(ViewFile, {
+      width: '90%',
+      maxWidth: '650px',
+      maxHeight: '95vh',
+      disableClose: true,
+      data: {
+        id: id
+      }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getMediaLibrary();
+      }
+    });
+  }
 
   openModal() {
-  const dialogRef = this.dialog.open(UploadNewFileModal, {
-    width: '90%',
-    maxWidth: '600px',
-    maxHeight: '95vh',
-    disableClose: true,
-  });
-  dialogRef.afterClosed().subscribe((result) => {
-    if (result) {
-      this.getMediaLibrary();
-    }
-  });
-}
-    openUpdateMediaLibraryModal() {
+    const dialogRef = this.dialog.open(UploadNewFileModal, {
+      width: '90%',
+      maxWidth: '600px',
+      maxHeight: '95vh',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getMediaLibrary();
+      }
+    });
+  }
+  openUpdateMediaLibraryModal(id: string) {
     this.dialog.open(EditUploadedFile, {
       width: '90%',
       maxWidth: '600px',
       maxHeight: '95vh',
       disableClose: true,
+       data: {
+        id: id
+      }
     });
   }
 
@@ -114,7 +107,7 @@ ViewFileModal(id: string) {
   ];
 
   addPublish(library: any) {
-    console.log('library',library);
+    this.loading = true;
     this.tv = [
       { T: 'dk1', V: library?.AltID },
       { T: 'c10', V: '14' }
@@ -122,13 +115,36 @@ ViewFileModal(id: string) {
 
     this.srv.getdata('podcast', this.tv)
       .subscribe({
-        next: (r) => {
-          console.log(r)
-          this.getMediaLibrary()
+        next: (r: any) => {
+          this.loading = false;
+          console.log(r);
+          if (r.Status === 1) {
+            this.toast.show({
+              title: 'File published successfully! 🎉',
+              description: '',
+              variant: 'success',
+              position: 'toast-bottom-center'
+            });
+            this.getMediaLibrary();
+
+          } else {
+            this.toast.show({
+              title: 'Failed to publish file',
+              description: 'Please try again',
+              variant: 'error',
+              position: 'toast-bottom-center'
+            });
+          }
         },
         error: (err) => {
           console.error('API Error:', err);
           this.loading = false;
+          this.toast.show({
+            title: 'Error publishing file',
+            description: 'Please try again later',
+            variant: 'error',
+            position: 'toast-bottom-center'
+          });
         }
       });
   }
@@ -143,7 +159,7 @@ ViewFileModal(id: string) {
       .subscribe({
         next: (r) => {
           this.ds = r.Data[0];
-          console.log('ds',this.ds);
+          console.log('ds', this.ds);
           this.dataSource.data = this.ds;
           this.dataSource._updateChangeSubscription();
           this.loading = false;
@@ -155,58 +171,47 @@ ViewFileModal(id: string) {
         }
       });
   }
-  
 
-    deleteMediaLibrary(row: any) {
-  if (!row.fid) return;
-  this.loading = true;
-  // this.cd.detectChanges(); 
 
-  const userId = this.srv.getsession('id');
+  deleteMediaLibrary(row: any) {
+    if (!row.id) return;
+    this.loading = true;
+    this.tv = [
+      { T: 'dk1', V: row?.id },
+      { T: 'c10', V: '24' }
+    ];
 
-  this.tv = [
-    { T: 'dk1', V: userId },
-    { T: 'dk2', V: row.DocumentTypeID },
-    { T: 'c1', V: row.fid },
-    { T: 'c10', V: '4' }
-  ];
+    this.srv.getdata('program', this.tv).subscribe({
+      next: (r: any) => {
 
-  this.srv.getdata('fileupload', this.tv).subscribe({
-    next: (r: any) => {
-      // this.loading = false;
-      // this.cd.detectChanges(); 
+        if (r.Status === 1) {
+          this.getMediaLibrary()
+          this.toast.show({
+            title: 'File deleted successfully! 🎉',
+            description: '',
+            variant: 'success',
+            position: 'toast-bottom-center'
+          });
+        } else {
+          const apiMsg = r.Data?.[0]?.[0]?.msg || 'Please try again';
+          this.toast.show({
+            title: 'Failed to delete file',
+            description: apiMsg,
+            variant: 'error',
+            position: 'toast-bottom-center'
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Error:', err);
 
-      if (r.Status === 1) {
-        this.getMediaLibrary()
         this.toast.show({
-          title: 'File deleted successfully! 🎉',
-          description: '',
-          variant: 'success',
-          position: 'toast-bottom-center'
-        });
-      } else {
-        const apiMsg = r.Data?.[0]?.[0]?.msg || 'Please try again';
-        this.toast.show({
-          title: 'Failed to delete file',
-          description: apiMsg,
+          title: 'Error deleting file',
+          description: 'Please try again later',
           variant: 'error',
           position: 'toast-bottom-center'
         });
       }
-    },
-    error: (err) => {
-      console.error('💥 Error:', err);
-
-      // this.loading = false;
-      // this.cd.detectChanges(); // 🔥 FIX
-
-      this.toast.show({
-        title: 'Error deleting file',
-        description: 'Please try again later',
-        variant: 'error',
-        position: 'toast-bottom-center'
-      });
-    }
-  });
-}
+    });
+  }
 } 

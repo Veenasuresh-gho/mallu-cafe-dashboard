@@ -92,7 +92,7 @@
                 <div class="media-cell">
                     <img [src]="row.ThumbnailUrl || '/main/no-image.png'" class="avatar" />
                     <div>
-                        <p class="media-name mb-0">{{ row.FileName }}</p>
+                        <p class="media-name mb-0 file-name">{{ row.FileName }}</p>
                         <p class="mb-0 media-size">{{ row.Size }}</p>
                     </div>
                 </div>
@@ -154,35 +154,6 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef></th>
 
-            <!-- <td mat-cell *matCellDef="let row">
-                <button *ngIf="row.CategoryName !== 'Prescheduled' && row.CategoryName !== 'Podcast'" mat-icon-button
-                    [matMenuTriggerFor]="menu">
-                    <mat-icon>more_horiz</mat-icon>
-                </button>
-
-                <mat-menu #menu="matMenu">
-                    <button mat-menu-item>
-                        <mat-icon>visibility</mat-icon>
-                        <span>View</span>
-                    </button>
-
-                    <button mat-menu-item>
-                        <mat-icon>edit</mat-icon>
-                        <span>Edit</span>
-                    </button>
-
-                    <button mat-menu-item>
-                        <mat-icon>delete</mat-icon>
-                        <span>Delete</span>
-                    </button>
-
-                    <button mat-menu-item (click)="addPublish(row)">
-                        <mat-icon>publish</mat-icon>
-                        <span>Publish</span>
-                    </button>
-                </mat-menu>
-            </td> -->
-
             <td mat-cell *matCellDef="let row">
 
                 <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -191,15 +162,23 @@
 
                 <mat-menu #menu="matMenu">
 
-                    <button (click)="ViewFileModal(row.id) " class="mat-menu-button" mat-menu-item>
+                    <button mat-menu-item *ngIf="row.CategoryName !== 'Prescheduled' && row.CategoryName !== 'Podcast'"
+                        (click)="addPublish(row)">
                         <span class="menu-content-left">
-                            <span class="menu-text px-2">View</span>
-                            <!-- <img class="menu-img" src="/program/edit-2.svg" alt=""> -->
-                             <mat-icon class="menu-icon">visibility</mat-icon>
+                            <span class="menu-text px-2">Publish</span>
+                            <img class="menu-img" src="/program/publish.svg" alt="">
                         </span>
                     </button>
 
-                    <button (click)="openUpdateMediaLibraryModal() " class="mat-menu-button" mat-menu-item>
+                    <button (click)="ViewFileModal(row.id) " class="mat-menu-button" mat-menu-item>
+                        <span class="menu-content-left">
+                            <span class="menu-text px-2">View</span>
+                            <img class="menu-img" src="/program/eye-slash.svg" alt="">
+                             <!-- <mat-icon class="menu-icon">visibility</mat-icon> -->
+                        </span>
+                    </button>
+
+                    <button (click)="openUpdateMediaLibraryModal(row.id) " class="mat-menu-button" mat-menu-item>
                         <span class="menu-content-left">
                             <span class="menu-text px-2">Edit</span>
                             <img class="menu-img" src="/program/edit-2.svg" alt="">
@@ -216,13 +195,7 @@
                     </button>
                     <mat-divider></mat-divider>
 
-                    <button mat-menu-item *ngIf="row.CategoryName !== 'Prescheduled' && row.CategoryName !== 'Podcast'"
-                        (click)="addPublish(row)">
-                        <span class="menu-content-left">
-                            <span class="menu-text px-2">Publish</span>
-                            <img class="menu-img" src="/program/publish.svg" alt="">
-                        </span>
-                    </button>
+                    
 
 
 

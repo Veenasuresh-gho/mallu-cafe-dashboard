@@ -38,7 +38,7 @@ export class PreScheduled implements OnChanges {
   @Input() disabled: boolean = false;
   @Output() programSelected = new EventEmitter<any>();
   @Output() validationChange = new EventEmitter<boolean>();
-
+  
 
   typedText: string = '';
   selectedType: string = '';

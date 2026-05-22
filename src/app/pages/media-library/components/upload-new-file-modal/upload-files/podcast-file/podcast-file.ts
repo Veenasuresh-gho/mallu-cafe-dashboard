@@ -50,6 +50,7 @@ export class PodcastFile implements OnInit {
   @Input() fileType: string = '';
   @Input() disabled: boolean = false;
   @Output() programSelected = new EventEmitter<any>();
+  @Input() editData: any = null;
 
   selectType(type: string) {
     this.selectedType = type;
@@ -57,7 +58,58 @@ export class PodcastFile implements OnInit {
 
   ngOnInit(): void {
     this.getPodcastCategory()
+      if (this.editData) {
+    this.patchEditData();
   }
+  }
+
+
+  patchEditData(): void {
+
+  console.log('EDIT DATA', this.editData);
+
+  this.selectedCategoryId =
+    this.editData?.PodcastcategoryID || '';
+
+  this.selectedProgramId =
+    this.editData?.ProgramID || '';
+
+  this.selectedProgramName =
+    this.editData?.Name || '';
+
+  this.title =
+    this.editData?.Title || '';
+
+  this.subtitle =
+    this.editData?.Subtitle || '';
+
+  // broadcast date
+  this.typedText =
+    this.editData?.BroadcastDate || '';
+
+  // thumbnail preview
+  this.thumbnailPreview =
+    this.editData?.ThumbnailUrl || '';
+
+  // selected thumbnail type
+  this.selectedType =
+    this.editData?.ThumbnailUrl
+      ? 'custom'
+      : 'program';
+
+  // load program thumbnail
+  if (this.selectedProgramId) {
+
+    this.programId =
+      this.selectedProgramId;
+
+    this.getProgramDetails();
+  }
+
+  this.cdr.detectChanges();
+
+  this.emitData();
+}
 
   onProgramChange(value: any) {
     this.selectedProgramId = value;

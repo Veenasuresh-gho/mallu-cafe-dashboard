@@ -139,13 +139,8 @@
 
             <td mat-cell *matCellDef="let row">
 
-             <button
-  mat-icon-button
-  [disableRipple]="true"
-  [matMenuTriggerFor]="menu"
-  xPosition="before"
-  yPosition="below"
->
+                <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" xPosition="before"
+                    yPosition="below">
                     <mat-icon>more_horiz</mat-icon>
                 </button>
 
@@ -173,8 +168,9 @@
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-
+        <!-- <tr mat-row *matRowDef="let row; columns: columns;"></tr> -->
+        <tr mat-row *matRowDef="let row; columns: columns;" [ngClass]="{ 'inactive-row': !row.IsActive }">
+        </tr>
     </table>
     @if(showPaginator){
     <mat-paginator [pageSize]="7" [pageSizeOptions]="[7, 14, 21]" showFirstLastButtons>

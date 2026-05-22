@@ -1,8 +1,20 @@
 <div class="d-flex align-items-center justify-content-center gap-2">
-    <app-form-select label="Podcast Category Name " style="width:530px ;" [options]="catogories"
+    <!-- <app-form-select label="Podcast Category Name " style="width:530px ;" [options]="catogories"
         optionLabel="DisplayText" optionValue="DataValue" placeholder="e.g., Music / Entertainment / Sports" name="host"
         (modelChange)="onCategoryChange($event)">
-    </app-form-select>
+    </app-form-select> -->
+
+    <app-form-select
+    label="Podcast Category Name "
+    style="width:530px;"
+    [options]="catogories"
+    optionLabel="DisplayText"
+    optionValue="DataValue"
+    placeholder="e.g., Music / Entertainment / Sports"
+    name="host"
+    [(model)]="selectedCategoryId"
+    (modelChange)="onCategoryChange($event)">
+</app-form-select>
     <!-- <div class="adding-btn">
         <button class="add-btn" (click)="openModalAddPodcast()">
             <img src="/upload/add.svg" alt="">
@@ -16,10 +28,20 @@
 
 <div class="form-row px-4">
 
-    <app-form-select label="Program Name " [options]="programList" optionLabel="DisplayText" optionValue="DataValue"
+    <!-- <app-form-select label="Program Name " [options]="programList" optionLabel="DisplayText" optionValue="DataValue"
         (modelChange)="onProgramChange($event)" placeholder="- Select Program Name -" name="host">
-    </app-form-select>
+    </app-form-select> -->
 
+    <app-form-select
+    label="Program Name "
+    [options]="programList"
+    optionLabel="DisplayText"
+    optionValue="DataValue"
+    [(model)]="selectedProgramId"
+    (modelChange)="onProgramChange($event)"
+    placeholder="- Select Program Name -"
+    name="host">
+</app-form-select>
 </div>
 <!-- step 3 -->
 

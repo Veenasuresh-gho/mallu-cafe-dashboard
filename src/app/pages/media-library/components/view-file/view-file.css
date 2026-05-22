@@ -225,17 +225,17 @@
 
 .btn-cancel {
     height: 42px;
-
     padding: 0 18px;
 
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 
-    background: #ffffff;
+    background: transparent;
 
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 
     cursor: pointer;
 
@@ -243,7 +243,6 @@
     font-weight: 500;
     color: #374151;
 }
-
 .btn-cancel:hover {
     background: #f9fafb;
 }

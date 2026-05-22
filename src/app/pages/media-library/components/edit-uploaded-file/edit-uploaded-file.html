@@ -1,6 +1,6 @@
 <div class="dialog-box">
 
-    <!-- Header -->
+    
     <div class="d-flex justify-content-between align-items-center"
         style="padding-top: 24px; padding-left: 24px; padding-right: 24px;">
 
@@ -21,7 +21,6 @@
 
     <mat-dialog-content class="dialog-content custom-select-panel">
 
-        <!-- STEP 1 -->
         <app-step-badge
             [stepNumber]="1"
             title="Upload Media File">
@@ -39,22 +38,20 @@
 
         </div>
 
-        <!-- Uploaded File Card -->
         <div class="px-3 mt-2">
 
             <div class="file-card d-flex gap-1 justify-content-between"
                 *ngIf="fileName">
 
-                <!-- Left Side -->
                 <div class="file-info d-flex">
 
-                    <!-- IMAGE -->
+
                     <img
                         *ngIf="isImageType()"
                         [src]="previewUrl"
                         class="file-icon" />
 
-                    <!-- VIDEO -->
+                  
                     <video
                         *ngIf="isVideoType()"
                         [src]="previewUrl"
@@ -62,13 +59,11 @@
                         muted>
                     </video>
 
-                    <!-- DEFAULT -->
                     <img
                         *ngIf="!isImageType() && !isVideoType()"
                         src="/upload/file-default.svg"
                         class="file-icon" />
 
-                    <!-- File Details -->
                     <div class="d-flex file-details justify-content-between align-items-center w-100">
 
                         <div class="file-name text-truncate-custom">
@@ -90,7 +85,6 @@
 
                 </div>
 
-                <!-- Delete -->
                 <div
                     (click)="removeFile()"
                     class="delete-btn">
@@ -103,7 +97,6 @@
 
         </div>
 
-        <!-- Helper -->
         <p class="d-flex gap-1 pt-2 pb-3 helper-text px-4">
 
             <span class="material-symbols-outlined helper-text-icon">
@@ -116,7 +109,6 @@
 
         </p>
 
-        <!-- Error -->
         <div class="error-text px-4" *ngIf="errors.file">
 
             <img
@@ -129,13 +121,11 @@
 
         <div class="custom-line-sub"></div>
 
-        <!-- STEP 2 -->
         <app-step-badge
             [stepNumber]="2"
             title="Program Information">
         </app-step-badge>
 
-        <!-- Category -->
         <div class="form-row px-4">
 
             <app-form-select
@@ -149,10 +139,8 @@
 
         </div>
 
-        <!-- Dynamic Forms -->
         <div [ngSwitch]="selectedMediaType">
 
-            <!-- PRE SCHEDULED -->
             <div
                 *ngSwitchCase="'1'"
                 [class.disabled-section]="!selectedMediaType">
@@ -164,31 +152,34 @@
 
             </div>
 
-            <!-- PODCAST -->
             <div *ngSwitchCase="'2'">
 
-                <app-podcast-file
+                <!-- <app-podcast-file
                     [programList]="programList"
                     [fileType]="extension">
-                </app-podcast-file>
+                </app-podcast-file> -->
+
+                <app-podcast-file
+    [programList]="programList"
+    [fileType]="extension"
+    [editData]="ds">
+</app-podcast-file>
 
             </div>
 
-            <!-- VIDEO -->
             <app-video-file
                 *ngSwitchCase="'3'"
                 [fileName]="fileName"
                 [fileType]="extension">
             </app-video-file>
 
-            <!-- SHORTS -->
             <app-shorts
                 *ngSwitchCase="'4'"
                 [fileName]="fileName"
                 [fileType]="extension">
             </app-shorts>
 
-            <!-- DEFAULT -->
+            
             <div *ngSwitchDefault>
 
                 <div class="disabled-section">
@@ -206,12 +197,10 @@
 
         <hr>
 
-        <!-- Footer -->
         <div class="footer">
 
             <div class="dialog-actions d-flex justify-content-between my-4 mx-3 gap-2">
 
-                <!-- Cancel -->
                 <button
                     class="close-btn btn-cancel d-flex"
                     (click)="close()">
@@ -225,7 +214,6 @@
 
                 </button>
 
-                <!-- Save -->
                 <div class="d-flex gap-2">
 
                     <app-primary-button

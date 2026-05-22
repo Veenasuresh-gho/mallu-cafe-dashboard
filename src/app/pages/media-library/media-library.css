@@ -313,5 +313,12 @@ mat-divider {
 }
 
 .menu-icon{
-    padding-left: 8px;
+    margin-left: 20px;
+}
+
+.file-name {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

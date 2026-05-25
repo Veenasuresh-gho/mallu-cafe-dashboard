@@ -84,6 +84,7 @@ export class UploadNewFileModal implements OnInit {
   title: string = '';
   subtitle: string = '';
   thumbnailFile: File | null = null;
+  broadcastDate: string = '';
 
   removeFile() {
     if (this.previewUrl) {
@@ -105,6 +106,7 @@ export class UploadNewFileModal implements OnInit {
   typedText: string = '';
   mediaTypeOptions: any[] = [];
   programList: any[] = [];
+ 
   toast = inject(ToastService);
   maxSize = 1.5 * 1024 * 1024 * 1024;
   validateForm(): boolean {
@@ -158,9 +160,9 @@ export class UploadNewFileModal implements OnInit {
     this.subtitle = data.subtitle;
 
     this.finalfileName = data?.fileName || '';
+     this.broadcastDate = data?.typedText || '';
 
     this.thumbnailFile = data.thumbnailFile || null;
-
     if (this.selectedFile && this.finalfileName) {
       this.renameFile();
     }
@@ -233,136 +235,235 @@ export class UploadNewFileModal implements OnInit {
     }
   }
 
+
   addmediaPre(): void {
-    if (!this.selectedFile) return;
 
-    const file = this.selectedFile;
+  if (!this.selectedFile) return;
 
-    this.loading = true;
+  const file = this.selectedFile;
 
-    this.tv = [
-      { T: 'dk1', V: this.programId },
-      { T: 'c10', V: '10' }
-    ];
+  this.loading = true;
 
-    this.srv.getdata('program', this.tv)
-      .subscribe({
-        next: async (r) => {
+  this.tv = [
+    { T: 'dk1', V: this.programId },
+    { T: 'c1', V: this.broadcastDate },
+    { T: 'c10', V: '10' }
+  ];
 
-          if (r.Status === 1 && r.Data?.length) {
-            this.id = r.Data[0]?.[0]?.ID || this.programId;
+  this.srv.getdata('program', this.tv)
+    .subscribe({
 
-            const success = await this.srv.handleFileUpload(
-              this.id,
-              this.userId,
-              file,
-              '5'
-            );
+      next: async (r) => {
 
-            this.loading = false;
-            if (success) {
+        if (r.Status === 1 && r.Data?.length) {
 
-              this.tv = [
-                { T: 'dk1', V: this.programId },
-                { T: 'c10', V: '16' }
-              ];
-              this.srv.getdata('program', this.tv)
-                .subscribe({
-                  next: async (r) => {
-                    if (r.Status === 1) {
+          this.id = r.Data[0]?.[0]?.MediaID || this.programId;
+
+          // Upload Main Video
+          const success = await this.srv.handleFileUpload(
+            this.id,
+            this.userId,
+            file,
+            '5'
+          );
+
+          this.loading = false;
+          if (success) {
+            this.tv = [
+              { T: 'dk1', V: this.programId },
+              { T: 'c10', V: '16' }
+            ];
+
+            this.srv.getdata('program', this.tv)
+              .subscribe({
+
+                next: async (r) => {
+
+                  if (r.Status === 1) {
+
+                    // Upload Thumbnail Only If Selected
+                    if (this.thumbnailFile instanceof File) {
+
                       const ThumbnailAddsuccess = await this.srv.handleFileUpload(
                         this.id,
                         this.userId,
                         this.thumbnailFile,
-                        '3'
+                        '12'
                       );
-                      this.toast.show({
-                        title: 'Video uploaded! 🎉',
-                        description: 'Video added successfully',
-                        variant: 'success',
-                        position: 'toast-bottom-right'
-                      });
 
-                      this.dialogRef.close(true);
+                      // Thumbnail Upload Failed
+                      if (!ThumbnailAddsuccess) {
+
+                        this.toast.show({
+                          title: 'Thumbnail upload failed ❌',
+                          description: 'Custom thumbnail upload failed',
+                          variant: 'error',
+                          position: 'toast-bottom-right'
+                        });
+
+                        return;
+                      }
                     }
-                  }
-                })
 
-            } else {
-              this.toast.show({
-                title: 'Upload failed ❌',
-                description: 'File upload failed',
-                variant: 'error',
-                position: 'toast-bottom-right'
+                    // Success
+                    this.toast.show({
+                      title: 'Video uploaded! 🎉',
+                      description: 'Video + thumbnail uploaded successfully',
+                      variant: 'success',
+                      position: 'toast-bottom-right'
+                    });
+                     this.changeFileUploadStatus()
+                    this.dialogRef.close(true);
+                    this.cdr.detectChanges();
+                  }
+                },
+
+                error: () => {
+
+                  this.loading = false;
+
+                  this.toast.show({
+                    title: 'Thumbnail API failed ❌',
+                    description: 'Unable to process thumbnail upload',
+                    variant: 'error',
+                    position: 'toast-bottom-right'
+                  });
+
+                  this.cdr.detectChanges();
+                }
               });
-            }
-            this.cdr.detectChanges();
+
+          } else {
+            
+            this.toast.show({
+              title: 'Upload failed ❌',
+              description: 'File upload failed',
+              variant: 'error',
+              position: 'toast-bottom-right'
+            });
           }
 
-
-        },
-        error: () => {
-          this.loading = false;
           this.cdr.detectChanges();
         }
-      });
-  }
+      },
+
+      error: () => {
+
+        this.loading = false;
+        
+        this.toast.show({
+          title: 'API Error ❌',
+          description: 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
+
+        this.cdr.detectChanges();
+      }
+    });
+}
 
   addmediaPodcast(): void {
-    if (!this.selectedFile) return;
 
-    const file = this.selectedFile;
+  if (!this.selectedFile) return;
 
-    this.loading = true;
-    this.tv = [
-      { T: 'dk1', V: this.programId },
-      { T: 'dk2', V: this.selectedCategoryId },
-      { T: 'c1', V: this.title },
-      { T: 'c2', V: this.subtitle },
-      { T: 'c10', V: '20' }
-    ];
+  const file = this.selectedFile;
 
-    this.srv.getdata('program', this.tv)
-      .subscribe({
-        next: async (r) => {
-          if (r.Status === 1 && r.Data?.length) {
-            this.id = r.Data[0]?.[0]?.EpisodeID || this.programId;
+  this.loading = true;
 
-            const success = await this.srv.handleFileUpload(
-              this.id,
-              this.userId,
-              file,
-              '6'
-            );
+  this.tv = [
+    { T: 'dk1', V: this.programId },
+    { T: 'dk2', V: this.selectedCategoryId },
+    { T: 'c1', V: this.title },
+    { T: 'c2', V: this.subtitle },
+    { T: 'c3', V: this.broadcastDate },
+    { T: 'c10', V: '20' }
+  ];
 
-            this.loading = false;
-            if (success) {
+  this.srv.getdata('program', this.tv)
+    .subscribe({
 
-              this.toast.show({
-                title: 'Podcast Program media uploaded! 🎉',
-                description: 'media added successfully',
-                variant: 'success',
-                position: 'toast-bottom-right'
-              });
+      next: async (r) => {
 
-              this.dialogRef.close(true);
-            } else {
-              this.toast.show({
-                title: 'Upload failed ❌',
-                description: 'File upload failed',
-                variant: 'error',
-                position: 'toast-bottom-right'
-              });
-            }
-            this.cdr.detectChanges();
-          }
-        },
-        error: () => {
+        if (r.Status === 1 && r.Data?.length) {
+
+          this.id = r.Data[0]?.[0]?.MediaID || this.programId;
+
+          // Upload Podcast File
+          const success = await this.srv.handleFileUpload(
+            this.id,
+            this.userId,
+            file,
+            '6'
+          );
+
           this.loading = false;
+
+          if (success) {
+            this.changeFileUploadStatus()
+            // Upload Custom Thumbnail
+            if (this.thumbnailFile instanceof File) {
+
+              const thumbSuccess = await this.srv.handleFileUpload(
+                this.id,
+                this.userId,
+                this.thumbnailFile,
+                '11'
+              );
+
+              // Thumbnail upload failed
+              if (!thumbSuccess) {
+
+                this.toast.show({
+                  title: 'Thumbnail upload failed ❌',
+                  description: 'Custom thumbnail upload failed',
+                  variant: 'error',
+                  position: 'toast-bottom-right'
+                });
+
+                return;
+              }
+            }
+
+            // Final Success
+            this.toast.show({
+              title: 'Podcast uploaded! 🎉',
+              description: 'Podcast + thumbnail uploaded successfully',
+              variant: 'success',
+              position: 'toast-bottom-right'
+            });
+
+            this.dialogRef.close(true);
+
+          } else {
+
+            this.toast.show({
+              title: 'Upload failed ❌',
+              description: 'Podcast upload failed',
+              variant: 'error',
+              position: 'toast-bottom-right'
+            });
+          }
+
           this.cdr.detectChanges();
         }
-      });
-  }
+      },
+
+      error: () => {
+
+        this.loading = false;
+
+        this.toast.show({
+          title: 'API Error ❌',
+          description: 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
+
+        this.cdr.detectChanges();
+      }
+    });
+}
 
   addVideos(): void {
     if (!this.selectedFile) return;
@@ -388,7 +489,7 @@ export class UploadNewFileModal implements OnInit {
         next: async (r) => {
           if (r.Status === 1 && r.Data?.length) {
 
-            this.id = r.Data[0]?.[0]?.id || this.programId;
+            this.id = r.Data[0]?.[0]?.MediaID || this.programId;
 
             const videoSuccess = await this.srv.handleFileUpload(
               this.id,
@@ -399,6 +500,7 @@ export class UploadNewFileModal implements OnInit {
 
             if (!videoSuccess) {
               this.loading = false;
+              this.cdr.detectChanges();
               this.toast.show({
                 title: 'Upload failed ❌',
                 description: 'Video upload failed',
@@ -409,7 +511,6 @@ export class UploadNewFileModal implements OnInit {
             }
 
             if (this.thumbnailFile) {
-              console.log(this.thumbnailFile)
               await this.srv.handleFileUpload(
                 this.id,
                 this.userId,
@@ -426,7 +527,7 @@ export class UploadNewFileModal implements OnInit {
               variant: 'success',
               position: 'toast-bottom-right'
             });
-
+            this.changeFileUploadStatus()
             this.dialogRef.close(true);
             this.cdr.detectChanges();
           }
@@ -442,6 +543,22 @@ export class UploadNewFileModal implements OnInit {
     this.tv = [
       { T: 'dk1', V: this.programId },
       { T: 'c10', V: '14' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: (r) => {
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+        }
+      });
+  }
+
+    changeFileUploadStatus() {
+    this.tv = [
+      { T: 'dk1', V: this.programId },
+      { T: 'c10', V: '16' }
     ];
 
     this.srv.getdata('program', this.tv)
@@ -516,4 +633,5 @@ export class UploadNewFileModal implements OnInit {
         });
     });
   }
+
 }

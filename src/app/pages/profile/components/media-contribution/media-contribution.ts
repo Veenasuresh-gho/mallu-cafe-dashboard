@@ -38,6 +38,5 @@ export class MediaContribution implements OnChanges {
       }
     ];
 
-    console.log('Media Stats:', this.mediaStats);
   }
 }

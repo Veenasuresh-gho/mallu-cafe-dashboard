@@ -7,10 +7,11 @@ import { FileUpload } from '../../../../../../components/dialog-form/file-upload
 import { GHOService } from '../../../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../../../model/ghomodel';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-video-file',
-  imports: [StepBadge, FormInput, MatRadioButton, MatRadioGroup, FormsModule, FileUpload],
+  imports: [CommonModule,StepBadge, FormInput, MatRadioButton, MatRadioGroup, FormsModule, FileUpload],
   templateUrl: './video-file.html',
   styleUrl: './video-file.css',
 })
@@ -33,6 +34,8 @@ export class VideoFile implements OnChanges {
   subtitle: string = '';
   originalFileName: string = '';
   selectedFile: File | null = null;
+  thumbnailPreview: string = '';
+  fileSelectedName: string = '';
 
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
@@ -117,8 +120,29 @@ export class VideoFile implements OnChanges {
     this.typedText = value;
     this.emitData();
   }
- onFileSelected(file: File) {
+//  onFileSelected(file: File) {
+//   this.selectedFile = file;
+//   this.emitData(); 
+// }
+
+onFileSelected(file: File) {
+
+  if (!file) return;
+
   this.selectedFile = file;
-  this.emitData(); 
+
+  this.fileSelectedName = file.name;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+
+    this.thumbnailPreview = reader.result as string;
+
+    this.emitData();
+  };
+
+  reader.readAsDataURL(file);
 }
+
 }

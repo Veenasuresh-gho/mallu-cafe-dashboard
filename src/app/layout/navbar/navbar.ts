@@ -48,11 +48,8 @@ export class Navbar {
     this.srv.getdata('teammember', tv)
       .subscribe({
         next: (r) => {
-
           const data = r.Data;
-
           this.profile = data[0]?.[0] || {};
-
         },
         error: (err) => {
           console.error('API Error:', err);
@@ -74,11 +71,7 @@ getSongs(): void {
   this.srv.getdata('teammember', tv)
     .subscribe({
       next: (res) => {
-
-        console.log('API RESPONSE:', res);
-
         const list = res?.Data?.[0] || [];
-
         if (!list.length) {
           this.currentSong = null;
           this.nextSong = { title: '' };
@@ -114,10 +107,10 @@ getSongs(): void {
           title: next?.Title || 'No song available'
         };
 
-        console.log('FINAL STATE:', {
-          current: this.currentSong,
-          next: this.nextSong
-        });
+        // console.log('FINAL STATE:', {
+        //   current: this.currentSong,
+        //   next: this.nextSong
+        // });
       },
 
       error: (err) => {

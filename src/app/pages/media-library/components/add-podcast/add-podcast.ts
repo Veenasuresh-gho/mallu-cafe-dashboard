@@ -37,7 +37,8 @@ export class AddPodcast implements OnInit {
   constructor(private dialogRef: MatDialogRef<AddPodcast>) { }
 
   ngOnInit(): void {
-    this.userId = sessionStorage.getItem('id') || '';
+    // this.userId = sessionStorage.getItem('id') || '';
+    this.userId = JSON.parse(sessionStorage.getItem('id') || '""');
   }
 
   addCategory() {
@@ -57,7 +58,6 @@ export class AddPodcast implements OnInit {
           if (r.Status === 1) {
 
             this.id = r.Data[0][0].id;
-            console.log(this.id)
 
             const success = await this.srv.handleFileUpload(
               this.id,

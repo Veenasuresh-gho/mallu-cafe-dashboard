@@ -12,7 +12,7 @@ import { ToastService } from '../../../../services/toastService';
 
 @Component({
   selector: 'app-profile-info',
-  standalone: true, // ✅ ADD THIS (VERY IMPORTANT)
+  standalone: true, 
   imports: [MatDivider, CommonModule, FormsModule, PrimaryButton],
   templateUrl: './profile-info.html',
   styleUrl: './profile-info.css',
@@ -20,6 +20,7 @@ import { ToastService } from '../../../../services/toastService';
 export class ProfileInfo {
 
   @Input() profile: any = {};
+  @Input() allowEdit: boolean = false;
   isEditing: boolean = false;
   loading = false;
   srv = inject(GHOService);
@@ -31,9 +32,15 @@ export class ProfileInfo {
 
   constructor(private cdr: ChangeDetectorRef) { }
 
+  // enableEdit() {
+  //   this.isEditing = true;
+  // }
+
   enableEdit() {
+  if (this.allowEdit) {
     this.isEditing = true;
   }
+}
 
 
   ngOnChanges(changes: SimpleChanges): void {

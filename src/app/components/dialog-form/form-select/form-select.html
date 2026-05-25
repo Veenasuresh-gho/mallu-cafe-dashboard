@@ -18,7 +18,7 @@
     </div>
 
     <!-- Dropdown -->
-    <div class="dropdown" *ngIf="open">
+    <!-- <div class="dropdown" *ngIf="open">
       <div
         class="option"
         *ngFor="let item of options"
@@ -26,7 +26,33 @@
       >
         {{ getLabel(item) }}
       </div>
-    </div>
+    </div> -->
+
+    <div class="dropdown" *ngIf="open">
+
+  <div
+    class="option d-flex justify-content-between align-items-center"
+    *ngFor="let item of options"
+    (click)="select(item)"
+  >
+
+    <span>
+      {{ getLabel(item) }}
+    </span>
+
+    <button
+      *ngIf="showEditButton"
+      type="button"
+      class="edit-btn"
+      (click)="onEdit(item, $event)"
+    >
+     <img class="menu-img" src="/program/edit-2.svg" alt="">
+
+    </button>
+
+  </div>
+
+</div>
 
     <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
   </div>

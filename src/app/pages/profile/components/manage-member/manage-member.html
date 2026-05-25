@@ -11,16 +11,12 @@
 
         <div class="d-flex gap-3 px-4">
             <div class="upload-wrapper">
-                <div class="upload-photo" [ngStyle]="{
-      'background-image':
-      'url(' + (profile?._url || '/profile/profile-fallback-1.png') + ')'
-    }">
-
+    
+                <div class="upload-photo" [ngStyle]="{'background-image': 'url(' + getProfileImage(profile?._url) + ')'}">
                     <label class="upload-btn">
                         <input (change)="onFileSelected($event)" type="file" hidden />
                         <span>Upload Photo</span>
                     </label>
-
                 </div>
                 <p class="helper-text py-1">Supported formats: JPG, PNG</p>
             </div>
@@ -97,13 +93,9 @@
             <!-- <app-form-multiselect label="Assign New Programs" [options]="programList"
                 [(selectedItems)]="selectedPrograms" placeholder="-Select program-" optionLabel="DisplayText">
             </app-form-multiselect> -->
-            <app-form-multiselect
-    label="Assign New Programs"
-    [options]="filteredProgramList"
-    [(selectedItems)]="selectedPrograms"
-    placeholder="-Select program-"
-    optionLabel="DisplayText">
-</app-form-multiselect>
+            <app-form-multiselect label="Assign New Programs" [options]="filteredProgramList"
+                [(selectedItems)]="selectedPrograms" placeholder="-Select program-" optionLabel="DisplayText">
+            </app-form-multiselect>
         </div>
 
         <small class="helper-text px-4">Multiple programs can be assigned.</small>
@@ -127,14 +119,28 @@
         <div class="helper-text px-4 py-2">Switch this on to allow full access — all permissions will be selected for
             you.</div>
         <div class="input-label px-4 py-1">Access rights and system privilages </div>
-        <div class="checkbox-container px-3">
+        <!-- <div class="checkbox-container px-3">
             <span class="p-2" *ngFor="let item of permissions">
                 <label class="access-txt">
                     <input type="checkbox" [(ngModel)]="item.checked" name="permission-{{item.name}}" />
                     {{ item.name }}
                 </label>
             </span>
-        </div>
+        </div> -->
+
+        <div class="checkbox-container px-3">
+    <span class="p-2" *ngFor="let item of permissions">
+        <label class="access-txt">
+            <input
+                type="checkbox"
+                [(ngModel)]="item.checked"
+                name="permission-{{item.name}}"
+                (change)="onPermissionChange()"
+            />
+            {{ item.name }}
+        </label>
+    </span>
+</div>
 
         <hr class="px-3">
         <mat-dialog-actions align="end" class="d-flex justify-content-between">
@@ -143,7 +149,7 @@
                 <p>Cancel</p>
             </button>
 
-            <app-primary-button [loading]="loading" (click)="editProfileDetails()" t style="margin-right: 24px;"
+            <app-primary-button [loading]="loading" (click)="editProfileDetails()" t style="margin-right: 2px;"
                 label="Save changes" iconSrc="/upload/tick-circle.svg"></app-primary-button>
         </mat-dialog-actions>
     </mat-dialog-content>

@@ -11,12 +11,13 @@ import { GHOUtitity } from '../../../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../../../model/ghomodel';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-podcast-file',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormSelect, FormInput, StepBadge, MatRadioButton, MatRadioGroup, FormsModule],
+  imports: [CommonModule,FormSelect, FormInput, StepBadge, MatRadioButton, MatRadioGroup, FormsModule],
   templateUrl: './podcast-file.html',
   styleUrls: ['./podcast-file.css'],
 })
@@ -42,11 +43,15 @@ export class PodcastFile implements OnInit {
   selectedCategoryId: string = '';
   title: string = '';
   programDetails: any = {};
+  thumbnailFile: File | null = null;
+  thumbnailPreview: string = '';
+   poadcastProgramList: any[] = [];
 
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
   @Input() disabled: boolean = false;
   @Output() programSelected = new EventEmitter<any>();
+  @Input() editData: any = null;
 
   selectType(type: string) {
     this.selectedType = type;
@@ -54,7 +59,57 @@ export class PodcastFile implements OnInit {
 
   ngOnInit(): void {
     this.getPodcastCategory()
+      if (this.editData) {
+    this.patchEditData();
   }
+  }
+
+
+  patchEditData(): void {
+
+
+  this.selectedCategoryId =
+    this.editData?.PodcastcategoryID || '';
+
+  this.selectedProgramId =
+    this.editData?.ProgramID || '';
+
+  this.selectedProgramName =
+    this.editData?.Name || '';
+
+  // this.title =
+  //   this.editData?.Title || '';
+
+  this.subtitle =
+    this.editData?.Subtitle || '';
+
+  // broadcast date
+  this.typedText =
+    this.editData?.BroadcastDate || '';
+
+  // thumbnail preview
+  this.thumbnailPreview =
+    this.editData?.ThumbnailUrl || '';
+
+  // selected thumbnail type
+  this.selectedType =
+    this.editData?.ThumbnailUrl
+      ? 'custom'
+      : 'program';
+
+  // load program thumbnail
+  if (this.selectedProgramId) {
+
+    this.programId =
+      this.selectedProgramId;
+
+    this.getProgramDetails();
+  }
+
+  this.cdr.detectChanges();
+
+  this.emitData();
+}
 
   onProgramChange(value: any) {
     this.selectedProgramId = value;
@@ -69,37 +124,93 @@ export class PodcastFile implements OnInit {
 
   onCategoryChange(value: any) {
     this.selectedCategoryId = value;
-    console.log(this.selectedCategoryId)
+    this.getPodcastProgramList();
     this.emitData();
   }
 
+    getPodcastProgramList(): Promise<void> {
+    return new Promise((resolve) => {
+      this.tv = [
+        { T: 'dk2', V: this.selectedCategoryId  },
+        { T: 'c10', V: '11' }
+      ];
+
+      this.srv.getdata('program', this.tv)
+        .subscribe({
+          next: (r) => {
+            const data = r.Data[0];
+            this.poadcastProgramList = data.map((item: any) => ({
+              DisplayText: item.Title,
+              DataValue: item.ProgramID,
+              ProgramID: item.id
+            }));
+
+            this.cdr.markForCheck();
+            resolve();
+          },
+          error: () => resolve()
+        });
+    });
+  }
+
+
+  // emitData() {
+
+  //   const cleanDate = this.typedText.replace(/\//g, '');
+  //   const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
+
+  //   let fileName = '';
+
+  //   if (cleanProgramName && cleanDate && this.fileType) {
+  //     fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
+  //   }
+
+  //   this.programSelected.emit({
+  //     programId: this.programId,
+  //     programName: cleanProgramName,
+  //     categoryId: this.selectedCategoryId,
+  //     typedText: this.typedText,
+  //     fileName: fileName,
+
+  //     title: this.title,
+  //     subtitle: this.subtitle,
+
+  //     fullData: this.programList.find(p => p.ProgramID === this.programId),
+
+  //   });
+
+  // }
 
   emitData() {
 
-    const cleanDate = this.typedText.replace(/\//g, '');
-    const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
+  const cleanDate = this.typedText.replace(/\//g, '');
+  const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
 
-    let fileName = '';
+  let fileName = '';
 
-    if (cleanProgramName && cleanDate && this.fileType) {
-      fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
-    }
-
-    this.programSelected.emit({
-      programId: this.programId,
-      programName: cleanProgramName,
-      categoryId: this.selectedCategoryId,
-      typedText: this.typedText,
-      fileName: fileName,
-
-      title: this.title,
-      subtitle: this.subtitle,
-
-      fullData: this.programList.find(p => p.ProgramID === this.programId),
-
-    });
-
+  if (cleanProgramName && cleanDate && this.fileType) {
+    fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
   }
+
+  this.programSelected.emit({
+    programId: this.programId,
+    programName: cleanProgramName,
+    categoryId: this.selectedCategoryId,
+    typedText: this.typedText,
+    fileName: fileName,
+
+    title: this.title,
+    subtitle: this.subtitle,
+
+    thumbnailFile: this.thumbnailFile,
+    thumbnailType: this.selectedType,
+
+    fullData: this.programList.find(
+      p => p.ProgramID === this.programId
+    ),
+  });
+}
+
   getPodcastCategory() {
     this.tv = [{ T: 'c10', V: '4' }];
     this.srv.getdata('lists', this.tv)
@@ -154,6 +265,28 @@ export class PodcastFile implements OnInit {
         }
       });
   }
+
+onThumbnailChange(event: any): void {
+
+  const file = event.target.files?.[0];
+
+  if (!file) return;
+
+  this.thumbnailFile = file;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+
+    this.thumbnailPreview = reader.result as string;
+
+    this.cdr.detectChanges();
+
+    this.emitData();
+  };
+
+  reader.readAsDataURL(file);
+}
 
 
   openModalAddPodcast() {

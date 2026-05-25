@@ -94,8 +94,15 @@
 
         <ng-container matColumnDef="host">
             <th mat-header-cell *matHeaderCellDef>Host</th>
+
             <td mat-cell *matCellDef="let row">
-                <div class="user">{{ row.HostName }}</div>
+
+                <div class="user" [matTooltip]="row.HostName" matTooltipClass="custom-tooltip">
+
+                    {{ getHostDisplay(row.HostName) }}
+
+                </div>
+
             </td>
         </ng-container>
 
@@ -132,17 +139,17 @@
 
             <td mat-cell *matCellDef="let row">
 
-                <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu">
+                <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" xPosition="before"
+                    yPosition="below">
                     <mat-icon>more_horiz</mat-icon>
                 </button>
 
                 <mat-menu #menu="matMenu">
-
-
                     <button (click)="editProgram(row)" class="mat-menu-button" mat-menu-item>
                         <span class="menu-content-left">
                             <span class="menu-text px-2">Edit</span>
-                            <mat-icon>edit</mat-icon>
+                            <!-- <mat-icon>edit</mat-icon> -->
+                            <img class="menu-img" src="/program/edit-2.svg" alt="">
                         </span>
                     </button>
 
@@ -151,7 +158,8 @@
                     <button (click)="deleteProgram(row.id)" mat-menu-item>
                         <span class="menu-content-left">
                             <span class="menu-text px-2">Delete</span>
-                            <mat-icon>delete</mat-icon>
+                            <!-- <mat-icon>delete</mat-icon> -->
+                            <img class="menu-img" src="/program/trash.svg" alt="">
                         </span>
                     </button>
 
@@ -160,8 +168,9 @@
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-
+        <!-- <tr mat-row *matRowDef="let row; columns: columns;"></tr> -->
+        <tr mat-row *matRowDef="let row; columns: columns;" [ngClass]="{ 'inactive-row': !row.IsActive }">
+        </tr>
     </table>
     @if(showPaginator){
     <mat-paginator [pageSize]="7" [pageSizeOptions]="[7, 14, 21]" showFirstLastButtons>

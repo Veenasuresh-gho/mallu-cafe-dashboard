@@ -248,3 +248,20 @@
 mat-divider {
   margin: 4px 0;
 }
+
+.menu-img{
+  width: 19px;
+  height: 19px;   
+}
+
+::ng-deep .custom-menu {
+  min-width: 150px !important;
+}
+
+::ng-deep .custom-menu .mat-mdc-menu-content {
+  padding: 0 !important;
+}
+
+::ng-deep .custom-menu .mat-mdc-menu-item {
+  min-height: 50px !important;
+}

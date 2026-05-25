@@ -13,6 +13,8 @@ import { PrimaryButton } from '../../../components/primary-button/primary-button
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ViewFile } from '../../media-library/components/view-file/view-file';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface Schedule {
   id: string;
@@ -43,7 +45,7 @@ export interface Schedule {
 })
 export class TodayScheduleSection implements OnInit {
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(private cdr: ChangeDetectorRef,private dialog: MatDialog) { }
 
   urlValue: string = '';
   srv = inject(GHOService);
@@ -58,6 +60,24 @@ export class TodayScheduleSection implements OnInit {
   currentProgram: Schedule | null = null;
   streamingProgram: Schedule | null = null;
   selectedDate: Date = new Date();
+
+
+    ViewFileModal(id: any) {
+      const dialogRef = this.dialog.open(ViewFile, {
+        width: '90%',
+        maxWidth: '650px',
+        maxHeight: '95vh',
+        disableClose: true,
+        data: {
+          id: id
+        }
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          // this.getMediaLibrary();
+        }
+      });
+    }
 
   publishProgram(program: any) {
     this.tv = [
@@ -176,7 +196,6 @@ export class TodayScheduleSection implements OnInit {
 
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
-        console.log(r)
         const now = new Date();
         const currentMinutes = now.getHours() * 60 + now.getMinutes();
 

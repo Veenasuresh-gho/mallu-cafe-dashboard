@@ -7,10 +7,11 @@ import { FileUpload } from '../../../../../../components/dialog-form/file-upload
 import { GHOService } from '../../../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../../../model/ghomodel';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-shorts',
-  imports: [StepBadge,FormInput, MatRadioButton,MatRadioGroup,FormsModule,FileUpload],
+  imports: [CommonModule,StepBadge,FormInput, MatRadioButton,MatRadioGroup,FormsModule,FileUpload],
   templateUrl: './shorts.html',
   styleUrl: './shorts.css',
 })
@@ -32,6 +33,8 @@ export class Shorts {
   title: string = '';
   originalFileName: string = '';
   selectedFile: File | null = null;
+  thumbnailPreview: string = '';
+  fileSelectedName: string = '';
 
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
@@ -109,8 +112,27 @@ export class Shorts {
     this.typedText = value;
     this.emitData();
   }
- onFileSelected(file: File) {
+//  onFileSelected(file: File) {
+//   this.selectedFile = file;
+//   this.emitData(); 
+// }
+
+onFileSelected(file: File) {
+
   this.selectedFile = file;
-  this.emitData(); 
+
+  this.fileSelectedName = file.name;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+
+    this.thumbnailPreview = reader.result as string;
+
+  };
+
+  reader.readAsDataURL(file);
+
+  this.emitData();
 }
 }

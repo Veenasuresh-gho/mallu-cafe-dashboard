@@ -24,10 +24,24 @@
     <div class="form-group pt-1">
         <label class="input-label" for="thumbnail">Custom Thumbnail</label>
 
+        <app-file-upload label="Upload Image" accept="image/*" (fileSelected)="onFileSelected($event)">
+        </app-file-upload>
 
-        <app-file-upload label="Upload Image" accept="image/*"
-            (fileSelected)="onFileSelected($event)"></app-file-upload>
-        <p class="helper-text">JPG, JPEG, PNG formats. Required for podcast, featured videos, shorts.</p>
+        <!-- File Name -->
+        <div *ngIf="fileSelectedName">
+
+        </div>
+
+        <!-- Image Preview -->
+        <div *ngIf="thumbnailPreview">
+
+            <img [src]="thumbnailPreview" alt="Thumbnail Preview" class="upload-img" width="100%" />
+
+        </div>
+
+        <p class="helper-text">
+            JPG, JPEG, PNG formats. Required for podcast, featured videos, shorts.
+        </p>
     </div>
 
 </div>

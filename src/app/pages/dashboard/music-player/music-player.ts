@@ -9,6 +9,7 @@ import { GHOUtitity } from '../../../services/utilities';
 import { ghoresult, tags } from '../../../../model/ghomodel';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'music-player',
@@ -58,12 +59,14 @@ export class MusicPlayer implements OnInit, OnChanges {
   isPlaying: boolean = false;
   currentTime: number = 0;
   duration: number = 0;
+  isMuted: boolean = false;
 
   programDetails: any;
 
   constructor(
     private sanitizer: DomSanitizer,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   getFileExtension(url: string): string {
@@ -242,4 +245,14 @@ handleMedia(url: string) {
   onGoToFacebook() {
     window.open(this.facebookUrl, '_blank');
   }
+
+  navigateToAD(){
+     this.router.navigate(['/advertisements']);
+  }
+
+  toggleMute() {
+  this.isMuted = !this.isMuted;
+  // Audio mute
+  this.audio.muted = this.isMuted;
+}
 }

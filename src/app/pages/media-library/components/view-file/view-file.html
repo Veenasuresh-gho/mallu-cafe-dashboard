@@ -1,0 +1,284 @@
+<div class="dialog-box">
+
+    <!-- HEADER -->
+    <div class="dialog-header">
+
+        <div class="header-left">
+
+
+            <p class="main-title">
+
+                <!-- AUDIO ICON -->
+                <img *ngIf="isAudioType()" src="/media/mp3.svg" alt="audio">
+
+                <!-- VIDEO ICON -->
+                <img class="video-icon" *ngIf="isVideoType()" src="/media/mp4.svg" alt="video">
+
+                <!-- IMAGE ICON -->
+                <img *ngIf="isImageType()" src="/media/image.svg" alt="image">
+
+                {{ ds?.FileName }}
+
+            </p>
+
+            <p class="main-subtitle">
+
+                Uploaded by
+
+                <span>
+                    {{ ds?.HostName }}
+                </span>
+
+            </p>
+
+        </div>
+
+        <button class="close-btn" (click)="close()">
+            <img src="/program/close-circle.svg" alt="">
+
+        </button>
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="dialog-content">
+
+        <!-- LOADING -->
+        <div *ngIf="loading && !ds" class="loading-wrapper">
+
+            <p>Loading media...</p>
+
+        </div>
+
+        <!-- EMPTY -->
+        <div *ngIf="!loading && !ds" class="empty-preview">
+
+            <img src="/upload/file-default.svg" alt="">
+
+            <p>No Media Found</p>
+
+        </div>
+
+        <!-- MAIN -->
+        <div *ngIf="!loading && ds">
+
+            <!-- ====================== -->
+            <!-- IMAGE -->
+            <!-- ====================== -->
+            <div *ngIf="isImageType()" class="preview-wrapper">
+
+                <img [src]="ds?._url" class="preview-media" alt="preview">
+
+            </div>
+
+            <!-- ====================== -->
+            <!-- AUDIO -->
+            <!-- ====================== -->
+            <!-- <div *ngIf="isAudioType()">
+                <div class="audio-layout">
+
+                   
+                    <div class="audio-player-wrapper">
+
+                     
+
+                        <audio controls class="audio-player">
+
+                            <source [src]="ds?._url">
+
+                        </audio>
+
+                    </div>
+
+
+                </div>
+
+                <div class="audio-footer">
+
+                    <div class="audio-meta">
+
+                        {{ ds?.UploadedDate | date:'d MMM yy' }}
+
+                        •
+
+                        {{ formatFileSize(ds?.Size) }}
+
+                        •
+
+                        {{ ds?.CategoryName }}
+
+                    </div>
+
+                    <div class="footer-actions">
+
+                        <button (click)="deleteMediaLibrary(ds?.id)" class="btn-cancel">
+
+                            <img src="/program/trash.svg" width="16" alt="">
+
+
+                            <span>Delete</span>
+
+                        </button>
+
+                        <app-primary-button (click)="addPublish(ds?.AltID)" [loading]="loading" [label]="'Publish file'"
+                            iconSrc="/media/cloud.svg">
+                        </app-primary-button>
+
+                    </div>
+
+                </div>
+
+            </div> -->
+
+            <!-- ====================== -->
+            <!-- AUDIO -->
+            <!-- ====================== -->
+
+            <div *ngIf="isAudioType()">
+
+                <div class="audio-layout">
+
+                    <audio #audioPlayer [src]="ds?._url" (timeupdate)="onTimeUpdate(audioPlayer)"
+                        (loadedmetadata)="onLoadedMetadata(audioPlayer)" (ended)="onAudioEnded()">
+                    </audio>
+
+                    <div class="custom-audio-player">
+
+                        <!-- PLAY BUTTON -->
+                        <button class="play-btn" (click)="toggleAudio(audioPlayer)">
+
+                            <mat-icon>
+                                {{ isPlaying ? 'pause' : 'play_arrow' }}
+                            </mat-icon>
+
+                        </button>
+
+                        <!-- PROGRESS -->
+                        <div class="progress-container">
+
+
+
+                            <input type="range" min="0" [max]="duration" [value]="currentTime"
+                                (input)="seekAudio($event, audioPlayer)" class="progress-bar">
+
+                        </div>
+
+                        <!-- TIME -->
+                        <div class="audio-time">
+
+                            {{ formatTime(currentTime) }}
+
+                            /
+
+                            {{ formatTime(duration) }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- FOOTER -->
+                <div class="audio-footer">
+
+                    <div class="audio-meta">
+
+                        {{ ds?.UploadedDate | date:'d MMM yy' }}
+
+                        •
+
+                        {{ formatFileSize(ds?.Size) }}
+
+                        •
+
+                        {{ ds?.CategoryName }}
+
+                    </div>
+
+                    <div class="footer-actions">
+
+                        <button (click)="deleteMediaLibrary(ds?.id)" class="btn-cancel">
+
+                            <img src="/program/trash.svg" width="16" alt="">
+
+                            <span>Delete</span>
+
+                        </button>
+
+                        <app-primary-button (click)="addPublish(ds?.AltID)" [loading]="loading" [label]="'Publish file'"
+                            iconSrc="/media/cloud.svg">
+                        </app-primary-button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ====================== -->
+            <!-- VIDEO -->
+            <!-- ====================== -->
+            <div *ngIf="isVideoType()" class="video-layout">
+
+                <video controls class="video-player">
+
+                    <source [src]="ds?._url" type="video/mp4">
+
+                </video>
+
+                <div class="video-footer">
+
+                    <!-- LEFT -->
+                    <div class="audio-meta">
+
+                        {{ ds?.UploadedDate | date:'d MMM yy' }}
+
+                        •
+
+                        {{ formatFileSize(ds?.Size) }}
+
+                        •
+
+                        {{ ds?.CategoryName }}
+
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="footer-actions">
+
+                        <button (click)="deleteMediaLibrary(ds?.id)" class="btn-cancel">
+
+                            <img src="/program/trash.svg" width="16" alt="">
+                            <span>Delete</span>
+
+                        </button>
+
+                        <app-primary-button (click)="addPublish(ds?.AltID)" [loading]="loading" [label]="'Publish file'"
+                            iconSrc="/media/cloud.svg">
+                        </app-primary-button>
+
+                    </div>
+
+                </div>
+
+                <!-- ====================== -->
+                <!-- FALLBACK -->
+                <!-- ====================== -->
+                <div *ngIf="
+                    !isImageType() &&
+                    !isVideoType() &&
+                    !isAudioType()
+                " class="empty-preview">
+
+                    <img src="/upload/file-default.svg" alt="">
+
+                    <p>No Preview Available</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>

@@ -234,15 +234,12 @@ toggleCalendar() {
 
   if (this.selectedWeekDays.length > 0) {
     payload = { type: 'weekday', value: this.selectedWeekDays };
-    console.log('Selected Weekdays:', this.selectedWeekDays);
   } 
   else if (this.endDate) {
     payload = { type: 'range', start: this.startDate, end: this.endDate };
-    console.log('Selected Range:', this.startDate, 'to', this.endDate);
   } 
   else {
     payload = { type: 'single', value: this.startDate };
-    console.log('Selected Single Date:', this.startDate);
   }
 
   // 🔥 SEND DATA TO PARENT

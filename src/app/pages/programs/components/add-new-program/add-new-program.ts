@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Inject, inject, OnInit } from '@angular/core';
-import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -25,6 +25,8 @@ import { ghoresult, tags } from '../../../../../model/ghomodel';
 
 import { MatIconModule } from '@angular/material/icon';
 import { InputTime } from '../../../../components/dialog/input-time/input-time';
+import { AddPodcast } from '../../../media-library/components/add-podcast/add-podcast';
+import { EditPoadcast } from '../../../media-library/components/edit-poadcast/edit-poadcast';
 
 @Component({
   selector: 'app-add-new-program',
@@ -55,7 +57,7 @@ export class AddNewProgram implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<AddNewProgram>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,private dialog: MatDialog
   ) { }
   loading = false;
   initialLoading = false;
@@ -74,6 +76,9 @@ export class AddNewProgram implements OnInit {
   selectedCategory: string = '';
   selectedSchedule: any = {};
   selectedType: string = '';
+
+  catogories: any[] = [];
+  selectedPodcastCategory: string = '';
 
   selectedFile!: File;
   fileName: string = '';
@@ -161,9 +166,7 @@ export class AddNewProgram implements OnInit {
         error: (err) => {
 
           console.error(err);
-
           this.loading = false;
-
           this.toast.show({
             title: 'Error ❌',
             description: 'Failed to fetch program details',
@@ -177,64 +180,143 @@ export class AddNewProgram implements OnInit {
   }
 
 
+  // populateForm(program: any) {
+  //   this.programTitle = program?.Title || '';
+  //   const selectedHostObj = this.hosts.find(
+  //     h => h.DisplayText === program.HostName
+  //   );
+  //   this.selectedHost = selectedHostObj?.DataValue || '';
+
+  //   const selectedCategoryObj = this.categoryOptions.find(
+  //     c => c.DisplyText === program.CategoryName
+  //   );
+  //   this.selectedCategory = selectedCategoryObj?.DataValue || '';
+
+  //   const dayMap: any = {
+  //     Mon: '1',
+  //     Tue: '2',
+  //     Wed: '3',
+  //     Thu: '4',
+  //     Fri: '5',
+  //     Sat: '6',
+  //     Sun: '7'
+  //   };
+
+  //   let fromDay = '';
+  //   let toDay = '';
+
+  //   if (program?.DayRange) {
+  //     const [from, to] = program.DayRange.split(' - ');
+  //     fromDay = dayMap[from] || '';
+  //     toDay = dayMap[to] || '';
+  //   }
+
+  //   let fromTime = '';
+  //   let toTime = '';
+
+  //   if (program?.TimeRange) {
+  //     const [fromT, toT] = program.TimeRange.split(' - ');
+  //     fromTime = fromT || '';
+  //     toTime = toT || '';
+  //   }
+
+  //   this.selectedSchedule = {
+  //     fromDay,
+  //     toDay,
+  //     fromTime,
+  //     toTime
+  //   };
+  //   this.fid = program.fid;
+  //   this.programID = program.ProgramID
+  //   this.selectedType = program?.IsCallAllowed ? 'allow' : 'disable';
+  //   this.id = program?.id || '';
+  //   this.existingImageUrl = program?._url || '';
+  //   this.fileName = program?.filename || '';
+  //   this.cdr.detectChanges();
+  // }
+
   populateForm(program: any) {
-    this.programTitle = program?.Title || '';
-    const selectedHostObj = this.hosts.find(
-      h => h.DisplayText === program.HostName
-    );
-    this.selectedHost = selectedHostObj?.DataValue || '';
 
-    const selectedCategoryObj = this.categoryOptions.find(
-      c => c.DisplyText === program.CategoryName
-    );
-    this.selectedCategory = selectedCategoryObj?.DataValue || '';
+  this.programTitle = program?.Title || '';
 
-    const dayMap: any = {
-      Mon: '1',
-      Tue: '2',
-      Wed: '3',
-      Thu: '4',
-      Fri: '5',
-      Sat: '6',
-      Sun: '7'
-    };
+  const selectedHostObj = this.hosts.find(
+    h => h.DisplayText === program.HostName
+  );
 
-    let fromDay = '';
-    let toDay = '';
+  this.selectedHost = selectedHostObj?.DataValue || '';
 
-    if (program?.DayRange) {
-      const [from, to] = program.DayRange.split(' - ');
-      fromDay = dayMap[from] || '';
-      toDay = dayMap[to] || '';
-    }
+  const selectedCategoryObj = this.categoryOptions.find(
+    c => c.DisplyText === program.CategoryName
+  );
 
-    let fromTime = '';
-    let toTime = '';
+  this.selectedCategory = selectedCategoryObj?.DataValue || '';
 
-    if (program?.TimeRange) {
-      const [fromT, toT] = program.TimeRange.split(' - ');
-      fromTime = fromT || '';
-      toTime = toT || '';
-    }
+  // ADD THIS BLOCK
+  if (this.selectedCategory === '2') {
 
-    this.selectedSchedule = {
-      fromDay,
-      toDay,
-      fromTime,
-      toTime
-    };
-    this.fid = program.fid;
-    this.programID = program.ProgramID
-    this.selectedType = program?.IsCallAllowed ? 'allow' : 'disable';
-    this.id = program?.id || '';
-    this.existingImageUrl = program?._url || '';
-    this.fileName = program?.filename || '';
-    this.cdr.detectChanges();
+    this.getPodcastCategory();
+
+    setTimeout(() => {
+
+      const selectedPodcastObj = this.catogories.find(
+        (c: any) => c.DisplayText === program.PodcastCategory
+      );
+
+      this.selectedPodcastCategory =
+        selectedPodcastObj?.DataValue || '';
+
+      this.cdr.detectChanges();
+
+    }, 300);
   }
+
+  const dayMap: any = {
+    Mon: '1',
+    Tue: '2',
+    Wed: '3',
+    Thu: '4',
+    Fri: '5',
+    Sat: '6',
+    Sun: '7'
+  };
+
+  let fromDay = '';
+  let toDay = '';
+
+  if (program?.DayRange) {
+    const [from, to] = program.DayRange.split(' - ');
+    fromDay = dayMap[from] || '';
+    toDay = dayMap[to] || '';
+  }
+
+  let fromTime = '';
+  let toTime = '';
+
+  if (program?.TimeRange) {
+    const [fromT, toT] = program.TimeRange.split(' - ');
+    fromTime = fromT || '';
+    toTime = toT || '';
+  }
+
+  this.selectedSchedule = {
+    fromDay,
+    toDay,
+    fromTime,
+    toTime
+  };
+
+  this.fid = program.fid;
+  this.programID = program.ProgramID;
+  this.selectedType = program?.IsCallAllowed ? 'allow' : 'disable';
+  this.id = program?.id || '';
+  this.existingImageUrl = program?._url || '';
+  this.fileName = program?.filename || '';
+
+  this.cdr.detectChanges();
+}
 
   getInitialData(): Promise<void> {
     this.initialLoading = true;
-
     return Promise.all([
       this.getProgramTypeList(),
       this.getTeamMemberList()
@@ -254,7 +336,6 @@ export class AddNewProgram implements OnInit {
           V: this.programDetailsID
         });
       }
-
       this.srv.getdata('teammember', this.tv)
         .subscribe({
           next: (r) => {
@@ -263,9 +344,6 @@ export class AddNewProgram implements OnInit {
               DisplayText: item.FullName,
               DataValue: item.id
             }));
-
-            console.log('hosts', this.hosts);
-
             resolve();
           },
 
@@ -292,15 +370,15 @@ export class AddNewProgram implements OnInit {
     });
   }
 
+ 
+
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (!file) return;
-
     if (!file.type.startsWith('image/')) {
       this.errors.file = 'Only image files allowed';
       return;
     }
-
     const cleanName = file.name.replace(/[^a-zA-Z0-9._]/g, '');
     this.selectedFile = new File([file], cleanName, {
       type: file.type
@@ -328,6 +406,7 @@ export class AddNewProgram implements OnInit {
 
     this.tv = [
       { T: 'c1', V: JSON.stringify(payload) },
+      { T: 'c2', V: this.selectedPodcastCategory || '' },
       { T: 'c10', V: '1' }
     ];
 
@@ -434,6 +513,7 @@ if (
       { T: 'dk1', V: this.id },
       { T: 'c1', V: JSON.stringify(payload) },
       { T: 'c2', V: this.selectedHost },
+      { T: 'c3', V: this.selectedPodcastCategory || '' },
         // { T: 'c2', V: JSON.stringify(allHostIds) },
       { T: 'c10', V: '2' }
     ];
@@ -623,6 +703,71 @@ if (
         position: 'toast-bottom-right'
       });
     }
+  });
+}
+
+ getPodcastCategory() {
+    this.tv = [{ T: 'c10', V: '4' }];
+    this.srv.getdata('lists', this.tv)
+      .subscribe({
+        next: (r) => {
+          const data = r.Data[0];
+          this.catogories = data.map((item: any) => ({
+            DisplayText: item.Name,
+            DataValue: item.PodcastcategoryID
+          }));
+        }
+      })
+  }
+
+
+onProgramCategoryChange(value: string) {
+
+  this.selectedCategory = value;
+
+  if (value === '2') {
+
+    this.getPodcastCategory();
+
+  }
+}
+
+onPodcastCategoryChange(value: string) {
+
+  this.selectedPodcastCategory = value;
+
+  console.log('Podcast Category:', value);
+
+}
+
+  openModalAddPodcast() {
+    const dialogRef = this.dialog.open(AddPodcast, {
+      width: '90%',
+      maxWidth: '550px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getPodcastCategory();
+      }
+    });
+  }
+
+
+openEditPodcast(item: any) {
+
+  const dialogRef = this.dialog.open(EditPoadcast, {
+    width: '550px',
+    data: item
+  });
+
+  dialogRef.afterClosed().subscribe((res) => {
+
+    if (res) {
+      this. getPodcastCategory();
+    }
+
   });
 }
 

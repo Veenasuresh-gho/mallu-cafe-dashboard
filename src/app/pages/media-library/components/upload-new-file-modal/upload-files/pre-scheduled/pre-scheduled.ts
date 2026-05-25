@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { GHOService } from '../../../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../../../model/ghomodel';
-import { JsonPipe } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -14,7 +14,7 @@ import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-pre-scheduled',
   standalone: true,
-  imports: [FormSelect, StepBadge, MatRadioModule, FormsModule, JsonPipe],
+  imports: [CommonModule,FormSelect, StepBadge, MatRadioModule, FormsModule, JsonPipe],
   templateUrl: './pre-scheduled.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './pre-scheduled.css',
@@ -38,10 +38,13 @@ export class PreScheduled implements OnChanges {
   @Input() disabled: boolean = false;
   @Output() programSelected = new EventEmitter<any>();
   @Output() validationChange = new EventEmitter<boolean>();
-
+  
 
   typedText: string = '';
   selectedType: string = '';
+  thumbnailFile: File | null = null;
+  fileSelectedName: string = '';
+  thumbnailPreview: string = '';
 
   validateForm(): boolean {
     this.errors = {};
@@ -65,17 +68,36 @@ export class PreScheduled implements OnChanges {
     return Object.keys(this.errors).length === 0;
   }
 
+  // onThumbnailTypeChange(type: string) {
+  //   this.selectedType = type;
+
+  //   if (type === 'program' && this.programId) {
+  //     this.getProgramDetails();
+  //   }
+
+  //   this.cdr.markForCheck();
+
+  //   this.emitData();
+  // }
+
   onThumbnailTypeChange(type: string) {
-    this.selectedType = type;
 
-    if (type === 'program' && this.programId) {
-      this.getProgramDetails();
-    }
+  this.selectedType = type;
 
-    this.cdr.markForCheck();
-
-    this.emitData();
+  if (type === 'program' && this.programId) {
+    this.getProgramDetails();
   }
+
+  if (type === 'custom') {
+    this.programDetails = {};
+  }
+
+  this.cdr.detectChanges();
+
+  this.emitData();
+}
+
+  
   
   onProgramChange(value: any) {
     this.selectedProgramId = value;
@@ -145,6 +167,43 @@ export class PreScheduled implements OnChanges {
     this.emitData();
   }
 
+//   onThumbnailChange(event: any) {
+//   const file = event.target.files?.[0];
+
+//   if (file) {
+//     this.thumbnailFile = file;
+//     this.fileSelectedName = file.name;
+
+//     this.emitData();
+
+//     this.cdr.markForCheck();
+//   }
+// }
+
+onThumbnailChange(event: any): void {
+
+  const file = event.target.files?.[0];
+
+  if (!file) return;
+
+  this.thumbnailFile = file;
+
+  this.fileSelectedName = file.name;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+
+    this.thumbnailPreview = reader.result as string;
+
+    this.emitData();
+
+    this.cdr.detectChanges();
+  };
+
+  reader.readAsDataURL(file);
+}
+
   emitData() {
     const isValid = this.validateForm();
 
@@ -157,14 +216,25 @@ export class PreScheduled implements OnChanges {
       fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
     }
 
+    // this.programSelected.emit({
+    //   programId: this.programId,
+    //   programName: cleanProgramName,
+    //   typedText: this.typedText,
+    //   fileName,
+    //   fullData: this.programList.find(p => p.ProgramID === this.programId),
+    //   isValid
+    // });
+
     this.programSelected.emit({
-      programId: this.programId,
-      programName: cleanProgramName,
-      typedText: this.typedText,
-      fileName,
-      fullData: this.programList.find(p => p.ProgramID === this.programId),
-      isValid
-    });
+  programId: this.programId,
+  programName: cleanProgramName,
+  typedText: this.typedText,
+  fileName,
+  thumbnailType: this.selectedType,
+  thumbnailFile: this.thumbnailFile,
+  fullData: this.programList.find(p => p.ProgramID === this.programId),
+  isValid
+});
 
     this.validationChange.emit(isValid);
   }

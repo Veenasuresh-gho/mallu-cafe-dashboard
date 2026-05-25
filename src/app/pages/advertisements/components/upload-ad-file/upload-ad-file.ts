@@ -98,7 +98,6 @@ export class UploadAdFile implements OnInit {
 
 
   populateForm(ad: any) {
-    console.log('ad', ad);
     this.programTitle = ad.Title;
     this.AdvertiserName = ad.AdvertiserName;
     this.fromDate = ad.StartDate;
@@ -301,7 +300,6 @@ export class UploadAdFile implements OnInit {
           this.loading = false;
         }
       });
-    console.log('time is:', payload);
 
   }
 

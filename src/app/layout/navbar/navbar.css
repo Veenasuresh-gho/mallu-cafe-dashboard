@@ -5,7 +5,7 @@
 
 .song .title {
   font-size: 14px;
-  max-width: 160px;
+  max-width: 250px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -26,6 +26,7 @@ import { ghoresult, tags } from '../../../../../model/ghomodel';
 import { MatIconModule } from '@angular/material/icon';
 import { InputTime } from '../../../../components/dialog/input-time/input-time';
 import { AddPodcast } from '../../../media-library/components/add-podcast/add-podcast';
+import { EditPoadcast } from '../../../media-library/components/edit-poadcast/edit-poadcast';
 
 @Component({
   selector: 'app-add-new-program',
@@ -343,9 +344,6 @@ export class AddNewProgram implements OnInit {
               DisplayText: item.FullName,
               DataValue: item.id
             }));
-
-            console.log('hosts', this.hosts);
-
             resolve();
           },
 
@@ -365,7 +363,6 @@ export class AddNewProgram implements OnInit {
         .subscribe({
           next: (r) => {
             this.categoryOptions = r.Data[0];
-            console.log('dara', this.categoryOptions);
             resolve();
           },
           error: () => resolve()
@@ -719,7 +716,6 @@ if (
             DisplayText: item.Name,
             DataValue: item.PodcastcategoryID
           }));
-          console.log('this.catogories',this.catogories)
         }
       })
   }
@@ -747,7 +743,7 @@ onPodcastCategoryChange(value: string) {
   openModalAddPodcast() {
     const dialogRef = this.dialog.open(AddPodcast, {
       width: '90%',
-      maxWidth: '600px',
+      maxWidth: '550px',
       disableClose: true
     });
 
@@ -757,5 +753,22 @@ onPodcastCategoryChange(value: string) {
       }
     });
   }
+
+
+openEditPodcast(item: any) {
+
+  const dialogRef = this.dialog.open(EditPoadcast, {
+    width: '550px',
+    data: item
+  });
+
+  dialogRef.afterClosed().subscribe((res) => {
+
+    if (res) {
+      this. getPodcastCategory();
+    }
+
+  });
+}
 
 }

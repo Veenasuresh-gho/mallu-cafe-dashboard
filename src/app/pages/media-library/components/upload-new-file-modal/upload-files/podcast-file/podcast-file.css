@@ -210,3 +210,11 @@ background-color: #FFFFFF;
   font-weight: 400;
   font-family: Poppins;
 }
+.no-thumbnail{
+  color: #d92b2b;
+    font-weight: 500;
+  font-size: 12px;
+  font-family: Poppins;
+  color: var(--muted-label);
+  margin-top: 1px;
+}

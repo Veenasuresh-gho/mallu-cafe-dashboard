@@ -89,12 +89,12 @@
                         </video>
 
                         <!-- FALLBACK -->
-                        <img *ngIf="!isImage(row._url) && !isVideo(row._url)" src="/assets/file-icon.svg"
+                        <img *ngIf="!isImage(row._url) && !isVideo(row._url)" src="/main/no-image.png"
                             class="avatar" />
 
                     </ng-template>
 
-                    <div class="advertisement-name">{{ row.FileName }}</div>
+                    <div class="advertisement-name">{{ row.FileName || 'No file added' }}</div>
                 </div>
             </td>
         </ng-container>

@@ -91,3 +91,12 @@
   cursor: not-allowed;
   color: #999;
 }
+
+.menu-img {
+    width: 19px;
+    height: 19px;
+}
+.edit-btn{
+  border: none;
+  background: white;
+}

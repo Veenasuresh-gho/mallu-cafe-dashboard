@@ -34,7 +34,7 @@
 
     <app-form-select
     label="Program Name "
-    [options]="programList"
+    [options]="poadcastProgramList"
     optionLabel="DisplayText"
     optionValue="DataValue"
     [(model)]="selectedProgramId"
@@ -93,7 +93,7 @@
 
         <!-- Fallback message -->
         <ng-template #noThumbnail>
-            <div class="input-label">
+            <div class="no-thumbnail">
                 No program thumbnail found
             </div>
         </ng-template>
@@ -152,11 +152,11 @@
     <div class="form-row px-4">
         <div class="form-group">
 
-            <app-form-input label="Title *" customClass="large-input"
+            <!-- <app-form-input label="Title *" customClass="large-input"
                 placeholder="e.g. eg. Celebrity Talk – Exclusive Interview with Actor Nivin Pauly" name="title"
                 [(model)]="title" (modelChange)="onTitleChange($event)">
 
-            </app-form-input>
+            </app-form-input> -->
             <div class="form-row">
                 <label class="input-label">Subtitle *</label>
 

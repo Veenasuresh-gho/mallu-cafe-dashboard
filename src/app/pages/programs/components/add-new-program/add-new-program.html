@@ -76,9 +76,15 @@
                     name="host" (modelChange)="onPodcastCategoryChange($event)">
                 </app-form-select> -->
 
-                <app-form-select label="Podcast Category Name" style="width:498px;" [options]="catogories"
+                <!-- <app-form-select label="Podcast Category Name" style="width:498px;" [options]="catogories"
                     optionLabel="DisplayText" optionValue="DataValue" placeholder="e.g., Music / Entertainment / Sports"
                     name="host" [(model)]="selectedPodcastCategory" (modelChange)="onPodcastCategoryChange($event)">
+                </app-form-select> -->
+
+                <app-form-select label="Podcast Category Name" style="width:498px;" [options]="catogories"
+                    optionLabel="DisplayText" optionValue="DataValue" placeholder="e.g., Music / Entertainment / Sports"
+                    name="host" [(model)]="selectedPodcastCategory" (modelChange)="onPodcastCategoryChange($event)"
+                    [showEditButton]="true" (editClicked)="openEditPodcast($event)">
                 </app-form-select>
 
                 <div class="adding-btn">

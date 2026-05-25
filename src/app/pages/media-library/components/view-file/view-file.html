@@ -5,8 +5,20 @@
 
         <div class="header-left">
 
+
             <p class="main-title">
+
+                <!-- AUDIO ICON -->
+                <img *ngIf="isAudioType()" src="/media/mp3.svg" alt="audio">
+
+                <!-- VIDEO ICON -->
+                <img class="video-icon" *ngIf="isVideoType()" src="/media/mp4.svg" alt="video">
+
+                <!-- IMAGE ICON -->
+                <img *ngIf="isImageType()" src="/media/image.svg" alt="image">
+
                 {{ ds?.FileName }}
+
             </p>
 
             <p class="main-subtitle">
@@ -22,10 +34,7 @@
         </div>
 
         <button class="close-btn" (click)="close()">
-
-            <mat-icon>
-                close
-            </mat-icon>
+            <img src="/program/close-circle.svg" alt="">
 
         </button>
 
@@ -65,62 +74,147 @@
             <!-- ====================== -->
             <!-- AUDIO -->
             <!-- ====================== -->
-             <div *ngIf="isAudioType()">
-            <div  class="audio-layout">
+            <!-- <div *ngIf="isAudioType()">
+                <div class="audio-layout">
 
-                <!-- PLAYER -->
-                <div class="audio-player-wrapper">
+                   
+                    <div class="audio-player-wrapper">
 
-                    <!-- <img src="/upload/audio.svg" class="audio-icon"> -->
+                     
 
-                    <audio controls class="audio-player">
+                        <audio controls class="audio-player">
 
-                        <source [src]="ds?._url">
+                            <source [src]="ds?._url">
 
+                        </audio>
+
+                    </div>
+
+
+                </div>
+
+                <div class="audio-footer">
+
+                    <div class="audio-meta">
+
+                        {{ ds?.UploadedDate | date:'d MMM yy' }}
+
+                        •
+
+                        {{ formatFileSize(ds?.Size) }}
+
+                        •
+
+                        {{ ds?.CategoryName }}
+
+                    </div>
+
+                    <div class="footer-actions">
+
+                        <button (click)="deleteMediaLibrary(ds?.id)" class="btn-cancel">
+
+                            <img src="/program/trash.svg" width="16" alt="">
+
+
+                            <span>Delete</span>
+
+                        </button>
+
+                        <app-primary-button (click)="addPublish(ds?.AltID)" [loading]="loading" [label]="'Publish file'"
+                            iconSrc="/media/cloud.svg">
+                        </app-primary-button>
+
+                    </div>
+
+                </div>
+
+            </div> -->
+
+            <!-- ====================== -->
+            <!-- AUDIO -->
+            <!-- ====================== -->
+
+            <div *ngIf="isAudioType()">
+
+                <div class="audio-layout">
+
+                    <audio #audioPlayer [src]="ds?._url" (timeupdate)="onTimeUpdate(audioPlayer)"
+                        (loadedmetadata)="onLoadedMetadata(audioPlayer)" (ended)="onAudioEnded()">
                     </audio>
 
+                    <div class="custom-audio-player">
+
+                        <!-- PLAY BUTTON -->
+                        <button class="play-btn" (click)="toggleAudio(audioPlayer)">
+
+                            <mat-icon>
+                                {{ isPlaying ? 'pause' : 'play_arrow' }}
+                            </mat-icon>
+
+                        </button>
+
+                        <!-- PROGRESS -->
+                        <div class="progress-container">
+
+
+
+                            <input type="range" min="0" [max]="duration" [value]="currentTime"
+                                (input)="seekAudio($event, audioPlayer)" class="progress-bar">
+
+                        </div>
+
+                        <!-- TIME -->
+                        <div class="audio-time">
+
+                            {{ formatTime(currentTime) }}
+
+                            /
+
+                            {{ formatTime(duration) }}
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-            
-            </div>
+                <!-- FOOTER -->
+                <div class="audio-footer">
 
-            <div class="audio-footer">
+                    <div class="audio-meta">
 
-                <div class="audio-meta">
+                        {{ ds?.UploadedDate | date:'d MMM yy' }}
 
-                    {{ ds?.UploadedDate | date:'d MMM yy' }}
+                        •
 
-                    •
+                        {{ formatFileSize(ds?.Size) }}
 
-                    {{ formatFileSize(ds?.Size) }}
+                        •
 
-                    •
+                        {{ ds?.CategoryName }}
 
-                    {{ ds?.CategoryName }}
+                    </div>
+
+                    <div class="footer-actions">
+
+                        <button (click)="deleteMediaLibrary(ds?.id)" class="btn-cancel">
+
+                            <img src="/program/trash.svg" width="16" alt="">
+
+                            <span>Delete</span>
+
+                        </button>
+
+                        <app-primary-button (click)="addPublish(ds?.AltID)" [loading]="loading" [label]="'Publish file'"
+                            iconSrc="/media/cloud.svg">
+                        </app-primary-button>
+
+                    </div>
 
                 </div>
 
-                <div class="footer-actions">
-
-                    <button (click)="deleteMediaLibrary(ds?.id)" class="btn-cancel" >
-
-                        <img src="/program/trash.svg" width="16" alt="">
-
-
-                        <span>Delete</span>
-
-                    </button>
-
-                    <app-primary-button (click)="addPublish(ds?.AltID)"  [loading]="loading" [label]="'Publish file'" iconSrc="/media/cloud.svg">
-                    </app-primary-button>
-
-                </div>
-
             </div>
 
-            </div>
-
-            
 
             <!-- ====================== -->
             <!-- VIDEO -->
@@ -160,7 +254,8 @@
 
                         </button>
 
-                        <app-primary-button  (click)="addPublish(ds?.AltID)" [loading]="loading" [label]="'Publish file'" iconSrc="/media/cloud.svg">
+                        <app-primary-button (click)="addPublish(ds?.AltID)" [loading]="loading" [label]="'Publish file'"
+                            iconSrc="/media/cloud.svg">
                         </app-primary-button>
 
                     </div>

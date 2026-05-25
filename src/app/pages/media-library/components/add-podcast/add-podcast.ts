@@ -37,7 +37,8 @@ export class AddPodcast implements OnInit {
   constructor(private dialogRef: MatDialogRef<AddPodcast>) { }
 
   ngOnInit(): void {
-    this.userId = sessionStorage.getItem('id') || '';
+    // this.userId = sessionStorage.getItem('id') || '';
+    this.userId = JSON.parse(sessionStorage.getItem('id') || '""');
   }
 
   addCategory() {

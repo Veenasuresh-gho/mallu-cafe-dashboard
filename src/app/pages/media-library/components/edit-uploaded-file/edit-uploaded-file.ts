@@ -407,7 +407,7 @@ export class EditUploadedFile implements OnInit {
 
   mediaTypeOptions: any[] = [];
   programList: any[] = [];
-  
+
   ds: any = null;
 
   errors: any = {};
@@ -450,11 +450,6 @@ export class EditUploadedFile implements OnInit {
 
           this.ds =
             r?.Data?.[0]?.[0] || null;
-
-          console.log(
-            'Media Details:',
-            this.ds
-          );
 
           if (this.ds) {
 

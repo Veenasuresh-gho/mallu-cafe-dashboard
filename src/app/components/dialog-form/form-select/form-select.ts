@@ -22,6 +22,10 @@ export class FormSelect {
 
   @Output() modelChange = new EventEmitter<string>();
 
+  @Input() showEditButton: boolean = false;
+
+  @Output() editClicked = new EventEmitter<any>();
+
   open = false;
 
   toggleDropdown() {
@@ -47,4 +51,9 @@ export class FormSelect {
     );
     return selected ? this.getLabel(selected) : '';
   }
+
+  onEdit(item: any, event: Event) {
+  event.stopPropagation();
+  this.editClicked.emit(item);
+}
 }

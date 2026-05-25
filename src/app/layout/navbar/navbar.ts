@@ -71,9 +71,7 @@ getSongs(): void {
   this.srv.getdata('teammember', tv)
     .subscribe({
       next: (res) => {
-
         const list = res?.Data?.[0] || [];
-     console.log('list',list);
         if (!list.length) {
           this.currentSong = null;
           this.nextSong = { title: '' };

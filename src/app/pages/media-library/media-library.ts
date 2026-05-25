@@ -85,7 +85,7 @@ export class MediaLibrary implements OnInit {
       maxWidth: '600px',
       maxHeight: '95vh',
       disableClose: true,
-       data: {
+      data: {
         id: id
       }
     });
@@ -126,7 +126,6 @@ export class MediaLibrary implements OnInit {
               position: 'toast-bottom-center'
             });
             this.getMediaLibrary();
-
           } else {
             this.toast.show({
               title: 'Failed to publish file',
@@ -154,12 +153,10 @@ export class MediaLibrary implements OnInit {
   getMediaLibrary(): void {
     this.loading = true;
     this.tv = [{ T: 'c10', V: '15' }];
-
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
           this.ds = r.Data[0];
-          console.log('ds', this.ds);
           this.dataSource.data = this.ds;
           this.dataSource._updateChangeSubscription();
           this.loading = false;
@@ -180,7 +177,6 @@ export class MediaLibrary implements OnInit {
       { T: 'dk1', V: row?.id },
       { T: 'c10', V: '24' }
     ];
-
     this.srv.getdata('program', this.tv).subscribe({
       next: (r: any) => {
 

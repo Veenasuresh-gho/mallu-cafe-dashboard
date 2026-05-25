@@ -45,6 +45,7 @@ export class PodcastFile implements OnInit {
   programDetails: any = {};
   thumbnailFile: File | null = null;
   thumbnailPreview: string = '';
+   poadcastProgramList: any[] = [];
 
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
@@ -66,7 +67,6 @@ export class PodcastFile implements OnInit {
 
   patchEditData(): void {
 
-  console.log('EDIT DATA', this.editData);
 
   this.selectedCategoryId =
     this.editData?.PodcastcategoryID || '';
@@ -77,8 +77,8 @@ export class PodcastFile implements OnInit {
   this.selectedProgramName =
     this.editData?.Name || '';
 
-  this.title =
-    this.editData?.Title || '';
+  // this.title =
+  //   this.editData?.Title || '';
 
   this.subtitle =
     this.editData?.Subtitle || '';
@@ -124,7 +124,33 @@ export class PodcastFile implements OnInit {
 
   onCategoryChange(value: any) {
     this.selectedCategoryId = value;
+    this.getPodcastProgramList();
     this.emitData();
+  }
+
+    getPodcastProgramList(): Promise<void> {
+    return new Promise((resolve) => {
+      this.tv = [
+        { T: 'dk2', V: this.selectedCategoryId  },
+        { T: 'c10', V: '11' }
+      ];
+
+      this.srv.getdata('program', this.tv)
+        .subscribe({
+          next: (r) => {
+            const data = r.Data[0];
+            this.poadcastProgramList = data.map((item: any) => ({
+              DisplayText: item.Title,
+              DataValue: item.ProgramID,
+              ProgramID: item.id
+            }));
+
+            this.cdr.markForCheck();
+            resolve();
+          },
+          error: () => resolve()
+        });
+    });
   }
 
 

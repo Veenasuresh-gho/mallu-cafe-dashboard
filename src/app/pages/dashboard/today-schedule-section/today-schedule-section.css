@@ -282,3 +282,7 @@
         pointer-events: none;
         cursor: not-allowed;
     }
+
+    .viewFileBtn{
+        cursor: pointer;
+    }

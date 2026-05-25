@@ -53,6 +53,12 @@ export class ViewFile implements OnInit {
   deleteLoading = false;
   ds: any = null;
 
+  isPlaying = false;
+
+currentTime = 0;
+
+duration = 0;
+
   constructor(@Inject(MAT_DIALOG_DATA)public data: any) { }
 
   ngOnInit(): void {
@@ -60,6 +66,105 @@ export class ViewFile implements OnInit {
     this.getMediaLibrary();
 
   }
+
+
+  toggleAudio(audio: HTMLAudioElement): void {
+
+  if (audio.paused) {
+
+    audio.play();
+
+    this.isPlaying = true;
+
+  } else {
+
+    audio.pause();
+
+    this.isPlaying = false;
+
+  }
+
+}
+
+onTimeUpdate(audio: HTMLAudioElement): void {
+
+  this.currentTime = audio.currentTime;
+
+  const slider = document.querySelector('.progress-bar') as HTMLInputElement;
+
+  if (slider) {
+
+    this.updateProgressBar(slider);
+
+  }
+
+}
+
+onLoadedMetadata(audio: HTMLAudioElement): void {
+
+  this.duration = audio.duration;
+
+}
+
+seekAudio(event: any, audio: HTMLAudioElement): void {
+
+  const value = event.target.value;
+
+  audio.currentTime = value;
+
+  this.currentTime = value;
+
+  this.updateProgressBar(event.target);
+
+}
+
+updateProgressBar(slider: HTMLInputElement): void {
+
+  const percentage = (Number(slider.value) / Number(slider.max)) * 100;
+
+  slider.style.background = `
+    linear-gradient(
+      to right,
+      #e11d1d 0%,
+      #e11d1d ${percentage}%,
+      #e5e5e5 ${percentage}%,
+      #e5e5e5 100%
+    )
+  `;
+
+}
+
+onAudioEnded(): void {
+
+  this.isPlaying = false;
+
+}
+
+formatTime(seconds: number): string {
+
+  if (!seconds) return '00:00';
+
+  const mins = Math.floor(seconds / 60);
+
+  const secs = Math.floor(seconds % 60);
+
+  return `${mins}:${secs < 10 ? '0' + secs : secs}`;
+
+}
+
+getProgressBackground(): string {
+
+  const percentage = (this.currentTime / this.duration) * 100;
+
+  return `linear-gradient(
+    to right,
+    #e11d1d 0%,
+    #e11d1d ${percentage}%,
+    #e5e5e5 ${percentage}%,
+    #e5e5e5 100%
+  )`;
+
+}
 
   close(): void {
     this.dialogRef.close(false);
@@ -74,9 +179,7 @@ export class ViewFile implements OnInit {
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r: any) => {
-          console.log('FULL RESPONSE:', r);
           this.ds = r?.Data?.[0]?.[0] || null;
-          console.log('Media Details:', this.ds);
           this.loading = false;
           this.cdr.detectChanges();
         },

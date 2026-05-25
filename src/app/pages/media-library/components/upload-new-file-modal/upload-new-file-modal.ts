@@ -106,6 +106,7 @@ export class UploadNewFileModal implements OnInit {
   typedText: string = '';
   mediaTypeOptions: any[] = [];
   programList: any[] = [];
+ 
   toast = inject(ToastService);
   maxSize = 1.5 * 1024 * 1024 * 1024;
   validateForm(): boolean {
@@ -234,81 +235,6 @@ export class UploadNewFileModal implements OnInit {
     }
   }
 
-  // addmediaPre(): void {
-  //   if (!this.selectedFile) return;
-
-  //   const file = this.selectedFile;
-
-  //   this.loading = true;
-
-  //   this.tv = [
-  //     { T: 'dk1', V: this.programId },
-  //     { T: 'c1', V: this.broadcastDate },
-  //     { T: 'c10', V: '10' }
-  //   ];
-
-  //   this.srv.getdata('program', this.tv)
-  //     .subscribe({
-  //       next: async (r) => {
-
-  //         if (r.Status === 1 && r.Data?.length) {
-  //           this.id = r.Data[0]?.[0]?.ShowID || this.programId;
-  //           const success = await this.srv.handleFileUpload(
-  //             this.id,
-  //             this.userId,
-  //             file,
-  //             '5'
-  //           );
-
-  //           this.loading = false;
-  //           if (success) {
-
-  //             this.tv = [
-  //               { T: 'dk1', V: this.programId },
-  //               { T: 'c10', V: '16' }
-  //             ];
-  //             this.srv.getdata('program', this.tv)
-  //               .subscribe({
-  //                 next: async (r) => {
-  //                   if (r.Status === 1) {
-  //                     const ThumbnailAddsuccess = await this.srv.handleFileUpload(
-  //                       this.id,
-  //                       this.userId,
-  //                       this.thumbnailFile,
-  //                       '3'
-  //                     );
-  //                     this.toast.show({
-  //                       title: 'Video uploaded! 🎉',
-  //                       description: 'Video added successfully',
-  //                       variant: 'success',
-  //                       position: 'toast-bottom-right'
-  //                     });
-
-  //                     this.dialogRef.close(true);
-  //                   }
-  //                 }
-  //               })
-
-  //           } else {
-  //             this.toast.show({
-  //               title: 'Upload failed ❌',
-  //               description: 'File upload failed',
-  //               variant: 'error',
-  //               position: 'toast-bottom-right'
-  //             });
-  //           }
-  //           this.cdr.detectChanges();
-  //         }
-
-
-  //       },
-  //       error: () => {
-  //         this.loading = false;
-  //         this.cdr.detectChanges();
-  //       }
-  //     });
-  // }
-
 
   addmediaPre(): void {
 
@@ -342,9 +268,7 @@ export class UploadNewFileModal implements OnInit {
           );
 
           this.loading = false;
-
           if (success) {
-
             this.tv = [
               { T: 'dk1', V: this.programId },
               { T: 'c10', V: '16' }
@@ -438,62 +362,6 @@ export class UploadNewFileModal implements OnInit {
       }
     });
 }
-
-  // addmediaPodcast(): void {
-  //   if (!this.selectedFile) return;
-
-  //   const file = this.selectedFile;
-
-  //   this.loading = true;
-  //   this.tv = [
-  //     { T: 'dk1', V: this.programId },
-  //     { T: 'dk2', V: this.selectedCategoryId },
-  //     { T: 'c1', V: this.title },
-  //     { T: 'c2', V: this.subtitle },
-  //     { T: 'c10', V: '20' }
-  //   ];
-
-  //   this.srv.getdata('program', this.tv)
-  //     .subscribe({
-  //       next: async (r) => {
-  //         if (r.Status === 1 && r.Data?.length) {
-  //           this.id = r.Data[0]?.[0]?.EpisodeID || this.programId;
-
-  //           const success = await this.srv.handleFileUpload(
-  //             this.id,
-  //             this.userId,
-  //             file,
-  //             '6'
-  //           );
-
-  //           this.loading = false;
-  //           if (success) {
-
-  //             this.toast.show({
-  //               title: 'Podcast Program media uploaded! 🎉',
-  //               description: 'media added successfully',
-  //               variant: 'success',
-  //               position: 'toast-bottom-right'
-  //             });
-
-  //             this.dialogRef.close(true);
-  //           } else {
-  //             this.toast.show({
-  //               title: 'Upload failed ❌',
-  //               description: 'File upload failed',
-  //               variant: 'error',
-  //               position: 'toast-bottom-right'
-  //             });
-  //           }
-  //           this.cdr.detectChanges();
-  //         }
-  //       },
-  //       error: () => {
-  //         this.loading = false;
-  //         this.cdr.detectChanges();
-  //       }
-  //     });
-  // }
 
   addmediaPodcast(): void {
 
@@ -765,4 +633,5 @@ export class UploadNewFileModal implements OnInit {
         });
     });
   }
+
 }

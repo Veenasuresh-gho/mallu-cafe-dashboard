@@ -237,13 +237,9 @@ export class UploadNewFileModal implements OnInit {
 
 
   addmediaPre(): void {
-
   if (!this.selectedFile) return;
-
   const file = this.selectedFile;
-
   this.loading = true;
-
   this.tv = [
     { T: 'dk1', V: this.programId },
     { T: 'c1', V: this.broadcastDate },
@@ -256,9 +252,7 @@ export class UploadNewFileModal implements OnInit {
       next: async (r) => {
 
         if (r.Status === 1 && r.Data?.length) {
-
           this.id = r.Data[0]?.[0]?.MediaID || this.programId;
-
           // Upload Main Video
           const success = await this.srv.handleFileUpload(
             this.id,

@@ -52,24 +52,14 @@ export class PodcastFile implements OnInit {
   @Input() disabled: boolean = false;
   @Output() programSelected = new EventEmitter<any>();
   @Input() editData: any = null;
-
+ 
   selectType(type: string) {
     this.selectedType = type;
   }
 
-  // ngOnInit(): void {
-  //   this.getPodcastCategory()
-  //     if (this.editData) {
-  //   this.patchEditData();
-  // }
-  // }
-
   async ngOnInit(): Promise<void> {
-
     await this.getPodcastCategory();
-
     if (this.editData) {
-
       await this.patchEditData();
     }
   }
@@ -91,8 +81,23 @@ export class PodcastFile implements OnInit {
     this.subtitle =
       this.editData?.Subtitle || '';
 
-    this.typedText =
-      this.editData?.BroadcastDate || '';
+    const fileName = this.editData?.FileName || '';
+
+    // Extract last 6 digits before extension
+    const match = fileName.match(/(\d{6})(?=\.[^.]+$)/);
+
+    if (match) {
+
+      const rawDate = match[1];
+
+      // 260526 -> 26/05/26
+      this.typedText =
+        `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
+
+    } else {
+
+      this.typedText = '';
+    }
 
     this.thumbnailPreview =
       this.editData?.ThumbnailUrl || '';
@@ -116,6 +121,23 @@ export class PodcastFile implements OnInit {
     }
 
     this.cdr.detectChanges();
+
+    this.emitData();
+  }
+
+  onDateChange(value: string) {
+
+    let cleaned = value.replace(/\D/g, '').slice(0, 6);
+
+    if (cleaned.length > 2) {
+      cleaned = cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+    }
+
+    if (cleaned.length > 5) {
+      cleaned = cleaned.slice(0, 5) + '/' + cleaned.slice(5);
+    }
+
+    this.typedText = cleaned;
 
     this.emitData();
   }

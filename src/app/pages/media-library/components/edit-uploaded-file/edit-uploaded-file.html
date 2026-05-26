@@ -196,7 +196,7 @@
                     [fileType]="extension">
                 </app-podcast-file> -->
 
-                <app-podcast-file [programList]="programList" [fileType]="extension" [editData]="ds">
+                <app-podcast-file [programList]="programList" [fileType]="extension" [editData]="ds" (programSelected)="podcastData = $event">
                 </app-podcast-file>
 
             </div>

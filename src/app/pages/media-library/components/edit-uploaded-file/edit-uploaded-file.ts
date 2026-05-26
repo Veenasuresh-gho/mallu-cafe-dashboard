@@ -112,6 +112,7 @@ export class EditUploadedFile implements OnInit {
   errors: any = {};
 
   maxSize = 1.5 * 1024 * 1024 * 1024;
+  podcastData: any = {};
 
   ngOnInit(): void {
 
@@ -149,14 +150,10 @@ export class EditUploadedFile implements OnInit {
 
           this.ds =
             r?.Data?.[0]?.[0] || null;
-
             console.log('mediaLibraryDetails',this.ds);
-
           if (this.ds) {
-
             this.fileName =
               this.ds.FileName || '';
-
              this.fileID =
               this.ds.fid || '';
 
@@ -533,34 +530,214 @@ mapCategoryToType(category: string): string {
     );
   }
 
-  saveChanges() {
-
-    if (!this.validateForm()) return;
-
-    this.loading = true;
-
-    setTimeout(() => {
-
-      this.loading = false;
-
-      this.toast.show({
-
-        title:
-          'Updated Successfully 🎉',
-
-        description:
-          'Media details updated successfully',
-
-        variant: 'success',
-
-        position:
-          'toast-bottom-right'
-      });
-
-      this.dialogRef.close(true);
-
-      this.cdr.markForCheck();
-
-    }, 1500);
+saveChanges() {
+  if (!this.validateForm()) return;
+  if (this.selectedMediaType === '1') {
+    this.updatePreScheduled();
+  } else if (this.selectedMediaType === '2') {
+    this.updatePodcast();
+  } else if (
+    this.selectedMediaType === '3' ||
+    this.selectedMediaType === '4'
+  ) {
+    this.updateVideos();
   }
+}
+
+
+  updatePreScheduled(): void {
+  this.loading = true;
+  this.tv = [
+    { T: 'dk1', V: this.ds?.id },
+    { T: 'c1', V: this.selectedProgramName },
+    { T: 'c2', V: '' },
+    { T: 'c3', V: '' },
+    { T: 'c10', V: '25' }
+  ];
+
+  this.srv.getdata('program', this.tv)
+    .subscribe({
+      next: async (r) => {
+
+        if (r.Status === 1) {
+          // upload thumbnail if changed
+          if (this.thumbnailFile instanceof File) {
+            await this.srv.handleFileUpload(
+              this.ds?.id,
+              this.userId,
+              this.thumbnailFile,
+              '12'
+            );
+          }
+
+          this.loading = false;
+          this.toast.show({
+            title: 'Updated Successfully 🎉',
+            description: 'Pre-scheduled file updated',
+            variant: 'success',
+            position: 'toast-bottom-right'
+          });
+
+          this.dialogRef.close(true);
+
+          this.cdr.detectChanges();
+        }
+      },
+
+      error: () => {
+
+        this.loading = false;
+
+        this.toast.show({
+          title: 'Update failed ❌',
+          description: 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
+        this.cdr.detectChanges();
+      }
+    });
+}
+
+updatePodcast(): void {
+  this.loading = true;
+  this.tv = [
+    { T: 'dk1', V: this.ds?.id },
+    { T: 'c1', V: this.ds?.Title || '' },
+    { T: 'c2', V: this.podcastData?.Subtitle || '' },
+    // { T: 'c3', V: this.ds?.FileName || '' },
+       {T: 'c3',V: this.podcastData?.typedText || ''},
+//     {
+//   T: 'c3',
+//   V: this.podcastData?.fileName || this.ds?.FileName || ''
+// },
+    { T: 'c10', V: '25' }
+  ];
+
+  this.srv.getdata('program', this.tv)
+    .subscribe({
+
+      next: async (r) => {
+        if (r.Status === 1) {
+          if (this.selectedFile instanceof File) {
+
+            await this.srv.handleFileUpload(
+              this.ds?.id,
+              this.userId,
+              this.podcastData?.fileName,
+              '6'
+            );
+          }
+          if (this.thumbnailFile instanceof File) {
+            await this.srv.handleFileUpload(
+              this.ds?.id,
+              this.userId,
+              this.thumbnailFile,
+              '11'
+            );
+          }
+
+          this.loading = false;
+
+          this.toast.show({
+            title: 'Podcast Updated 🎉',
+            description: 'Podcast updated successfully',
+            variant: 'success',
+            position: 'toast-bottom-right'
+          });
+
+          this.dialogRef.close(true);
+
+          this.cdr.detectChanges();
+        }
+      },
+
+      error: () => {
+
+        this.loading = false;
+
+        this.toast.show({
+          title: 'Update failed ❌',
+          description: 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
+
+        this.cdr.detectChanges();
+      }
+    });
+}
+
+updateVideos(): void {
+
+  this.loading = true;
+
+  this.tv = [
+    { T: 'dk1', V: this.ds?.id },
+    { T: 'c1', V: this.ds?.Title || '' },
+    { T: 'c2', V: this.ds?.Subtitle || '' },
+    { T: 'c3', V: '' },
+    { T: 'c10', V: '25' }
+  ];
+
+  this.srv.getdata('program', this.tv)
+    .subscribe({
+
+      next: async (r) => {
+
+        if (r.Status === 1) {
+
+          // upload new video
+          if (this.selectedFile instanceof File) {
+
+            await this.srv.handleFileUpload(
+              this.ds?.id,
+              this.userId,
+              this.selectedFile,
+              '4'
+            );
+          }
+
+          // upload thumbnail
+          if (this.thumbnailFile instanceof File) {
+
+            await this.srv.handleFileUpload(
+              this.ds?.id,
+              this.userId,
+              this.thumbnailFile,
+              '3'
+            );
+          }
+
+          this.loading = false;
+
+          this.toast.show({
+            title: 'Video Updated 🎉',
+            description: 'Video updated successfully',
+            variant: 'success',
+            position: 'toast-bottom-right'
+          });
+
+          this.dialogRef.close(true);
+
+          this.cdr.detectChanges();
+        }
+      },
+
+      error: () => {
+
+        this.loading = false;
+
+        this.toast.show({
+          title: 'Update failed ❌',
+          description: 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
+
+        this.cdr.detectChanges();
+      }
+    });
+}
+
 }

@@ -1,6 +1,6 @@
 <div class="dialog-box">
 
-    
+
     <div class="d-flex justify-content-between align-items-center"
         style="padding-top: 24px; padding-left: 24px; padding-right: 24px;">
 
@@ -21,12 +21,10 @@
 
     <mat-dialog-content class="dialog-content custom-select-panel">
 
-        <app-step-badge
-            [stepNumber]="1"
-            title="Upload Media File">
+        <app-step-badge [stepNumber]="1" title="Upload Media File">
         </app-step-badge>
 
-        <div class="px-4">
+        <!-- <div class="px-4">
 
             <app-upload-box
                 [uploadText]="'Replace Broadcast Media File'"
@@ -95,6 +93,58 @@
 
             </div>
 
+        </div> -->
+
+        <!-- SHOW UPLOAD BOX ONLY IF NO FILE -->
+        <div class="px-4" *ngIf="!fileName">
+
+            <app-upload-box [uploadText]="'Replace Broadcast Media File'"
+                [subText]="'Drag & drop your file here, or click to browse'" [accept]="'audio/mp3, video/mp4'"
+                [sizeText]="'MP3, MP4 • Max size: 1.5 GB'" (fileSelected)="onFileSelected($event)">
+            </app-upload-box>
+
+        </div>
+
+        <!-- SHOW FILE CARD IF FILE EXISTS -->
+        <div class="px-3 mt-3" *ngIf="fileName">
+
+            <div class="file-card d-flex gap-1 justify-content-between">
+
+                <div class="file-info d-flex">
+
+                    <img *ngIf="isImageType()" [src]="previewUrl" class="file-icon" />
+
+                    <video *ngIf="isVideoType()" [src]="previewUrl" class="file-icon" muted>
+                    </video>
+
+                    <img *ngIf="!isImageType() && !isVideoType()" src="/main/no-image.png" class="file-icon" />
+
+                    <div class="d-flex file-details justify-content-between align-items-center w-100 ">
+
+                        <div class="file-name text-truncate-custom">
+
+                            {{ fileName }}
+
+                            <img src="/upload/green-tick.svg" class="mb-1" alt="">
+
+                        </div>
+
+                        <div class="file-size px-2">
+                            {{ fileSize }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div (click)="deleteProfilePic(fileID)" class="delete-btn">
+
+                    <img src="/upload/trash-gray.svg" alt="">
+
+                </div>
+
+            </div>
+
         </div>
 
         <p class="d-flex gap-1 pt-2 pb-3 helper-text px-4">
@@ -111,9 +161,7 @@
 
         <div class="error-text px-4" *ngIf="errors.file">
 
-            <img
-                src="/program/warn.svg"
-                class="small mb-1">
+            <img src="/program/warn.svg" class="small mb-1">
 
             {{ errors.file }}
 
@@ -121,33 +169,22 @@
 
         <div class="custom-line-sub"></div>
 
-        <app-step-badge
-            [stepNumber]="2"
-            title="Program Information">
+        <app-step-badge [stepNumber]="2" title="Program Information">
         </app-step-badge>
 
         <div class="form-row px-4">
 
-            <app-form-select
-                label="Category *"
-                [options]="mediaTypeOptions"
-                optionLabel="DisplyText"
-                optionValue="DataValue"
-                (modelChange)="onMediaTypeChange($event)"
-                [(model)]="selectedMediaType">
+            <app-form-select label="Category *" [options]="mediaTypeOptions" optionLabel="DisplyText"
+                optionValue="DataValue" (modelChange)="onMediaTypeChange($event)" [(model)]="selectedMediaType">
             </app-form-select>
 
         </div>
 
         <div [ngSwitch]="selectedMediaType">
 
-            <div
-                *ngSwitchCase="'1'"
-                [class.disabled-section]="!selectedMediaType">
+            <div *ngSwitchCase="'1'" [class.disabled-section]="!selectedMediaType">
 
-                <app-pre-scheduled
-                    [programList]="programList"
-                    [fileType]="extension">
+                <app-pre-scheduled [programList]="programList" [fileType]="extension">
                 </app-pre-scheduled>
 
             </div>
@@ -159,34 +196,23 @@
                     [fileType]="extension">
                 </app-podcast-file> -->
 
-                <app-podcast-file
-    [programList]="programList"
-    [fileType]="extension"
-    [editData]="ds">
-</app-podcast-file>
+                <app-podcast-file [programList]="programList" [fileType]="extension" [editData]="ds">
+                </app-podcast-file>
 
             </div>
 
-            <app-video-file
-                *ngSwitchCase="'3'"
-                [fileName]="fileName"
-                [fileType]="extension">
+            <app-video-file *ngSwitchCase="'3'" [fileName]="fileName" [fileType]="extension">
             </app-video-file>
 
-            <app-shorts
-                *ngSwitchCase="'4'"
-                [fileName]="fileName"
-                [fileType]="extension">
+            <app-shorts *ngSwitchCase="'4'" [fileName]="fileName" [fileType]="extension">
             </app-shorts>
 
-            
+
             <div *ngSwitchDefault>
 
                 <div class="disabled-section">
 
-                    <app-pre-scheduled
-                        [programList]="programList"
-                        [fileType]="extension">
+                    <app-pre-scheduled [programList]="programList" [fileType]="extension">
                     </app-pre-scheduled>
 
                 </div>
@@ -201,14 +227,9 @@
 
             <div class="dialog-actions d-flex justify-content-between my-4 mx-3 gap-2">
 
-                <button
-                    class="close-btn btn-cancel d-flex"
-                    (click)="close()">
+                <button class="close-btn btn-cancel d-flex" (click)="close()">
 
-                    <img
-                        src="/program/close-circle.svg"
-                        width="16px"
-                        alt="">
+                    <img src="/program/close-circle.svg" width="16px" alt="">
 
                     <p>Cancel</p>
 
@@ -216,10 +237,7 @@
 
                 <div class="d-flex gap-2">
 
-                    <app-primary-button
-                        (clicked)="saveChanges()"
-                        [loading]="loading"
-                        [label]="'Save Changes'"
+                    <app-primary-button (clicked)="saveChanges()" [loading]="loading" [label]="'Save Changes'"
                         iconSrc="/upload/tick-circle.svg">
                     </app-primary-button>
 

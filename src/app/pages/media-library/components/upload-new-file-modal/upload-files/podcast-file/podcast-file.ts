@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-podcast-file',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule,FormSelect, FormInput, StepBadge, MatRadioButton, MatRadioGroup, FormsModule],
+  imports: [CommonModule, FormSelect, FormInput, StepBadge, MatRadioButton, MatRadioGroup, FormsModule],
   templateUrl: './podcast-file.html',
   styleUrls: ['./podcast-file.css'],
 })
@@ -45,7 +45,7 @@ export class PodcastFile implements OnInit {
   programDetails: any = {};
   thumbnailFile: File | null = null;
   thumbnailPreview: string = '';
-   poadcastProgramList: any[] = [];
+  poadcastProgramList: any[] = [];
 
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
@@ -57,59 +57,68 @@ export class PodcastFile implements OnInit {
     this.selectedType = type;
   }
 
-  ngOnInit(): void {
-    this.getPodcastCategory()
-      if (this.editData) {
-    this.patchEditData();
-  }
-  }
+  // ngOnInit(): void {
+  //   this.getPodcastCategory()
+  //     if (this.editData) {
+  //   this.patchEditData();
+  // }
+  // }
 
+  async ngOnInit(): Promise<void> {
 
-  patchEditData(): void {
+    await this.getPodcastCategory();
 
+    if (this.editData) {
 
-  this.selectedCategoryId =
-    this.editData?.PodcastcategoryID || '';
-
-  this.selectedProgramId =
-    this.editData?.ProgramID || '';
-
-  this.selectedProgramName =
-    this.editData?.Name || '';
-
-  // this.title =
-  //   this.editData?.Title || '';
-
-  this.subtitle =
-    this.editData?.Subtitle || '';
-
-  // broadcast date
-  this.typedText =
-    this.editData?.BroadcastDate || '';
-
-  // thumbnail preview
-  this.thumbnailPreview =
-    this.editData?.ThumbnailUrl || '';
-
-  // selected thumbnail type
-  this.selectedType =
-    this.editData?.ThumbnailUrl
-      ? 'custom'
-      : 'program';
-
-  // load program thumbnail
-  if (this.selectedProgramId) {
-
-    this.programId =
-      this.selectedProgramId;
-
-    this.getProgramDetails();
+      await this.patchEditData();
+    }
   }
 
-  this.cdr.detectChanges();
+  async patchEditData(): Promise<void> {
+    console.log('editdata', this.editData);
+    this.selectedCategoryId =
+      this.editData?.PodcastCategoryid || '';
 
-  this.emitData();
-}
+    // load program list FIRST
+    await this.getPodcastProgramList();
+
+    this.selectedProgramId =
+      this.editData?.ProgramID || '';
+
+    this.selectedProgramName =
+      this.editData?.Name || '';
+
+    this.subtitle =
+      this.editData?.Subtitle || '';
+
+    this.typedText =
+      this.editData?.BroadcastDate || '';
+
+    this.thumbnailPreview =
+      this.editData?.ThumbnailUrl || '';
+
+    this.selectedType =
+      this.editData?.ThumbnailUrl
+        ? 'custom'
+        : 'program';
+
+    if (this.selectedProgramId) {
+
+      const selected =
+        this.poadcastProgramList.find(
+          p => p.DataValue == this.selectedProgramId
+        );
+
+      this.programId =
+        selected?.ProgramID || '';
+
+      this.getProgramDetails();
+    }
+
+    this.cdr.detectChanges();
+
+    this.emitData();
+  }
 
   onProgramChange(value: any) {
     this.selectedProgramId = value;
@@ -128,10 +137,10 @@ export class PodcastFile implements OnInit {
     this.emitData();
   }
 
-    getPodcastProgramList(): Promise<void> {
+  getPodcastProgramList(): Promise<void> {
     return new Promise((resolve) => {
       this.tv = [
-        { T: 'dk2', V: this.selectedCategoryId  },
+        { T: 'dk2', V: this.selectedCategoryId },
         { T: 'c10', V: '11' }
       ];
 
@@ -183,46 +192,75 @@ export class PodcastFile implements OnInit {
 
   emitData() {
 
-  const cleanDate = this.typedText.replace(/\//g, '');
-  const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
+    const cleanDate = this.typedText.replace(/\//g, '');
+    const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
 
-  let fileName = '';
+    let fileName = '';
 
-  if (cleanProgramName && cleanDate && this.fileType) {
-    fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
+    if (cleanProgramName && cleanDate && this.fileType) {
+      fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
+    }
+
+    this.programSelected.emit({
+      programId: this.programId,
+      programName: cleanProgramName,
+      categoryId: this.selectedCategoryId,
+      typedText: this.typedText,
+      fileName: fileName,
+
+      title: this.title,
+      subtitle: this.subtitle,
+
+      thumbnailFile: this.thumbnailFile,
+      thumbnailType: this.selectedType,
+
+      fullData: this.programList.find(
+        p => p.ProgramID === this.programId
+      ),
+    });
   }
 
-  this.programSelected.emit({
-    programId: this.programId,
-    programName: cleanProgramName,
-    categoryId: this.selectedCategoryId,
-    typedText: this.typedText,
-    fileName: fileName,
+  // getPodcastCategory() {
+  //   this.tv = [{ T: 'c10', V: '4' }];
+  //   this.srv.getdata('lists', this.tv)
+  //     .subscribe({
+  //       next: (r) => {
+  //         const data = r.Data[0];
+  //         this.catogories = data.map((item: any) => ({
+  //           DisplayText: item.Name,
+  //           DataValue: item.PodcastcategoryID
+  //         }));
+  //       }
+  //     })
+  // }
 
-    title: this.title,
-    subtitle: this.subtitle,
+  getPodcastCategory(): Promise<void> {
 
-    thumbnailFile: this.thumbnailFile,
-    thumbnailType: this.selectedType,
+    return new Promise((resolve) => {
 
-    fullData: this.programList.find(
-      p => p.ProgramID === this.programId
-    ),
-  });
-}
+      this.tv = [{ T: 'c10', V: '4' }];
 
-  getPodcastCategory() {
-    this.tv = [{ T: 'c10', V: '4' }];
-    this.srv.getdata('lists', this.tv)
-      .subscribe({
-        next: (r) => {
-          const data = r.Data[0];
-          this.catogories = data.map((item: any) => ({
-            DisplayText: item.Name,
-            DataValue: item.PodcastcategoryID
-          }));
-        }
-      })
+      this.srv.getdata('lists', this.tv)
+        .subscribe({
+
+          next: (r) => {
+
+            const data = r.Data[0];
+
+            this.catogories = data.map((item: any) => ({
+
+              DisplayText: item.Name,
+              DataValue: item.PodcastcategoryID
+            }));
+
+            this.cdr.markForCheck();
+
+            resolve();
+          },
+
+          error: () => resolve()
+        });
+    });
   }
 
   onTitleChange(value: string) {
@@ -266,27 +304,27 @@ export class PodcastFile implements OnInit {
       });
   }
 
-onThumbnailChange(event: any): void {
+  onThumbnailChange(event: any): void {
 
-  const file = event.target.files?.[0];
+    const file = event.target.files?.[0];
 
-  if (!file) return;
+    if (!file) return;
 
-  this.thumbnailFile = file;
+    this.thumbnailFile = file;
 
-  const reader = new FileReader();
+    const reader = new FileReader();
 
-  reader.onload = () => {
+    reader.onload = () => {
 
-    this.thumbnailPreview = reader.result as string;
+      this.thumbnailPreview = reader.result as string;
 
-    this.cdr.detectChanges();
+      this.cdr.detectChanges();
 
-    this.emitData();
-  };
+      this.emitData();
+    };
 
-  reader.readAsDataURL(file);
-}
+    reader.readAsDataURL(file);
+  }
 
 
   openModalAddPodcast() {

@@ -60,6 +60,8 @@ export class TodayScheduleSection implements OnInit {
   currentProgram: Schedule | null = null;
   streamingProgram: Schedule | null = null;
   selectedDate: Date = new Date();
+  selectedItem: Schedule | null = null;
+
 
 
   ViewFileModal(id: any) {
@@ -78,6 +80,7 @@ export class TodayScheduleSection implements OnInit {
       }
     });
   }
+
 
   publishProgram(program: any) {
 
@@ -171,7 +174,9 @@ export class TodayScheduleSection implements OnInit {
     this.cdr.detectChanges();
   }
 
-  openDialog() {
+
+  openDialog(item: Schedule) {
+    this.selectedItem = item;
     this.showDialog = true;
   }
   formatDate(date: Date): string {

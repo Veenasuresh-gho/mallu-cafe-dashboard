@@ -212,7 +212,9 @@
 
                         <div>
                             <img src="/main/update.svg">
-                            <span (click)="openDialog()" class="px-1">Update</span>
+                            <span (click)="openDialog(item)" class="px-1">
+                                Update
+                            </span>
                         </div>
                     </div>
 
@@ -244,4 +246,8 @@
 
 </div>
 
-<app-update-file-upload *ngIf="showDialog" (close)="showDialog = false"></app-update-file-upload>
+<app-update-file-upload
+    *ngIf="showDialog"
+    [item]="selectedItem"
+    (close)="showDialog = false">
+</app-update-file-upload>

@@ -74,65 +74,6 @@
             <!-- ====================== -->
             <!-- AUDIO -->
             <!-- ====================== -->
-            <!-- <div *ngIf="isAudioType()">
-                <div class="audio-layout">
-
-                   
-                    <div class="audio-player-wrapper">
-
-                     
-
-                        <audio controls class="audio-player">
-
-                            <source [src]="ds?._url">
-
-                        </audio>
-
-                    </div>
-
-
-                </div>
-
-                <div class="audio-footer">
-
-                    <div class="audio-meta">
-
-                        {{ ds?.UploadedDate | date:'d MMM yy' }}
-
-                        •
-
-                        {{ formatFileSize(ds?.Size) }}
-
-                        •
-
-                        {{ ds?.CategoryName }}
-
-                    </div>
-
-                    <div class="footer-actions">
-
-                        <button (click)="deleteMediaLibrary(ds?.id)" class="btn-cancel">
-
-                            <img src="/program/trash.svg" width="16" alt="">
-
-
-                            <span>Delete</span>
-
-                        </button>
-
-                        <app-primary-button (click)="addPublish(ds?.AltID)" [loading]="loading" [label]="'Publish file'"
-                            iconSrc="/media/cloud.svg">
-                        </app-primary-button>
-
-                    </div>
-
-                </div>
-
-            </div> -->
-
-            <!-- ====================== -->
-            <!-- AUDIO -->
-            <!-- ====================== -->
 
             <div *ngIf="isAudioType()">
 
@@ -195,7 +136,7 @@
 
                     </div>
 
-                    <div class="footer-actions">
+                    <div *ngIf="shouldShowActions()" class="footer-actions">
 
                         <button (click)="deleteMediaLibrary(ds?.id)" class="btn-cancel">
 
@@ -245,7 +186,7 @@
                     </div>
 
                     <!-- RIGHT -->
-                    <div class="footer-actions">
+                    <div *ngIf="shouldShowActions()" class="footer-actions">
 
                         <button (click)="deleteMediaLibrary(ds?.id)" class="btn-cancel">
 
@@ -262,9 +203,6 @@
 
                 </div>
 
-                <!-- ====================== -->
-                <!-- FALLBACK -->
-                <!-- ====================== -->
                 <div *ngIf="
                     !isImageType() &&
                     !isVideoType() &&

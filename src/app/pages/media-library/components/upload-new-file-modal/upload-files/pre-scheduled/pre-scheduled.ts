@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnChanges, SimpleChanges, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, SimpleChanges, Output, OnInit } from '@angular/core';
 import { FormSelect } from '../../../../../../components/dialog-form/form-select/form-select';
 import { StepBadge } from '../../../../../../components/dialog-form/step-badge/step-badge';
 import { MatRadioModule } from '@angular/material/radio';
@@ -19,7 +19,7 @@ import { ChangeDetectorRef } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './pre-scheduled.css',
 })
-export class PreScheduled implements OnChanges {
+export class PreScheduled implements OnInit,OnChanges {
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
@@ -38,7 +38,7 @@ export class PreScheduled implements OnChanges {
   @Input() disabled: boolean = false;
   @Output() programSelected = new EventEmitter<any>();
   @Output() validationChange = new EventEmitter<boolean>();
-  
+  @Input() editData: any = null;
 
   typedText: string = '';
   selectedType: string = '';
@@ -46,9 +46,70 @@ export class PreScheduled implements OnChanges {
   fileSelectedName: string = '';
   thumbnailPreview: string = '';
 
+
+  async ngOnInit(): Promise<void> {
+  if (this.editData) {
+    this.patchEditData();
+  }
+}
+
+
+  patchEditData(): void {
+  console.log('preschedule edit', this.editData);
+  this.selectedProgramId =
+    this.editData?.ProgramID || '';
+  this.selectedProgramName =
+    this.editData?.Name || '';
+  this.typedText =
+    this.extractDate(this.editData?.FileName || '');
+
+  this.thumbnailPreview =
+    this.editData?.ThumbnailUrl || '';
+
+  this.selectedType =
+    this.editData?.ThumbnailUrl
+      ? 'custom'
+      : 'program';
+
+  const selected =
+    this.programList.find(
+      p => p.DataValue == this.selectedProgramId
+    );
+
+  this.programId =
+    selected?.ProgramID || '';
+
+  if (this.selectedType === 'program' && this.programId) {
+    this.getProgramDetails();
+  }
+
+  this.cdr.detectChanges();
+
+  this.emitData();
+}
+
+extractDate(fileName: string): string {
+  const match =
+    fileName.match(/(\d{6})(?=\.[^.]+$)/);
+  if (!match) return '';
+  const rawDate = match[1];
+  return `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
+}
+
+onDateChange(value: string) {
+  let cleaned = value.replace(/\D/g, '').slice(0, 6);
+  if (cleaned.length > 2) {
+    cleaned = cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+  }
+  if (cleaned.length > 5) {
+    cleaned = cleaned.slice(0, 5) + '/' + cleaned.slice(5);
+  }
+  this.typedText = cleaned;
+  this.emitData();
+}
+
   validateForm(): boolean {
     this.errors = {};
-
     if (!this.fileType?.trim()) {
       this.errors.category = 'File type is required';
     }
@@ -101,18 +162,13 @@ export class PreScheduled implements OnChanges {
   
   onProgramChange(value: any) {
     this.selectedProgramId = value;
-
     const selected = this.programList.find(p => p.DataValue === value);
-
     this.selectedProgramName = selected?.DisplayText || '';
     this.programId = selected?.ProgramID || '';
-
     if (this.selectedType === 'program' && this.programId) {
       this.getProgramDetails();
     }
-
-    this.cdr.markForCheck(); // ✅ for OnPush
-
+    this.cdr.markForCheck(); 
     this.emitData();
   }
 

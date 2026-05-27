@@ -6,7 +6,7 @@
 
     <app-form-select label="Podcast Category Name " style="width:530px;" [options]="catogories"
         optionLabel="DisplayText" optionValue="DataValue" placeholder="e.g., Music / Entertainment / Sports" name="host"
-        [(model)]="selectedCategoryId" (modelChange)="onCategoryChange($event)">
+        [(model)]="selectedCategoryId" (modelChange)="onCategoryChange($event)" [disabled]="!!editData">
     </app-form-select>
     <!-- <div class="adding-btn">
         <button class="add-btn" (click)="openModalAddPodcast()">
@@ -27,7 +27,7 @@
 
     <app-form-select label="Program Name " [options]="poadcastProgramList" optionLabel="DisplayText"
         optionValue="DataValue" [(model)]="selectedProgramId" (modelChange)="onProgramChange($event)"
-        placeholder="- Select Program Name -" name="host">
+        placeholder="- Select Program Name -" name="host" [disabled]="!!editData">
     </app-form-select>
 </div>
 <!-- step 3 -->

@@ -213,26 +213,20 @@ export class PodcastFile implements OnInit {
   // }
 
   emitData() {
-
     const cleanDate = this.typedText.replace(/\//g, '');
     const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
-
     let fileName = '';
-
     if (cleanProgramName && cleanDate && this.fileType) {
       fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
     }
-
     this.programSelected.emit({
       programId: this.programId,
       programName: cleanProgramName,
       categoryId: this.selectedCategoryId,
       typedText: this.typedText,
       fileName: fileName,
-
       title: this.title,
       subtitle: this.subtitle,
-
       thumbnailFile: this.thumbnailFile,
       thumbnailType: this.selectedType,
 
@@ -266,11 +260,8 @@ export class PodcastFile implements OnInit {
         .subscribe({
 
           next: (r) => {
-
             const data = r.Data[0];
-
             this.catogories = data.map((item: any) => ({
-
               DisplayText: item.Name,
               DataValue: item.PodcastcategoryID
             }));

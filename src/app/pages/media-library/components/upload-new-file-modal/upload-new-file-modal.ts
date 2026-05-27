@@ -115,11 +115,9 @@ export class UploadNewFileModal implements OnInit {
     if (!this.selectedFile) {
       this.errors.file = 'Please upload a media file';
     }
-
     if (!this.selectedMediaType) {
       this.errors.type = 'Please select media type';
     }
-
     return Object.keys(this.errors).length === 0;
   }
 
@@ -133,9 +131,7 @@ export class UploadNewFileModal implements OnInit {
 
   renameFile() {
     if (!this.selectedFile || !this.finalfileName) return;
-
     if (this.selectedFile.name === this.finalfileName) return;
-
     this.selectedFile = new File(
       [this.selectedFile],
       this.finalfileName,
@@ -328,7 +324,6 @@ export class UploadNewFileModal implements OnInit {
               });
 
           } else {
-            
             this.toast.show({
               title: 'Upload failed ❌',
               description: 'File upload failed',
@@ -358,13 +353,9 @@ export class UploadNewFileModal implements OnInit {
 }
 
   addmediaPodcast(): void {
-
   if (!this.selectedFile) return;
-
   const file = this.selectedFile;
-
   this.loading = true;
-
   this.tv = [
     { T: 'dk1', V: this.programId },
     { T: 'dk2', V: this.selectedCategoryId },
@@ -378,11 +369,8 @@ export class UploadNewFileModal implements OnInit {
     .subscribe({
 
       next: async (r) => {
-
         if (r.Status === 1 && r.Data?.length) {
-
           this.id = r.Data[0]?.[0]?.MediaID || this.programId;
-
           // Upload Podcast File
           const success = await this.srv.handleFileUpload(
             this.id,
@@ -461,30 +449,23 @@ export class UploadNewFileModal implements OnInit {
 
   addVideos(): void {
     if (!this.selectedFile) return;
-
     const file = this.selectedFile;
-
     const payload = {
       Title: this.title,
       Subtitle: this.subtitle
     };
-
     this.loading = true;
-
     this.tv = [
       { T: 'dk1', V: this.userId },
       { T: 'dk2', V: this.selectedMediaType },
       { T: 'c1', V: JSON.stringify(payload) },
       { T: 'c10', V: '21' }
     ];
-
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: async (r) => {
           if (r.Status === 1 && r.Data?.length) {
-
             this.id = r.Data[0]?.[0]?.MediaID || this.programId;
-
             const videoSuccess = await this.srv.handleFileUpload(
               this.id,
               this.userId,

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { StepBadge } from '../../../../../../components/dialog-form/step-badge/step-badge';
 import { FormInput } from '../../../../../../components/dialog-form/form-input/form-input';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './shorts.html',
   styleUrl: './shorts.css',
 })
-export class Shorts {
+export class Shorts implements OnChanges  {
   typedText: string = '';
   selectedType: string = '';
   srv = inject(GHOService);
@@ -35,18 +35,28 @@ export class Shorts {
   selectedFile: File | null = null;
   thumbnailPreview: string = '';
   fileSelectedName: string = '';
-
+  
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
   @Input() fileName: string = '';
   @Input() disabled: boolean = false;
   @Output() programSelected = new EventEmitter<any>();
+  @Input() editData: any = null;
+
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes['fileName'] && this.fileName && !this.originalFileName) {
+  //     this.originalFileName = this.fileName;
+  //   }
+  // }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['fileName'] && this.fileName && !this.originalFileName) {
-      this.originalFileName = this.fileName;
-    }
+  if (changes['fileName'] && this.fileName && !this.originalFileName) {
+    this.originalFileName = this.fileName;
   }
+  if (changes['editData'] && this.editData) {
+    this.patchEditData();
+  }
+}
 
   getBaseName(name: string): string {
     if (!name) return '';
@@ -87,6 +97,62 @@ export class Shorts {
     });
 
   }
+
+  patchEditData(): void {
+
+  console.log('shorts edit', this.editData);
+
+  this.title =
+    this.editData?.Title || '';
+
+  this.thumbnailPreview =
+    this.editData?.ThumbnailUrl || '';
+
+  this.fileSelectedName =
+    this.editData?.ThumbnailUrl
+      ? 'Current thumbnail'
+      : '';
+
+  this.typedText =
+    this.extractDate(
+      this.editData?.FileName || ''
+    );
+
+  this.originalFileName =
+    this.getBaseName(
+      this.editData?.FileName || ''
+    );
+
+  this.emitData();
+}
+
+extractDate(fileName: string): string {
+  const match =
+    fileName.match(/(\d{6})(?=\.[^.]+$)/);
+  if (!match) return '';
+  const rawDate = match[1];
+  return `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
+}
+
+onDateChange(value: string) {
+
+  let cleaned =
+    value.replace(/\D/g, '').slice(0, 6);
+
+  if (cleaned.length > 2) {
+    cleaned =
+      cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+  }
+
+  if (cleaned.length > 5) {
+    cleaned =
+      cleaned.slice(0, 5) + '/' + cleaned.slice(5);
+  }
+
+  this.typedText = cleaned;
+
+  this.emitData();
+}
 
   onTextChange(event: any) {
     const el = event.target;

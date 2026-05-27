@@ -102,3 +102,15 @@
   object-position: center; 
   display: block;
 }
+
+.editable-part-input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.editable-part-input:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}

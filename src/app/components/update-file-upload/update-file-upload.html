@@ -12,15 +12,14 @@
 
       <h2>Do you want to replace the currently uploaded file?</h2>
 
-      <p class="file-name">IndoAmericanNews_230326.mp3</p>
+      <p class="file-name">{{item?.FileName}}</p>
 
       <div class="actions py-3">
 
-         <app-muted-button class="btn-auto" (click)="onCancel()" [label]="'Cancel'"
-          iconSrc="/main/close.svg">
+        <app-muted-button class="btn-auto" (click)="onCancel()" [label]="'Cancel'" iconSrc="/main/close.svg">
         </app-muted-button>
 
-        
+
         <app-primary-button class="btn-auto" (click)="triggerFileInput()" [label]="'Replace File'"
           iconSrc="/dash/publish.svg">
         </app-primary-button>
@@ -44,9 +43,16 @@
 
         <div class="progress-wrapper">
           <svg width="120" height="120">
-            <circle cx="60" cy="60" r="50" class="bg" />
+
+            <!-- Background circle -->
+            <circle cx="60" cy="60" r="50" class="bg">
+            </circle>
+
+            <!-- Progress circle -->
             <circle cx="60" cy="60" r="50" class="progress" [attr.stroke-dasharray]="circumference"
-              [attr.stroke-dashoffset]="progressOffset" />
+              [attr.stroke-dashoffset]="progressOffset" transform="rotate(-90 60 60)">
+            </circle>
+
           </svg>
 
           <div class="progress-text">
@@ -64,11 +70,13 @@
         </span>
 
         <br>
-
+        <div class="button-center">
+          <app-muted-button class="btn-auto" (click)="isCompleted ? deleteFile() : cancelUpload()"
+            [label]="isCompleted ? 'Delete' : 'Cancel'"
+            [iconSrc]="isCompleted ? '/main/delete.svg' : '/main/close.svg'">
+          </app-muted-button>
+        </div>
         <!-- BUTTON -->
-        <button class="cancel-btn" (click)="isCompleted ? deleteFile() : cancelUpload()">
-          {{ isCompleted ? 'Delete' : 'Cancel' }}
-        </button>
 
       </div>
 

@@ -139,7 +139,12 @@ h2 {
 .progress-wrapper {
   position: relative;
   width: 120px;
+  height: 120px;
   margin: auto;
+}
+
+.progress-wrapper svg {
+  transform: rotate(-90deg);
 }
 
 .bg {
@@ -153,17 +158,17 @@ h2 {
   stroke: #e53935;
   stroke-width: 8;
   stroke-linecap: round;
-  transform: rotate(-90deg);
-  transform-origin: center;
-  transition: stroke-dashoffset 0.3s;
+  transition: stroke-dashoffset .3s ease;
 }
 
 .progress-text {
   position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 600;
+  font-size: 18px;
 }
 
 /* Text */
@@ -186,7 +191,6 @@ h2 {
   background: #f3f3f3;
   cursor: pointer;
 }
-
 /* Rename Row */
 .rename-row {
   display: flex;
@@ -219,6 +223,12 @@ h2 {
   outline: none;
   flex: 1;
   background: transparent;
+}
+
+.button-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
 }
 
 /* Finish button */

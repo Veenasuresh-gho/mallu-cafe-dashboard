@@ -45,7 +45,7 @@ export interface Schedule {
 })
 export class TodayScheduleSection implements OnInit {
 
-  constructor(private cdr: ChangeDetectorRef,private dialog: MatDialog) { }
+  constructor(private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
 
   urlValue: string = '';
   srv = inject(GHOService);
@@ -62,22 +62,22 @@ export class TodayScheduleSection implements OnInit {
   selectedDate: Date = new Date();
 
 
-    ViewFileModal(id: any) {
-      const dialogRef = this.dialog.open(ViewFile, {
-        width: '90%',
-        maxWidth: '650px',
-        maxHeight: '95vh',
-        disableClose: true,
-        data: {
-          id: id
-        }
-      });
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          // this.getMediaLibrary();
-        }
-      });
-    }
+  ViewFileModal(id: any) {
+    const dialogRef = this.dialog.open(ViewFile, {
+      width: '90%',
+      maxWidth: '650px',
+      maxHeight: '95vh',
+      disableClose: true,
+      data: {
+        id: id
+      }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // this.getMediaLibrary();
+      }
+    });
+  }
 
   publishProgram(program: any) {
     this.tv = [
@@ -146,15 +146,22 @@ export class TodayScheduleSection implements OnInit {
               { T: 'dk1', V: String(item.id) },
               { T: 'c10', V: '14' }
             ];
-
             this.srv.getdata('program', this.tv)
               .subscribe({
                 next: () => {
+
+                  this.getScheduleList();
+
                   this.publishStatus.emit({
-                    isPublic: !!publishedUrl,
+                    isPublic: true,
                     url: publishedUrl,
                     isPublish: true
                   });
+
+                  this.cdr.markForCheck();
+                },
+                error: (err) => {
+                  console.error('API Error:', err);
                 }
               });
           }

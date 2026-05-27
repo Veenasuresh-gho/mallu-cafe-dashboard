@@ -142,12 +142,25 @@ export class MusicPlayer implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.loadCurrentProgram();
+  }
+
+  loadCurrentProgram(): void {
+
     this.tv = [{ T: 'c10', V: '13' }];
 
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
+
         this.programDetails = r?.Data?.[0]?.[0];
+
         const url = this.programDetails?._url;
+
+        // stop old media
+        this.audio.pause();
+        this.audio.currentTime = 0;
+
+        // load newly published media
         this.handleMedia(url);
 
         this.cdr.detectChanges();
@@ -157,8 +170,8 @@ export class MusicPlayer implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if (!this.publishInfo || !this.publishInfo.isPublish) return;
-
+    if (!this.publishInfo?.isPublish) return;
+    this.loadCurrentProgram();
     const url = this.publishInfo.url;
     this.handleMedia(url);
 

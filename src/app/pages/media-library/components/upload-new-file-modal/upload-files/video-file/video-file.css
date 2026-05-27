@@ -69,12 +69,14 @@
 .textarea-field{
   border-radius: 6px;
   padding: 10px;
+   font-size: 12px;
+  font-family: Poppins;
 }
 .textarea-field::placeholder {
   font-size: 12px;   /* change size */
   color: var(--muted-input);
   font-weight: 400;
-  font-family: Poppins;
+  /* font-family: Poppins; */
 }
 
 .upload-img {
@@ -84,4 +86,16 @@
   object-fit: cover;       
   object-position: center; 
   display: block;
+}
+
+.editable-part-input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.editable-part-input:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
 }

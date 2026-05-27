@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-video-file',
-  imports: [CommonModule,StepBadge, FormInput, MatRadioButton, MatRadioGroup, FormsModule, FileUpload],
+  imports: [CommonModule, StepBadge, FormInput, MatRadioButton, MatRadioGroup, FormsModule, FileUpload],
   templateUrl: './video-file.html',
   styleUrl: './video-file.css',
 })
@@ -42,10 +42,22 @@ export class VideoFile implements OnChanges {
   @Input() fileName: string = '';
   @Input() disabled: boolean = false;
   @Output() programSelected = new EventEmitter<any>();
+  @Input() editData: any = null;
+
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes['fileName'] && this.fileName && !this.originalFileName) {
+  //     this.originalFileName = this.fileName;
+  //   }
+  // }
 
   ngOnChanges(changes: SimpleChanges) {
+
     if (changes['fileName'] && this.fileName && !this.originalFileName) {
       this.originalFileName = this.fileName;
+    }
+
+    if (changes['editData'] && this.editData) {
+      this.patchEditData();
     }
   }
 
@@ -68,6 +80,7 @@ export class VideoFile implements OnChanges {
     this.subtitle = value;
     this.emitData();
   }
+
 
   emitData() {
 
@@ -96,6 +109,46 @@ export class VideoFile implements OnChanges {
 
   }
 
+  patchEditData(): void {
+
+    console.log('video edit', this.editData);
+
+    this.title =
+      this.editData?.Title || '';
+
+    this.subtitle =
+      this.editData?.Subtitle || '';
+
+    this.thumbnailPreview =
+      this.editData?.ThumbnailUrl || '';
+
+    this.fileSelectedName =
+      this.editData?.ThumbnailUrl
+        ? 'Current thumbnail'
+        : '';
+
+    this.typedText =
+      this.extractDate(
+        this.editData?.FileName || ''
+      );
+
+    this.originalFileName =
+      this.getBaseName(
+        this.editData?.FileName || ''
+      );
+
+    this.emitData();
+  }
+
+  extractDate(fileName: string): string {
+    const match =
+      fileName.match(/(\d{6})(?=\.[^.]+$)/);
+    if (!match) return '';
+    const rawDate = match[1];
+
+    return `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
+  }
+
   onTextChange(event: any) {
     const el = event.target;
 
@@ -120,29 +173,49 @@ export class VideoFile implements OnChanges {
     this.typedText = value;
     this.emitData();
   }
-//  onFileSelected(file: File) {
-//   this.selectedFile = file;
-//   this.emitData(); 
-// }
 
-onFileSelected(file: File) {
+  onDateChange(value: string) {
 
-  if (!file) return;
+  let cleaned =
+    value.replace(/\D/g, '').slice(0, 6);
 
-  this.selectedFile = file;
+  if (cleaned.length > 2) {
+    cleaned =
+      cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+  }
 
-  this.fileSelectedName = file.name;
+  if (cleaned.length > 5) {
+    cleaned =
+      cleaned.slice(0, 5) + '/' + cleaned.slice(5);
+  }
 
-  const reader = new FileReader();
+  this.typedText = cleaned;
 
-  reader.onload = () => {
-
-    this.thumbnailPreview = reader.result as string;
-
-    this.emitData();
-  };
-
-  reader.readAsDataURL(file);
+  this.emitData();
 }
+  //  onFileSelected(file: File) {
+  //   this.selectedFile = file;
+  //   this.emitData(); 
+  // }
+
+  onFileSelected(file: File) {
+
+    if (!file) return;
+
+    this.selectedFile = file;
+
+    this.fileSelectedName = file.name;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+
+      this.thumbnailPreview = reader.result as string;
+
+      this.emitData();
+    };
+
+    reader.readAsDataURL(file);
+  }
 
 }

@@ -79,17 +79,25 @@ export class MediaLibrary implements OnInit {
       }
     });
   }
+
   openUpdateMediaLibraryModal(id: string) {
-    this.dialog.open(EditUploadedFile, {
-      width: '90%',
-      maxWidth: '600px',
-      maxHeight: '95vh',
-      disableClose: true,
-      data: {
-        id: id
-      }
-    });
-  }
+  const dialogRef = this.dialog.open(EditUploadedFile, {
+    width: '90%',
+    maxWidth: '600px',
+    maxHeight: '95vh',
+    disableClose: true,
+    data: {
+      id: id
+    }
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      this.getMediaLibrary();
+    }
+
+  });
+}
 
   searchText = '';
   status = 'all';

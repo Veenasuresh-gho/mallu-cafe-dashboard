@@ -55,14 +55,12 @@ export class ViewFile implements OnInit {
 
   isPlaying = false;
 
-currentTime = 0;
-
-duration = 0;
+  currentTime = 0;
+  duration = 0;
 
   constructor(@Inject(MAT_DIALOG_DATA)public data: any) { }
 
   ngOnInit(): void {
-
     this.getMediaLibrary();
 
   }
@@ -190,6 +188,16 @@ getProgressBackground(): string {
         }
       });
   }
+
+  shouldShowActions(): boolean {
+  const category =
+    this.ds?.CategoryName?.toLowerCase();
+
+  return (
+    category !== 'podcast' &&
+    category !== 'prescheduled'
+  );
+}
 
   isImageType(): boolean {
     if (!this.ds?.FileName) return false;

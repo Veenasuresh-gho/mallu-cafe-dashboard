@@ -8,9 +8,16 @@
     <div class="form-group">
       <div class="input-prefix-wrapper">
             <span class="prefix"> {{ getBaseName(originalFileName) }}//</span>
-            <div class="editable-part" contenteditable="true" (input)="onTextChange($event)"
+            <!-- <div class="editable-part" contenteditable="true" (input)="onTextChange($event)"
                 [attr.data-placeholder]="'160326.' + fileType">
-            </div>
+            </div> -->
+            <input
+    class="editable-part-input"
+    type="text"
+    maxlength="8"
+    placeholder="16/03/26"
+    [(ngModel)]="typedText"
+    (ngModelChange)="onDateChange($event)" />
         </div>
         <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
     </div>

@@ -24,77 +24,6 @@
         <app-step-badge [stepNumber]="1" title="Upload Media File">
         </app-step-badge>
 
-        <!-- <div class="px-4">
-
-            <app-upload-box
-                [uploadText]="'Replace Broadcast Media File'"
-                [subText]="'Drag & drop your file here, or click to browse'"
-                [accept]="'audio/mp3, video/mp4'"
-                [sizeText]="'MP3, MP4 • Max size: 1.5 GB'"
-                (fileSelected)="onFileSelected($event)">
-            </app-upload-box>
-
-        </div>
-
-        <div class="px-3 mt-2">
-
-            <div class="file-card d-flex gap-1 justify-content-between"
-                *ngIf="fileName">
-
-                <div class="file-info d-flex">
-
-
-                    <img
-                        *ngIf="isImageType()"
-                        [src]="previewUrl"
-                        class="file-icon" />
-
-                  
-                    <video
-                        *ngIf="isVideoType()"
-                        [src]="previewUrl"
-                        class="file-icon"
-                        muted>
-                    </video>
-
-                    <img
-                        *ngIf="!isImageType() && !isVideoType()"
-                        src="/upload/file-default.svg"
-                        class="file-icon" />
-
-                    <div class="d-flex file-details justify-content-between align-items-center w-100">
-
-                        <div class="file-name text-truncate-custom">
-
-                            {{ fileName }}
-
-                            <img
-                                src="/upload/green-tick.svg"
-                                class="mb-1"
-                                alt="">
-
-                        </div>
-
-                        <div class="file-size px-2">
-                            {{ fileSize }}
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div
-                    (click)="removeFile()"
-                    class="delete-btn">
-
-                    <img src="/upload/trash-gray.svg" alt="">
-
-                </div>
-
-            </div>
-
-        </div> -->
-
         <!-- SHOW UPLOAD BOX ONLY IF NO FILE -->
         <div class="px-4" *ngIf="!fileName">
 
@@ -122,13 +51,9 @@
                     <div class="d-flex file-details justify-content-between align-items-center w-100 ">
 
                         <div class="file-name text-truncate-custom">
-
                             {{ fileName }}
-
                             <img src="/upload/green-tick.svg" class="mb-1" alt="">
-
                         </div>
-
                         <div class="file-size px-2">
                             {{ fileSize }}
                         </div>
@@ -137,7 +62,7 @@
 
                 </div>
 
-                <div (click)="deleteProfilePic(fileID)" class="delete-btn">
+                <div (click)="deleteFile(fileID)" class="delete-btn">
 
                     <img src="/upload/trash-gray.svg" alt="">
 
@@ -175,7 +100,8 @@
         <div class="form-row px-4">
 
             <app-form-select label="Category *" [options]="mediaTypeOptions" optionLabel="DisplyText"
-                optionValue="DataValue" (modelChange)="onMediaTypeChange($event)" [(model)]="selectedMediaType">
+                optionValue="DataValue" (modelChange)="onMediaTypeChange($event)" [(model)]="selectedMediaType"
+                [disabled]="true">
             </app-form-select>
 
         </div>
@@ -184,7 +110,8 @@
 
             <div *ngSwitchCase="'1'" [class.disabled-section]="!selectedMediaType">
 
-                <app-pre-scheduled [programList]="programList" [fileType]="extension">
+                <app-pre-scheduled [programList]="programList" [fileType]="extension" [editData]="ds"
+                    (programSelected)="preScheduleData = $event">
                 </app-pre-scheduled>
 
             </div>
@@ -196,15 +123,21 @@
                     [fileType]="extension">
                 </app-podcast-file> -->
 
-                <app-podcast-file [programList]="programList" [fileType]="extension" [editData]="ds">
+                <app-podcast-file [programList]="programList" [fileType]="extension" [editData]="ds"
+                    (programSelected)="podcastData = $event">
                 </app-podcast-file>
 
             </div>
 
-            <app-video-file *ngSwitchCase="'3'" [fileName]="fileName" [fileType]="extension">
+
+            <app-video-file *ngSwitchCase="'3'" [fileName]="fileName" [fileType]="extension" [editData]="ds"
+                (programSelected)="videoData = $event">
             </app-video-file>
 
-            <app-shorts *ngSwitchCase="'4'" [fileName]="fileName" [fileType]="extension">
+            <!-- <app-shorts *ngSwitchCase="'4'" [fileName]="fileName" [fileType]="extension">
+            </app-shorts> -->
+            <app-shorts *ngSwitchCase="'4'" [fileName]="fileName" [fileType]="extension" [editData]="ds"
+                (programSelected)="shortsData = $event">
             </app-shorts>
 
 

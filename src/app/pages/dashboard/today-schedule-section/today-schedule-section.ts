@@ -54,7 +54,7 @@ export class TodayScheduleSection implements OnInit {
 
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
-
+  publishLoading = false;
   loading = false;
   schedules: Schedule[] = [];
   currentProgram: Schedule | null = null;
@@ -80,6 +80,9 @@ export class TodayScheduleSection implements OnInit {
   }
 
   publishProgram(program: any) {
+
+    this.publishLoading = true;
+
     this.tv = [
       { T: 'dk1', V: program.id },
       { T: 'c10', V: '14' }
@@ -88,14 +91,24 @@ export class TodayScheduleSection implements OnInit {
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
+
+          // Refresh schedule immediately
+          this.getScheduleList();
+
+          // Update music player
           this.publishStatus.emit({
             isPublic: true,
-            url: '',
+            url: program.urlValue || '',
             isPublish: true
           });
+
+          this.publishLoading = false;
+          this.cdr.detectChanges();
         },
+
         error: (err) => {
           console.error('API Error:', err);
+          this.publishLoading = false;
         }
       });
   }
@@ -126,7 +139,7 @@ export class TodayScheduleSection implements OnInit {
       IsLive: '1'
     };
 
-    this.loading = true;
+    this.publishLoading = true;
 
     this.tv = [
       { T: 'c1', V: JSON.stringify(payload) },
@@ -136,38 +149,15 @@ export class TodayScheduleSection implements OnInit {
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
+
           if (r.Status === 1) {
 
-            this.loading = false;
-
-            const publishedUrl = item.urlValue || '';
-
-            this.tv = [
-              { T: 'dk1', V: String(item.id) },
-              { T: 'c10', V: '14' }
-            ];
-            this.srv.getdata('program', this.tv)
-              .subscribe({
-                next: () => {
-
-                  this.getScheduleList();
-
-                  this.publishStatus.emit({
-                    isPublic: true,
-                    url: publishedUrl,
-                    isPublish: true
-                  });
-
-                  this.cdr.markForCheck();
-                },
-                error: (err) => {
-                  console.error('API Error:', err);
-                }
-              });
+            this.publishProgram(item);
           }
         },
-        error: () => {
-          this.loading = false;
+        error: (err) => {
+          console.error(err);
+          this.publishLoading = false;
         }
       });
   }
@@ -214,7 +204,7 @@ export class TodayScheduleSection implements OnInit {
         const isPastDate =
           this.selectedDate < new Date(today.setHours(0, 0, 0, 0));
 
-        this.schedules = (r.Data[0] as Schedule[]).map(item => {
+        this.schedules = [...(r.Data[0] as Schedule[])].map(item => {
           if (isPastDate) {
             return { ...item, status: 'past' };
           }

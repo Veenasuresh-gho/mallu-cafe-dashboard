@@ -22,9 +22,7 @@ export class Dashboard {
     isPublic: boolean;
     url: string;
     isPublish: boolean;
-  }) {
-
-    console.log('Publish info:', event);
+  }) {   
 
     this.musicPublishInfo = {
       isPublic: event.isPublic,

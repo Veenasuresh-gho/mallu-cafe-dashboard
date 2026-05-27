@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PrimaryButton } from '../primary-button/primary-button';
+import { MutedButton } from '../muted-button/muted-button';
 
 @Component({
   selector: 'app-update-file-upload',
-  imports: [
-    FormsModule ,CommonModule  // ✅ ADD THIS
+  imports: [  
+    FormsModule, CommonModule, PrimaryButton, MutedButton  // ✅ ADD THIS
   ],
   templateUrl: './update-file-upload.html',
   styleUrl: './update-file-upload.css',
@@ -104,14 +106,14 @@ export class UpdateFileUpload {
     return `${day}${month}${year}`;
   }
 
-  
-  get isCompleted() {
-  return this.uploadProgress === 100;
-}
 
-deleteFile(){
-  
-}
+  get isCompleted() {
+    return this.uploadProgress === 100;
+  }
+
+  deleteFile() {
+
+  }
   onCancel() {
     this.close.emit();
   }

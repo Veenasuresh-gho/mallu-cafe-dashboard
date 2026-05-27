@@ -92,10 +92,9 @@ export class TodayScheduleSection implements OnInit {
       .subscribe({
         next: (r) => {
 
-          // Refresh schedule immediately
           this.getScheduleList();
+          window.location.reload();
 
-          // Update music player
           this.publishStatus.emit({
             isPublic: true,
             url: program.urlValue || '',
@@ -153,6 +152,8 @@ export class TodayScheduleSection implements OnInit {
           if (r.Status === 1) {
 
             this.publishProgram(item);
+            window.location.reload();
+
           }
         },
         error: (err) => {

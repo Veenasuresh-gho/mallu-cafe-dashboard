@@ -1,0 +1,29 @@
+<button
+  mat-button
+  disableRipple
+  class="custom-btn d-flex align-items-center justify-content-center gap-2"
+  [disabled]="loading || disabled"
+  [ngClass]="{
+    'mat-stroked-button': type === 'stroked',
+    'mat-flat-button': type === 'flat',
+    'mat-raised-button': type === 'raised'
+  }"
+  (click)="onClick()"
+>
+
+  <ng-container *ngIf="loading; else normalContent">
+    <mat-progress-spinner
+      diameter="18"
+      strokeWidth="3"
+      color="accent"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </ng-container>
+
+  <ng-template #normalContent>
+    <mat-icon *ngIf="icon && !iconSrc">{{ icon }}</mat-icon>
+    <img *ngIf="iconSrc" [src]="iconSrc" class="btn-icon" />
+    {{ label }}
+  </ng-template>
+
+</button>

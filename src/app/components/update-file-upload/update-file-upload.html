@@ -1,6 +1,3 @@
-
-
-
 <div class="dialog-backdrop">
   <div class="dialog-box">
 
@@ -18,11 +15,15 @@
       <p class="file-name">IndoAmericanNews_230326.mp3</p>
 
       <div class="actions py-3">
-        <button class="cancel-btn" (click)="onCancel()">Cancel</button>
 
-        <button class="replace-btn" (click)="triggerFileInput()">
-          Replace File
-        </button>
+         <app-muted-button class="btn-auto" (click)="onCancel()" [label]="'Cancel'"
+          iconSrc="/main/close.svg">
+        </app-muted-button>
+
+        
+        <app-primary-button class="btn-auto" (click)="triggerFileInput()" [label]="'Replace File'"
+          iconSrc="/dash/publish.svg">
+        </app-primary-button>
       </div>
 
     </ng-container>
@@ -44,14 +45,8 @@
         <div class="progress-wrapper">
           <svg width="120" height="120">
             <circle cx="60" cy="60" r="50" class="bg" />
-            <circle
-              cx="60"
-              cy="60"
-              r="50"
-              class="progress"
-              [attr.stroke-dasharray]="circumference"
-              [attr.stroke-dashoffset]="progressOffset"
-            />
+            <circle cx="60" cy="60" r="50" class="progress" [attr.stroke-dasharray]="circumference"
+              [attr.stroke-dashoffset]="progressOffset" />
           </svg>
 
           <div class="progress-text">
@@ -85,11 +80,7 @@
           <input [(ngModel)]="fileDate" placeholder="ddmmyy" />
         </div>
 
-        <button
-          class="finish-btn"
-          (click)="finishUpload()"
-          [disabled]="!isCompleted"
-        >
+        <button class="finish-btn" (click)="finishUpload()" [disabled]="!isCompleted">
           ✔ Finish upload
         </button>
 
@@ -98,12 +89,7 @@
     </ng-container>
 
     <!-- ✅ ONLY ONE file input -->
-    <input
-      type="file"
-      #fileInput
-      hidden
-      (change)="onFileSelected($event)"
-    />
+    <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
 
   </div>
 </div>

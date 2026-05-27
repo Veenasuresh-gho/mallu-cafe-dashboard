@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  standalone: true, 
-  imports: [CommonModule], 
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
@@ -61,65 +61,53 @@ export class Navbar {
   currentSong: any = null;
   nextSong: any = null;
 
-getSongs(): void {
+  getSongs(): void {
 
-  const tv = [
-    { T: 'dk2', V: '' },
-    { T: 'c10', V: '12' }
-  ];
+    const tv = [
+      { T: 'dk2', V: '' },
+      { T: 'c10', V: '12' }
+    ];
 
-  this.srv.getdata('teammember', tv)
-    .subscribe({
-      next: (res) => {
-        const list = res?.Data?.[0] || [];
-        if (!list.length) {
+    this.srv.getdata('teammember', tv)
+      .subscribe({
+        next: (res) => {
+
+          const list = res?.Data?.[0] || [];
+          if (!list.length) {
+            this.currentSong = null;
+            this.nextSong = null;
+            return;
+          }
+
+          const currentIndex = list.findIndex(
+            (item: any) => item.IsStreaming === 1
+          );
+
+          const current =
+            currentIndex !== -1 ? list[currentIndex] : null;
+
+          // Don't loop to first item
+          const next =
+            currentIndex !== -1
+              ? list[currentIndex + 1]
+              : null;
+
+          this.currentSong = current
+            ? { title: current.Title }
+            : null;
+
+          this.nextSong = next
+            ? { title: next.Title }
+            : null;
+        },
+
+        error: (err) => {
+          console.error('Song API Error:', err);
+
           this.currentSong = null;
-          this.nextSong = { title: '' };
-          return;
+          this.nextSong = null;
         }
-
-        //  Find current song index
-        const currentIndex = list.findIndex(
-          (item: any) => item.IsStreaming === 1
-        );
-        //  Current song
-        const current =
-          currentIndex !== -1 ? list[currentIndex] : null;
-
-        //  Next song logic (with loop handling)
-        let next;
-
-        if (currentIndex !== -1) {
-          // if current exists → next is next item or loop to first
-          next =
-            list[currentIndex + 1] || list[0];
-        } else {
-          // if no current → just show first as next
-          next = list[0];
-        }
-
-        //  Assign values
-        this.currentSong = current
-          ? { title: current.Title }
-          : null;
-
-        this.nextSong = {
-          title: next?.Title || 'No song available'
-        };
-
-        // console.log('FINAL STATE:', {
-        //   current: this.currentSong,
-        //   next: this.nextSong
-        // });
-      },
-
-      error: (err) => {
-        console.error('Song API Error:', err);
-
-        this.currentSong = null;
-        this.nextSong = { title: 'No song available' };
-      }
-    });
-}
+      });
+  }
 
 }

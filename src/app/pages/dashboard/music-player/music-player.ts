@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -10,6 +10,7 @@ import { ghoresult, tags } from '../../../../model/ghomodel';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'music-player',
@@ -66,8 +67,9 @@ export class MusicPlayer implements OnInit, OnChanges {
   constructor(
     private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
-    private router: Router
-  ) {}
+    private router: Router,
+    private ngZone: NgZone
+  ) { }
 
   getFileExtension(url: string): string {
     try {
@@ -84,56 +86,81 @@ export class MusicPlayer implements OnInit, OnChanges {
     this.audio.load();
 
     this.audio.onloadedmetadata = () => {
-      this.duration = this.audio.duration || 0;
-      this.cdr.detectChanges();
+      this.ngZone.run(() => {
+        this.duration = this.audio.duration || 0;
+        this.cdr.detectChanges();
+      });
     };
 
     this.audio.ontimeupdate = () => {
-      this.currentTime = this.audio.currentTime || 0;
-      this.cdr.detectChanges();
+      this.ngZone.run(() => {
+        this.currentTime = this.audio.currentTime || 0;
+        this.cdr.detectChanges();
+      });
     };
 
     this.audio.onended = () => {
-      this.isPlaying = false;
+      this.ngZone.run(() => {
+        this.isPlaying = false;
+        this.currentTime = 0;
+        this.cdr.detectChanges();
+      });
     };
 
     if (this.isAutoPlay) {
-      this.audio.play();
-      this.isPlaying = true;
+      this.audio.play().then(() => {
+        this.ngZone.run(() => {
+          this.isPlaying = true;
+          this.cdr.detectChanges();
+        });
+      });
     }
   }
 
-handleMedia(url: string) {
-  if (!url) return;
+  handleMedia(url: string) {
+    if (!url) return;
 
-  const ext = this.getFileExtension(url);
+    const ext = this.getFileExtension(url);
 
-  if (ext === 'mp3') {
-    this.isAudio = true;
-    this.showVideo = false;
-    this.initAudio(url);
-    return;
-  }
+    if (ext === 'mp3') {
+      this.isAudio = true;
+      this.showVideo = false;
+      this.initAudio(url);
+      return;
+    }
 
-  if (['mp4', 'webm', 'ogg'].includes(ext)) {
+    if (['mp4', 'webm', 'ogg'].includes(ext)) {
+      this.isAudio = false;
+      this.showVideo = true;
+      this.platform = 'unknown';
+      this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      return;
+    }
+
     this.isAudio = false;
-    this.showVideo = true;
-    this.platform = 'unknown';
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    return;
+    this.prepareVideo(url);
   }
-
-  this.isAudio = false;
-  this.prepareVideo(url);
-}
 
   ngOnInit(): void {
+    this.loadCurrentProgram();
+  }
+
+  loadCurrentProgram(): void {
+
     this.tv = [{ T: 'c10', V: '13' }];
 
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
+
         this.programDetails = r?.Data?.[0]?.[0];
+
         const url = this.programDetails?._url;
+
+        // stop old media
+        this.audio.pause();
+        this.audio.currentTime = 0;
+
+        // load newly published media
         this.handleMedia(url);
 
         this.cdr.detectChanges();
@@ -143,8 +170,8 @@ handleMedia(url: string) {
   }
 
   ngOnChanges(): void {
-    if (!this.publishInfo || !this.publishInfo.isPublish) return;
-
+    if (!this.publishInfo?.isPublish) return;
+    this.loadCurrentProgram();
     const url = this.publishInfo.url;
     this.handleMedia(url);
 
@@ -160,11 +187,14 @@ handleMedia(url: string) {
   // 🎵 PLAY / PAUSE
   toggleAudio() {
     if (this.audio.paused) {
-      this.audio.play();
-      this.isPlaying = true;
+      this.audio.play().then(() => {
+        this.isPlaying = true;
+        this.cdr.detectChanges();
+      });
     } else {
       this.audio.pause();
       this.isPlaying = false;
+      this.cdr.detectChanges();
     }
   }
 
@@ -246,13 +276,13 @@ handleMedia(url: string) {
     window.open(this.facebookUrl, '_blank');
   }
 
-  navigateToAD(){
-     this.router.navigate(['/advertisements']);
+  navigateToAD() {
+    this.router.navigate(['/advertisements']);
   }
 
   toggleMute() {
-  this.isMuted = !this.isMuted;
-  // Audio mute
-  this.audio.muted = this.isMuted;
-}
+    this.isMuted = !this.isMuted;
+    // Audio mute
+    this.audio.muted = this.isMuted;
+  }
 }

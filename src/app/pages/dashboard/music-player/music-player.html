@@ -28,7 +28,11 @@
       </div>
     </div>
     <div class="audio-player-container d-flex align-items-center gap-3 py-3">
-      <img src="/dash/play-btn.png" class="play-btn" alt="" (click)="toggleAudio()">
+      <div class="play-btn" (click)="toggleAudio()">
+        <mat-icon>
+          {{ isPlaying ? 'pause' : 'play_arrow' }}
+        </mat-icon>
+      </div>
       <div class="flex-grow-1">
         <input type="range" class="custom-range" min="0" max="100"
           [value]="duration ? (currentTime / duration) * 100 : 0" (input)="onSeek($event)">

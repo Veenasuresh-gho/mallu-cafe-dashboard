@@ -45,7 +45,7 @@ export interface Schedule {
 })
 export class TodayScheduleSection implements OnInit {
 
-  constructor(private cdr: ChangeDetectorRef,private dialog: MatDialog) { }
+  constructor(private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
 
   urlValue: string = '';
   srv = inject(GHOService);
@@ -54,7 +54,7 @@ export class TodayScheduleSection implements OnInit {
 
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
-
+  publishLoading = false;
   loading = false;
   schedules: Schedule[] = [];
   currentProgram: Schedule | null = null;
@@ -62,24 +62,27 @@ export class TodayScheduleSection implements OnInit {
   selectedDate: Date = new Date();
 
 
-    ViewFileModal(id: any) {
-      const dialogRef = this.dialog.open(ViewFile, {
-        width: '90%',
-        maxWidth: '650px',
-        maxHeight: '95vh',
-        disableClose: true,
-        data: {
-          id: id
-        }
-      });
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          // this.getMediaLibrary();
-        }
-      });
-    }
+  ViewFileModal(id: any) {
+    const dialogRef = this.dialog.open(ViewFile, {
+      width: '90%',
+      maxWidth: '650px',
+      maxHeight: '95vh',
+      disableClose: true,
+      data: {
+        id: id
+      }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // this.getMediaLibrary();
+      }
+    });
+  }
 
   publishProgram(program: any) {
+
+    this.publishLoading = true;
+
     this.tv = [
       { T: 'dk1', V: program.id },
       { T: 'c10', V: '14' }
@@ -88,14 +91,23 @@ export class TodayScheduleSection implements OnInit {
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
+
+          this.getScheduleList();
+          window.location.reload();
+
           this.publishStatus.emit({
             isPublic: true,
-            url: '',
+            url: program.urlValue || '',
             isPublish: true
           });
+
+          this.publishLoading = false;
+          this.cdr.detectChanges();
         },
+
         error: (err) => {
           console.error('API Error:', err);
+          this.publishLoading = false;
         }
       });
   }
@@ -126,7 +138,7 @@ export class TodayScheduleSection implements OnInit {
       IsLive: '1'
     };
 
-    this.loading = true;
+    this.publishLoading = true;
 
     this.tv = [
       { T: 'c1', V: JSON.stringify(payload) },
@@ -136,31 +148,17 @@ export class TodayScheduleSection implements OnInit {
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
+
           if (r.Status === 1) {
 
-            this.loading = false;
+            this.publishProgram(item);
+            window.location.reload();
 
-            const publishedUrl = item.urlValue || '';
-
-            this.tv = [
-              { T: 'dk1', V: String(item.id) },
-              { T: 'c10', V: '14' }
-            ];
-
-            this.srv.getdata('program', this.tv)
-              .subscribe({
-                next: () => {
-                  this.publishStatus.emit({
-                    isPublic: !!publishedUrl,
-                    url: publishedUrl,
-                    isPublish: true
-                  });
-                }
-              });
           }
         },
-        error: () => {
-          this.loading = false;
+        error: (err) => {
+          console.error(err);
+          this.publishLoading = false;
         }
       });
   }
@@ -207,7 +205,7 @@ export class TodayScheduleSection implements OnInit {
         const isPastDate =
           this.selectedDate < new Date(today.setHours(0, 0, 0, 0));
 
-        this.schedules = (r.Data[0] as Schedule[]).map(item => {
+        this.schedules = [...(r.Data[0] as Schedule[])].map(item => {
           if (isPastDate) {
             return { ...item, status: 'past' };
           }

@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, OnInit, NgZone } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -26,7 +26,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./music-player.css'],
 })
 export class MusicPlayer implements OnInit, OnChanges {
-
+  @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
   @Input() publishInfo!: { isPublic: boolean; url: string; isPublish: boolean } | null;
 
   videoUrl!: SafeResourceUrl;
@@ -61,7 +61,7 @@ export class MusicPlayer implements OnInit, OnChanges {
   currentTime: number = 0;
   duration: number = 0;
   isMuted: boolean = false;
-
+  hasSeeked: boolean = false;
   programDetails: any;
 
   constructor(
@@ -81,32 +81,75 @@ export class MusicPlayer implements OnInit, OnChanges {
     }
   }
 
-  initAudio(url: string) {
-    this.audio.src = url;
-    this.audio.load();
+initAudio(url: string) {
 
-    this.audio.onloadedmetadata = () => {
-      this.ngZone.run(() => {
-        this.duration = this.audio.duration || 0;
-        this.cdr.detectChanges();
-      });
-    };
+  this.audio.src = url;
+  this.audio.load();
 
-    this.audio.ontimeupdate = () => {
-      this.ngZone.run(() => {
-        this.currentTime = this.audio.currentTime || 0;
-        this.cdr.detectChanges();
-      });
-    };
+  // ✅ metadata loaded
+  this.audio.onloadedmetadata = () => {
 
-    this.audio.onended = () => {
-      this.ngZone.run(() => {
-        this.isPlaying = false;
-        this.currentTime = 0;
-        this.cdr.detectChanges();
-      });
-    };
-  }
+    this.ngZone.run(() => {
+
+      this.duration = this.audio.duration || 0;
+
+      console.log('Audio Duration:', this.audio.duration);
+      console.log('Seek Time:', this.programDetails?.SeekTime);
+
+      this.cdr.detectChanges();
+
+    });
+
+  };
+
+  // ✅ enough audio loaded to seek safely
+  this.audio.oncanplay = () => {
+
+    if (!this.hasSeeked && this.programDetails?.SeekTime) {
+
+      // ✅ If seektime exceeds duration use max allowed
+      const seekValue = Math.min(
+        this.programDetails.SeekTime,
+        this.audio.duration || 0
+      );
+
+      this.audio.currentTime = seekValue;
+
+      console.log('Seeked To:', seekValue);
+
+      this.hasSeeked = true;
+    }
+
+  };
+
+  // ✅ progress update
+  this.audio.ontimeupdate = () => {
+
+    this.ngZone.run(() => {
+
+      this.currentTime = this.audio.currentTime || 0;
+      this.cdr.detectChanges();
+
+    });
+
+  };
+
+  // ✅ ended
+  this.audio.onended = () => {
+
+    this.ngZone.run(() => {
+
+      this.isPlaying = false;
+      this.currentTime = 0;
+      this.hasSeeked = false;
+
+      this.cdr.detectChanges();
+
+    });
+
+  };
+
+}
 
   handleMedia(url: string) {
     if (!url) return;
@@ -144,7 +187,7 @@ export class MusicPlayer implements OnInit, OnChanges {
       next: (r) => {
 
         this.programDetails = r?.Data?.[0]?.[0];
-
+        console.log(this.programDetails)
         const url = this.programDetails?._url;
 
         // stop old media
@@ -176,19 +219,28 @@ export class MusicPlayer implements OnInit, OnChanges {
   }
 
   // 🎵 PLAY / PAUSE
-  toggleAudio() {
-    if (this.audio.paused) {
-      this.audio.play().then(() => {
-        this.isPlaying = true;
-        this.cdr.detectChanges();
-      });
-    } else {
-      this.audio.pause();
-      this.isPlaying = false;
+  // 🎵 PLAY / PAUSE
+toggleAudio() {
+
+  if (this.audio.paused) {
+
+    this.audio.play().then(() => {
+
+      this.isPlaying = true;
       this.cdr.detectChanges();
-    }
+
+    });
+
+  } else {
+
+    this.audio.pause();
+
+    this.isPlaying = false;
+    this.cdr.detectChanges();
+
   }
 
+}
   // 🎚️ SEEK
   onSeek(event: any) {
     const value = event.target.value;

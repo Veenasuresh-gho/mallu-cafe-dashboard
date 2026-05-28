@@ -38,7 +38,20 @@
         }
 
         @else {
+        @if(!currentProgram && schedules.length === 0) {
 
+        <div class="d-flex flex-column align-items-center justify-content-center py-5">
+
+            <img src="/main/no-data.svg" width="120" alt="">
+
+            <p class="mt-3 mb-0 text-muted fw-semibold">
+                No programs scheduled for the day
+            </p>
+
+        </div>
+
+        }
+        @else {
         @if(currentProgram) {
         <div class="d-flex flex-column gap-2 px-3 py-2 on-air-content border">
 
@@ -241,13 +254,10 @@
         </div>
 
         }
-
+        }
     </div>
 
 </div>
 
-<app-update-file-upload
-    *ngIf="showDialog"
-    [item]="selectedItem"
-    (close)="showDialog = false">
+<app-update-file-upload *ngIf="showDialog" [item]="selectedItem" (close)="showDialog = false">
 </app-update-file-upload>

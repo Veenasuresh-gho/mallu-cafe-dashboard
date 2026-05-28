@@ -115,9 +115,6 @@ export class UpdateFileUpload {
   finishUpload() {
     const fileName =
       `${this.fileBaseName}${this.fileDate}.mp3`;
-
-    console.log('Uploaded:', fileName);
-
     this.close.emit();
   }
 

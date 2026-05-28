@@ -61,11 +61,11 @@
         </div>
 
         <!-- TEXT -->
-        <p class="title">
+        <p class="title p-0">
           {{ isCompleted ? fileBaseName + fileDate + '.mp3' : 'Wait a little bit..' }}
         </p>
 
-        <span class="subtitle">
+        <span class="subtitle p-0">
           {{ isCompleted ? 'File uploaded successfully' : 'Uploading File' }}
         </span>
 
@@ -81,22 +81,23 @@
       </div>
 
       <!-- Rename Row -->
+      <div class="d-flex rename-title">
+        <p class="p-0">Rename File</p>
+      </div>
+
       <div class="rename-row">
 
         <div class="rename-field">
-          <span class="prefix">{{ fileBaseName }}</span>
+          <span class="prefix">{{ fileBaseName }}//</span>
           <input [(ngModel)]="fileDate" placeholder="ddmmyy" />
         </div>
 
-        <button class="finish-btn" (click)="finishUpload()" [disabled]="!isCompleted">
-          ✔ Finish upload
-        </button>
+        <app-primary-button (click)="finishUpload()" [label]="'Finish upload'" iconSrc="/main/uploaded.svg">
+        </app-primary-button>
 
       </div>
-
     </ng-container>
 
-    <!-- ✅ ONLY ONE file input -->
     <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
 
   </div>

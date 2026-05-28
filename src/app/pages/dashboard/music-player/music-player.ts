@@ -106,15 +106,6 @@ export class MusicPlayer implements OnInit, OnChanges {
         this.cdr.detectChanges();
       });
     };
-
-    if (this.isAutoPlay) {
-      this.audio.play().then(() => {
-        this.ngZone.run(() => {
-          this.isPlaying = true;
-          this.cdr.detectChanges();
-        });
-      });
-    }
   }
 
   handleMedia(url: string) {

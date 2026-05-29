@@ -90,7 +90,6 @@ export class PodcastFile implements OnInit {
 
       const rawDate = match[1];
 
-      // 260526 -> 26/05/26
       this.typedText =
         `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
 
@@ -126,19 +125,14 @@ export class PodcastFile implements OnInit {
   }
 
   onDateChange(value: string) {
-
     let cleaned = value.replace(/\D/g, '').slice(0, 6);
-
     if (cleaned.length > 2) {
       cleaned = cleaned.slice(0, 2) + '/' + cleaned.slice(2);
     }
-
     if (cleaned.length > 5) {
       cleaned = cleaned.slice(0, 5) + '/' + cleaned.slice(5);
     }
-
     this.typedText = cleaned;
-
     this.emitData();
   }
 
@@ -146,7 +140,6 @@ export class PodcastFile implements OnInit {
     this.selectedProgramId = value;
 
     const selected = this.programList.find(p => p.DataValue === value);
-
     this.selectedProgramName = selected?.DisplayText || '';
     this.programId = selected?.ProgramID || '';
 
@@ -165,7 +158,6 @@ export class PodcastFile implements OnInit {
         { T: 'dk2', V: this.selectedCategoryId },
         { T: 'c10', V: '11' }
       ];
-
       this.srv.getdata('program', this.tv)
         .subscribe({
           next: (r) => {
@@ -175,7 +167,6 @@ export class PodcastFile implements OnInit {
               DataValue: item.ProgramID,
               ProgramID: item.id
             }));
-
             this.cdr.markForCheck();
             resolve();
           },
@@ -251,23 +242,17 @@ export class PodcastFile implements OnInit {
   // }
 
   getPodcastCategory(): Promise<void> {
-
     return new Promise((resolve) => {
-
       this.tv = [{ T: 'c10', V: '4' }];
-
       this.srv.getdata('lists', this.tv)
         .subscribe({
-
           next: (r) => {
             const data = r.Data[0];
             this.catogories = data.map((item: any) => ({
               DisplayText: item.Name,
               DataValue: item.PodcastcategoryID
             }));
-
             this.cdr.markForCheck();
-
             resolve();
           },
 
@@ -318,11 +303,8 @@ export class PodcastFile implements OnInit {
   }
 
   onThumbnailChange(event: any): void {
-
     const file = event.target.files?.[0];
-
     if (!file) return;
-
     this.thumbnailFile = file;
 
     const reader = new FileReader();
@@ -355,9 +337,7 @@ export class PodcastFile implements OnInit {
   }
   onTextChange(event: any) {
     const el = event.target;
-
     let value = el.innerText.replace(/\D/g, '').slice(0, 6);
-
     if (value.length > 2) {
       value = value.slice(0, 2) + '/' + value.slice(2);
     }
@@ -375,7 +355,6 @@ export class PodcastFile implements OnInit {
     sel?.addRange(range);
 
     this.typedText = value;
-
     this.emitData();
   }
 

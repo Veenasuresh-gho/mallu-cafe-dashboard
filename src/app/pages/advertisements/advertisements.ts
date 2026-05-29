@@ -18,17 +18,22 @@ import { ghoresult, tags } from '../../../model/ghomodel';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ToastService } from '../../services/toastService';
 import { MatDividerModule } from '@angular/material/divider';
+import { SelectDropDown } from '../../components/select-drop-down/select-drop-down';
+import { CustomFilterCalender } from '../../components/custom-filter-calender/custom-filter-calender';
 
 @Component({
   selector: 'app-advertisements',
   imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule,
      MatInputModule, MatSelectModule, FormsModule, MatButtonModule, MatMenuModule,
-      PrimaryButton,MatProgressSpinnerModule,MatDividerModule],
+      PrimaryButton,MatProgressSpinnerModule,MatDividerModule,SelectDropDown,CustomFilterCalender],
   templateUrl: './advertisements.html',
   styleUrl: './advertisements.css',
 })
 export class Advertisements {
 
+   status = 'allStatus';
+    category = 'all';
+    day = 'today';
   constructor(private dialog: MatDialog) { }
 
   toast = inject(ToastService);
@@ -63,10 +68,27 @@ editAdvertisement(row: any) {
   });
 }
 
+  programsDropdown: string = 'all';
+  tempProgramSelection: string = 'all';
+  isCalendarOpen: boolean = false;
+
   searchText = '';
-  status = '';
-  category = '';
-  day = '';
+  // status = '';
+ 
+    onProgramChange(value: string) {
+    if (value === 'date') {
+      this.isCalendarOpen = true;
+      // store temporarily, DON'T apply yet
+      this.tempProgramSelection = value;
+    } else {
+      this.programsDropdown = value;
+      this.tempProgramSelection = value;
+      this.isCalendarOpen = false;
+    }
+  }
+
+
+
 
   columns: string[] = [
     'advertisements',

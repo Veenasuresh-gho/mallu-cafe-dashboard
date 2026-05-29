@@ -55,7 +55,6 @@ export class PreScheduled implements OnInit,OnChanges {
 
 
   patchEditData(): void {
-  console.log('preschedule edit', this.editData);
   this.selectedProgramId =
     this.editData?.ProgramID || '';
   this.selectedProgramName =
@@ -142,13 +141,10 @@ onDateChange(value: string) {
   // }
 
   onThumbnailTypeChange(type: string) {
-
   this.selectedType = type;
-
   if (type === 'program' && this.programId) {
     this.getProgramDetails();
   }
-
   if (type === 'custom') {
     this.programDetails = {};
   }
@@ -237,17 +233,11 @@ onDateChange(value: string) {
 // }
 
 onThumbnailChange(event: any): void {
-
   const file = event.target.files?.[0];
-
   if (!file) return;
-
   this.thumbnailFile = file;
-
   this.fileSelectedName = file.name;
-
   const reader = new FileReader();
-
   reader.onload = () => {
 
     this.thumbnailPreview = reader.result as string;
@@ -262,10 +252,8 @@ onThumbnailChange(event: any): void {
 
   emitData() {
     const isValid = this.validateForm();
-
     const cleanDate = this.typedText.replace(/\//g, '');
     const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
-
     let fileName = '';
 
     if (cleanProgramName && cleanDate && this.fileType) {

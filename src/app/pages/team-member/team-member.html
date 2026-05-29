@@ -28,11 +28,13 @@
   ]">
                 </app-select-drop-down>
 
-                <app-select-drop-down placeholder="All Programs" [(value)]="programs" [options]="[
-    { label: 'All Programs', value: 'all' },
-    { label: 'RJ', value: 'rj' },
-    { label: 'Admin', value: 'admin' },
-  ]">
+                <div class="calendar-wrapper" *ngIf="isCalendarOpen">
+                    <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)">
+                    </app-custom-filter-calender>
+                </div>
+
+                <app-select-drop-down placeholder="All Programs" [(value)]="programs" [options]="programOptions"
+                    (valueChange)="onProgramChange($event)">
                 </app-select-drop-down>
 
 

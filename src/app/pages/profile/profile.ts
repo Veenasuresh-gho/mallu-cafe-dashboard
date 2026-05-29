@@ -44,7 +44,7 @@ export class Profile {
   id: any = ''
   toast = inject(ToastService);
   isUploading = false;
-  constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef,private cd: ChangeDetectorRef) { }
+  constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef, private cd: ChangeDetectorRef) { }
 
   openModal() {
     this.dialog.open(ManageMember, {
@@ -107,26 +107,79 @@ export class Profile {
     }
   }
 
+  // async onFileSelected(event: any) {
+  //   const file = event.target.files[0];
+  //   if (!file) return;
+  //   if (!file.type.startsWith('image/')) {
+  //     this.errors.file = 'Only images are allowed';
+  //     return;
+  //   }
+  //   this.selectedFile = file;
+  //   this.fileName = file.name;
+  //   this.clearError('file');
+  //   try {
+  //     const userId = this.srv.getsession('id');
+  //     const success = await this.srv.handleFileUpload(
+  //       this.id,
+  //       userId,
+  //       this.selectedFile,
+  //       '9'
+  //     );
+
+  //     if (success) {
+  //       this.getProfile();
+  //       this.toast.show({
+  //         title: 'Profile picture uploaded successfully 🎉',
+  //         description: '',
+  //         variant: 'success',
+  //         position: 'toast-bottom-center'
+  //       });
+  //     } else {
+  //       this.toast.show({
+  //         title: 'Upload failed ❌',
+  //         description: 'Unable to upload profile picture',
+  //         variant: 'error',
+  //         position: 'toast-bottom-center'
+  //       });
+  //     }
+
+  //   } catch (error) {
+  //     this.toast.show({
+  //       title: 'Something went wrong ❌',
+  //       description: 'Please try again',
+  //       variant: 'error',
+  //       position: 'toast-bottom-center'
+  //     });
+  //   }
+  // }
+
+
   async onFileSelected(event: any) {
     const file = event.target.files[0];
     if (!file) return;
+
     if (!file.type.startsWith('image/')) {
       this.errors.file = 'Only images are allowed';
       return;
     }
+
     this.selectedFile = file;
     this.fileName = file.name;
     this.clearError('file');
+    this.isUploading = true;
+    this.cdr.detectChanges();
     try {
       const userId = this.srv.getsession('id');
+
       const success = await this.srv.handleFileUpload(
         this.id,
         userId,
         this.selectedFile,
         '9'
       );
-
+      this.cdr.detectChanges();
       if (success) {
+        this.cdr.detectChanges();
         this.getProfile();
         this.toast.show({
           title: 'Profile picture uploaded successfully 🎉',
@@ -150,63 +203,66 @@ export class Profile {
         variant: 'error',
         position: 'toast-bottom-center'
       });
+    } finally {
+      this.isUploading = false;
+      this.cdr.detectChanges();
+      // optional: reset input value so same image can be selected again
+      event.target.value = '';
     }
   }
 
- 
-
-
   deleteProfilePic(fileUploadID: any) {
-  if (!fileUploadID) return;
-  this.loading = true;
-  this.cd.detectChanges(); 
+    if (!fileUploadID) return;
+    this.loading = true;
+    this.cd.detectChanges();
 
-  const userId = this.srv.getsession('id');
+    const userId = this.srv.getsession('id');
 
-  this.tv = [
-    { T: 'dk1', V: userId },
-    { T: 'dk2', V: '9' },
-    { T: 'c1', V: fileUploadID },
-    { T: 'c10', V: '4' }
-  ];
+    this.tv = [
+      { T: 'dk1', V: userId },
+      { T: 'dk2', V: '9' },
+      { T: 'c1', V: fileUploadID },
+      { T: 'c10', V: '4' }
+    ];
 
-  this.srv.getdata('fileupload', this.tv).subscribe({
-    next: (r: any) => {
-      this.loading = false;
-      this.cd.detectChanges(); 
+    this.srv.getdata('fileupload', this.tv).subscribe({
+      next: (r: any) => {
+        this.loading = false;
+        this.cd.detectChanges();
 
-      if (r.Status === 1) {
-        this.getProfile()
+        if (r.Status === 1) {
+          this.cd.detectChanges();
+          this.getProfile()
+          this.toast.show({
+            title: 'File deleted successfully! 🎉',
+            description: '',
+            variant: 'success',
+            position: 'toast-bottom-center'
+          });
+        } else {
+          const apiMsg = r.Data?.[0]?.[0]?.msg || 'Please try again';
+          this.toast.show({
+            title: 'Failed to delete file',
+            description: apiMsg,
+            variant: 'error',
+            position: 'toast-bottom-center'
+          });
+        }
+      },
+      error: (err) => {
+        console.error('💥 Error:', err);
+
+        this.loading = false;
+        this.cd.detectChanges();
+
         this.toast.show({
-          title: 'File deleted successfully! 🎉',
-          description: '',
-          variant: 'success',
-          position: 'toast-bottom-center'
-        });
-      } else {
-        const apiMsg = r.Data?.[0]?.[0]?.msg || 'Please try again';
-        this.toast.show({
-          title: 'Failed to delete file',
-          description: apiMsg,
+          title: 'Error deleting file',
+          description: 'Please try again later',
           variant: 'error',
           position: 'toast-bottom-center'
         });
       }
-    },
-    error: (err) => {
-      console.error('💥 Error:', err);
-
-      this.loading = false;
-      this.cd.detectChanges(); 
-
-      this.toast.show({
-        title: 'Error deleting file',
-        description: 'Please try again later',
-        variant: 'error',
-        position: 'toast-bottom-center'
-      });
-    }
-  });
-}
+    });
+  }
 
 }

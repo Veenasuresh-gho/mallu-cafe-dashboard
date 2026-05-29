@@ -11,14 +11,27 @@
 
         <div class="d-flex gap-3 px-4">
             <div class="upload-wrapper">
-    
-                <div class="upload-photo" [ngStyle]="{'background-image': 'url(' + getProfileImage(profile?._url) + ')'}">
-                    <label class="upload-btn">
-                        <input (change)="onFileSelected($event)" type="file" hidden />
-                        <span>Upload Photo</span>
+                <!-- <div class="upload-photo"
+                    [ngStyle]="{'background-image': 'url(' + getProfileImage(profile?._url) + ')'}"> -->
+                <div class="upload-photo" [class.landscape-image]="isLandscape" [ngStyle]="{
+    'background-image': 'url(' + getProfileImage(profile?._url) + ')'
+  }">
+                    <label class="upload-btn" [class.disabled]="isUploading">
+                        <input (change)="onFileSelected($event)" type="file" hidden accept="image/*"
+                            [disabled]="isUploading" />
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div *ngIf="isUploading" class="spinner"></div>
+                            <span >
+                                {{ isUploading ? 'Uploading...' : 'Upload Photo' }}
+                            </span>
+                        </div>
                     </label>
                 </div>
-                <p class="helper-text py-1">Supported formats: JPG, PNG</p>
+
+                <p class="helper-text py-1">
+                    Supported formats: JPG, PNG
+                </p>
+
             </div>
             <div>
                 <div style="width: 376px;">
@@ -129,18 +142,14 @@
         </div> -->
 
         <div class="checkbox-container px-3">
-    <span class="p-2" *ngFor="let item of permissions">
-        <label class="access-txt">
-            <input
-                type="checkbox"
-                [(ngModel)]="item.checked"
-                name="permission-{{item.name}}"
-                (change)="onPermissionChange()"
-            />
-            {{ item.name }}
-        </label>
-    </span>
-</div>
+            <span class="p-2" *ngFor="let item of permissions">
+                <label class="access-txt">
+                    <input type="checkbox" [(ngModel)]="item.checked" name="permission-{{item.name}}"
+                        (change)="onPermissionChange()" />
+                    {{ item.name }}
+                </label>
+            </span>
+        </div>
 
         <hr class="px-3">
         <mat-dialog-actions align="end" class="d-flex justify-content-between">

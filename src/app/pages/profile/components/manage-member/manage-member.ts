@@ -49,7 +49,10 @@ export class ManageMember {
   roles: any[] = [];
   programList: any[] = [];
   filteredProgramList: any[] = [];
-  constructor(private dialogRef: MatDialogRef<ManageMember>, private dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef, private cd: ChangeDetectorRef) { }
+  isUploading = false;
+  constructor(private dialogRef: MatDialogRef<ManageMember>,
+     private dialog: MatDialog, private router: Router, 
+     private cdr: ChangeDetectorRef, private cd: ChangeDetectorRef) { }
 
   selectedPrograms: any[] = [];
 
@@ -273,51 +276,131 @@ openModalDelete(programId: string) {
     }
   }
 
+  // async onFileSelected(event: any) {
+  //   const file = event.target.files[0];
+  //   if (!file) return;
+  //   if (!file.type.startsWith('image/')) {
+  //     this.errors.file = 'Only images are allowed';
+  //     return;
+  //   }
+  //   this.selectedFile = file;
+  //   this.fileName = file.name;
+  //   this.clearError('file');
+  //   try {
+  //     const userId = this.id;
+  //     const success = await this.srv.handleFileUpload(
+  //       this.profilePicID,
+  //       userId,
+  //       this.selectedFile,
+  //       '9'
+  //     );
+
+  //     if (success) {
+  //       this.toast.show({
+  //         title: 'Profile picture uploaded successfully 🎉',
+  //         description: '',
+  //         variant: 'success',
+  //         position: 'toast-bottom-right'
+  //       });
+  //        this.getProfile();
+  //     } else {
+  //       this.toast.show({
+  //         title: 'Upload failed ❌',
+  //         description: 'Unable to upload profile picture',
+  //         variant: 'error',
+  //         position: 'toast-bottom-right'
+  //       });
+  //     }
+
+  //   } catch (error) {
+  //     this.toast.show({
+  //       title: 'Something went wrong ❌',
+  //       description: 'Please try again',
+  //       variant: 'error',
+  //       position: 'toast-bottom-right'
+  //     });
+  //   }
+  // }
+
+  isLandscape = false;
+
   async onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      this.errors.file = 'Only images are allowed';
-      return;
-    }
-    this.selectedFile = file;
-    this.fileName = file.name;
-    this.clearError('file');
-    try {
-      const userId = this.id;
-      const success = await this.srv.handleFileUpload(
-        this.profilePicID,
-        userId,
-        this.selectedFile,
-        '9'
-      );
+  const file = event.target.files[0];
 
-      if (success) {
-        this.toast.show({
-          title: 'Profile picture uploaded successfully 🎉',
-          description: '',
-          variant: 'success',
-          position: 'toast-bottom-right'
-        });
-         this.getProfile();
-      } else {
-        this.toast.show({
-          title: 'Upload failed ❌',
-          description: 'Unable to upload profile picture',
-          variant: 'error',
-          position: 'toast-bottom-right'
-        });
-      }
+  if (!file) return;
 
-    } catch (error) {
+  if (!file.type.startsWith('image/')) {
+    this.errors.file = 'Only images are allowed';
+    return;
+  }
+
+    const img = new Image();
+
+  img.onload = () => {
+    this.isLandscape = img.width > img.height;
+    this.cdr.detectChanges();
+  };
+
+  img.src = URL.createObjectURL(file);
+
+  this.selectedFile = file;
+  this.fileName = file.name;
+
+  this.clearError('file');
+
+  this.isUploading = true;
+  
+  try {
+    const userId = this.id;
+
+    const success = await this.srv.handleFileUpload(
+      this.profilePicID,
+      userId,
+      this.selectedFile,
+      '9'
+    );
+
+    if (success) {
+
       this.toast.show({
-        title: 'Something went wrong ❌',
-        description: 'Please try again',
+        title: 'Profile picture uploaded successfully 🎉',
+        description: '',
+        variant: 'success',
+        position: 'toast-bottom-right'
+      });
+    
+      this.getProfile();
+       this.cdr.detectChanges();
+    } else {
+
+      this.toast.show({
+        title: 'Upload failed ❌',
+        description: 'Unable to upload profile picture',
         variant: 'error',
         position: 'toast-bottom-right'
       });
     }
+
+  } catch (error) {
+
+    this.toast.show({
+      title: 'Something went wrong ❌',
+      description: 'Please try again',
+      variant: 'error',
+      position: 'toast-bottom-right'
+    });
+
+  } finally {
+     this.cdr.detectChanges();
+    this.isUploading = false;
+    event.target.value = '';
+
   }
+}
+
+
+
+
 
 editProfileDetails(): void {
   if (!this.profile?.FullName || !this.profile?.Email) {
@@ -401,12 +484,10 @@ editProfileDetails(): void {
     },
 
     error: (err) => {
-
       console.error('API Error:', err);
 
       this.loading = false;
       this.cdr.markForCheck();
-
       this.toast.show({
         title: 'Server error 🚨',
         description: 'Please try again later',

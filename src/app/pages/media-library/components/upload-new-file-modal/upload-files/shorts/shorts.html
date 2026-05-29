@@ -6,18 +6,13 @@
 
 <div class="form-row px-4 pt-3">
     <div class="form-group">
-      <div class="input-prefix-wrapper">
+        <div class="input-prefix-wrapper">
             <span class="prefix"> {{ getBaseName(originalFileName) }}//</span>
             <!-- <div class="editable-part" contenteditable="true" (input)="onTextChange($event)"
                 [attr.data-placeholder]="'160326.' + fileType">
             </div> -->
-            <input
-    class="editable-part-input"
-    type="text"
-    maxlength="8"
-    placeholder="16/03/26"
-    [(ngModel)]="typedText"
-    (ngModelChange)="onDateChange($event)" />
+            <input class="editable-part-input" type="text" maxlength="8" placeholder="16/03/26" [(ngModel)]="typedText"
+                (ngModelChange)="onDateChange($event)" />
         </div>
         <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
     </div>
@@ -34,10 +29,7 @@
             Custom Thumbnail
         </label>
 
-        <app-file-upload
-            label="Upload Image"
-            accept="image/*"
-            (fileSelected)="onFileSelected($event)">
+        <app-file-upload label="Upload Image" accept="image/*" (fileSelected)="onFileSelected($event)">
         </app-file-upload>
 
         <p class="helper-text">
@@ -54,13 +46,9 @@
         </div>
 
         <!-- IMAGE PREVIEW -->
-        <div *ngIf="thumbnailPreview" >
+        <div *ngIf="thumbnailPreview">
 
-            <img
-                [src]="thumbnailPreview"
-                alt="Thumbnail Preview"
-                class="upload-img"
-                width="100%" />
+            <img [src]="thumbnailPreview" alt="Thumbnail Preview" class="upload-img" width="100%" />
 
         </div>
 

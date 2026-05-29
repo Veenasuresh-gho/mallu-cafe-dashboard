@@ -107,17 +107,14 @@ color: var(--muted-input);
   overflow: hidden;
 } */
 
-.upload-photo {
+/* .upload-photo {
   position: relative;
   width: 150px;
   height: 150px;
-
   background-image: url('/profile/profile-pic.png');
-
-  background-size: contain; /* changed */
+  background-size: cover; 
   background-position: center;
   background-repeat: no-repeat;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -125,9 +122,30 @@ color: var(--muted-input);
 
   border-radius: 10px;
   overflow: hidden;
-
   background-color: #f5f5f5; 
+} */
+
+.upload-photo {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
+.upload-photo.landscape-image {
+  background-size: contain;
+  background-color: #f5f5f5;
+}
+
 .custom-line-sub {
   border-top: 1px solid #E4E4E4;
   margin: 0ch 24px;
@@ -598,4 +616,27 @@ input[type="checkbox"] {
 
 .program-item {
   width: fit-content;
+}
+
+.upload-btn.disabled {
+  /* opacity: 0.7; */
+  pointer-events: none;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #d1d1d1;
+  border-top: 2px solid #000;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+   margin-right: 8px;
+}
+
+
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

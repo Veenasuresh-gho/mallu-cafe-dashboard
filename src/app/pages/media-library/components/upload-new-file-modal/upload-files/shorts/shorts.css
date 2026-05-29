@@ -19,12 +19,29 @@
   min-height: 36px;
   font-size: 12px;
   font-family: Poppins, sans-serif;
+  gap: 8px;
+  overflow: hidden;
 }
 
 .prefix {
   color: #757575;
-  user-select: none; /* prevent editing */
-  margin-right: 4px;
+  user-select: none;
+  flex: 1;
+  min-width: 0;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editable-part-input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  width: 70px;
+  min-width: 70px;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 .editable-part {

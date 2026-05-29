@@ -167,19 +167,34 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: Poppins;
   font-weight: 600;
-  font-size: 18px;
+  font-style: SemiBold;
+  font-size: 14px;
+  line-height: 12px;
+  letter-spacing: 0%;
+
 }
 
 /* Text */
 .title {
   margin-top: 10px;
   font-weight: 600;
+  font-family: Poppins;
+  font-style: SemiBold;
+  font-size: 12px;
+  letter-spacing: 0%;
+
 }
 
 .subtitle {
-  font-size: 12px;
-  color: #888;
+  font-family: Poppins;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 10px;
+  letter-spacing: 0%;
+  color: var(--muted-text);
+
 }
 
 /* Cancel button */
@@ -191,12 +206,30 @@ h2 {
   background: #f3f3f3;
   cursor: pointer;
 }
-/* Rename Row */
+
 .rename-row {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 0px;
+
+}
+
+.rename-title p {
+  margin-bottom: 4px;
+  margin-top: 4px;
+  color: var(--muted-text);
+}
+
+.rename-title {
+  margin-bottom: 0px;
+  margin-top: 4px;
+  font-family: Poppins;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0%;
 }
 
 /* Input container */
@@ -210,11 +243,17 @@ h2 {
   background: #fafafa;
 }
 
-/* Prefix (readonly part) */
 .prefix {
   color: #888;
   margin-right: 4px;
   white-space: nowrap;
+  font-family: Poppins;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 10px;
+  line-height: 10px;
+  letter-spacing: 0%;
+
 }
 
 /* Editable date */
@@ -231,15 +270,14 @@ h2 {
   margin-top: 14px;
 }
 
-/* Finish button */
-.finish-btn {
-  padding: 10px 16px;
-  font-weight: 500;
-  border-radius: 10px;
-  border: 1px solid #f5c2c2;
-  background: #fff5f5;
-  color: #e53935;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
+.rename-field input {
+  font-size: 10px;
+  /* input text size */
+  font-family: Poppins;
+}
+
+.rename-field input::placeholder {
+  font-size: 10px;
+  /* placeholder size */
+  color: #999;
 }

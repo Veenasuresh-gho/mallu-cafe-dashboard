@@ -5,13 +5,18 @@ import {
   Output,
   EventEmitter,
   Input,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  inject
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PrimaryButton } from '../primary-button/primary-button';
 import { MutedButton } from '../muted-button/muted-button';
+import { GHOService } from '../../services/ghosrvs';
+import { GHOUtitity } from '../../services/utilities';
+import { ghoresult, tags } from '../../../model/ghomodel';
+import { ToastService } from '../../services/toastService';
 
 @Component({
   selector: 'app-update-file-upload',
@@ -37,14 +42,28 @@ export class UpdateFileUpload {
   @Output()
   close = new EventEmitter<void>();
 
+  loading = false;
+
   isUploading = false;
   uploadProgress = 0;
 
   fileBaseName = '';
   fileDate = '';
 
+  selectedFile!: File;
+
   radius = 50;
   circumference = 2 * Math.PI * this.radius;
+
+  srv = inject(GHOService);
+
+  utl = inject(GHOUtitity);
+
+  tv: tags[] = [];
+  res: ghoresult = new ghoresult();
+
+  toast = inject(ToastService);
+
 
   get progressOffset() {
     return this.circumference -
@@ -77,18 +96,31 @@ export class UpdateFileUpload {
   }
 
   onFileSelected(event: Event) {
+
     const input = event.target as HTMLInputElement;
 
     if (input.files?.length) {
+
       const file = input.files[0];
 
-      this.fileBaseName = `${this.item?.Title || 'File'}_`;
-      this.fileDate = this.getTodayDate();
+      // store selected file
+      this.selectedFile = file;
 
-      // show progress screen immediately
+      const finalName =
+        this.item?.FileName?.trim()
+          ? this.item.FileName
+          : `${this.item?.Title}.mp3`;
+
+      const nameWithoutExt = finalName.replace(/\.[^/.]+$/, "");
+
+      this.fileBaseName = nameWithoutExt;
+
       this.isUploading = true;
 
       this.startUpload(file);
+
+      console.log('Selected file:', file);
+      console.log('Final filename:', finalName);
     }
   }
 
@@ -112,13 +144,62 @@ export class UpdateFileUpload {
     }
   }
 
-  finishUpload() {
-    const fileName =
-      `${this.fileBaseName}${this.fileDate}.mp3`;
 
-    console.log('Uploaded:', fileName);
+  async finishUpload() {
 
-    this.close.emit();
+    if (!this.selectedFile) {
+      console.error('No file selected');
+      return;
+    }
+
+    const finalFileName =
+      this.item?.FileName?.trim()
+        ? this.item.FileName
+        : `${this.item?.Title}.mp3`;
+
+    const renamedFile = new File(
+      [this.selectedFile],
+      finalFileName,
+      { type: this.selectedFile.type }
+    );
+
+    console.log('Renamed File:', renamedFile);
+
+    const success = await this.srv.handleFileUpload(
+      this.item?.ProgramID,
+      this.srv.getsession('id'),
+      renamedFile,
+      this.getDeleteType()
+    );
+    if (success) {
+      this.toast.show({
+        title: 'File Replaced successfully! ',
+        description: 'File has been successfully replaced',
+        variant: 'success',
+        position: 'toast-bottom-center'
+      });
+    } else {
+      this.toast.show({
+        title: 'Failed to replace file ❌ ',
+        description: 'Something went wrong',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+    }
+
+  }
+
+  getDeleteType(): string {
+    switch (this.item?.CategoryName?.toLowerCase()) {
+      case 'podcast':
+        return '6';
+      case 'prescheduled':
+        return '5';
+      case 'shorts':
+        return '4';
+      default:
+        return '6';
+    }
   }
 
   getTodayDate(): string {

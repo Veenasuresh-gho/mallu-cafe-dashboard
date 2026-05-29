@@ -75,8 +75,6 @@ export class Programs implements OnInit {
     });
   }
 
-
-
   ngOnInit(): void {
     this.getProgramList();
   }
@@ -85,7 +83,6 @@ export class Programs implements OnInit {
   utl = inject(GHOUtitity);
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
-
 
   @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
     if (p) {
@@ -98,7 +95,6 @@ export class Programs implements OnInit {
   getProgramList(): void {
     this.loading = true;
     this.tv = [{ T: 'c10', V: '3' }];
-
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
@@ -116,15 +112,11 @@ export class Programs implements OnInit {
   }
 
   getHostDisplay(hosts: string): string {
-
   if (!hosts) return '';
-
   const hostArray = hosts.split(',').map(h => h.trim());
-
   if (hostArray.length <= 1) {
     return hostArray[0];
   }
-
   return `${hostArray[0]}, +${hostArray.length - 1}`;
 }
 
@@ -155,7 +147,6 @@ export class Programs implements OnInit {
   onProgramChange(value: string) {
     if (value === 'date') {
       this.isCalendarOpen = true;
-
       // store temporarily, DON'T apply yet
       this.tempProgramSelection = value;
     } else {
@@ -176,25 +167,18 @@ export class Programs implements OnInit {
       { T: 'dk1', V: id },
       { T: 'c10', V: '4' }
     ];
-
     this.srv.getdata('program', tv).subscribe({
       next: (r: any) => {
-
         this.loading = false;
-
         if (r && r.Status === 1) {
-
           this.toast.show({
             title: 'Program deleted successfully! ',
             description: 'Program has been successfully deleted',
             variant: 'success',
             position: 'toast-bottom-center'
           });
-
           this.getProgramList();
-
         } else {
-
           this.toast.show({
             title: 'Failed to delete Program ❌',
             description: r?.Info || 'Something went wrong',

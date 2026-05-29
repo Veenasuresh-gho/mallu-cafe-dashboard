@@ -22,29 +22,37 @@
                 </mat-form-field>
 
                 <!-- Dropdowns -->
-                <mat-form-field appearance="outline" class="status-drop-down">
-                    <mat-select placeholder="All Status" [(value)]="status">
-                        <mat-option value="all">All Status</mat-option>
-                        <mat-option value="active">Active</mat-option>
-                        <mat-option value="inactive">Inactive</mat-option>
-                    </mat-select>
-                </mat-form-field>
 
-                <mat-form-field appearance="outline">
+                <app-select-drop-down placeholder="All Status" [(value)]="status" [options]="[
+    { label: 'All Status', value: 'allStatus' },
+    { label: 'Active', value: 'active' },
+    { label: 'In-active', value: 'in-active' },
+  ]">
+                </app-select-drop-down>
+
+                <app-select-drop-down placeholder="All Category" [(value)]="status" [options]="[
+    { label: 'All Category', value: 'all' },
+    { label: 'Audio', value: 'audio' },
+    { label: 'Video', value: 'video' },
+     { label: 'Image', value: 'image' },
+  ]">
+                </app-select-drop-down>
+
+                <!-- <mat-form-field appearance="outline">
                     <mat-select placeholder="All Category" [(value)]="category">
                         <mat-option value="all">All Category</mat-option>
                         <mat-option value="music">Music</mat-option>
                         <mat-option value="news">News</mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
 
-                <mat-form-field appearance="outline">
-                    <mat-select placeholder="Today" [(value)]="day">
-                        <mat-option value="all">All Host</mat-option>
-                        <mat-option value="host1">Host 1</mat-option>
-                        <mat-option value="host2">Host 2</mat-option>
-                    </mat-select>
-                </mat-form-field>
+
+                <app-select-drop-down placeholder="Today" [(value)]="day" [options]="[
+    { label: 'Today', value: 'today' },
+    { label: 'Tomorrow', value: 'tomorrow' },
+    { label: 'Custom date', value: 'date' },
+  ]" (valueChange)="onProgramChange($event)">
+                </app-select-drop-down>
 
             </div>
             <div class="d-flex align-items-center gap-1">
@@ -89,8 +97,7 @@
                         </video>
 
                         <!-- FALLBACK -->
-                        <img *ngIf="!isImage(row._url) && !isVideo(row._url)" src="/main/no-image.png"
-                            class="avatar" />
+                        <img *ngIf="!isImage(row._url) && !isVideo(row._url)" src="/main/no-image.png" class="avatar" />
 
                     </ng-template>
 
@@ -187,41 +194,41 @@
 
                 <mat-menu #menu="matMenu" class="custom-menu" xPosition="before">
 
-    <button (click)="publishAdvertisement(row.ID)" mat-menu-item>
-        <span class="menu-content-left">
-            <span class="menu-text ">Publish AD</span>
-            <img class="menu-img" src="/program/publish.svg" alt="">
-        </span>
-    </button>
+                    <button (click)="publishAdvertisement(row.ID)" mat-menu-item>
+                        <span class="menu-content-left">
+                            <span class="menu-text ">Publish AD</span>
+                            <img class="menu-img" src="/program/publish.svg" alt="">
+                        </span>
+                    </button>
 
-    <mat-divider></mat-divider>
+                    <mat-divider></mat-divider>
 
-    <button mat-menu-item (click)="editAdvertisement(row)">
-        <span class="menu-content-left">
-            <span class="menu-text ">Edit</span>
-            <img class="menu-img" src="/program/edit-2.svg" alt="">
-        </span>
-    </button>
+                    <button mat-menu-item (click)="editAdvertisement(row)">
+                        <span class="menu-content-left">
+                            <span class="menu-text ">Edit</span>
+                            <img class="menu-img" src="/program/edit-2.svg" alt="">
+                        </span>
+                    </button>
 
-    <mat-divider></mat-divider>
+                    <mat-divider></mat-divider>
 
-    <button (click)="closeAdvertisement(row.ID)" mat-menu-item>
-        <span class="menu-content-left">
-            <span class="menu-text ">Close AD</span>
-            <img class="menu-img" src="/program/close.svg" alt="">
-        </span>
-    </button>
+                    <button (click)="closeAdvertisement(row.ID)" mat-menu-item>
+                        <span class="menu-content-left">
+                            <span class="menu-text ">Close AD</span>
+                            <img class="menu-img" src="/program/close.svg" alt="">
+                        </span>
+                    </button>
 
-    <mat-divider></mat-divider>
+                    <mat-divider></mat-divider>
 
-    <button mat-menu-item (click)="deleteAdvertisement(row.ID)">
-        <span class="menu-content-left">
-            <span class="menu-text ">Delete</span>
-            <img class="menu-img" src="/program/trash.svg" alt="">
-        </span>
-    </button>
+                    <button mat-menu-item (click)="deleteAdvertisement(row.ID)">
+                        <span class="menu-content-left">
+                            <span class="menu-text ">Delete</span>
+                            <img class="menu-img" src="/program/trash.svg" alt="">
+                        </span>
+                    </button>
 
-</mat-menu>
+                </mat-menu>
 
             </td>
         </ng-container>
@@ -234,5 +241,7 @@
 
     <mat-paginator [length]="22" [pageSize]="7" [pageSizeOptions]="[7]" showFirstLastButtons>
     </mat-paginator>
+
+    
 
 </div>

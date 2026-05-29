@@ -18,12 +18,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { CustomFilterCalender } from '../../components/custom-filter-calender/custom-filter-calender';
 
 
 @Component({
   selector: 'app-team-member',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown, MatProgressSpinnerModule],
+  imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule, 
+    FormsModule, PrimaryButton, SelectDropDown, MatProgressSpinnerModule,CustomFilterCalender],
   templateUrl: './team-member.html',
   styleUrl: './team-member.css',
 })
@@ -33,8 +35,8 @@ export class TeamMember implements OnInit {
 
   loading = false;
   ds: [] = [];
-  
-
+  programList :[]=[];
+  programOptions: any[] = [];
   openModal() {
     const dialogRef = this.dialog.open(AddTeamMember, {
     width: '90%',
@@ -64,6 +66,7 @@ export class TeamMember implements OnInit {
 
   ngOnInit(): void {
     this.getTeamMemberList()
+    this.getProgramList()
   }
 
   srv = inject(GHOService);
@@ -77,6 +80,27 @@ export class TeamMember implements OnInit {
     }
   }
   dataSource = new MatTableDataSource<any>([]);
+
+    programsDropdown: string = 'all';
+  tempProgramSelection: string = 'all';
+  isCalendarOpen: boolean = false;
+
+    onProgramChange(value: string) {
+    if (value === 'date') {
+      this.isCalendarOpen = true;
+      // store temporarily, DON'T apply yet
+      this.tempProgramSelection = value;
+    } else {
+      this.programsDropdown = value;
+      this.tempProgramSelection = value;
+      this.isCalendarOpen = false;
+    }
+  }
+
+    onFilterApplied(data: any) {
+    this.programsDropdown = this.tempProgramSelection;
+    this.isCalendarOpen = false;
+  }
 
 
 
@@ -103,6 +127,28 @@ export class TeamMember implements OnInit {
   get showPaginator(): boolean {
     return this.dataSource.data.length > 7;
   }
+
+
+getProgramList(): void {
+  this.tv = [{ T: 'c10', V: '3' }];
+  this.srv.getdata('program', this.tv)
+    .subscribe({
+      next: (r) => {
+        this.programList = r.Data[0];
+        this.programOptions = [
+          { label: 'All Programs', value: 'all' },
+          ...this.programList.map((program: any) => ({
+            label: program.Title,
+            value: program.ProgramID
+          }))
+        ];
+      },
+      error: (err) => {
+        console.error('API Error:', err);
+        this.loading = false;
+      }
+    });
+}
 
 goToMemberDetails(row: any) {
   this.router.navigate(['/team-members', row.id]);

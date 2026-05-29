@@ -145,7 +145,6 @@ export class EditUploadedFile implements OnInit {
         next: async (r: any) => {
           this.ds =
             r?.Data?.[0]?.[0] || null;
-          console.log('mediaLibraryDetails', this.ds);
           if (this.ds) {
             this.fileName = this.ds.FileName || '';
             this.fileID = this.ds.fid || '';
@@ -290,52 +289,6 @@ export class EditUploadedFile implements OnInit {
 
     this.cdr.markForCheck();
   }
-
-
-  // deleteFile(fileUploadID: any) {
-  //   if (!fileUploadID) return;
-  //   this.loading = true;
-  //   this.cd.detectChanges();
-  //   const userId = this.srv.getsession('id');
-  //   this.tv = [
-  //     { T: 'dk1', V: userId },
-  //     { T: 'dk2', V: '6' },
-  //     { T: 'c1', V: fileUploadID },
-  //     { T: 'c10', V: '4' }
-  //   ];
-  //   this.srv.getdata('fileupload', this.tv).subscribe({
-  //     next: (r: any) => {
-  //       this.cd.detectChanges();
-  //       if (r.Status === 1) {
-  //         this.getMediaLibrary()
-  //         this.toast.show({
-  //           title: 'File deleted successfully! 🎉',
-  //           description: '',
-  //           variant: 'success',
-  //           position: 'toast-bottom-center'
-  //         });
-  //       } else {
-  //         const apiMsg = r.Data?.[0]?.[0]?.msg || 'Please try again';
-  //         this.toast.show({
-  //           title: 'Failed to delete file',
-  //           description: apiMsg,
-  //           variant: 'error',
-  //           position: 'toast-bottom-center'
-  //         });
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.error('💥 Error:', err);
-  //       this.cd.detectChanges();
-  //       this.toast.show({
-  //         title: 'Error deleting file',
-  //         description: 'Please try again later',
-  //         variant: 'error',
-  //         position: 'toast-bottom-center'
-  //       });
-  //     }
-  //   });
-  // }
 
   deleteFile(fileUploadID: any) {
     if (!fileUploadID) return;
@@ -510,14 +463,14 @@ export class EditUploadedFile implements OnInit {
 
   updatePreScheduled(): void {
     this.loading = true;
-    console.log('preScheduleData', this.preScheduleData);
-    console.log('this.ds?.Title', this.ds);
     this.tv = [
       { T: 'dk1', V: this.ds?.id },
       { T: 'c1', V: this.ds?.Name || '' },
       { T: 'c2', V: '' },
       { T: 'c3', V: this.preScheduleData?.typedText || '' },
+      { T: 'c4', V: this.preScheduleData?.fileName || '' },
       { T: 'c10', V: '25' }
+
     ];
     this.srv.getdata('program', this.tv)
       .subscribe({
@@ -574,7 +527,6 @@ export class EditUploadedFile implements OnInit {
                 return;
               }
             }
-
             this.loading = false;
             this.toast.show({
               title: 'Updated Successfully 🎉',
@@ -610,6 +562,7 @@ export class EditUploadedFile implements OnInit {
       { T: 'c1', V: this.ds?.Title || '' },
       { T: 'c2', V: this.podcastData?.subtitle || '' },
       { T: 'c3', V: this.podcastData?.typedText || '' },
+      { T: 'c4', V: this.podcastData?.fileName || '' },
       { T: 'c10', V: '25' }
     ];
     this.srv.getdata('program', this.tv)
@@ -674,6 +627,7 @@ export class EditUploadedFile implements OnInit {
       { T: 'c1', V: this.videoData?.title || '' },
       { T: 'c2', V: this.videoData?.subtitle || '' },
       { T: 'c3', V: this.videoData?.typedText || '' },
+      { T: 'c4', V: this.videoData?.fileName || '' },
       { T: 'c10', V: '25' }
     ];
 
@@ -740,11 +694,13 @@ export class EditUploadedFile implements OnInit {
 
     updateShorts(): void {
     this.loading = true;
+    console.log('shortsData',this.shortsData);
     this.tv = [
       { T: 'dk1', V: this.ds?.id },
       { T: 'c1', V: this.shortsData?.title || ''},
       { T: 'c2', V: this.ds?.Subtitle || '' },
       { T: 'c3', V: this.shortsData?.typedText || '' },
+      { T: 'c4', V: this.shortsData?.fileName || '' },
       { T: 'c10', V: '25' }
     ];
     this.srv.getdata('program', this.tv)

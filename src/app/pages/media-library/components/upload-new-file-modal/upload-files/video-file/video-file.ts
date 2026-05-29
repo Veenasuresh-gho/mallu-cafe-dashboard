@@ -51,11 +51,9 @@ export class VideoFile implements OnChanges {
   // }
 
   ngOnChanges(changes: SimpleChanges) {
-
     if (changes['fileName'] && this.fileName && !this.originalFileName) {
       this.originalFileName = this.fileName;
     }
-
     if (changes['editData'] && this.editData) {
       this.patchEditData();
     }
@@ -63,14 +61,15 @@ export class VideoFile implements OnChanges {
 
   getBaseName(name: string): string {
     if (!name) return '';
-
     const lastDotIndex = name.lastIndexOf('.');
-    const base = lastDotIndex !== -1
-      ? name.substring(0, lastDotIndex)
-      : name;
-
+    let base =
+      lastDotIndex !== -1
+        ? name.substring(0, lastDotIndex)
+        : name;
+    base = base.replace(/\d{6}$/, '');
     return base.replace(/\s+/g, '');
   }
+
   onTitleChange(value: string) {
     this.title = value;
     this.emitData();
@@ -83,7 +82,6 @@ export class VideoFile implements OnChanges {
 
 
   emitData() {
-
     const cleanDate = this.typedText.replace(/\//g, '');
     const baseName = this.getBaseName(this.originalFileName);
     let fileName = '';
@@ -98,21 +96,15 @@ export class VideoFile implements OnChanges {
       categoryId: this.selectedCategoryId,
       typedText: this.typedText,
       fileName: fileName,
-
       title: this.title,
       subtitle: this.subtitle,
-
       fullData: this.programList.find(p => p.ProgramID === this.programId),
-
       thumbnailFile: this.selectedFile
     });
 
   }
 
   patchEditData(): void {
-
-    console.log('video edit', this.editData);
-
     this.title =
       this.editData?.Title || '';
 
@@ -145,15 +137,12 @@ export class VideoFile implements OnChanges {
       fileName.match(/(\d{6})(?=\.[^.]+$)/);
     if (!match) return '';
     const rawDate = match[1];
-
     return `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
   }
 
   onTextChange(event: any) {
     const el = event.target;
-
     let value = el.innerText.replace(/\D/g, '').slice(0, 6);
-
     if (value.length > 2) {
       value = value.slice(0, 2) + '/' + value.slice(2);
     }
@@ -169,47 +158,38 @@ export class VideoFile implements OnChanges {
     range.collapse(false);
     sel?.removeAllRanges();
     sel?.addRange(range);
-
     this.typedText = value;
     this.emitData();
   }
 
   onDateChange(value: string) {
 
-  let cleaned =
-    value.replace(/\D/g, '').slice(0, 6);
+    let cleaned =
+      value.replace(/\D/g, '').slice(0, 6);
 
-  if (cleaned.length > 2) {
-    cleaned =
-      cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+    if (cleaned.length > 2) {
+      cleaned =
+        cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+    }
+
+    if (cleaned.length > 5) {
+      cleaned =
+        cleaned.slice(0, 5) + '/' + cleaned.slice(5);
+    }
+
+    this.typedText = cleaned;
+
+    this.emitData();
   }
-
-  if (cleaned.length > 5) {
-    cleaned =
-      cleaned.slice(0, 5) + '/' + cleaned.slice(5);
-  }
-
-  this.typedText = cleaned;
-
-  this.emitData();
-}
-  //  onFileSelected(file: File) {
-  //   this.selectedFile = file;
-  //   this.emitData(); 
-  // }
+ 
 
   onFileSelected(file: File) {
 
     if (!file) return;
-
     this.selectedFile = file;
-
     this.fileSelectedName = file.name;
-
     const reader = new FileReader();
-
     reader.onload = () => {
-
       this.thumbnailPreview = reader.result as string;
 
       this.emitData();

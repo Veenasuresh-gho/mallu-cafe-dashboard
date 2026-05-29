@@ -120,7 +120,7 @@ export class VideoFile implements OnChanges {
       this.editData?.Subtitle || '';
 
     this.thumbnailPreview =
-      this.editData?.ThumbnailUrl || '';
+      this.editData?.ThumbnailUrl || this.editData?.TeamUrl || '';
 
     this.fileSelectedName =
       this.editData?.ThumbnailUrl
@@ -176,23 +176,23 @@ export class VideoFile implements OnChanges {
 
   onDateChange(value: string) {
 
-  let cleaned =
-    value.replace(/\D/g, '').slice(0, 6);
+    let cleaned =
+      value.replace(/\D/g, '').slice(0, 6);
 
-  if (cleaned.length > 2) {
-    cleaned =
-      cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+    if (cleaned.length > 2) {
+      cleaned =
+        cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+    }
+
+    if (cleaned.length > 5) {
+      cleaned =
+        cleaned.slice(0, 5) + '/' + cleaned.slice(5);
+    }
+
+    this.typedText = cleaned;
+
+    this.emitData();
   }
-
-  if (cleaned.length > 5) {
-    cleaned =
-      cleaned.slice(0, 5) + '/' + cleaned.slice(5);
-  }
-
-  this.typedText = cleaned;
-
-  this.emitData();
-}
   //  onFileSelected(file: File) {
   //   this.selectedFile = file;
   //   this.emitData(); 

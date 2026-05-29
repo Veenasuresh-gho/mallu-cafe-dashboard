@@ -161,7 +161,9 @@
                 </p>
 
                 <div class="d-flex justify-content-between align-items-center">
+
                     <div class="d-flex align-items-center gap-2">
+
                         <div class="rjImage">
                             <img [src]="item.ThumbnailURL || '/main/no-image.png'" loading="lazy">
                         </div>
@@ -169,88 +171,124 @@
                         <div class="gap-1 d-flex flex-column">
                             <p class="song-name mb-0 fw-semibold">{{item.Title}}</p>
                             <p class="time mb-0 text-muted">{{item.TimeRange}}</p>
+
                             <p class="name d-flex align-items-center gap-2 mb-0">
                                 <img src="/main/headphone_icon.svg" class="headphone-icon" />
                                 <span>{{item.HostName}}</span>
                             </p>
                         </div>
+
                     </div>
 
-                    @if(item.CategoryName!=="Live"){
+                    @if(item.CategoryName !== "Live") {
+
                     <button mat-icon-button [matMenuTriggerFor]="menu">
                         <mat-icon>more_horiz</mat-icon>
                     </button>
+
+                    <mat-menu #menu="matMenu" panelClass="custom-menu-panel">
+
+                        <button mat-menu-item (click)="publishProgram(item)" [disabled]="!item?.IsFileUploaded">
+
+                            <span>Publish</span>
+
+                            <img src="/upload/public-icon.svg" class="menu-icon" />
+                        </button>
+
+                    </mat-menu>
+
                     }
+
                 </div>
 
-                <mat-menu #menu="matMenu" panelClass="custom-menu-panel">
-                    <div class="custom-menu-item" (click)="item?.IsFileUploaded && publishProgram(item)"
-                        [class.disabled]="!item?.IsFileUploaded">
-                        <span>Publish</span>
-                        <img src="/upload/public-icon.svg" class="menu-icon" />
-                    </div>
-                </mat-menu>
+                @if(item.CategoryName === "Live") {
 
-
-                @if(item.CategoryName==="Live"){
                 <div class="live-text d-flex align-items-center gap-1">
                     <img src="/dash/info-accent.svg" />
                     <p class="mb-0">Streaming Not Started</p>
                 </div>
 
                 <div class="d-flex gap-2 align-items-center url-row">
+
                     <div class="url-input-wrapper flex-grow">
+
                         <span class="url-prefix">
                             <img src="/dash/url-icon.svg" class="url-icon" />
                             url://
                         </span>
 
                         <input type="text" class="url-input" placeholder="Paste here..." [(ngModel)]="item.urlValue" />
+
                     </div>
 
                     <app-primary-button class="btn-auto" (clicked)="addPublish(item)" [loading]="publishLoading"
                         [label]="'Publish'" iconSrc="/dash/publish.svg"
                         [disabled]="!item?.urlValue || !item.urlValue?.trim()">
                     </app-primary-button>
+
                 </div>
+
                 }
 
-                @if(item.CategoryName !=="Live"){
+                @if(item.CategoryName !== "Live") {
+
                 <div class="d-flex justify-content-between align-items-center">
+
                     <div class="view d-flex align-items-center gap-2">
+
                         @if(item.IsFileUploaded) {
+
                         <div class="viewFileBtn" (click)="ViewFileModal(item.ProgramID)">
+
                             <img src="/main/visibility.svg">
+
                             <span class="px-1">View File</span>
+
                         </div>
+
                         }
 
                         <div>
+                            @if(item.IsFileUploaded) {
                             <img src="/main/update.svg">
                             <span (click)="openDialog(item)" class="px-1">
                                 Update
                             </span>
+
+                            } @else {
+                            <img src="/main/update.svg">
+                            <span (click)="openModal(item)" class="px-1">
+                                Upload
+                            </span>
+
+                            }
                         </div>
+
                     </div>
 
                     @if(item.IsFileUploaded) {
+
                     <p class="mb-0">
                         <img src="/main/tick.svg" />
                         <span class="files px-1">Files Uploaded</span>
                     </p>
+
                     } @else {
+
                     <p class="mb-0">
                         <img src="/dash/info.svg" />
                         <span class="files-not px-1">Files not Uploaded</span>
                     </p>
+
                     }
 
                 </div>
+
                 }
+
             </div>
 
             }
-
             }
 
         </div>

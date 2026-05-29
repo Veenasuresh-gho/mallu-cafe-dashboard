@@ -16,11 +16,7 @@
         <app-step-badge [stepNumber]="1" title="Upload Media File"></app-step-badge>
         <div class="px-4">
 
-            <!-- <app-upload-box [uploadText]="originalFileName || 'Upload Broadcast Media File'" [subText]="originalFileName 
-    ? fileSize + (dimension ? ' • ' + dimension : '') 
-    : 'Drag & drop your file here, or click to browse'" [accept]="'audio/mp3, video/mp4'"
-                [sizeText]="'MP3, MP4 • Max size: 1.5 GB'" (fileSelected)="onFileSelected($event)">
-            </app-upload-box> -->
+    
             <app-upload-box [uploadText]="'Upload Broadcast Media File'"
                 [subText]="'Drag & drop your file here, or click to browse'"
                 [accept]="'audio/mp3,audio/mpeg,video/mp4,video/mpeg,.mp3,.mpeg,.mp4'"
@@ -37,17 +33,12 @@
                     <!-- IMAGE -->
                     <img *ngIf="isImageType()" [src]="previewUrl" class="file-icon" />
 
-                    <!-- VIDEO -->
                     <video *ngIf="isVideoType()" [src]="previewUrl" class="file-icon" muted></video>
 
                     <!-- FALLBACK -->
                     <img *ngIf="!isImageType() && !isVideoType()" src="/upload/file-default.svg" class="file-icon" />
 
-                    <!-- <div class="d-flex file-details justify-content-between align-items-center w-100">
-                        <div class="file-name">{{ fileName }} <img src="/upload/green-tick.svg" class="mb-1" alt="">
-                        </div>
-                        <div class="file-size px-2">{{ fileSize }}</div>
-                    </div> -->
+                  
                     <div class="d-flex file-details justify-content-between align-items-center w-100">
 
                         <div class="file-name text-truncate-custom">
@@ -119,21 +110,9 @@
         <hr>
         <div class=" footer">
             <div class="dialog-actions d-flex justify-content-end my-4 mx-3 gap-2">
-                <!-- 
-                <button class="close-btn btn-cancel d-flex" (click)="close()">
-                    <img src="/program/close-circle.svg" width="16px" alt="">
-                    <p>Cancel</p>
-                </button> -->
+              
                 <div class="d-flex gap-2">
-                    <!-- <button type="submit" class="btn-save d-flex">
-                        <img src="/upload/save-icon.svg" alt="">
-                        <span>Save it as private</span>
-                    </button> -->
-                    <!-- <button (click)="addPublish()" type="submit" class="btn-publish d-flex">
-                        <img src="/upload/public-icon.svg" alt="">
-                        <span>Publish</span>
-                    </button> -->
-
+               
                     <button class="close-btn btn-cancel d-flex mx-3" (click)="close()">
                         <img src="/program/close-circle.svg" width="16px" alt="">
                         <p>Cancel</p>

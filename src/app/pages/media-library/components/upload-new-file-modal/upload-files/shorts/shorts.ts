@@ -43,11 +43,6 @@ export class Shorts implements OnChanges {
   @Output() programSelected = new EventEmitter<any>();
   @Input() editData: any = null;
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if (changes['fileName'] && this.fileName && !this.originalFileName) {
-  //     this.originalFileName = this.fileName;
-  //   }
-  // }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['fileName'] && this.fileName && !this.originalFileName) {
@@ -59,40 +54,37 @@ export class Shorts implements OnChanges {
   }
 
   getBaseName(name: string): string {
-    if (!name) return '';
-
-    const lastDotIndex = name.lastIndexOf('.');
-    const base = lastDotIndex !== -1
+  if (!name) return '';
+  const lastDotIndex = name.lastIndexOf('.');
+  let base =
+    lastDotIndex !== -1
       ? name.substring(0, lastDotIndex)
       : name;
+  base = base.replace(/\d{6}$/, '');
+  return base.replace(/\s+/g, '');
+}
 
-    return base.replace(/\s+/g, '');
-  }
   onTitleChange(value: string) {
     this.title = value;
     this.emitData();
   }
+  
 
   emitData() {
-
     const cleanDate = this.typedText.replace(/\//g, '');
     const baseName = this.getBaseName(this.originalFileName);
     let fileName = '';
-
     if (baseName && cleanDate && this.fileType) {
       fileName = `${baseName}${cleanDate}.${this.fileType}`;
     }
-
     this.programSelected.emit({
       programId: this.programId,
       programName: baseName,
       categoryId: this.selectedCategoryId,
       typedText: this.typedText,
       fileName: fileName,
-
       title: this.title,
       fullData: this.programList.find(p => p.ProgramID === this.programId),
-
       thumbnailFile: this.selectedFile
     });
 
@@ -178,10 +170,7 @@ export class Shorts implements OnChanges {
     this.typedText = value;
     this.emitData();
   }
-  //  onFileSelected(file: File) {
-  //   this.selectedFile = file;
-  //   this.emitData(); 
-  // }
+  
 
   onFileSelected(file: File) {
 

@@ -218,14 +218,11 @@ export class PodcastFile implements OnInit {
       cleaned =
         cleaned.slice(0, 2) + '/' + cleaned.slice(2);
     }
-
     if (cleaned.length > 5) {
       cleaned =
         cleaned.slice(0, 5) + '/' + cleaned.slice(5);
     }
-
     this.typedText = cleaned;
-
     this.emitData();
   }
 
@@ -272,7 +269,6 @@ export class PodcastFile implements OnInit {
         { T: 'dk2', V: this.selectedCategoryId },
         { T: 'c10', V: '11' }
       ];
-
       this.srv.getdata('program', this.tv)
         .subscribe({
 
@@ -343,7 +339,6 @@ export class PodcastFile implements OnInit {
   }
 
   getPodcastCategory(): Promise<void> {
-
     return new Promise((resolve) => {
 
       this.tv = [
@@ -352,7 +347,6 @@ export class PodcastFile implements OnInit {
 
       this.srv.getdata('lists', this.tv)
         .subscribe({
-
           next: (r) => {
 
             const data = r.Data[0] || [];
@@ -364,7 +358,6 @@ export class PodcastFile implements OnInit {
               }));
 
             this.cdr.markForCheck();
-
             resolve();
           },
 
@@ -432,7 +425,6 @@ export class PodcastFile implements OnInit {
       event.target.files?.[0];
 
     if (!file) return;
-
     this.thumbnailFile = file;
 
     const reader = new FileReader();
@@ -498,7 +490,6 @@ export class PodcastFile implements OnInit {
     sel?.addRange(range);
 
     this.typedText = value;
-
     this.emitData();
   }
 }

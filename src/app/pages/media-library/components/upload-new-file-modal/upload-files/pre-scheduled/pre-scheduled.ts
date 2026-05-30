@@ -277,10 +277,8 @@ onDateChange(value: string) {
 
   emitData() {
     const isValid = this.validateForm();
-
     const cleanDate = this.typedText.replace(/\//g, '');
     const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
-
     let fileName = '';
 
     if (cleanProgramName && cleanDate && this.fileType) {

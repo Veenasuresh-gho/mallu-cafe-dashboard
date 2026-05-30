@@ -3,6 +3,7 @@ import { ghoresult, tags } from '../../../model/ghomodel';
 import { GHOService } from '../../services/ghosrvs';
 import { GHOUtitity } from '../../services/utilities';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -28,7 +29,7 @@ export class Navbar {
   errors: any = {};
   id: any = ''
 
-
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.getProfile();
@@ -108,6 +109,10 @@ export class Navbar {
           this.nextSong = null;
         }
       });
+  }
+
+    navigateToProfile() {
+    this.router.navigate(['/profile']);
   }
 
 }

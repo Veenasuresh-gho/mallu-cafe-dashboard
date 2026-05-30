@@ -12,7 +12,6 @@ import { FormSelect } from '../../../../components/dialog-form/form-select/form-
 import { FormCategory } from '../../../../components/dialog-form/form-category/form-category';
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { Default } from './upload-files/default/default';
-import { PreScheduled } from './upload-files/pre-scheduled/pre-scheduled';
 import { Shorts } from './upload-files/shorts/shorts';
 import { PodcastFile } from './upload-files/podcast-file/podcast-file';
 import { VideoFile } from './upload-files/video-file/video-file';
@@ -23,6 +22,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 import { ToastService } from '../../../../services/toastService';
+import { PreScheduled } from './upload-files/pre-scheduled/pre-scheduled';
 
 @Component({
   selector: 'app-upload-new-file-modal',
@@ -53,13 +53,26 @@ export class UploadNewFileModal implements OnInit {
   loading = false;
   isPreScheduledValid = false;
   previewUrl: string = '';
-
+  formattedSelectedDate: string = '';
+  programPrefillData: any = null;
+  selectedBroadcastDate: string = '';
   data = inject(MAT_DIALOG_DATA);
 
   ngOnInit(): void {
     const storedId = sessionStorage.getItem('id');
     this.userId = storedId ? JSON.parse(storedId) : '';
-console.log("data",this.data)
+
+    if (this.data?.selectedDate) {
+
+      const date = new Date(this.data.selectedDate);
+
+      const dd = String(date.getDate()).padStart(2, '0');
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const yy = String(date.getFullYear()).slice(-2);
+
+      this.selectedBroadcastDate = `${dd}/${mm}/${yy}`;
+    }
+
     if (this.data?.item) {
 
       this.selectedProgramData = this.data.item;
@@ -71,12 +84,44 @@ console.log("data",this.data)
       this.selectedProgramName = this.data.item.Title;
 
       this.title = this.data.item.Title;
+    }
 
+    if (this.data?.programData?.length) {
+
+      const program = this.data.programData[0];
+
+      this.selectedProgramData = program;
+
+      this.programId = program.ProgramID?.toString() || '';
+
+      this.selectedProgramId = program.ProgramID?.toString() || '';
+
+      this.selectedProgramName = program.Title || '';
+
+      this.title = program.Title || '';
+
+      this.subtitle = program.HostName || '';
+
+      this.selectedCategoryId = program.PodcastCategoryID?.toString() || '';
+
+
+      if (program.CategoryName?.toLowerCase() === 'podcast') {
+        this.selectedMediaType = '2';
+      }
+
+      if (program.CategoryName?.toLowerCase() === 'pre-scheduled') {
+        this.selectedMediaType = '1';
+      }
+
+      if (this.selectedMediaType) {
+        this.getProgramList();
+      }
+
+      this.cdr.detectChanges();
     }
 
     this.getMediaTypes();
   }
-
 
   close() {
     this.dialogRef.close();

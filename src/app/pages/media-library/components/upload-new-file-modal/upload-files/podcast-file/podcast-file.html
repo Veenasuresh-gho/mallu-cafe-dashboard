@@ -1,19 +1,11 @@
 <div class="d-flex align-items-center justify-content-center gap-2">
-    <!-- <app-form-select label="Podcast Category Name " style="width:530px ;" [options]="catogories"
-        optionLabel="DisplayText" optionValue="DataValue" placeholder="e.g., Music / Entertainment / Sports" name="host"
-        (modelChange)="onCategoryChange($event)">
-    </app-form-select> -->
 
-    <app-form-select label="Podcast Category Name " style="width:530px;" [options]="catogories"
-        optionLabel="DisplayText" optionValue="DataValue" placeholder="e.g., Music / Entertainment / Sports" name="host"
-        [(model)]="selectedCategoryId" (modelChange)="onCategoryChange($event)" [disabled]="!!editData">
+
+    <app-form-select label="Podcast Category Name" style="width:530px;" [options]="catogories" optionLabel="DisplayText"
+        optionValue="DataValue" placeholder="e.g., Music / Entertainment / Sports" name="host"
+        [(model)]="selectedCategoryId" (modelChange)="onCategoryChange($event)" [disabled]="true">
     </app-form-select>
-    <!-- <div class="adding-btn">
-        <button class="add-btn" (click)="openModalAddPodcast()">
-            <img src="/upload/add.svg" alt="">
-        </button>
 
-    </div> -->
 </div>
 
 
@@ -21,13 +13,11 @@
 
 <div class="form-row px-4">
 
-    <!-- <app-form-select label="Program Name " [options]="programList" optionLabel="DisplayText" optionValue="DataValue"
-        (modelChange)="onProgramChange($event)" placeholder="- Select Program Name -" name="host">
-    </app-form-select> -->
 
-    <app-form-select label="Program Name " [options]="poadcastProgramList" optionLabel="DisplayText"
+
+    <app-form-select label="Program Name" [options]="poadcastProgramList" optionLabel="DisplayText"
         optionValue="DataValue" [(model)]="selectedProgramId" (modelChange)="onProgramChange($event)"
-        placeholder="- Select Program Name -" name="host" [disabled]="!!editData">
+        placeholder="- Select Program Name -" name="host" [disabled]="readOnly || !!editData">
     </app-form-select>
 </div>
 <!-- step 3 -->
@@ -40,12 +30,10 @@
     <div class="form-group">
         <div class="input-prefix-wrapper">
             <span class="prefix">{{selectedProgramName}}//</span>
-            <!-- <div class="editable-part" contenteditable="true" (input)="onTextChange($event)"
-                [attr.data-placeholder]="'160326.' + fileType">
-            </div> -->
+
 
             <input class="editable-part-input" type="text" maxlength="8" placeholder="16/03/26" [(ngModel)]="typedText"
-                (ngModelChange)="onDateChange($event)" />
+                (ngModelChange)="onDateChange($event)" [readonly]="readOnly" />
         </div>
         <p class="helper-text">Use the broadcast date in DDMMYY format.</p>
     </div>
@@ -142,11 +130,7 @@
     <div class="form-row px-4">
         <div class="form-group">
 
-            <!-- <app-form-input label="Title *" customClass="large-input"
-                placeholder="e.g. eg. Celebrity Talk – Exclusive Interview with Actor Nivin Pauly" name="title"
-                [(model)]="title" (modelChange)="onTitleChange($event)">
 
-            </app-form-input> -->
             <div class="form-row">
                 <label class="input-label">Subtitle *</label>
 

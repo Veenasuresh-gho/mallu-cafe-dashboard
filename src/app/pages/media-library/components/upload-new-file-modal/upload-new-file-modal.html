@@ -16,7 +16,7 @@
         <app-step-badge [stepNumber]="1" title="Upload Media File"></app-step-badge>
         <div class="px-4">
 
-    
+
             <app-upload-box [uploadText]="'Upload Broadcast Media File'"
                 [subText]="'Drag & drop your file here, or click to browse'"
                 [accept]="'audio/mp3,audio/mpeg,video/mp4,video/mpeg,.mp3,.mpeg,.mp4'"
@@ -38,7 +38,7 @@
                     <!-- FALLBACK -->
                     <img *ngIf="!isImageType() && !isVideoType()" src="/upload/file-default.svg" class="file-icon" />
 
-                  
+
                     <div class="d-flex file-details justify-content-between align-items-center w-100">
 
                         <div class="file-name text-truncate-custom">
@@ -74,9 +74,9 @@
 
 
         <div class="form-row px-4">
-
             <app-form-select label="Category *" [options]="mediaTypeOptions" optionLabel="DisplyText"
-                optionValue="DataValue" (modelChange)="onMediaTypeChange($event)" [(model)]="selectedMediaType">
+                optionValue="DataValue" [(model)]="selectedMediaType" [disabled]="!!selectedProgramData"
+                (modelChange)="onMediaTypeChange($event)">
             </app-form-select>
 
         </div>
@@ -84,24 +84,31 @@
 
             <div *ngSwitchCase="'1'" [class.disabled-section]="!selectedMediaType">
                 <app-pre-scheduled [programList]="programList" [fileType]="extension"
-                    (programSelected)="onProgramSelected($event)" (validationChange)="isPreScheduledValid = $event">
+                    [prefillData]="selectedProgramData" [prefillDate]="selectedBroadcastDate"
+                    [readOnly]="!!selectedProgramData" (programSelected)="onProgramSelected($event)">
                 </app-pre-scheduled>
             </div>
-            <div *ngSwitchCase="'2'">
-                <app-podcast-file [programList]="programList" [fileType]="extension"
-                    (programSelected)="onProgramSelected($event)"></app-podcast-file>
-            </div>
 
+            <div *ngSwitchCase="'2'">
+                <app-podcast-file [programList]="programList" [fileType]="extension" [prefillData]="selectedProgramData"
+                    [prefillDate]="selectedBroadcastDate" [readOnly]="!!selectedProgramData"
+                    (programSelected)="onProgramSelected($event)">
+                </app-podcast-file>
+            </div>
 
             <app-video-file *ngSwitchCase="'3'" [fileName]="fileName" [fileType]="extension"
                 (programSelected)="onProgramSelected($event)">
             </app-video-file>
+
             <app-shorts *ngSwitchCase="'4'" [fileName]="fileName" [fileType]="extension"
-                (programSelected)="onProgramSelected($event)"></app-shorts>
+                (programSelected)="onProgramSelected($event)">
+            </app-shorts>
 
             <div *ngSwitchDefault>
                 <div class="disabled-section">
-                    <app-pre-scheduled [programList]="programList" [fileType]="extension">
+                    <app-pre-scheduled [programList]="programList" [fileType]="extension"
+                        [prefillData]="selectedProgramData" [prefillDate]="selectedBroadcastDate"
+                        (programSelected)="onProgramSelected($event)">
                     </app-pre-scheduled>
                 </div>
             </div>
@@ -110,9 +117,9 @@
         <hr>
         <div class=" footer">
             <div class="dialog-actions d-flex justify-content-end my-4 mx-3 gap-2">
-              
+
                 <div class="d-flex gap-2">
-               
+
                     <button class="close-btn btn-cancel d-flex mx-3" (click)="close()">
                         <img src="/program/close-circle.svg" width="16px" alt="">
                         <p>Cancel</p>

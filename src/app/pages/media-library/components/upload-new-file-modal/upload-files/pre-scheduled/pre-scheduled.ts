@@ -14,12 +14,12 @@ import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-pre-scheduled',
   standalone: true,
-  imports: [CommonModule,FormSelect, StepBadge, MatRadioModule, FormsModule, JsonPipe],
+  imports: [CommonModule, FormSelect, StepBadge, MatRadioModule, FormsModule, JsonPipe],
   templateUrl: './pre-scheduled.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './pre-scheduled.css',
 })
-export class PreScheduled implements OnInit,OnChanges {
+export class PreScheduled implements OnInit, OnChanges {
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);
@@ -39,72 +39,90 @@ export class PreScheduled implements OnInit,OnChanges {
   @Output() programSelected = new EventEmitter<any>();
   @Output() validationChange = new EventEmitter<boolean>();
   @Input() editData: any = null;
+  @Input() programData: any;
+  @Input() selectedDate: string = '';
 
   typedText: string = '';
   selectedType: string = '';
   thumbnailFile: File | null = null;
   fileSelectedName: string = '';
   thumbnailPreview: string = '';
+  @Input() prefillData: any;
+  @Input() prefillDate: string = '';
+  @Input() readOnly: boolean = false;
 
 
   async ngOnInit(): Promise<void> {
-  if (this.editData) {
-    this.patchEditData();
+
+    console.log('prefillDate', this.prefillDate);
+
+    if (this.prefillDate) {
+      this.typedText = this.prefillDate;
+    }
+
+    if (this.editData) {
+      this.patchEditData();
+    }
   }
-}
 
 
   patchEditData(): void {
-  console.log('preschedule edit', this.editData);
-  this.selectedProgramId =
-    this.editData?.ProgramID || '';
-  this.selectedProgramName =
-    this.editData?.Name || '';
-  this.typedText =
-    this.extractDate(this.editData?.FileName || '');
+    console.log('preschedule edit', this.editData);
+    this.selectedProgramId =
+      this.editData?.ProgramID || '';
+    this.selectedProgramName =
+      this.editData?.Name || '';
+    this.typedText =
+      this.extractDate(this.editData?.FileName || '');
 
-  this.thumbnailPreview =
-    this.editData?.ThumbnailUrl || '';
+    this.thumbnailPreview =
+      this.editData?.ThumbnailUrl || '';
 
-  this.selectedType =
-    this.editData?.ThumbnailUrl
-      ? 'custom'
-      : 'program';
+    this.selectedType =
+      this.editData?.ThumbnailUrl
+        ? 'custom'
+        : 'program';
 
-  const selected =
-    this.programList.find(
-      p => p.DataValue == this.selectedProgramId
-    );
+    const selected =
+      this.programList.find(
+        p => p.DataValue == this.selectedProgramId
+      );
 
-  this.programId =
-    selected?.ProgramID || '';
+    this.programId =
+      selected?.ProgramID || '';
 
-  if (this.selectedType === 'program' && this.programId) {
-    this.getProgramDetails();
+    if (this.selectedType === 'program' && this.programId) {
+      this.getProgramDetails();
+    }
+
+    this.cdr.detectChanges();
+
+    this.emitData();
   }
 
-  this.cdr.detectChanges();
-
-  this.emitData();
-}
-
-extractDate(fileName: string): string {
-  const match =
-    fileName.match(/(\d{6})(?=\.[^.]+$)/);
-  if (!match) return '';
-  const rawDate = match[1];
-  return `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
-}
+  extractDate(fileName: string): string {
+    const match =
+      fileName.match(/(\d{6})(?=\.[^.]+$)/);
+    if (!match) return '';
+    const rawDate = match[1];
+    return `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
+  }
 
 onDateChange(value: string) {
+  if (this.readOnly) return;
+
   let cleaned = value.replace(/\D/g, '').slice(0, 6);
+
   if (cleaned.length > 2) {
     cleaned = cleaned.slice(0, 2) + '/' + cleaned.slice(2);
   }
+
   if (cleaned.length > 5) {
     cleaned = cleaned.slice(0, 5) + '/' + cleaned.slice(5);
   }
+
   this.typedText = cleaned;
+
   this.emitData();
 }
 
@@ -129,37 +147,25 @@ onDateChange(value: string) {
     return Object.keys(this.errors).length === 0;
   }
 
-  // onThumbnailTypeChange(type: string) {
-  //   this.selectedType = type;
-
-  //   if (type === 'program' && this.programId) {
-  //     this.getProgramDetails();
-  //   }
-
-  //   this.cdr.markForCheck();
-
-  //   this.emitData();
-  // }
-
   onThumbnailTypeChange(type: string) {
 
-  this.selectedType = type;
+    this.selectedType = type;
 
-  if (type === 'program' && this.programId) {
-    this.getProgramDetails();
+    if (type === 'program' && this.programId) {
+      this.getProgramDetails();
+    }
+
+    if (type === 'custom') {
+      this.programDetails = {};
+    }
+
+    this.cdr.detectChanges();
+
+    this.emitData();
   }
 
-  if (type === 'custom') {
-    this.programDetails = {};
-  }
 
-  this.cdr.detectChanges();
 
-  this.emitData();
-}
-
-  
-  
   onProgramChange(value: any) {
     this.selectedProgramId = value;
     const selected = this.programList.find(p => p.DataValue === value);
@@ -168,13 +174,35 @@ onDateChange(value: string) {
     if (this.selectedType === 'program' && this.programId) {
       this.getProgramDetails();
     }
-    this.cdr.markForCheck(); 
+    this.cdr.markForCheck();
     this.emitData();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['programList']) {
+
+    if (changes['prefillDate']?.currentValue) {
+      this.typedText = changes['prefillDate'].currentValue;
     }
+
+    if (
+      this.prefillData &&
+      this.programList?.length
+    ) {
+
+      const selected = this.programList.find(
+        p => p.DataValue == this.prefillData.ProgramID
+      );
+
+      if (selected) {
+        this.selectedProgramId = selected.DataValue;     
+        this.selectedProgramName = selected.DisplayText; 
+        this.programId = selected.ProgramID;             
+      }
+
+      this.emitData();
+    }
+
+    this.cdr.detectChanges();
   }
 
   getProgramDetails(): void {
@@ -223,42 +251,29 @@ onDateChange(value: string) {
     this.emitData();
   }
 
-//   onThumbnailChange(event: any) {
-//   const file = event.target.files?.[0];
+  onThumbnailChange(event: any): void {
 
-//   if (file) {
-//     this.thumbnailFile = file;
-//     this.fileSelectedName = file.name;
+    const file = event.target.files?.[0];
 
-//     this.emitData();
+    if (!file) return;
 
-//     this.cdr.markForCheck();
-//   }
-// }
+    this.thumbnailFile = file;
 
-onThumbnailChange(event: any): void {
+    this.fileSelectedName = file.name;
 
-  const file = event.target.files?.[0];
+    const reader = new FileReader();
 
-  if (!file) return;
+    reader.onload = () => {
 
-  this.thumbnailFile = file;
+      this.thumbnailPreview = reader.result as string;
 
-  this.fileSelectedName = file.name;
+      this.emitData();
 
-  const reader = new FileReader();
+      this.cdr.detectChanges();
+    };
 
-  reader.onload = () => {
-
-    this.thumbnailPreview = reader.result as string;
-
-    this.emitData();
-
-    this.cdr.detectChanges();
-  };
-
-  reader.readAsDataURL(file);
-}
+    reader.readAsDataURL(file);
+  }
 
   emitData() {
     const isValid = this.validateForm();
@@ -272,25 +287,17 @@ onThumbnailChange(event: any): void {
       fileName = `${cleanProgramName}${cleanDate}.${this.fileType}`;
     }
 
-    // this.programSelected.emit({
-    //   programId: this.programId,
-    //   programName: cleanProgramName,
-    //   typedText: this.typedText,
-    //   fileName,
-    //   fullData: this.programList.find(p => p.ProgramID === this.programId),
-    //   isValid
-    // });
-
     this.programSelected.emit({
-  programId: this.programId,
-  programName: cleanProgramName,
-  typedText: this.typedText,
-  fileName,
-  thumbnailType: this.selectedType,
-  thumbnailFile: this.thumbnailFile,
-  fullData: this.programList.find(p => p.ProgramID === this.programId),
-  isValid
-});
+      programId: this.programId,
+      programName: cleanProgramName,
+      typedText: this.typedText,
+      fileName,
+      thumbnailType: this.selectedType,
+      thumbnailFile: this.thumbnailFile,
+      fullData: this.programList.find(
+        p => p.DataValue == this.selectedProgramId
+      ), isValid
+    });
 
     this.validationChange.emit(isValid);
   }

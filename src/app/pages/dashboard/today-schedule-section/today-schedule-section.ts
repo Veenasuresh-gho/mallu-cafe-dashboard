@@ -16,7 +16,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { ViewFile } from '../../media-library/components/view-file/view-file';
 import { MatDialog } from '@angular/material/dialog';
 import { UploadNewFileModal } from '../../media-library/components/upload-new-file-modal/upload-new-file-modal';
-import { EditUploadedFile } from '../../media-library/components/edit-uploaded-file/edit-uploaded-file';
 
 export interface Schedule {
   id: string;
@@ -93,13 +92,14 @@ export class TodayScheduleSection implements OnInit {
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r: any) => {
-          const dialogRef = this.dialog.open(EditUploadedFile, {
+          const dialogRef = this.dialog.open(UploadNewFileModal, {
             width: '90%',
             maxWidth: '600px',
             maxHeight: '95vh',
             disableClose: true,
             data: {
-              programData: r?.Data[0] || null
+              programData: r?.Data[0] || null,
+              selectedDate: this.selectedDate
             }
           });
 

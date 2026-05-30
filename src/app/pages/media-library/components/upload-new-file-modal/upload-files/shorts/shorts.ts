@@ -11,11 +11,11 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-shorts',
-  imports: [CommonModule,StepBadge,FormInput, MatRadioButton,MatRadioGroup,FormsModule,FileUpload],
+  imports: [CommonModule, StepBadge, FormInput, MatRadioButton, MatRadioGroup, FormsModule, FileUpload],
   templateUrl: './shorts.html',
   styleUrl: './shorts.css',
 })
-export class Shorts implements OnChanges  {
+export class Shorts implements OnChanges {
   typedText: string = '';
   selectedType: string = '';
   srv = inject(GHOService);
@@ -35,7 +35,7 @@ export class Shorts implements OnChanges  {
   selectedFile: File | null = null;
   thumbnailPreview: string = '';
   fileSelectedName: string = '';
-  
+
   @Input() programList: any[] = [];
   @Input() fileType: string = '';
   @Input() fileName: string = '';
@@ -45,13 +45,13 @@ export class Shorts implements OnChanges  {
 
 
   ngOnChanges(changes: SimpleChanges) {
-  if (changes['fileName'] && this.fileName && !this.originalFileName) {
-    this.originalFileName = this.fileName;
+    if (changes['fileName'] && this.fileName && !this.originalFileName) {
+      this.originalFileName = this.fileName;
+    }
+    if (changes['editData'] && this.editData) {
+      this.patchEditData();
+    }
   }
-  if (changes['editData'] && this.editData) {
-    this.patchEditData();
-  }
-}
 
   getBaseName(name: string): string {
   if (!name) return '';
@@ -91,58 +91,60 @@ export class Shorts implements OnChanges  {
   }
 
   patchEditData(): void {
-  this.title =
-    this.editData?.Title || '';
 
-  this.thumbnailPreview =
-    this.editData?.ThumbnailUrl || '';
+    console.log('shorts edit', this.editData);
 
-  this.fileSelectedName =
-    this.editData?.ThumbnailUrl
-      ? 'Current thumbnail'
-      : '';
+    this.title =
+      this.editData?.Title || '';
 
-  this.typedText =
-    this.extractDate(
-      this.editData?.FileName || ''
-    );
+    this.thumbnailPreview =
+      this.editData?.ThumbnailUrl || this.editData?.TeamUrl || '';
 
-  this.originalFileName =
-    this.getBaseName(
-      this.editData?.FileName || ''
-    );
+    this.fileSelectedName =
+      this.editData?.ThumbnailUrl
+        ? 'Current thumbnail'
+        : '';
 
-  this.emitData();
-}
+    this.typedText =
+      this.extractDate(
+        this.editData?.FileName || ''
+      );
 
+    this.originalFileName =
+      this.getBaseName(
+        this.editData?.FileName || ''
+      );
 
-
-extractDate(fileName: string): string {
-  const match =
-    fileName.match(/(\d{6})(?=\.[^.]+$)/);
-  if (!match) return '';
-  const rawDate = match[1];
-  return `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
-}
-
-onDateChange(value: string) {
-  let cleaned =
-    value.replace(/\D/g, '').slice(0, 6);
-
-  if (cleaned.length > 2) {
-    cleaned =
-      cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+    this.emitData();
   }
 
-  if (cleaned.length > 5) {
-    cleaned =
-      cleaned.slice(0, 5) + '/' + cleaned.slice(5);
+  extractDate(fileName: string): string {
+    const match =
+      fileName.match(/(\d{6})(?=\.[^.]+$)/);
+    if (!match) return '';
+    const rawDate = match[1];
+    return `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
   }
 
-  this.typedText = cleaned;
+  onDateChange(value: string) {
 
-  this.emitData();
-}
+    let cleaned =
+      value.replace(/\D/g, '').slice(0, 6);
+
+    if (cleaned.length > 2) {
+      cleaned =
+        cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+    }
+
+    if (cleaned.length > 5) {
+      cleaned =
+        cleaned.slice(0, 5) + '/' + cleaned.slice(5);
+    }
+
+    this.typedText = cleaned;
+
+    this.emitData();
+  }
 
   onTextChange(event: any) {
     const el = event.target;
@@ -168,17 +170,24 @@ onDateChange(value: string) {
     this.typedText = value;
     this.emitData();
   }
+  
 
+  onFileSelected(file: File) {
 
-onFileSelected(file: File) {
-  this.selectedFile = file;
-  this.fileSelectedName = file.name;
-  const reader = new FileReader();
-  reader.onload = () => {
-    this.thumbnailPreview = reader.result as string;
-  };
+    this.selectedFile = file;
 
-  reader.readAsDataURL(file);
-  this.emitData();
-}
+    this.fileSelectedName = file.name;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+
+      this.thumbnailPreview = reader.result as string;
+
+    };
+
+    reader.readAsDataURL(file);
+
+    this.emitData();
+  }
 }

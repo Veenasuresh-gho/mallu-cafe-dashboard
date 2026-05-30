@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ViewFile } from '../../media-library/components/view-file/view-file';
 import { MatDialog } from '@angular/material/dialog';
+import { UploadNewFileModal } from '../../media-library/components/upload-new-file-modal/upload-new-file-modal';
 
 export interface Schedule {
   id: string;
@@ -79,6 +80,41 @@ export class TodayScheduleSection implements OnInit {
         // this.getMediaLibrary();
       }
     });
+  }
+
+  openModal(item: Schedule) {
+
+    this.tv = [
+      { T: 'dk1', V: item.id.toString() },
+      { T: 'c10', V: '3' }
+    ];
+
+    this.srv.getdata('program', this.tv)
+      .subscribe({
+        next: (r: any) => {
+          const dialogRef = this.dialog.open(UploadNewFileModal, {
+            width: '90%',
+            maxWidth: '600px',
+            maxHeight: '95vh',
+            disableClose: true,
+            data: {
+              programData: r?.Data[0] || null,
+              selectedDate: this.selectedDate
+            }
+          });
+
+          dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+              this.getScheduleList();
+            }
+          });
+
+        },
+
+        error: (err) => {
+          console.error('API Error:', err);
+        }
+      });
   }
 
 
@@ -231,6 +267,7 @@ export class TodayScheduleSection implements OnInit {
         this.streamingProgram = this.schedules.find(
           p => p.IsStreaming === 1) || null;
         this.currentProgram = this.streamingProgram;
+
 
         this.loading = false;
         this.cdr.detectChanges();

@@ -112,7 +112,7 @@ export class VideoFile implements OnChanges {
       this.editData?.Subtitle || '';
 
     this.thumbnailPreview =
-      this.editData?.ThumbnailUrl || '';
+      this.editData?.ThumbnailUrl || this.editData?.TeamUrl || '';
 
     this.fileSelectedName =
       this.editData?.ThumbnailUrl
@@ -181,7 +181,7 @@ export class VideoFile implements OnChanges {
 
     this.emitData();
   }
- 
+  
 
   onFileSelected(file: File) {
 

@@ -19,11 +19,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ToastService } from '../../services/toastService';
 import { EditUploadedFile } from './components/edit-uploaded-file/edit-uploaded-file';
 import { ViewFile } from './components/view-file/view-file';
+import { CustomFilterCalender } from '../../components/custom-filter-calender/custom-filter-calender';
+import { SelectDropDown } from '../../components/select-drop-down/select-drop-down';
 
 @Component({
   selector: 'app-media-library',
   imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule,
-    FormsModule, PrimaryButton, MatButtonModule, MatMenuModule, MatDividerModule],
+    FormsModule, PrimaryButton, MatButtonModule, MatMenuModule, MatDividerModule,CustomFilterCalender,SelectDropDown],
   templateUrl: './media-library.html',
   styleUrl: './media-library.css',
 })
@@ -37,6 +39,11 @@ export class MediaLibrary implements OnInit {
   ds: [] = [];
   toast = inject(ToastService);
 
+  host = 'all';
+  day = 'all';
+  hosts: any[] = [];
+  hostOptions: any[] = [];
+
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
@@ -46,8 +53,38 @@ export class MediaLibrary implements OnInit {
   }
   ngOnInit(): void {
     this.getMediaLibrary();
+    this.getTeamMemberList()
   }
   constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
+
+  
+  programsDropdown: string = 'today';
+  tempProgramSelection: string = 'today';
+  isCalendarOpen: boolean = false;
+  dayLabel = 'Today';
+  // searchText = '';
+
+  onProgramChange(value: string) {
+  if (value === 'date') {
+    this.isCalendarOpen = true;
+    this.tempProgramSelection = value;
+  } else {
+    this.programsDropdown = value;
+    this.tempProgramSelection = value;
+    this.isCalendarOpen = false;
+  }
+}
+
+onFilterApplied(data: any) {
+  this.isCalendarOpen = false;
+  if (data.type === 'single') {
+    const date = new Date(data.value);
+    this.dayLabel =
+      date.toLocaleDateString('en-GB');
+
+    this.day = this.dayLabel;
+  }
+}
 
   ViewFileModal(id: string) {
     const dialogRef = this.dialog.open(ViewFile, {
@@ -218,4 +255,28 @@ export class MediaLibrary implements OnInit {
       }
     });
   }
+
+  getTeamMemberList(): Promise<void> {
+  return new Promise((resolve) => {
+    this.tv = [
+      { T: 'c10', V: '3' }
+    ];
+    this.srv.getdata('teammember', this.tv)
+      .subscribe({
+        next: (r) => {
+          const data = r.Data[0];
+          this.hostOptions = [
+            { label: 'All Host', value: 'all' },
+            ...data.map((item: any) => ({
+              label: item.FullName,
+              value: item.id
+            }))
+          ];
+
+          resolve();
+        },
+        error: () => resolve()
+      });
+  });
+}
 } 

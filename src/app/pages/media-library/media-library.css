@@ -322,3 +322,17 @@ mat-divider {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.media {
+  overflow: visible !important;
+}
+
+.filter-container {
+  position: relative;
+  overflow: visible !important;
+}
+
+.calendar-wrapper {
+  position: relative;
+  overflow: visible;
+}

@@ -37,7 +37,9 @@
   padding: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   z-index: 9999;
+  padding: 12px;
 }
+
 
 .header {
   display: flex;
@@ -97,10 +99,10 @@
 .day {
   position: relative;
   text-align: center;
-  padding: 8px;
+  padding: 6px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   user-select: none;
   transition: background-color 0.3s ease;
 }

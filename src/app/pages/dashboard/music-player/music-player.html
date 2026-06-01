@@ -78,7 +78,7 @@
   <div class="">
     <p class="d-flex gap-1 text-danger pt-2 pb-2">
       <img src="/dash/heart-circle.svg" alt="">
-      <span class="extraData pt-1">Favourited by 455 listeners</span>
+      <span class="extraData pt-1">Favourited by {{programDetails?.FavouriteCount}} listeners</span>
     </p>
   </div>
 
@@ -200,7 +200,7 @@
 
   <div class="favorites-row">
     <img src="/dash/heart-circle.svg" alt="">
-    <span>Favourited by {{ favoriteCount }} listeners</span>
+    <span>Favourited by {{ programDetails?.FavouriteCount }} listeners</span>
   </div>
 
   <div class="footer-actions">
@@ -210,7 +210,7 @@
         <div class="url-input-box">
           <mat-icon class="sm-icon">link</mat-icon>
           <span class="prefix">URL://</span>
-          <input type="text" [value]="facebookUrl" readonly>
+          <input type="text" [value]="programDetails?._url" readonly>
         </div>
         <!-- <button class="fb-live-btn" (click)="onGoToFacebook()">
           <mat-icon class="sm-icon">facebook</mat-icon> Go to Facebook Live

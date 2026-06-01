@@ -1,7 +1,7 @@
 <div class="form-row px-4">
 
     <app-form-select label="Program *" [options]="programList" optionLabel="DisplayText" optionValue="DataValue"
-        [(model)]="selectedProgramId" [disabled]="readOnly || !!editData" (modelChange)="onProgramChange($event)">
+        [(model)]="selectedProgramId" [disabled]="readOnly" (modelChange)="onProgramChange($event)">
     </app-form-select>
     <div class="error-text" *ngIf="errors.program">
         <img src="/program/warn.svg" class="small mb-1">

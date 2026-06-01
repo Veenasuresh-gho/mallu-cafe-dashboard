@@ -51,146 +51,52 @@ export class PreScheduled implements OnInit, OnChanges {
   @Input() prefillDate: string = '';
   @Input() readOnly: boolean = false;
 
+  // ✅ track if prefill has been applied to avoid re-applying on every change
+  private prefillApplied = false;
 
   async ngOnInit(): Promise<void> {
-
-    console.log('prefillDate', this.prefillDate);
-
     if (this.prefillDate) {
       this.typedText = this.prefillDate;
     }
 
     if (this.editData) {
       this.patchEditData();
-    }
-  }
-
-
-  patchEditData(): void {
-    console.log('preschedule edit', this.editData);
-    this.selectedProgramId =
-      this.editData?.ProgramID || '';
-    this.selectedProgramName =
-      this.editData?.Name || '';
-    this.typedText =
-      this.extractDate(this.editData?.FileName || '');
-
-    this.thumbnailPreview =
-      this.editData?.ThumbnailUrl || '';
-
-    this.selectedType =
-      this.editData?.ThumbnailUrl
-        ? 'custom'
-        : 'program';
-
-    const selected =
-      this.programList.find(
-        p => p.DataValue == this.selectedProgramId
-      );
-
-    this.programId =
-      selected?.ProgramID || '';
-
-    if (this.selectedType === 'program' && this.programId) {
-      this.getProgramDetails();
+      return;
     }
 
-    this.cdr.detectChanges();
-
-    this.emitData();
-  }
-
-  extractDate(fileName: string): string {
-    const match =
-      fileName.match(/(\d{6})(?=\.[^.]+$)/);
-    if (!match) return '';
-    const rawDate = match[1];
-    return `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
-  }
-
-onDateChange(value: string) {
-  if (this.readOnly) return;
-
-  let cleaned = value.replace(/\D/g, '').slice(0, 6);
-
-  if (cleaned.length > 2) {
-    cleaned = cleaned.slice(0, 2) + '/' + cleaned.slice(2);
-  }
-
-  if (cleaned.length > 5) {
-    cleaned = cleaned.slice(0, 5) + '/' + cleaned.slice(5);
-  }
-
-  this.typedText = cleaned;
-
-  this.emitData();
-}
-
-  validateForm(): boolean {
-    this.errors = {};
-    if (!this.fileType?.trim()) {
-      this.errors.category = 'File type is required';
+    // ✅ Apply prefill in ngOnInit if programList is already available
+    if (this.prefillData && this.programList?.length) {
+      this.applyPrefill();
     }
-
-    if (!this.selectedProgramId) {
-      this.errors.program = 'Please select a program';
-    }
-
-    if (!this.typedText || this.typedText.length !== 8) {
-      this.errors.date = 'Enter valid date (DD/MM/YY)';
-    }
-
-    if (!this.selectedType) {
-      this.errors.type = 'Please choose thumbnail type';
-    }
-
-    return Object.keys(this.errors).length === 0;
-  }
-
-  onThumbnailTypeChange(type: string) {
-
-    this.selectedType = type;
-
-    if (type === 'program' && this.programId) {
-      this.getProgramDetails();
-    }
-
-    if (type === 'custom') {
-      this.programDetails = {};
-    }
-
-    this.cdr.detectChanges();
-
-    this.emitData();
-  }
-
-
-
-  onProgramChange(value: any) {
-    this.selectedProgramId = value;
-    const selected = this.programList.find(p => p.DataValue === value);
-    this.selectedProgramName = selected?.DisplayText || '';
-    this.programId = selected?.ProgramID || '';
-    if (this.selectedType === 'program' && this.programId) {
-      this.getProgramDetails();
-    }
-    this.cdr.markForCheck();
-    this.emitData();
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    // ✅ Sync date whenever prefillDate changes
+    if (changes['prefillDate']?.currentValue) {
+      this.typedText = changes['prefillDate'].currentValue;
+    }
 
-  if (changes['prefillDate']?.currentValue) {
-    this.typedText = changes['prefillDate'].currentValue;
+    // ✅ Apply prefill once programList arrives (parent loads it async)
+    if (
+      !this.prefillApplied &&
+      this.prefillData &&
+      this.programList?.length
+    ) {
+      this.applyPrefill();
+    }
+
+    this.cdr.detectChanges();
   }
 
-  if (
-    this.readOnly &&
-    this.prefillData &&
-    this.programList?.length
-  ) {
+  // ✅ Single method that reliably patches all prefill fields
+  private applyPrefill(): void {
+    this.prefillApplied = true;
+
+    const data = this.prefillData;
+
+    // Match program from list
     const selected = this.programList.find(
-      p => p.DataValue == this.prefillData.ProgramID
+      p => p.DataValue == data.ProgramID
     );
 
     if (selected) {
@@ -199,11 +105,117 @@ onDateChange(value: string) {
       this.programId = selected.ProgramID;
     }
 
+    // Date
+    if (this.prefillDate) {
+      this.typedText = this.prefillDate;
+    }
+
+    // Thumbnail type
+    this.selectedType = data.ThumbnailURL || data.TeamUrl
+      ? 'program'
+      : 'custom';
+
+    // Thumbnail preview
+    this.thumbnailPreview = data.ThumbnailURL || data.TeamUrl || '';
+
+    // Load program thumbnail if using program type
+    if (this.selectedType === 'program' && this.programId) {
+      this.getProgramDetails();
+    }
+
+    this.cdr.detectChanges();
     this.emitData();
   }
 
-  this.cdr.detectChanges();
-}
+  patchEditData(): void {
+    this.selectedProgramId = this.editData?.ProgramID || '';
+    this.selectedProgramName = this.editData?.Name || '';
+    this.typedText = this.extractDate(this.editData?.FileName || '');
+    this.thumbnailPreview = this.editData?.ThumbnailUrl || '';
+    this.selectedType = this.editData?.ThumbnailUrl ? 'custom' : 'program';
+
+    const selected = this.programList.find(
+      p => p.DataValue == this.selectedProgramId
+    );
+    this.programId = selected?.ProgramID || '';
+
+    if (this.selectedType === 'program' && this.programId) {
+      this.getProgramDetails();
+    }
+
+    this.cdr.detectChanges();
+    this.emitData();
+  }
+
+  extractDate(fileName: string): string {
+    const match = fileName.match(/(\d{6})(?=\.[^.]+$)/);
+    if (!match) return '';
+    const rawDate = match[1];
+    return `${rawDate.slice(0, 2)}/${rawDate.slice(2, 4)}/${rawDate.slice(4, 6)}`;
+  }
+
+  onDateChange(value: string) {
+    if (this.readOnly) return;
+
+    let cleaned = value.replace(/\D/g, '').slice(0, 6);
+
+    if (cleaned.length > 2) {
+      cleaned = cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+    }
+    if (cleaned.length > 5) {
+      cleaned = cleaned.slice(0, 5) + '/' + cleaned.slice(5);
+    }
+
+    this.typedText = cleaned;
+    this.emitData();
+  }
+
+  validateForm(): boolean {
+    this.errors = {};
+
+    if (!this.fileType?.trim()) {
+      this.errors.category = 'File type is required';
+    }
+    if (!this.selectedProgramId) {
+      this.errors.program = 'Please select a program';
+    }
+    if (!this.typedText || this.typedText.length !== 8) {
+      this.errors.date = 'Enter valid date (DD/MM/YY)';
+    }
+    if (!this.selectedType) {
+      this.errors.type = 'Please choose thumbnail type';
+    }
+
+    return Object.keys(this.errors).length === 0;
+  }
+
+  onThumbnailTypeChange(type: string) {
+    this.selectedType = type;
+
+    if (type === 'program' && this.programId) {
+      this.getProgramDetails();
+    }
+    if (type === 'custom') {
+      this.programDetails = {};
+    }
+
+    this.cdr.detectChanges();
+    this.emitData();
+  }
+
+  onProgramChange(value: any) {
+    this.selectedProgramId = value;
+    const selected = this.programList.find(p => p.DataValue === value);
+    this.selectedProgramName = selected?.DisplayText || '';
+    this.programId = selected?.ProgramID || '';
+
+    if (this.selectedType === 'program' && this.programId) {
+      this.getProgramDetails();
+    }
+
+    this.cdr.markForCheck();
+    this.emitData();
+  }
 
   getProgramDetails(): void {
     this.tv = [
@@ -227,15 +239,10 @@ onDateChange(value: string) {
 
   onTextChange(event: any) {
     const el = event.target;
-
     let value = el.innerText.replace(/\D/g, '').slice(0, 6);
 
-    if (value.length > 2) {
-      value = value.slice(0, 2) + '/' + value.slice(2);
-    }
-    if (value.length > 5) {
-      value = value.slice(0, 5) + '/' + value.slice(5);
-    }
+    if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2);
+    if (value.length > 5) value = value.slice(0, 5) + '/' + value.slice(5);
 
     el.innerText = value;
 
@@ -247,31 +254,22 @@ onDateChange(value: string) {
     sel?.addRange(range);
 
     this.typedText = value;
-
     this.emitData();
   }
 
   onThumbnailChange(event: any): void {
-
     const file = event.target.files?.[0];
-
     if (!file) return;
 
     this.thumbnailFile = file;
-
     this.fileSelectedName = file.name;
 
     const reader = new FileReader();
-
     reader.onload = () => {
-
       this.thumbnailPreview = reader.result as string;
-
       this.emitData();
-
       this.cdr.detectChanges();
     };
-
     reader.readAsDataURL(file);
   }
 
@@ -292,9 +290,8 @@ onDateChange(value: string) {
       fileName,
       thumbnailType: this.selectedType,
       thumbnailFile: this.thumbnailFile,
-      fullData: this.programList.find(
-        p => p.DataValue == this.selectedProgramId
-      ), isValid
+      fullData: this.programList.find(p => p.DataValue == this.selectedProgramId),
+      isValid
     });
 
     this.validationChange.emit(isValid);

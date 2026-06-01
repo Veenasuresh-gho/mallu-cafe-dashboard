@@ -36,10 +36,40 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class Programs implements OnInit {
 
-  constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
+  srv = inject(GHOService);
+  utl = inject(GHOUtitity);
+  tv: tags[] = [];
+  res: ghoresult = new ghoresult();
+
+  searchText = '';
+  status = 'all';
+  category = 'all';
+  host = 'all';
+  program = 'all';
+  dayLabel = 'Today';
+
   loading = false;
   ds: [] = [];
   toast = inject(ToastService);
+  hosts: any[] = [];
+  hostOptions: any[] = [];
+
+    columns: string[] = [
+    'program',
+    'category',
+    'host',
+    'duration',
+    'dayTime',
+    'interaction',
+    'actions'
+  ];
+
+  programsDropdown: string = 'all';
+  tempProgramSelection: string = 'all';
+  isCalendarOpen: boolean = false;
+
+  constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
+
 
 
   openModal() {
@@ -49,7 +79,6 @@ export class Programs implements OnInit {
       maxHeight: '95vh',
       disableClose: true
     });
-
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.getProgramList();
@@ -74,15 +103,11 @@ export class Programs implements OnInit {
       }
     });
   }
-
   ngOnInit(): void {
     this.getProgramList();
+    this.getTeamMemberList()
   }
 
-  srv = inject(GHOService);
-  utl = inject(GHOUtitity);
-  tv: tags[] = [];
-  res: ghoresult = new ghoresult();
 
   @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
     if (p) {
@@ -119,30 +144,11 @@ export class Programs implements OnInit {
   }
   return `${hostArray[0]}, +${hostArray.length - 1}`;
 }
-
   get showPaginator(): boolean {
     return this.dataSource.data.length > 7;
   }
 
-  searchText = '';
-  status = 'all';
-  category = 'all';
-  host = 'all';
-  program = 'all';
 
-  columns: string[] = [
-    'program',
-    'category',
-    'host',
-    'duration',
-    'dayTime',
-    'interaction',
-    'actions'
-  ];
-
-  programsDropdown: string = 'all';
-  tempProgramSelection: string = 'all';
-  isCalendarOpen: boolean = false;
 
   onProgramChange(value: string) {
     if (value === 'date') {
@@ -156,10 +162,18 @@ export class Programs implements OnInit {
     }
   }
 
-  onFilterApplied(data: any) {
-    this.programsDropdown = this.tempProgramSelection;
-    this.isCalendarOpen = false;
+
+
+  
+onFilterApplied(data: any) {
+  this.isCalendarOpen = false;
+  if (data.type === 'single') {
+    const date = new Date(data.value);
+    this.dayLabel =
+      date.toLocaleDateString('en-GB');
+    this.program = this.dayLabel;
   }
+}
 
   deleteProgram(id: any) {
     this.loading = true;
@@ -185,13 +199,10 @@ export class Programs implements OnInit {
             variant: 'error',
             position: 'toast-bottom-center'
           });
-
         }
       },
-
       error: () => {
         this.loading = false;
-
         this.toast.show({
           title: 'Error ❌',
           description: 'Server error while deleting Program',
@@ -202,5 +213,29 @@ export class Programs implements OnInit {
       }
     });
   }
+
+getTeamMemberList(): Promise<void> {
+  return new Promise((resolve) => {
+    this.tv = [
+      { T: 'c10', V: '3' }
+    ];
+    this.srv.getdata('teammember', this.tv)
+      .subscribe({
+        next: (r) => {
+          const data = r.Data[0];
+          this.hostOptions = [
+            { label: 'All Host', value: 'all' },
+            ...data.map((item: any) => ({
+              label: item.FullName,
+              value: item.id
+            }))
+          ];
+
+          resolve();
+        },
+        error: () => resolve()
+      });
+  });
+}
 
 }

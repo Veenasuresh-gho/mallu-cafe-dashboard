@@ -265,3 +265,17 @@ mat-divider {
 ::ng-deep .custom-menu .mat-mdc-menu-item {
   min-height: 50px !important;
 }
+
+.advertisement {
+  overflow: visible !important;
+}
+
+.filter-container {
+  position: relative;
+  overflow: visible !important;
+}
+
+.calendar-wrapper {
+  position: relative;
+  overflow: visible;
+}

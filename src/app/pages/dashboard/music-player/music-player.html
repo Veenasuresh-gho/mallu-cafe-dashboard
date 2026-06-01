@@ -1,3 +1,17 @@
+@if(isLoading){
+<div class="no-program-container">
+  <div class="spinner"></div>
+  <p>Loading program...</p>
+</div>
+}
+@else if(noProgram){
+<div class="no-program-container">
+  <i class="ti ti-info-circle" style="font-size: 48px; color: #fff; opacity: 0.4;"></i>
+  <h3>No program published yet</h3>
+  <p>There is currently no live or scheduled program available.<br>Please check back later.</p>
+</div>
+}
+@else{
 @if(isAudio){
 <div class="main-body schedules-content">
   <div class="card-header ">
@@ -76,7 +90,7 @@
           <img src="/dash/files.svg" width="16px" height="16px" alt="">
           <span class="media-file">OmShantiOm_230326.mp3 • 108 MB</span>
         </div>
-        <p class="gotoFile-movies">
+        <p class="gotoFile-movies" (click)="goToMediaLibrary()">
           <img src="/dash/video-play.png" alt="">
           Go to media library
         </p>
@@ -97,11 +111,11 @@
           </button>
 
         </div>
-        <span class="auto-play-label">Auto Play</span>
+        <!-- <span class="auto-play-label">Auto Play</span>
         <label class="toggle-switch">
           <input type="checkbox" [(ngModel)]="isAutoPlay">
           <span class="slider round"></span>
-        </label>
+        </label> -->
 
       </div>
 
@@ -204,13 +218,14 @@
       </div>
     </div>
 
-    <div class="auto-play-wrapper">
+    <!-- <div class="auto-play-wrapper">
       <span class="auto-play-label">Auto Play</span>
       <label class="toggle-switch">
         <input type="checkbox" [(ngModel)]="isAutoPlay">
         <span class="slider round"></span>
       </label>
-    </div>
+    </div> -->
   </div>
 </div>
+}
 }

@@ -63,6 +63,9 @@ export class MusicPlayer implements OnInit, OnChanges {
   isMuted: boolean = false;
   hasSeeked: boolean = false;
   programDetails: any;
+  isLoading = true;
+noProgram = false;
+
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -79,6 +82,10 @@ export class MusicPlayer implements OnInit, OnChanges {
     } catch {
       return '';
     }
+  }
+
+    goToMediaLibrary(): void {
+    this.router.navigate(['/media-library']);
   }
 
 initAudio(url: string) {
@@ -152,56 +159,107 @@ initAudio(url: string) {
 }
 
   handleMedia(url: string) {
-    if (!url) return;
 
-    const ext = this.getFileExtension(url);
+  if (!url) {
+    this.noProgram = true;
+    return;
+  }
 
-    if (ext === 'mp3') {
-      this.isAudio = true;
-      this.showVideo = false;
-      this.initAudio(url);
-      return;
-    }
+  const ext = this.getFileExtension(url);
 
-    if (['mp4', 'webm', 'ogg'].includes(ext)) {
-      this.isAudio = false;
-      this.showVideo = true;
-      this.platform = 'unknown';
-      this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-      return;
-    }
+  if (ext === 'mp3') {
+
+    this.isAudio = true;
+    this.showVideo = false;
+
+    this.initAudio(url);
+
+    return;
+  }
+
+  if (['mp4', 'webm', 'ogg'].includes(ext)) {
 
     this.isAudio = false;
-    this.prepareVideo(url);
+    this.showVideo = true;
+    this.platform = 'unknown';
+
+    this.videoUrl =
+      this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+    return;
   }
+
+  this.isAudio = false;
+
+  this.prepareVideo(url);
+}
 
   ngOnInit(): void {
     this.loadCurrentProgram();
   }
 
-  loadCurrentProgram(): void {
+ loadCurrentProgram(): void {
 
-    this.tv = [{ T: 'c10', V: '13' }];
+  this.isLoading = true;
+  this.noProgram = false;
 
-    this.srv.getdata('program', this.tv).subscribe({
-      next: (r) => {
+  this.tv = [{ T: 'c10', V: '13' }];
 
-        this.programDetails = r?.Data?.[0]?.[0];
-        console.log(this.programDetails)
-        const url = this.programDetails?._url;
+  this.srv.getdata('program', this.tv).subscribe({
+    next: (r) => {
+console.log(r)
+      const data = r?.Data?.[0];
+console.log(data)
+      if (!data || !Array.isArray(data) || data.length === 0) {
 
-        // stop old media
+        this.programDetails = null;
+        this.noProgram = true;
+        this.isAudio = false;
+        this.showVideo = false;
+
         this.audio.pause();
         this.audio.currentTime = 0;
 
-        // load newly published media
-        this.handleMedia(url);
-
+        this.isLoading = false;
         this.cdr.detectChanges();
-      },
-      error: (err) => console.error(err)
-    });
-  }
+
+        return;
+      }
+
+      this.programDetails = data[0];
+
+      const url = this.programDetails?._url;
+
+      this.audio.pause();
+      this.audio.currentTime = 0;
+      this.hasSeeked = false;
+
+      if (url) {
+        this.handleMedia(url);
+      } else {
+        this.noProgram = true;
+      }
+
+      this.isLoading = false;
+
+      this.cdr.detectChanges();
+    },
+
+    error: (err) => {
+
+      console.error(err);
+
+      this.programDetails = null;
+      this.noProgram = true;
+      this.isAudio = false;
+      this.showVideo = false;
+
+      this.isLoading = false;
+
+      this.cdr.detectChanges();
+    }
+  });
+}
 
   ngOnChanges(): void {
     if (!this.publishInfo?.isPublish) return;
@@ -218,8 +276,6 @@ initAudio(url: string) {
     });
   }
 
-  // 🎵 PLAY / PAUSE
-  // 🎵 PLAY / PAUSE
 toggleAudio() {
 
   if (this.audio.paused) {
@@ -329,3 +385,4 @@ toggleAudio() {
     this.audio.muted = this.isMuted;
   }
 }
+

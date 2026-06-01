@@ -55,6 +55,7 @@ export class UploadNewFileModal implements OnInit {
   previewUrl: string = '';
   formattedSelectedDate: string = '';
   programPrefillData: any = null;
+  isPrefilledProgram = false;
   selectedBroadcastDate: string = '';
   data = inject(MAT_DIALOG_DATA);
 
@@ -89,6 +90,7 @@ export class UploadNewFileModal implements OnInit {
     if (this.data?.programData?.length) {
 
       const program = this.data.programData[0];
+  this.originalPrefillData = program;   // only real prefill
 
       this.selectedProgramData = program;
 
@@ -147,6 +149,7 @@ export class UploadNewFileModal implements OnInit {
   subtitle: string = '';
   thumbnailFile: File | null = null;
   broadcastDate: string = '';
+  originalPrefillData: any = null;
 
   removeFile() {
     if (this.previewUrl) {
@@ -190,6 +193,10 @@ export class UploadNewFileModal implements OnInit {
     this.typedText = event.target.innerText;
   }
 
+get isPrefilledMode(): boolean {
+  return !!this.data?.programData?.length;
+}
+
 
   renameFile() {
     if (!this.selectedFile || !this.finalfileName) return;
@@ -207,26 +214,30 @@ export class UploadNewFileModal implements OnInit {
       '';
   }
 
-  onProgramSelected(data: any) {
-    this.selectedProgramId = data.programId;
-    this.selectedProgramName = data.programName;
-    this.selectedProgramData = data.fullData;
-    this.selectedCategoryId = data.categoryId;
-    this.programId = data?.programId;
+ onProgramSelected(data: any) {
+  this.selectedProgramId = data.programId;
+  this.selectedProgramName = data.programName;
+  this.selectedCategoryId = data.categoryId;
+  this.programId = data?.programId;
 
-    this.title = data.title;
-    this.subtitle = data.subtitle;
+  this.title = data.title;
+  this.subtitle = data.subtitle;
 
-    this.finalfileName = data?.fileName || '';
-    this.broadcastDate = data?.typedText || '';
+  this.finalfileName = data?.fileName || '';
+  this.broadcastDate = data?.typedText || '';
 
-    this.thumbnailFile = data.thumbnailFile || null;
-    if (this.selectedFile && this.finalfileName) {
-      this.renameFile();
-    }
+  this.thumbnailFile = data.thumbnailFile || null;
 
-    this.updateFileName();
+  // ✅ Remove this line — don't lock category on manual selection
+  // this.isPrefilledProgram = !!data.programId;
+
+  if (this.selectedFile && this.finalfileName) {
+    this.renameFile();
   }
+
+  this.updateFileName();
+  this.cdr.markForCheck();
+}
 
   isImageType(): boolean {
     return this.fileType.startsWith('image');
@@ -637,15 +648,23 @@ export class UploadNewFileModal implements OnInit {
         }
       });
   }
-  onMediaTypeChange(value: string) {
 
-    this.selectedMediaType = value;
+onMediaTypeChange(value: string) {
 
-    if (!value) return;
+  this.selectedMediaType = value;
 
-    this.getProgramList();
+  this.isPrefilledProgram = false;
+
+  this.selectedProgramId = '';
+  this.selectedProgramName = '';
+  this.selectedProgramData = null;
+
+  if (!value) {
+    return;
   }
 
+  this.getProgramList();
+}
   getProgramList(): Promise<void> {
     return new Promise((resolve) => {
       this.tv = [

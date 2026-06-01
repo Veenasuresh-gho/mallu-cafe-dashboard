@@ -36,6 +36,7 @@ export class MusicPlayer implements OnInit, OnChanges {
   isAudio: boolean = false;
 
   noLive: boolean = false;
+  mb: string = '';
 
   backgroundUrl: string = '/dash/live-bg-img.jpg';
   hostAvatarUrl: string = '/dash/host-img.jpg';
@@ -64,7 +65,7 @@ export class MusicPlayer implements OnInit, OnChanges {
   hasSeeked: boolean = false;
   programDetails: any;
   isLoading = true;
-noProgram = false;
+  noProgram = false;
 
 
   constructor(
@@ -84,182 +85,182 @@ noProgram = false;
     }
   }
 
-    goToMediaLibrary(): void {
+  goToMediaLibrary(): void {
     this.router.navigate(['/media-library']);
   }
 
-initAudio(url: string) {
+  initAudio(url: string) {
 
-  this.audio.src = url;
-  this.audio.load();
+    this.audio.src = url;
+    this.audio.load();
 
-  // ✅ metadata loaded
-  this.audio.onloadedmetadata = () => {
+    // ✅ metadata loaded
+    this.audio.onloadedmetadata = () => {
 
-    this.ngZone.run(() => {
+      this.ngZone.run(() => {
 
-      this.duration = this.audio.duration || 0;
+        this.duration = this.audio.duration || 0;
 
-      console.log('Audio Duration:', this.audio.duration);
-      console.log('Seek Time:', this.programDetails?.SeekTime);
+        console.log('Audio Duration:', this.audio.duration);
+        console.log('Seek Time:', this.programDetails?.SeekTime);
 
-      this.cdr.detectChanges();
+        this.cdr.detectChanges();
 
-    });
+      });
 
-  };
+    };
 
-  // ✅ enough audio loaded to seek safely
-  this.audio.oncanplay = () => {
+    // ✅ enough audio loaded to seek safely
+    this.audio.oncanplay = () => {
 
-    if (!this.hasSeeked && this.programDetails?.SeekTime) {
+      if (!this.hasSeeked && this.programDetails?.SeekTime) {
 
-      // ✅ If seektime exceeds duration use max allowed
-      const seekValue = Math.min(
-        this.programDetails.SeekTime,
-        this.audio.duration || 0
-      );
+        // ✅ If seektime exceeds duration use max allowed
+        const seekValue = Math.min(
+          this.programDetails.SeekTime,
+          this.audio.duration || 0
+        );
 
-      this.audio.currentTime = seekValue;
+        this.audio.currentTime = seekValue;
 
-      console.log('Seeked To:', seekValue);
+        this.hasSeeked = true;
+      }
 
-      this.hasSeeked = true;
-    }
+    };
 
-  };
+    // ✅ progress update
+    this.audio.ontimeupdate = () => {
 
-  // ✅ progress update
-  this.audio.ontimeupdate = () => {
+      this.ngZone.run(() => {
 
-    this.ngZone.run(() => {
+        this.currentTime = this.audio.currentTime || 0;
+        this.cdr.detectChanges();
 
-      this.currentTime = this.audio.currentTime || 0;
-      this.cdr.detectChanges();
+      });
 
-    });
+    };
 
-  };
+    // ✅ ended
+    this.audio.onended = () => {
 
-  // ✅ ended
-  this.audio.onended = () => {
+      this.ngZone.run(() => {
 
-    this.ngZone.run(() => {
+        this.isPlaying = false;
+        this.currentTime = 0;
+        this.hasSeeked = false;
 
-      this.isPlaying = false;
-      this.currentTime = 0;
-      this.hasSeeked = false;
+        this.cdr.detectChanges();
 
-      this.cdr.detectChanges();
+      });
 
-    });
+    };
 
-  };
-
-}
+  }
 
   handleMedia(url: string) {
 
-  if (!url) {
-    this.noProgram = true;
-    return;
-  }
+    if (!url) {
+      this.noProgram = true;
+      return;
+    }
 
-  const ext = this.getFileExtension(url);
+    const ext = this.getFileExtension(url);
 
-  if (ext === 'mp3') {
+    if (ext === 'mp3') {
 
-    this.isAudio = true;
-    this.showVideo = false;
+      this.isAudio = true;
+      this.showVideo = false;
 
-    this.initAudio(url);
+      this.initAudio(url);
 
-    return;
-  }
+      return;
+    }
 
-  if (['mp4', 'webm', 'ogg'].includes(ext)) {
+    if (['mp4', 'webm', 'ogg'].includes(ext)) {
+
+      this.isAudio = false;
+      this.showVideo = true;
+      this.platform = 'unknown';
+
+      this.videoUrl =
+        this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+      return;
+    }
 
     this.isAudio = false;
-    this.showVideo = true;
-    this.platform = 'unknown';
 
-    this.videoUrl =
-      this.sanitizer.bypassSecurityTrustResourceUrl(url);
-
-    return;
+    this.prepareVideo(url);
   }
-
-  this.isAudio = false;
-
-  this.prepareVideo(url);
-}
 
   ngOnInit(): void {
     this.loadCurrentProgram();
   }
 
- loadCurrentProgram(): void {
+  loadCurrentProgram(): void {
 
-  this.isLoading = true;
-  this.noProgram = false;
+    this.isLoading = true;
+    this.noProgram = false;
 
-  this.tv = [{ T: 'c10', V: '13' }];
+    this.tv = [{ T: 'c10', V: '13' }];
 
-  this.srv.getdata('program', this.tv).subscribe({
-    next: (r) => {
-console.log(r)
-      const data = r?.Data?.[0];
-console.log(data)
-      if (!data || !Array.isArray(data) || data.length === 0) {
+    this.srv.getdata('program', this.tv).subscribe({
+      next: (r) => {
+        const data = r?.Data?.[0];
+
+        if (!data || !Array.isArray(data) || data.length === 0) {
+
+          this.programDetails = null;
+          this.noProgram = true;
+          this.isAudio = false;
+          this.showVideo = false;
+
+          this.audio.pause();
+          this.audio.currentTime = 0;
+
+          this.isLoading = false;
+          this.cdr.detectChanges();
+
+          return;
+        }
+
+        this.programDetails = data[0];
+        const bytes = Number(this.programDetails?.size || 0);
+
+        this.mb = (bytes / (1024 * 1024)).toFixed(2);
+
+        const url = this.programDetails?._url;
+
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.hasSeeked = false;
+
+        if (url) {
+          this.handleMedia(url);
+        } else {
+          this.noProgram = true;
+        }
+
+        this.isLoading = false;
+
+        this.cdr.detectChanges();
+      },
+
+      error: (err) => {
+
+        console.error(err);
 
         this.programDetails = null;
         this.noProgram = true;
         this.isAudio = false;
         this.showVideo = false;
 
-        this.audio.pause();
-        this.audio.currentTime = 0;
-
         this.isLoading = false;
+
         this.cdr.detectChanges();
-
-        return;
       }
-
-      this.programDetails = data[0];
-
-      const url = this.programDetails?._url;
-
-      this.audio.pause();
-      this.audio.currentTime = 0;
-      this.hasSeeked = false;
-
-      if (url) {
-        this.handleMedia(url);
-      } else {
-        this.noProgram = true;
-      }
-
-      this.isLoading = false;
-
-      this.cdr.detectChanges();
-    },
-
-    error: (err) => {
-
-      console.error(err);
-
-      this.programDetails = null;
-      this.noProgram = true;
-      this.isAudio = false;
-      this.showVideo = false;
-
-      this.isLoading = false;
-
-      this.cdr.detectChanges();
-    }
-  });
-}
+    });
+  }
 
   ngOnChanges(): void {
     if (!this.publishInfo?.isPublish) return;
@@ -276,27 +277,27 @@ console.log(data)
     });
   }
 
-toggleAudio() {
+  toggleAudio() {
 
-  if (this.audio.paused) {
+    if (this.audio.paused) {
 
-    this.audio.play().then(() => {
+      this.audio.play().then(() => {
 
-      this.isPlaying = true;
+        this.isPlaying = true;
+        this.cdr.detectChanges();
+
+      });
+
+    } else {
+
+      this.audio.pause();
+
+      this.isPlaying = false;
       this.cdr.detectChanges();
 
-    });
-
-  } else {
-
-    this.audio.pause();
-
-    this.isPlaying = false;
-    this.cdr.detectChanges();
+    }
 
   }
-
-}
   // 🎚️ SEEK
   onSeek(event: any) {
     const value = event.target.value;

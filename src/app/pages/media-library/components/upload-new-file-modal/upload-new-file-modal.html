@@ -83,19 +83,15 @@
         <div [ngSwitch]="selectedMediaType">
 
             <div *ngSwitchCase="'1'" [class.disabled-section]="!selectedMediaType">
-                <app-pre-scheduled
-    [programList]="programList"
-    [fileType]="extension"
-    [prefillData]="originalPrefillData"
-    [prefillDate]="selectedBroadcastDate"
-    [readOnly]="isPrefilledProgram"
-    (programSelected)="onProgramSelected($event)">
-</app-pre-scheduled>
+                <app-pre-scheduled [programList]="programList" [fileType]="extension"
+                    [prefillData]="originalPrefillData" [prefillDate]="selectedBroadcastDate"
+                    [readOnly]="isPrefilledMode" (programSelected)="onProgramSelected($event)">
+                </app-pre-scheduled>
             </div>
 
             <div *ngSwitchCase="'2'">
                 <app-podcast-file [programList]="programList" [fileType]="extension" [prefillData]="selectedProgramData"
-                    [prefillDate]="selectedBroadcastDate" [readOnly]="isPrefilledProgram"
+                    [prefillDate]="selectedBroadcastDate" [readOnly]="isPrefilledMode"
                     (programSelected)="onProgramSelected($event)">
                 </app-podcast-file>
             </div>

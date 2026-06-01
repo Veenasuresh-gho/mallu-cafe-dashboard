@@ -124,13 +124,16 @@ input[type="file"] {
   cursor: pointer;
   border: none;
 }
-.footer{
+
+.footer {
   background: #fff;
-padding-bottom: 25px;
+  padding-bottom: 25px;
 }
-.dialog-actions{
+
+.dialog-actions {
   gap: 24px;
 }
+
 .btn-cancel {
   background: transparent;
   color: #636363;
@@ -428,12 +431,12 @@ select:invalid {
 }
 
 .helper-text {
-   font-size: 10px;
-   color: var(--muted-input);
-    font-weight: 400;
-    font-family: Poppins;
-    margin-top: 2px;
-    line-height: 14px;
+  font-size: 10px;
+  color: var(--muted-input);
+  font-weight: 400;
+  font-family: Poppins;
+  margin-top: 2px;
+  line-height: 14px;
 }
 
 .assigned-programs {
@@ -475,6 +478,38 @@ input[type="checkbox"] {
   letter-spacing: 0%;
   font-family: var(--secondary-font);
 }
+
 ::ng-deep .custom-select-panel {
   max-height: 80vh !important;
+}
+
+.upload-photo {
+  width: 150px;
+  height: 160px;
+  border-radius: 10px;
+  border: 1px dashed #E4E4E4;
+
+  background-size: cover;
+  /* fills entire box */
+  background-position: center;
+  /* centers image */
+  background-repeat: no-repeat;
+
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-btn {
+  position: absolute;
+  bottom: 10px;
+  z-index: 2;
+}
+
+.profile-img {
+  width: 65px;
+  height: 65px;
 }

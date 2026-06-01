@@ -29,11 +29,11 @@
                 <p class="mb-0">Published: </p>
                 <span>128</span>
             </div>
-            <div class="total-contents">
+            <!-- <div class="total-contents">
                 <img src="/main/bag-tick-filled.png" alt="">
                 <p class="mb-0">Private: </p>
                 <span>6</span>
-            </div>
+            </div> -->
         </div>
 
         <div class="d-flex justify-content-between align-items-center">
@@ -49,7 +49,6 @@
     { label: 'All upload status', value: 'all' },
      { label: 'Published', value: 'published' },
     { label: 'Draft', value: 'draft' },
-    { label: 'Private', value: 'private' },
    
   ]">
                 </app-select-drop-down>
@@ -57,6 +56,7 @@
                 <app-select-drop-down placeholder="All Category" [(value)]="category" [options]="[
     { label: 'All Category', value: 'all' },
      { label: 'Pre-Scheduled', value: 'pre-Scheduled' },
+       { label: 'Poadcast', value: 'poadcast' },
     { label: 'Featured-Videos', value: 'Featured' },
     { label: 'Shorts', value: 'shorts' },
    

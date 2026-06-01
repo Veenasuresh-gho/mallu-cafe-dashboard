@@ -81,21 +81,34 @@ export class TeamMember implements OnInit {
   }
   dataSource = new MatTableDataSource<any>([]);
 
-    programsDropdown: string = 'all';
+  programsDropdown: string = 'all';
   tempProgramSelection: string = 'all';
   isCalendarOpen: boolean = false;
 
-    onProgramChange(value: string) {
-    if (value === 'date') {
-      this.isCalendarOpen = true;
-      // store temporarily, DON'T apply yet
-      this.tempProgramSelection = value;
-    } else {
-      this.programsDropdown = value;
-      this.tempProgramSelection = value;
-      this.isCalendarOpen = false;
-    }
+  //   onProgramChange(value: string) {
+  //   if (value === 'date') {
+  //     this.isCalendarOpen = true;
+  //     // store temporarily, DON'T apply yet
+  //     this.tempProgramSelection = value;
+  //   } else {
+  //     this.programsDropdown = value;
+  //     this.tempProgramSelection = value;
+  //     this.isCalendarOpen = false;
+  //   }
+  // }
+
+  onProgramChange(value: any) {
+  if (value === 'date') {
+    this.isCalendarOpen = true;
+    this.tempProgramSelection = value;
+  } else {
+    this.programs = value; // IMPORTANT
+    this.programsDropdown = value;
+    this.tempProgramSelection = value;
+    this.isCalendarOpen = false;
+    this.applyFilters(); 
   }
+}
 
     onFilterApplied(data: any) {
     this.programsDropdown = this.tempProgramSelection;
@@ -107,7 +120,6 @@ export class TeamMember implements OnInit {
   getTeamMemberList(): void {
     this.loading = true;
     this.tv = [{ T: 'c10', V: '3' }];
-
     this.srv.getdata('teammember', this.tv)
       .subscribe({
         next: (r) => {
@@ -124,6 +136,52 @@ export class TeamMember implements OnInit {
         }
       });
   }
+
+  applyFilters(): void {
+  const tags: any[] = [
+    { T: 'dk1', V: '0' },
+    { T: 'dk2', V: this.searchText || '' }, 
+    {
+      T: 'c2',
+      V:
+        this.roles === 'admin'
+          ? '1'
+          : this.roles === 'rj'
+          ? '2'
+          : ''
+    }, 
+    {
+      T: 'c3',
+      V: this.programs !== 'all' ? this.programs : ''
+    }, // Program
+    { T: 'c10', V: '3' }
+  ];
+
+  this.loading = true;
+
+  this.srv.getdata('teammember', tags).subscribe({
+    next: (r) => {
+      this.ds = r.Data[0];
+      this.dataSource.data = this.ds;
+      this.loading = false;
+      this.cdr.markForCheck();
+    },
+    error: (err) => {
+      console.error(err);
+      this.loading = false;
+    }
+  });
+}
+
+clearFilters(): void {
+  this.searchText = '';
+  this.roles = 'all';
+  this.programs = 'all';
+
+  this.getTeamMemberList();
+}
+
+  
   get showPaginator(): boolean {
     return this.dataSource.data.length > 7;
   }
@@ -135,11 +193,12 @@ getProgramList(): void {
     .subscribe({
       next: (r) => {
         this.programList = r.Data[0];
+        console.log('programList',this.programList);
         this.programOptions = [
           { label: 'All Programs', value: 'all' },
           ...this.programList.map((program: any) => ({
             label: program.Title,
-            value: program.ProgramID
+            value: program.id
           }))
         ];
       },

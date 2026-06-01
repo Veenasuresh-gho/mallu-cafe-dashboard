@@ -48,7 +48,8 @@ export class AddTeamMember implements OnInit {
   fileType: string = '';
   documentTypeId: string = '';
   cdr = inject(ChangeDetectorRef);
-   toast = inject(ToastService);
+  toast = inject(ToastService);
+  isUploading = false;
 
   srv = inject(GHOService);
   utl = inject(GHOUtitity);

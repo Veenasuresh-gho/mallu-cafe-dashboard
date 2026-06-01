@@ -15,11 +15,12 @@ import { GHOService } from '../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 import { ToastService } from '../../../../services/toastService';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-team-member-details',
   imports: [ProfileInfo, AssignedPrgm, MediaContribution, Perfomance, Permission, Settings,
-    MatDivider, FooterButton
+    MatDivider, FooterButton,CommonModule
   ],
   templateUrl: './team-member-details.html',
   styleUrl: './team-member-details.css',
@@ -43,36 +44,37 @@ export class TeamMemberDetails {
   profilePicID: any = ''
   toast = inject(ToastService);
   route = inject(ActivatedRoute);
+  isUploading = false;
 
-  constructor(private dialog: MatDialog, private router: Router,private cdr: ChangeDetectorRef,private cd: ChangeDetectorRef) { }
+  constructor(private dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef, private cd: ChangeDetectorRef) { }
 
   openModal() {
-  const dialogRef = this.dialog.open(ManageMember, {
-    width: '620px',
-    maxWidth: '600px',
-    maxHeight: '95vh',
-    disableClose: true,
-    data: {
-      id: this.id
-    }
-  });
+    const dialogRef = this.dialog.open(ManageMember, {
+      width: '620px',
+      maxWidth: '600px',
+      maxHeight: '95vh',
+      disableClose: true,
+      data: {
+        id: this.id
+      }
+    });
 
-  dialogRef.afterClosed().subscribe((result) => {
-    if (result) {
-      this.getProfile();
-    }
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getProfile();
+      }
 
-  });
+    });
 
-}
+  }
   openModalDeleteMember() {
     this.dialog.open(DeleteMember, {
       width: '600px',
       maxHeight: '269px',
       disableClose: true,
       data: {
-      memberId: this.id,
-    }
+        memberId: this.id,
+      }
     });
   }
 
@@ -107,18 +109,64 @@ export class TeamMemberDetails {
       });
   }
 
-ngOnInit(): void {
-  this.id = this.route.snapshot.paramMap.get('id');
-  this.getProfile();
-}
+  ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.getProfile();
+  }
 
-    clearError(field: string) {
+  clearError(field: string) {
     if (this.errors[field]) {
       delete this.errors[field];
     }
   }
 
-    async onFileSelected(event: any) {
+  // async onFileSelected(event: any) {
+  //   const file = event.target.files[0];
+  //   if (!file) return;
+  //   if (!file.type.startsWith('image/')) {
+  //     this.errors.file = 'Only images are allowed';
+  //     return;
+  //   }
+  //   this.selectedFile = file;
+  //   this.fileName = file.name;
+  //   this.clearError('file');
+  //   try {
+  //     const userId = this.id;
+  //     const success = await this.srv.handleFileUpload(
+  //       this.profilePicID,
+  //       userId,
+  //       this.selectedFile,
+  //       '9'
+  //     );
+
+  //     if (success) {
+  //       this.getProfile();
+  //       this.toast.show({
+  //         title: 'Profile picture uploaded successfully 🎉',
+  //         description: '',
+  //         variant: 'success',
+  //         position: 'toast-bottom-center'
+  //       });
+  //     } else {
+  //       this.toast.show({
+  //         title: 'Upload failed ❌',
+  //         description: 'Unable to upload profile picture',
+  //         variant: 'error',
+  //         position: 'toast-bottom-center'
+  //       });
+  //     }
+
+  //   } catch (error) {
+  //     this.toast.show({
+  //       title: 'Something went wrong ❌',
+  //       description: 'Please try again',
+  //       variant: 'error',
+  //       position: 'toast-bottom-center'
+  //     });
+  //   }
+  // }
+
+  async onFileSelected(event: any) {
     const file = event.target.files[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) {
@@ -128,8 +176,12 @@ ngOnInit(): void {
     this.selectedFile = file;
     this.fileName = file.name;
     this.clearError('file');
+    this.isUploading = true;
+    this.cdr.detectChanges();
+
     try {
       const userId = this.id;
+
       const success = await this.srv.handleFileUpload(
         this.profilePicID,
         userId,
@@ -153,7 +205,6 @@ ngOnInit(): void {
           position: 'toast-bottom-center'
         });
       }
-
     } catch (error) {
       this.toast.show({
         title: 'Something went wrong ❌',
@@ -161,57 +212,62 @@ ngOnInit(): void {
         variant: 'error',
         position: 'toast-bottom-center'
       });
+    } finally {
+      this.isUploading = false;
+      this.cdr.detectChanges();
+      event.target.value = '';
     }
   }
 
-    deleteProfilePic(fileUploadID: any) {
-  if (!fileUploadID) return;
-  this.loading = true;
-  this.cd.detectChanges(); 
 
- const userId = this.id;
+  deleteProfilePic(fileUploadID: any) {
+    if (!fileUploadID) return;
+    this.loading = true;
+    this.cd.detectChanges();
 
-  this.tv = [
-    { T: 'dk1', V: userId },
-    { T: 'dk2', V: '9' },
-    { T: 'c1', V: fileUploadID },
-    { T: 'c10', V: '4' }
-  ];
+    const userId = this.id;
 
-  this.srv.getdata('fileupload', this.tv).subscribe({
-    next: (r: any) => {
-      this.loading = false;
-      this.cd.detectChanges(); 
+    this.tv = [
+      { T: 'dk1', V: userId },
+      { T: 'dk2', V: '9' },
+      { T: 'c1', V: fileUploadID },
+      { T: 'c10', V: '4' }
+    ];
 
-      if (r.Status === 1) {
-        this.getProfile()
+    this.srv.getdata('fileupload', this.tv).subscribe({
+      next: (r: any) => {
+        this.loading = false;
+        this.cd.detectChanges();
+
+        if (r.Status === 1) {
+          this.getProfile()
+          this.toast.show({
+            title: 'File deleted successfully! 🎉',
+            description: '',
+            variant: 'success',
+            position: 'toast-bottom-center'
+          });
+        } else {
+          const apiMsg = r.Data?.[0]?.[0]?.msg || 'Please try again';
+          this.toast.show({
+            title: 'Failed to delete file',
+            description: apiMsg,
+            variant: 'error',
+            position: 'toast-bottom-center'
+          });
+        }
+      },
+      error: (err) => {
+        console.error('💥 Error:', err);
+        this.loading = false;
+        this.cd.detectChanges();
         this.toast.show({
-          title: 'File deleted successfully! 🎉',
-          description: '',
-          variant: 'success',
-          position: 'toast-bottom-center'
-        });
-      } else {
-        const apiMsg = r.Data?.[0]?.[0]?.msg || 'Please try again';
-        this.toast.show({
-          title: 'Failed to delete file',
-          description: apiMsg,
+          title: 'Error deleting file',
+          description: 'Please try again later',
           variant: 'error',
           position: 'toast-bottom-center'
         });
       }
-    },
-    error: (err) => {
-      console.error('💥 Error:', err);
-      this.loading = false;
-      this.cd.detectChanges(); 
-      this.toast.show({
-        title: 'Error deleting file',
-        description: 'Please try again later',
-        variant: 'error',
-        position: 'toast-bottom-center'
-      });
-    }
-  });
-}
+    });
+  }
 }

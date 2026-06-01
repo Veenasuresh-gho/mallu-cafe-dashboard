@@ -24,13 +24,19 @@
 
         <div class="d-flex gap-3 px-4">
             <div class="upload-wrapper">
-                <div class="upload-photo" [ngStyle]="previewUrl ? {'background-image': 'url(' + previewUrl + ')'} : {}">
-                    <!-- <img [src]="previewUrl || '/team/profile-circle.svg'" alt="user" class="profile-img"> -->
-                    <img *ngIf="!previewUrl" src="/team/profile-circle.svg" alt="user" class="profile-img">
+                <div class="upload-photo" [ngStyle]="previewUrl ? {
+    'background-image': 'url(' + previewUrl + ')'
+  } : {}">
+
+                    <ng-container *ngIf="!previewUrl">
+                        <img src="/team/profile-circle.svg" alt="user" class="profile-img">
+                    </ng-container>
+
                     <label class="upload-btn">
                         <input type="file" accept="image/*" hidden (change)="onPhotoSelected($event)" />
-                        <span>Upload Photo</span>
+                        <span>{{ previewUrl ? 'Change Photo' : 'Upload Photo' }}</span>
                     </label>
+
                 </div>
                 <p class="helper-text py-1">Supported formats: JPG, PNG</p>
             </div>
@@ -137,8 +143,8 @@
                 <p>Cancel</p>
             </button>
 
-            <app-primary-button [loading]="loading"  (click)="addTeamMemberClick()" style="margin-right: 24px;" label="Add Member"
-                iconSrc="/main/add.svg"></app-primary-button>
+            <app-primary-button [loading]="loading" (click)="addTeamMemberClick()" style="margin-right: 24px;"
+                label="Add Member" iconSrc="/main/add.svg"></app-primary-button>
 
 
         </div>

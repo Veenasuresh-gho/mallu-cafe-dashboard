@@ -221,3 +221,6 @@ color: var(--muted-input);
 .clickable-row{
    cursor: pointer; 
 }
+.clear-btn{
+    cursor: pointer;
+}

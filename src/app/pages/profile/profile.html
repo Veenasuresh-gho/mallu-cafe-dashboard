@@ -22,12 +22,6 @@
 
                 <div class="d-flex gap-2 align-items-end pt-4 mt-3">
 
-                    <!-- <label class=" upload-btn mb-0 d-flex align-items-center gap-2">
-                        <img src="/program/upload-icon.svg" alt="">
-                        Upload new image
-                        <input (change)="onFileSelected($event)" type="file" class="d-none">
-                    </label> -->
-
                     <label class="upload-btn mb-0 d-flex align-items-center gap-2" [class.disabled]="isUploading">
                         <img *ngIf="!isUploading" src="/program/upload-icon.svg" alt="">
                         <div *ngIf="isUploading" class="spinner"></div>

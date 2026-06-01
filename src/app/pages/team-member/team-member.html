@@ -18,16 +18,33 @@
                     <span matPrefix class="search-icon">
                         <img src="/main/searchIcon.svg" alt="search" />
                     </span>
-                    <input matInput placeholder="Search here..." [(ngModel)]="searchText" />
+                    <!-- <input matInput placeholder="Search here..." [(ngModel)]="searchText" /> -->
+                     <input
+  matInput
+  placeholder="Search here..."
+  [(ngModel)]="searchText"
+  (ngModelChange)="applyFilters()"
+/>
                 </mat-form-field>
-
+<!-- 
                 <app-select-drop-down placeholder="Roles" [(value)]="roles" [options]="[
     { label: 'All Roles', value: 'all' },
      { label: 'Admin', value: 'admin' },
     { label: 'RJ', value: 'rj' },
    
   ]">
-                </app-select-drop-down>
+                </app-select-drop-down> -->
+
+                <app-select-drop-down
+  placeholder="Roles"
+  [(value)]="roles"
+  (valueChange)="applyFilters()"
+  [options]="[
+    { label: 'All Roles', value: 'all' },
+    { label: 'Admin', value: 'admin' },
+    { label: 'RJ', value: 'rj' }
+  ]">
+</app-select-drop-down>
 
                 <div class="calendar-wrapper" *ngIf="isCalendarOpen">
                     <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)">
@@ -40,7 +57,7 @@
 
 
             </div>
-            <div class="d-flex align-items-center gap-1">
+            <div   (click)="clearFilters()" class="clear-btn d-flex align-items-center gap-1 pt-3">
                 <p style="font-size: 12px; font-weight: 500; color: #757575;">Clear filters</p>
                 <mat-icon style="font-size: 12px; color: #757575; cursor: pointer;" class="mb-1">cancel</mat-icon>
             </div>

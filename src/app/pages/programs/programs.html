@@ -37,21 +37,26 @@
   ]">
                 </app-select-drop-down>
 
-                <app-select-drop-down placeholder="All host" [(value)]="host" [options]="[
+                <!-- <app-select-drop-down placeholder="All host" [(value)]="host" [options]="[
                  { label: 'All host', value: 'all' },
     { label: 'RJ Anjali', value: 'anjali' },
     { label: 'RJ Neena', value: 'neena' },
     { label: 'RJ Priyanka', value: 'priyanka' },
     { label: 'RJ Reeva', value: 'reeva' }
-  ]">
+  ]"> -->
+                <!-- </app-select-drop-down> -->
+
+                <app-select-drop-down placeholder="All Host" [(value)]="host" [options]="hostOptions">
                 </app-select-drop-down>
+
+                
                 <div class="calendar-wrapper" *ngIf="isCalendarOpen">
                     <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)">
                     </app-custom-filter-calender>
                 </div>
 
 
-                <app-select-drop-down placeholder="All Programs" [(value)]="program" [options]="[
+                <app-select-drop-down [placeholder]="dayLabel" [(value)]="program" [options]="[
                  { label: 'All Programs', value: 'all' },
     { label: 'Today', value: 'today' },
     { label: 'Tomorrow', value: 'tomorrow' },

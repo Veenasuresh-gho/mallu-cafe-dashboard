@@ -306,3 +306,17 @@ mat-divider {
 .inactive-row .user {
     opacity: 0.6;
 }
+
+.programs {
+  overflow: visible !important;
+}
+
+.filter-container {
+  position: relative;
+  overflow: visible !important;
+}
+
+.calendar-wrapper {
+  position: relative;
+  overflow: visible;
+}

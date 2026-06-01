@@ -1,4 +1,4 @@
-<div class="media ">
+<div class="media">
     <div class="p-3">
         <div class="header d-flex justify-content-between align-items-center ">
             <div>
@@ -45,36 +45,39 @@
                     <input matInput placeholder="Search videos.." [(ngModel)]="searchText" />
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="status-drop-down">
-                    <mat-select placeholder="All upload status" [(value)]="status">
-                        <mat-option value="all">All upload status</mat-option>
-                        <mat-option value="active">Active</mat-option>
-                        <mat-option value="inactive">Inactive</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <app-select-drop-down placeholder="All upload status" [(value)]="status" [options]="[
+    { label: 'All upload status', value: 'all' },
+     { label: 'Published', value: 'published' },
+    { label: 'Draft', value: 'draft' },
+    { label: 'Private', value: 'private' },
+   
+  ]">
+                </app-select-drop-down>
 
-                <mat-form-field appearance="outline">
-                    <mat-select placeholder="All Category" [(value)]="category">
-                        <mat-option value="all">All Category</mat-option>
-                        <mat-option value="music">Music</mat-option>
-                        <mat-option value="news">News</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <app-select-drop-down placeholder="All Category" [(value)]="category" [options]="[
+    { label: 'All Category', value: 'all' },
+     { label: 'Pre-Scheduled', value: 'pre-Scheduled' },
+    { label: 'Featured-Videos', value: 'Featured' },
+    { label: 'Shorts', value: 'shorts' },
+   
+  ]">
+                </app-select-drop-down>
 
-                <mat-form-field appearance="outline">
-                    <mat-select placeholder="All members " [(value)]="members">
-                        <mat-option value="all">All members</mat-option>
-                        <mat-option value="host1">Host 1</mat-option>
-                        <mat-option value="host2">Host 2</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <app-select-drop-down placeholder="All Host" [(value)]="host" [options]="hostOptions">
+                </app-select-drop-down>
 
-                <mat-form-field appearance="outline">
-                    <mat-select placeholder="Last 30 days" [(value)]="period">
-                        <mat-option value="all">Last 30 days</mat-option>
-                        <mat-option value="program1">Program 1</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <app-select-drop-down [placeholder]="dayLabel" [(value)]="day" [options]="[
+                  { label: 'All Media', value: 'all' },
+      { label: 'Today', value: 'today' },
+      { label: 'Tomorrow', value: 'tomorrow' },
+      { label: 'Custom date', value: 'date' }
+    ]" (valueChange)="onProgramChange($event)">
+                </app-select-drop-down>
+
+                <div class="calendar-wrapper" *ngIf="isCalendarOpen">
+                    <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)">
+                    </app-custom-filter-calender>
+                </div>
             </div>
             <div class="d-flex align-items-center gap-1 pt-3">
                 <p style="font-size: 12px; font-weight: 500; color: #757575;">Clear filters</p>
@@ -194,7 +197,7 @@
                     </button>
                     <mat-divider></mat-divider>
 
-                    
+
 
 
 

@@ -9,7 +9,6 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
-import { CancelButton } from '../../../../components/dialog-form/cancel-button/cancel-button';
 import { FooterButton } from '../../../../components/dialog-form/footer-button/footer-button';
 import { GHOService } from '../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../services/utilities';
@@ -23,7 +22,7 @@ import { ToastService } from '../../../../services/toastService';
   selector: 'app-add-team-member',
   imports: [MatDialogContent, MatDialogActions, MatDialogClose, FormsModule, CommonModule,
     MatFormField, MatLabel, MatSelect, MatOption, MatSelectTrigger, MatChipsModule, MatSlideToggle, PrimaryButton,
-    FormInput, FormSelect, CancelButton, FooterButton,FormMultiSelect
+    FormInput, FormSelect, FooterButton,FormMultiSelect
   ],
   templateUrl: './add-team-member.html',
   styleUrl: './add-team-member.css',

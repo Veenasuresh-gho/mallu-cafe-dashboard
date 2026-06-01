@@ -131,7 +131,6 @@ export class AddNewProgram implements OnInit {
       { T: 'dk1', V: id },
       { T: 'c10', V: '3' }
     ];
-
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
@@ -139,7 +138,6 @@ export class AddNewProgram implements OnInit {
           this.loading = false;
 
           if (r?.Status === 1 && r?.Data?.[0]?.length) {
-
             const program = r.Data[0][0];
             this.programDetailsID = program.id;
             this.getTeamMemberList().then(() => {
@@ -147,11 +145,8 @@ export class AddNewProgram implements OnInit {
               this.populateForm(program);
 
             });
-
             this.populateForm(program);
-
           } else {
-
             this.toast.show({
               title: 'Failed to load program ❌',
               description: 'Program details not found',
@@ -164,7 +159,6 @@ export class AddNewProgram implements OnInit {
         },
 
         error: (err) => {
-
           console.error(err);
           this.loading = false;
           this.toast.show({
@@ -180,93 +174,26 @@ export class AddNewProgram implements OnInit {
   }
 
 
-  // populateForm(program: any) {
-  //   this.programTitle = program?.Title || '';
-  //   const selectedHostObj = this.hosts.find(
-  //     h => h.DisplayText === program.HostName
-  //   );
-  //   this.selectedHost = selectedHostObj?.DataValue || '';
-
-  //   const selectedCategoryObj = this.categoryOptions.find(
-  //     c => c.DisplyText === program.CategoryName
-  //   );
-  //   this.selectedCategory = selectedCategoryObj?.DataValue || '';
-
-  //   const dayMap: any = {
-  //     Mon: '1',
-  //     Tue: '2',
-  //     Wed: '3',
-  //     Thu: '4',
-  //     Fri: '5',
-  //     Sat: '6',
-  //     Sun: '7'
-  //   };
-
-  //   let fromDay = '';
-  //   let toDay = '';
-
-  //   if (program?.DayRange) {
-  //     const [from, to] = program.DayRange.split(' - ');
-  //     fromDay = dayMap[from] || '';
-  //     toDay = dayMap[to] || '';
-  //   }
-
-  //   let fromTime = '';
-  //   let toTime = '';
-
-  //   if (program?.TimeRange) {
-  //     const [fromT, toT] = program.TimeRange.split(' - ');
-  //     fromTime = fromT || '';
-  //     toTime = toT || '';
-  //   }
-
-  //   this.selectedSchedule = {
-  //     fromDay,
-  //     toDay,
-  //     fromTime,
-  //     toTime
-  //   };
-  //   this.fid = program.fid;
-  //   this.programID = program.ProgramID
-  //   this.selectedType = program?.IsCallAllowed ? 'allow' : 'disable';
-  //   this.id = program?.id || '';
-  //   this.existingImageUrl = program?._url || '';
-  //   this.fileName = program?.filename || '';
-  //   this.cdr.detectChanges();
-  // }
-
   populateForm(program: any) {
-
   this.programTitle = program?.Title || '';
-
   const selectedHostObj = this.hosts.find(
     h => h.DisplayText === program.HostName
   );
-
   this.selectedHost = selectedHostObj?.DataValue || '';
-
   const selectedCategoryObj = this.categoryOptions.find(
     c => c.DisplyText === program.CategoryName
   );
-
   this.selectedCategory = selectedCategoryObj?.DataValue || '';
-
   // ADD THIS BLOCK
   if (this.selectedCategory === '2') {
-
     this.getPodcastCategory();
-
     setTimeout(() => {
-
       const selectedPodcastObj = this.catogories.find(
         (c: any) => c.DisplayText === program.PodcastCategory
       );
-
       this.selectedPodcastCategory =
         selectedPodcastObj?.DataValue || '';
-
       this.cdr.detectChanges();
-
     }, 300);
   }
 

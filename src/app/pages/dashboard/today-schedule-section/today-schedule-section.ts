@@ -65,14 +65,15 @@ export class TodayScheduleSection implements OnInit {
 
 
 
-  ViewFileModal(id: any) {
+  ViewFileModal(item: any) {
+    console.log('Selected Item:', item);
     const dialogRef = this.dialog.open(ViewFile, {
       width: '90%',
       maxWidth: '650px',
       maxHeight: '95vh',
       disableClose: true,
       data: {
-        id: id
+        id: item.MediaID
       }
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -83,12 +84,10 @@ export class TodayScheduleSection implements OnInit {
   }
 
   openModal(item: Schedule) {
-
     this.tv = [
       { T: 'dk1', V: item.id.toString() },
       { T: 'c10', V: '3' }
     ];
-
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r: any) => {
@@ -267,7 +266,7 @@ export class TodayScheduleSection implements OnInit {
         this.streamingProgram = this.schedules.find(
           p => p.IsStreaming === 1) || null;
         this.currentProgram = this.streamingProgram;
-
+ 
 
         this.loading = false;
         this.cdr.detectChanges();

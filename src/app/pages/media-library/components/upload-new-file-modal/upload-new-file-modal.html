@@ -75,7 +75,7 @@
 
         <div class="form-row px-4">
             <app-form-select label="Category *" [options]="mediaTypeOptions" optionLabel="DisplyText"
-                optionValue="DataValue" [(model)]="selectedMediaType" [disabled]="!!selectedProgramData"
+                optionValue="DataValue" [(model)]="selectedMediaType" [disabled]="isPrefilledMode"
                 (modelChange)="onMediaTypeChange($event)">
             </app-form-select>
 
@@ -83,15 +83,19 @@
         <div [ngSwitch]="selectedMediaType">
 
             <div *ngSwitchCase="'1'" [class.disabled-section]="!selectedMediaType">
-                <app-pre-scheduled [programList]="programList" [fileType]="extension"
-                    [prefillData]="selectedProgramData" [prefillDate]="selectedBroadcastDate"
-                    [readOnly]="!!selectedProgramData" (programSelected)="onProgramSelected($event)">
-                </app-pre-scheduled>
+                <app-pre-scheduled
+    [programList]="programList"
+    [fileType]="extension"
+    [prefillData]="originalPrefillData"
+    [prefillDate]="selectedBroadcastDate"
+    [readOnly]="isPrefilledProgram"
+    (programSelected)="onProgramSelected($event)">
+</app-pre-scheduled>
             </div>
 
             <div *ngSwitchCase="'2'">
                 <app-podcast-file [programList]="programList" [fileType]="extension" [prefillData]="selectedProgramData"
-                    [prefillDate]="selectedBroadcastDate" [readOnly]="!!selectedProgramData"
+                    [prefillDate]="selectedBroadcastDate" [readOnly]="isPrefilledProgram"
                     (programSelected)="onProgramSelected($event)">
                 </app-podcast-file>
             </div>

@@ -180,30 +180,30 @@ onDateChange(value: string) {
 
   ngOnChanges(changes: SimpleChanges) {
 
-    if (changes['prefillDate']?.currentValue) {
-      this.typedText = changes['prefillDate'].currentValue;
-    }
-
-    if (
-      this.prefillData &&
-      this.programList?.length
-    ) {
-
-      const selected = this.programList.find(
-        p => p.DataValue == this.prefillData.ProgramID
-      );
-
-      if (selected) {
-        this.selectedProgramId = selected.DataValue;     
-        this.selectedProgramName = selected.DisplayText; 
-        this.programId = selected.ProgramID;             
-      }
-
-      this.emitData();
-    }
-
-    this.cdr.detectChanges();
+  if (changes['prefillDate']?.currentValue) {
+    this.typedText = changes['prefillDate'].currentValue;
   }
+
+  if (
+    this.readOnly &&
+    this.prefillData &&
+    this.programList?.length
+  ) {
+    const selected = this.programList.find(
+      p => p.DataValue == this.prefillData.ProgramID
+    );
+
+    if (selected) {
+      this.selectedProgramId = selected.DataValue;
+      this.selectedProgramName = selected.DisplayText;
+      this.programId = selected.ProgramID;
+    }
+
+    this.emitData();
+  }
+
+  this.cdr.detectChanges();
+}
 
   getProgramDetails(): void {
     this.tv = [

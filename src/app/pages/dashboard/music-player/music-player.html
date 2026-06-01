@@ -84,11 +84,11 @@
 
   <div class="d-flex justify-content-between ">
     <div class="text-success">
-      <p class="extraData2">Pre-Scheduled</p>
+      <p class="extraData2">{{programDetails?.CategoryName}}</p>
       <div class="d-flex gap-1 text-[#312F2F]">
         <div class="d-flex gap-1 p-2 files border h-50 rounded">
           <img src="/dash/files.svg" width="16px" height="16px" alt="">
-          <span class="media-file">OmShantiOm_230326.mp3 • 108 MB</span>
+          <span class="media-file">{{programDetails?.filename}} • {{mb}} MB</span>
         </div>
         <p class="gotoFile-movies" (click)="goToMediaLibrary()">
           <img src="/dash/video-play.png" alt="">

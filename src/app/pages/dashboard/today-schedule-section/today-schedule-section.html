@@ -50,15 +50,17 @@
         @if(currentProgram) {
         <div class="d-flex flex-column gap-2 px-3 py-2 on-air-content border">
 
-            <div class="on-air d-flex align-items-center mt-2 gap-2">
-                <p class="mb-2 small">🟢 Broadcast Status</p>
-                <p class="mb-2 d-flex align-items-center gap-1">
-                    <span class="material-icons" style="font-size:16px;color: var(--success);">
-                        radio_button_checked
-                    </span>
-                    <span class="on-air-text small">On Air</span>
-                </p>
-            </div>
+            @if(isToday && currentProgram) {
+<div class="on-air d-flex align-items-center mt-2 gap-2">
+    <p class="mb-2 small">🟢 Broadcast Status</p>
+    <p class="mb-2 d-flex align-items-center gap-1">
+        <span class="material-icons" style="font-size:16px;color: var(--success);">
+            radio_button_checked
+        </span>
+        <span class="on-air-text small">On Air</span>
+    </p>
+</div>
+}
 
             <div class="d-flex justify-content-between w-100">
                 <div class="d-flex align-items-center gap-2">

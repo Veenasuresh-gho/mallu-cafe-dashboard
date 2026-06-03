@@ -238,11 +238,10 @@ mat-slider {
 .custom-card-bg {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(to right, #B84141, #950000);
   border-radius: 16px;
   height: 250px;
-  z-index: 0;
-
+  background-size: cover;
+  background-position: center;
 }
 
 .play-btn {
@@ -288,31 +287,42 @@ mat-slider {
 
 .movies-bg {}
 
-.custom-card-bg::after {
+
+
+/* Large red circle */
+.custom-card-bg:not(.has-thumbnail)::after {
   content: "";
   position: absolute;
-  width: 252.87px;
-  height: 252.87px;
+  width: 252px;
+  height: 252px;
   background: linear-gradient(to left, #B52626, #A01717);
   border-radius: 50%;
   top: -80px;
   left: -80px;
-  z-index: -1;
-  box-shadow: #c43434;
+  z-index: 0;
 }
 
-.custom-card-bg::before {
-  /* Smaller circle */
+/* Small red circle */
+.custom-card-bg:not(.has-thumbnail)::before {
   content: "";
   position: absolute;
-  width: 89.41px;
-  height: 89.41px;
+  width: 89px;
+  height: 89px;
   background: linear-gradient(to left, #B52626, #A01717);
   border-radius: 50%;
   top: 12px;
   left: 130px;
-  z-index: -1;
+  z-index: 0;
 }
+
+/* Keep content above circles */
+.custom-card-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+
 
 /* live */
 

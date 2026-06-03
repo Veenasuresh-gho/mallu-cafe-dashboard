@@ -89,6 +89,10 @@ export class MusicPlayer implements OnInit, OnChanges {
     this.router.navigate(['/media-library']);
   }
 
+  ngOnInit(): void {
+    this.loadCurrentProgram();
+  }
+
   initAudio(url: string) {
 
     this.audio.src = url;
@@ -166,7 +170,14 @@ export class MusicPlayer implements OnInit, OnChanges {
 
     const ext = this.getFileExtension(url);
 
-    if (ext === 'mp3') {
+    console.log('Program URL:', url);
+    console.log('Extension:', ext);
+
+    // AUDIO
+    if (
+      ext === 'mp3' ||
+      url.includes('.mp3')
+    ) {
 
       this.isAudio = true;
       this.showVideo = false;
@@ -176,11 +187,16 @@ export class MusicPlayer implements OnInit, OnChanges {
       return;
     }
 
-    if (['mp4', 'webm', 'ogg'].includes(ext)) {
+    // VIDEO
+    if (
+      ['mp4', 'webm', 'ogg'].includes(ext) ||
+      url.includes('.mp4') ||
+      url.includes('.webm') ||
+      url.includes('.ogg')
+    ) {
 
       this.isAudio = false;
       this.showVideo = true;
-      this.platform = 'unknown';
 
       this.videoUrl =
         this.sanitizer.bypassSecurityTrustResourceUrl(url);
@@ -188,13 +204,25 @@ export class MusicPlayer implements OnInit, OnChanges {
       return;
     }
 
-    this.isAudio = false;
+    // Youtube / Facebook
+    if (
+      url.includes('youtube') ||
+      url.includes('youtu.be') ||
+      url.includes('facebook.com') ||
+      url.includes('fb.watch')
+    ) {
 
-    this.prepareVideo(url);
-  }
+      this.isAudio = false;
+      this.prepareVideo(url);
 
-  ngOnInit(): void {
-    this.loadCurrentProgram();
+      return;
+    }
+
+    // Default → treat as audio
+    this.isAudio = true;
+    this.showVideo = false;
+
+    this.initAudio(url);
   }
 
   loadCurrentProgram(): void {
@@ -207,7 +235,7 @@ export class MusicPlayer implements OnInit, OnChanges {
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
         const data = r?.Data?.[0];
-
+        console.log(data)
         if (!data || !Array.isArray(data) || data.length === 0) {
 
           this.programDetails = null;

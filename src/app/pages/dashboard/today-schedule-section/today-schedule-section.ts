@@ -150,6 +150,9 @@ export class TodayScheduleSection implements OnInit {
       });
   }
 
+  get isToday(): boolean {
+    return this.selectedDate.toDateString() === new Date().toDateString();
+  }
 
   showDialog = false;
 
@@ -266,7 +269,7 @@ export class TodayScheduleSection implements OnInit {
         this.streamingProgram = this.schedules.find(
           p => p.IsStreaming === 1) || null;
         this.currentProgram = this.streamingProgram;
- 
+
 
         this.loading = false;
         this.cdr.detectChanges();

@@ -103,12 +103,12 @@
       <div class="d-flex align-items-center gap-2">
 
         <div class="d-flex align-items-center media-controls">
-  <img src="/dash/play-btn.png" class="play-btn" alt="" (click)="toggleAudio()" />
-  <button class="mute-btn" (click)="toggleMute()">
-    <mat-icon>{{ isMuted ? 'volume_off' : 'volume_up' }}</mat-icon>
-  </button>
-  <span class="auto-play-label">{{ isMuted ? 'Unmute' : 'Mute' }}</span>
-</div>
+          <img src="/dash/play-btn.png" class="play-btn" alt="" (click)="toggleAudio()" />
+          <button class="mute-btn" (click)="toggleMute()">
+            <mat-icon>{{ isMuted ? 'volume_off' : 'volume_up' }}</mat-icon>
+          </button>
+          <span class="auto-play-label">{{ isMuted ? 'Unmute' : 'Mute' }}</span>
+        </div>
         <!-- <span class="auto-play-label">Auto Play</span>
         <label class="toggle-switch">
           <input type="checkbox" [(ngModel)]="isAutoPlay">
@@ -116,9 +116,6 @@
         </label> -->
 
       </div>
-
-
-
     </div>
   </div>
 </div>

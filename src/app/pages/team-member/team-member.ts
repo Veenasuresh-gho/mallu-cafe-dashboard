@@ -85,18 +85,6 @@ export class TeamMember implements OnInit {
   tempProgramSelection: string = 'all';
   isCalendarOpen: boolean = false;
 
-  //   onProgramChange(value: string) {
-  //   if (value === 'date') {
-  //     this.isCalendarOpen = true;
-  //     // store temporarily, DON'T apply yet
-  //     this.tempProgramSelection = value;
-  //   } else {
-  //     this.programsDropdown = value;
-  //     this.tempProgramSelection = value;
-  //     this.isCalendarOpen = false;
-  //   }
-  // }
-
   onProgramChange(value: any) {
   if (value === 'date') {
     this.isCalendarOpen = true;
@@ -181,7 +169,6 @@ clearFilters(): void {
   this.getTeamMemberList();
 }
 
-  
   get showPaginator(): boolean {
     return this.dataSource.data.length > 7;
   }

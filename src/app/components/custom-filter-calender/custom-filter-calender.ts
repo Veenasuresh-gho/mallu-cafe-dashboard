@@ -32,6 +32,7 @@ export class CustomFilterCalender {
   years: number[] = [];
 
   @Input() inlineMode: boolean = false;
+  @Input() enableWeekdaySelection: boolean = true;
   @Output() filterApplied = new EventEmitter<any>();
   constructor() {
     this.generateYears();
@@ -46,6 +47,8 @@ toggleCalendar() {
   if (this.inlineMode) return; // disable toggle
   this.isOpen = !this.isOpen;
 }
+
+
 
 
 
@@ -110,15 +113,37 @@ toggleCalendar() {
     const days: { date: Date; currentMonth: boolean }[] = [];
     const start = firstDay === 0 ? 6 : firstDay - 1;
 
+    // for (let i = start - 1; i >= 0; i--) days.push({ date: new Date(year, month - 1, prevMonthDays - i), currentMonth: false });
+
+    // for (let i = 1; i <= totalDays; i++) days.push({ date: new Date(year, month, i), currentMonth: true });
+
+    // const remaining = 42 - days.length;
+    // for (let i = 1; i <= remaining; i++) days.push({ date: new Date(year, month + 1, i), currentMonth: false });
+
     // previous month's days
-    for (let i = start - 1; i >= 0; i--) days.push({ date: new Date(year, month - 1, prevMonthDays - i), currentMonth: false });
+for (let i = start - 1; i >= 0; i--) {
+  days.push({
+    date: new Date(year, month - 1, prevMonthDays - i, 12, 0, 0),
+    currentMonth: false
+  });
+}
 
-    // current month's days
-    for (let i = 1; i <= totalDays; i++) days.push({ date: new Date(year, month, i), currentMonth: true });
+// current month's days
+for (let i = 1; i <= totalDays; i++) {
+  days.push({
+    date: new Date(year, month, i, 12, 0, 0),
+    currentMonth: true
+  });
+}
 
-    // next month's days to fill 6x7 grid
-    const remaining = 42 - days.length;
-    for (let i = 1; i <= remaining; i++) days.push({ date: new Date(year, month + 1, i), currentMonth: false });
+// next month's days
+const remaining = 42 - days.length;
+for (let i = 1; i <= remaining; i++) {
+  days.push({
+    date: new Date(year, month + 1, i, 12, 0, 0),
+    currentMonth: false
+  });
+}
 
     return days;
   }
@@ -126,6 +151,10 @@ toggleCalendar() {
   // SINGLE / RANGE
   selectDate(date: Date, currentMonth: boolean) {
     if (!currentMonth) return;
+
+    console.log('Clicked Date Object:', date);
+  console.log('Local Date:', date.toLocaleDateString());
+  console.log('ISO Date:', date.toISOString());
 
     // clear weekday selection
     this.selectedWeekDays = [];
@@ -152,25 +181,47 @@ toggleCalendar() {
   }
 
   // WEEKDAY SELECTION
+  // selectWeekday(dayIndex: number) {
+  //   const year = this.currentDate.getFullYear();
+  //   const month = this.currentDate.getMonth();
+  //   const totalDays = new Date(year, month + 1, 0).getDate();
+
+  //   this.selectedWeekDays = [];
+  //   this.selectedWeekDayIndex = dayIndex;
+
+  //   const jsDayIndex = (dayIndex + 1) % 7; // map Monday=0 → JS 1
+
+  //   for (let day = 1; day <= totalDays; day++) {
+  //     const date = new Date(year, month, day);
+  //     if (date.getDay() === jsDayIndex) this.selectedWeekDays.push(date);
+  //   }
+
+  //   // clear single/range selection
+  //   this.startDate = null;
+  //   this.endDate = null;
+  // }
+
   selectWeekday(dayIndex: number) {
-    const year = this.currentDate.getFullYear();
-    const month = this.currentDate.getMonth();
-    const totalDays = new Date(year, month + 1, 0).getDate();
+  const year = this.currentDate.getFullYear();
+  const month = this.currentDate.getMonth();
+  const totalDays = new Date(year, month + 1, 0).getDate();
 
-    this.selectedWeekDays = [];
-    this.selectedWeekDayIndex = dayIndex;
+  this.selectedWeekDays = [];
+  this.selectedWeekDayIndex = dayIndex;
 
-    const jsDayIndex = (dayIndex + 1) % 7; // map Monday=0 → JS 1
+  const jsDayIndex = (dayIndex + 1) % 7;
 
-    for (let day = 1; day <= totalDays; day++) {
-      const date = new Date(year, month, day);
-      if (date.getDay() === jsDayIndex) this.selectedWeekDays.push(date);
+  for (let day = 1; day <= totalDays; day++) {
+    const date = new Date(year, month, day, 12, 0, 0);
+
+    if (date.getDay() === jsDayIndex) {
+      this.selectedWeekDays.push(date);
     }
-
-    // clear single/range selection
-    this.startDate = null;
-    this.endDate = null;
   }
+
+  this.startDate = null;
+  this.endDate = null;
+}
 
   // SINGLE / RANGE HELPERS
   isSelected(date: Date, currentMonth: boolean): boolean {
@@ -217,35 +268,34 @@ toggleCalendar() {
     return !!this.startDate || this.selectedWeekDays.length > 0 || !!this.endDate; 
   }
 
-  // applyFilter() {
-  //   if (!this.hasSelectedDates()) return;
 
-  //   if (this.selectedWeekDays.length > 0) console.log('Selected Weekdays:', this.selectedWeekDays);
-  //   else if (this.endDate) console.log('Selected Range:', this.startDate, 'to', this.endDate);
-  //   else console.log('Selected Single Date:', this.startDate);
-
-  //   this.closeCalendar();
-  // }
-
-  applyFilter() {
+applyFilter() {
   if (!this.hasSelectedDates()) return;
 
   let payload: any;
 
   if (this.selectedWeekDays.length > 0) {
-    payload = { type: 'weekday', value: this.selectedWeekDays };
-  } 
+    payload = {
+      type: 'weekday',
+      value: this.selectedWeekDays[0]
+    };
+  }
   else if (this.endDate) {
-    payload = { type: 'range', start: this.startDate, end: this.endDate };
-  } 
+    payload = {
+      type: 'range',
+      start: this.startDate,
+      end: this.endDate
+    };
+  }
   else {
-    payload = { type: 'single', value: this.startDate };
+    payload = {
+      type: 'single',
+      value: this.startDate
+    };
   }
 
-  // 🔥 SEND DATA TO PARENT
   this.filterApplied.emit(payload);
 
-  // ✅ ONLY close if NOT inline mode
   if (!this.inlineMode) {
     this.closeCalendar();
   }

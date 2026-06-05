@@ -336,3 +336,6 @@ mat-divider {
   position: relative;
   overflow: visible;
 }
+.clear-btn{
+    cursor: pointer;
+}

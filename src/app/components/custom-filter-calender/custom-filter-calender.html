@@ -93,7 +93,7 @@
         <ng-container *ngIf="viewMode === 'date'">
 
             <!-- WEEKDAY SELECTION -->
-            <div class="week">
+            <div class="week" *ngIf="enableWeekdaySelection">
                 <div *ngFor="let d of weekDays; let i = index" (click)="selectWeekday(i)"
                     [class.selected-weekday]="selectedWeekDayIndex === i" class="week-day">
                     {{ d }}
@@ -119,4 +119,5 @@
         </div>
 
     </div>
+    
 </div>

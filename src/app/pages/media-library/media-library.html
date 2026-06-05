@@ -42,18 +42,32 @@
                     <span matPrefix class="search-icon">
                         <img src="/main/searchIcon.svg" alt="search" />
                     </span>
-                    <input matInput placeholder="Search videos.." [(ngModel)]="searchText" />
+                    <input matInput placeholder="Search videos.." [(ngModel)]="searchText"
+                        (ngModelChange)="applyFilters()" />
                 </mat-form-field>
 
-                <app-select-drop-down placeholder="All upload status" [(value)]="status" [options]="[
+                <!-- <app-select-drop-down placeholder="All upload status" [(value)]="status" (valueChange)="applyFilters()"
+                    [options]="[
     { label: 'All upload status', value: 'all' },
      { label: 'Published', value: 'published' },
     { label: 'Draft', value: 'draft' },
    
   ]">
-                </app-select-drop-down>
+                </app-select-drop-down> -->
 
-                <app-select-drop-down placeholder="All Category" [(value)]="category" [options]="[
+                <app-select-drop-down
+  placeholder="All upload status"
+  [(value)]="status"
+  (valueChange)="applyFilters()"
+  [options]="[
+    { label: 'All upload status', value: 'all' },
+    { label: 'Published', value: 'published' },
+    { label: 'Draft', value: 'draft' }
+  ]">
+</app-select-drop-down>
+
+                <app-select-drop-down placeholder="All Category" [(value)]="category" (valueChange)="applyFilters()"
+                    [options]="[
     { label: 'All Category', value: 'all' },
      { label: 'Pre-Scheduled', value: 'pre-Scheduled' },
        { label: 'Poadcast', value: 'poadcast' },
@@ -63,7 +77,8 @@
   ]">
                 </app-select-drop-down>
 
-                <app-select-drop-down placeholder="All Host" [(value)]="host" [options]="hostOptions">
+                <app-select-drop-down placeholder="All Host" [(value)]="host" (valueChange)="applyFilters()"
+                    [options]="hostOptions">
                 </app-select-drop-down>
 
                 <app-select-drop-down [placeholder]="dayLabel" [(value)]="day" [options]="[
@@ -79,7 +94,7 @@
                     </app-custom-filter-calender>
                 </div>
             </div>
-            <div class="d-flex align-items-center gap-1 pt-3">
+            <div  (click)="clearFilters()" class="clear-btn d-flex align-items-center gap-1 pt-3">
                 <p style="font-size: 12px; font-weight: 500; color: #757575;">Clear filters</p>
                 <mat-icon style="font-size: 12px; color: #757575; cursor: pointer;" class="mb-1">cancel</mat-icon>
             </div>

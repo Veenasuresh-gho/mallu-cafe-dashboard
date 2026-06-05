@@ -64,26 +64,179 @@ export class MediaLibrary implements OnInit {
   dayLabel = 'Today';
   // searchText = '';
 
-  onProgramChange(value: string) {
+//   onProgramChange(value: string) {
+//   if (value === 'date') {
+//     this.isCalendarOpen = true;
+//     this.tempProgramSelection = value;
+//   } else {
+//     this.programsDropdown = value;
+//     this.tempProgramSelection = value;
+//     this.isCalendarOpen = false;
+//   }
+// }
+
+// onFilterApplied(data: any) {
+//   this.isCalendarOpen = false;
+//   if (data.type === 'single') {
+//     const date = new Date(data.value);
+//     this.dayLabel =
+//       date.toLocaleDateString('en-GB');
+
+//     this.day = this.dayLabel;
+//   }
+// }
+
+onProgramChange(value: string) {
   if (value === 'date') {
     this.isCalendarOpen = true;
-    this.tempProgramSelection = value;
   } else {
-    this.programsDropdown = value;
-    this.tempProgramSelection = value;
+    this.day = value;
     this.isCalendarOpen = false;
+
+    this.fromDate = '';
+    this.toDate = '';
+
+    this.applyFilters();
   }
 }
 
 onFilterApplied(data: any) {
   this.isCalendarOpen = false;
-  if (data.type === 'single') {
-    const date = new Date(data.value);
-    this.dayLabel =
-      date.toLocaleDateString('en-GB');
+  this.day = 'date';
 
-    this.day = this.dayLabel;
+  if (data.type === 'weekday' || data.type === 'single') {
+    const selectedDate = new Date(data.value);
+
+    this.fromDate = selectedDate.toISOString().split('T')[0];
+    this.toDate = selectedDate.toISOString().split('T')[0];
+
+    this.dayLabel = selectedDate.toLocaleDateString('en-GB');
   }
+  else if (data.type === 'range') {
+    const startDate = new Date(data.start);
+    const endDate = new Date(data.end);
+
+    this.fromDate = startDate.toISOString().split('T')[0];
+    this.toDate = endDate.toISOString().split('T')[0];
+
+    this.dayLabel =
+      `${startDate.toLocaleDateString('en-GB')} - ${endDate.toLocaleDateString('en-GB')}`;
+  }
+
+  this.applyFilters();
+}
+
+
+applyFilters() {
+
+  const tags = [
+    { T: 'dk1', V: '0' },
+
+    // Search
+    {
+      T: 'dk2',
+      V: this.searchText || ''
+    },
+
+    // Publish Status
+    {
+      T: 'c1',
+      V:
+        this.status === 'published'
+          ? '1'
+          : this.status === 'draft'
+          ? '2'
+          : ''
+    },
+
+    // Category
+    {
+      T: 'c2',
+      V:
+        this.category === 'pre-Scheduled'
+          ? '1'
+          : this.category === 'poadcast'
+          ? '2'
+          : this.category === 'Featured'
+          ? '3'
+          : this.category === 'shorts'
+          ? '4'
+          : ''
+    },
+
+    // Host
+    {
+      T: 'c3',
+      V: this.host !== 'all'
+        ? this.host
+        : ''
+    },
+
+    // Date Filter
+    {
+      T: 'c4',
+      V:
+        this.day === 'today'
+          ? '1'
+          : this.day === 'tomorrow'
+          ? '2'
+          : this.day === 'date'
+          ? '3'
+          : ''
+    },
+
+    {
+      T: 'c5',
+      V: this.fromDate || ''
+    },
+
+    {
+      T: 'c6',
+      V: this.toDate || ''
+    },
+
+    {
+      T: 'c10',
+      V: '15'
+    }
+  ];
+
+  this.loading = true;
+
+  this.srv.getdata('program', tags)
+    .subscribe({
+      next: (r) => {
+
+        this.ds = r.Data[0] || [];
+
+        this.dataSource.data = this.ds;
+        this.dataSource._updateChangeSubscription();
+
+        this.loading = false;
+        this.cdr.markForCheck();
+      },
+
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+      }
+    });
+}
+
+clearFilters() {
+
+  this.searchText = '';
+  this.status = 'all';
+  this.category = 'all';
+  this.host = 'all';
+  this.day = 'all';
+
+  this.fromDate = '';
+  this.toDate = '';
+
+  this.dayLabel = 'All Media';
+
+  this.getMediaLibrary();
 }
 
   ViewFileModal(id: string) {
@@ -141,6 +294,9 @@ onFilterApplied(data: any) {
   category = 'all';
   members = 'all';
   period = 'all';
+  fromDate = '';
+  toDate = '';
+  
 
   columns: string[] = [
     'media',

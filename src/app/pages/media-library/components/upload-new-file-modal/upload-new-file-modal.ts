@@ -150,6 +150,29 @@ export class UploadNewFileModal implements OnInit {
   thumbnailFile: File | null = null;
   broadcastDate: string = '';
   originalPrefillData: any = null;
+  mediaDuration = 0;
+
+  private getMediaDuration(file: File): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const isVideo = file.type.startsWith('video');
+      const media = document.createElement(isVideo ? 'video' : 'audio');
+
+      media.preload = 'metadata';
+
+      media.onloadedmetadata = () => {
+        const duration = Math.floor(media.duration || 0);
+        URL.revokeObjectURL(media.src);
+        resolve(duration);
+      };
+
+      media.onerror = () => {
+        URL.revokeObjectURL(media.src);
+        reject(0);
+      };
+
+      media.src = URL.createObjectURL(file);
+    });
+  }
 
   removeFile() {
     if (this.previewUrl) {
@@ -232,7 +255,7 @@ export class UploadNewFileModal implements OnInit {
 
     this.thumbnailFile = data.thumbnailFile || null;
 
-console.log('Generated filename:', data.fileName);
+    console.log('Generated filename:', data.fileName);
 
     if (this.selectedFile && this.finalfileName) {
       this.renameFile();
@@ -248,12 +271,11 @@ console.log('Generated filename:', data.fileName);
   isVideoType(): boolean {
     return this.fileType.startsWith('video');
   }
-  onFileSelected(file: File) {
+  async onFileSelected(file: File) {
     if (!file) return;
 
     if (file.size > this.maxSize) {
       this.errors.file = 'File size should be less than 1.5 GB';
-
       return;
     }
 
@@ -279,7 +301,9 @@ console.log('Generated filename:', data.fileName);
       this.selectedFile = file;
       this.fileName = file.name;
     }
+
     this.updateFileName();
+
     this.previewUrl = URL.createObjectURL(file);
     this.fileSize = (file.size / 1024 / 1024).toFixed(2) + ' MB';
     this.fileType = file.type;
@@ -287,26 +311,51 @@ console.log('Generated filename:', data.fileName);
 
     this.dimension = '';
 
-    const isVideo = file.type.startsWith('video');
-    const media = document.createElement(isVideo ? 'video' : 'audio');
-    const url = URL.createObjectURL(file);
+    const isMedia =
+      file.type.startsWith('audio') ||
+      file.type.startsWith('video');
 
-    media.onloadedmetadata = () => {
-      const duration = Math.floor(media.duration) + ' sec';
+    if (isMedia) {
+      try {
+        this.mediaDuration = await this.getMediaDuration(file);
 
-      if (isVideo) {
-        const width = (media as HTMLVideoElement).videoWidth;
-        const height = (media as HTMLVideoElement).videoHeight;
-        this.dimension = `${width} x ${height} • ${duration}`;
-      } else {
-        this.dimension = duration;
+        const minutes = Math.floor(this.mediaDuration / 60);
+        const seconds = this.mediaDuration % 60;
+
+        console.log('Duration (seconds):', this.mediaDuration);
+        console.log(
+          'Duration:',
+          `${minutes}:${seconds.toString().padStart(2, '0')}`
+        );
+
+        const isVideo = file.type.startsWith('video');
+
+        const media = document.createElement(isVideo ? 'video' : 'audio');
+        const url = URL.createObjectURL(file);
+
+        media.onloadedmetadata = () => {
+          const durationText = `${this.mediaDuration} sec`;
+
+          if (isVideo) {
+            const width = (media as HTMLVideoElement).videoWidth;
+            const height = (media as HTMLVideoElement).videoHeight;
+
+            this.dimension = `${width} x ${height} • ${durationText}`;
+          } else {
+            this.dimension = durationText;
+          }
+
+          URL.revokeObjectURL(url);
+          this.cdr.markForCheck();
+        };
+
+        media.src = url;
+      } catch (err) {
+        console.error('Failed to read duration', err);
       }
-console.log('finalfileName before upload:', this.finalfileName);
-      URL.revokeObjectURL(url);
-      this.cdr.markForCheck();
-    };
+    }
 
-    media.src = url;
+    this.cdr.markForCheck();
   }
   uploadFile() {
     if (!this.validateForm()) return;
@@ -343,7 +392,8 @@ console.log('finalfileName before upload:', this.finalfileName);
               this.id,
               this.userId,
               file,
-              '5'
+              '5',
+              this.mediaDuration
             );
 
             this.loading = false;
@@ -465,7 +515,8 @@ console.log('finalfileName before upload:', this.finalfileName);
               this.id,
               this.userId,
               file,
-              '6'
+              '6',
+              this.mediaDuration
             );
 
             this.loading = false;
@@ -559,7 +610,8 @@ console.log('finalfileName before upload:', this.finalfileName);
               this.id,
               this.userId,
               file,
-              '4'
+              '4',
+              this.mediaDuration
             );
 
             if (!videoSuccess) {

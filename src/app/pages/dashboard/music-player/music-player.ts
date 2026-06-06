@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, OnDestroy, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -25,9 +25,11 @@ import { Router } from '@angular/router';
   templateUrl: './music-player.html',
   styleUrls: ['./music-player.css'],
 })
-export class MusicPlayer implements OnInit, OnChanges {
+export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
+
   @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
   @Input() publishInfo!: { isPublic: boolean; url: string; isPublish: boolean } | null;
+  private pollInterval: any;
 
   videoUrl!: SafeResourceUrl;
   showVideo: boolean = false;
@@ -89,8 +91,50 @@ export class MusicPlayer implements OnInit, OnChanges {
     this.router.navigate(['/media-library']);
   }
 
+  refreshProgram(): void {
+
+    this.tv = [{ T: 'c10', V: '13' }];
+
+    this.srv.getdata('program', this.tv).subscribe({
+      next: (r) => {
+
+        const data = r?.Data?.[0];
+
+        if (!data?.length) {
+          return;
+        }
+
+        const newProgram = data[0];
+
+        const seekTime = Number(newProgram?.SeekTime || 0);
+        const duration = Number(newProgram?.Duration || 0);
+
+        if (duration > 0 && seekTime >= duration) {
+
+          console.log('Program completed');
+
+          this.stopProgram();
+
+          return;
+        }
+
+        this.programDetails = newProgram;
+
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.loadCurrentProgram();
+    this.pollInterval = setInterval(() => {
+      this.refreshProgram();
+    }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.pollInterval) {
+      clearInterval(this.pollInterval);
+    }
   }
 
   initAudio(url: string) {
@@ -114,12 +158,10 @@ export class MusicPlayer implements OnInit, OnChanges {
 
     };
 
-    // ✅ enough audio loaded to seek safely
     this.audio.oncanplay = () => {
 
       if (!this.hasSeeked && this.programDetails?.SeekTime) {
 
-        // ✅ If seektime exceeds duration use max allowed
         const seekValue = Math.min(
           this.programDetails.SeekTime,
           this.audio.duration || 0
@@ -222,6 +264,13 @@ export class MusicPlayer implements OnInit, OnChanges {
     this.initAudio(url);
   }
 
+  stopProgram() {
+    this.tv = [{ T: 'c10', V: '1' }];
+    this.srv.getdata('stop', this.tv).subscribe({
+
+    })
+  }
+
   loadCurrentProgram(): void {
 
     this.isLoading = true;
@@ -232,7 +281,6 @@ export class MusicPlayer implements OnInit, OnChanges {
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
         const data = r?.Data?.[0];
-        console.log(data)
         if (!data || !Array.isArray(data) || data.length === 0) {
 
           this.programDetails = null;
@@ -250,7 +298,7 @@ export class MusicPlayer implements OnInit, OnChanges {
         }
 
         this.programDetails = data[0];
-        
+
         const bytes = Number(this.programDetails?.size || 0);
 
         this.mb = (bytes / (1024 * 1024)).toFixed(2);

@@ -128,18 +128,25 @@
     <div class="form-row px-4">
         <div class="form-group">
 
-
             <div class="form-row">
                 <label class="input-label">Subtitle *</label>
-
             </div>
-            <textarea class="input-field textarea-field "
+
+            <textarea class="input-field textarea-field"
                 placeholder="e.g. RJ Neena chats about the actor’s latest movie, career journey, and upcoming projects"
-                [(ngModel)]="subtitle" (ngModelChange)="onSubtitleChange($event)" rows="2" name="subtitle"></textarea>
-            <p class="helper-text ">Keep it short and engaging for listeners.</p>
+                [(ngModel)]="subtitle" (ngModelChange)="onSubtitleChange($event)" rows="2" name="subtitle">
+        </textarea>
+
+            <p class="helper-text">
+                Keep it short and engaging for listeners.
+            </p>
+
+            <div class="error-text" *ngIf="errors.subtitle">
+                <img src="/program/warn.svg" class="small mb-1">
+                {{ errors.subtitle }}
+            </div>
 
         </div>
-
     </div>
 
 </div>

@@ -16,7 +16,12 @@
 <div class="main-body schedules-content">
   <div class="card-header ">
     <div class="title-block">
-      <h2 class="title">{{programDetails?.Title}}</h2>
+      <h2 class="title">
+        {{ programDetails?.Title }}
+        @if (programDetails?.CategoryName === 'Podcast') {
+        <span>(Ep {{ programDetails?.EpisodeNo }})</span>
+        }
+      </h2>
       <p class="subtitle"> {{programDetails?.Schedule}} </p>
     </div>
     <div class="on-air-status">
@@ -180,30 +185,30 @@
 
     <div class="overlay-bottom-right p-1">
       <div class="stat">
-        <img src="/main/share.png" width="20" height="20" alt="" /> 
+        <img src="/main/share.png" width="20" height="20" alt="" />
         <span>{{ shareCount }}</span>
       </div>
       <div class="stat">
-        <img src="/main/eye.png" width="20" height="20" alt="" /> 
+        <img src="/main/eye.png" width="20" height="20" alt="" />
         <span>{{ viewCount }}</span>
       </div>
       <div class="stat">
-       <div class="stat like-stat">
-  <div class="floating-thumbs">
-    <div class="thumb-float t1">
-      <img src="/main/floating-thumb.png" alt="">
-    </div>
+        <div class="stat like-stat">
+          <div class="floating-thumbs">
+            <div class="thumb-float t1">
+              <img src="/main/floating-thumb.png" alt="">
+            </div>
 
-    <div class="thumb-float t2">
-      <img src="/main/floating-thumb.png" alt="">
-    </div>
+            <div class="thumb-float t2">
+              <img src="/main/floating-thumb.png" alt="">
+            </div>
 
-    <div class="thumb-float t3">
-      <img src="/main/floating-thumb.png" alt="">
-    </div>
-  </div>
+            <div class="thumb-float t3">
+              <img src="/main/floating-thumb.png" alt="">
+            </div>
+          </div>
 
-</div>
+        </div>
         <img src="/main/like.png" width="20" height="20" alt="" /> <span>{{ likeCount }}</span>
       </div>
     </div>

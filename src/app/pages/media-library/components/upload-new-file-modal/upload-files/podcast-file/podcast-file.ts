@@ -7,7 +7,7 @@ import {
   OnChanges,
   SimpleChanges,
   Output
-} from '@angular/core';import { CommonModule } from '@angular/common';
+} from '@angular/core'; import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
@@ -64,7 +64,7 @@ export class PodcastFile implements OnInit, OnChanges {
   @Input() selectedDate: string = '';
   @Output() programSelected = new EventEmitter<any>();
   @Input() readOnly: boolean = false;
-  
+
   typedText: string = '';
   selectedType: string = '';
   subtitle: string = '';
@@ -152,15 +152,15 @@ export class PodcastFile implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
 
-  if (changes['fileType']?.currentValue) {
+    if (changes['fileType']?.currentValue) {
 
-    console.log('Podcast fileType changed:', this.fileType);
+      console.log('Podcast fileType changed:', this.fileType);
 
-    this.emitData();
+      this.emitData();
 
-    this.cdr.markForCheck();
+      this.cdr.markForCheck();
+    }
   }
-}
 
   async patchEditData(): Promise<void> {
 
@@ -311,59 +311,62 @@ export class PodcastFile implements OnInit, OnChanges {
     });
   }
 
-emitData() {
+  emitData() {
 
-  const cleanDate =
-    this.typedText.replace(/\//g, '');
+    this.errors = {};
 
-  const cleanProgramName =
-    this.selectedProgramName
-      .trim()
-      .replace(/\s+/g, '');
+    if (!this.subtitle?.trim()) {
+      this.errors.subtitle = 'Subtitle is required';
+    }
 
-  let fileName = '';
+    const cleanDate =
+      this.typedText.replace(/\//g, '');
 
-  if (
-    cleanProgramName &&
-    cleanDate &&
-    this.fileType
-  ) {
-    fileName =
-      `${cleanProgramName}${cleanDate}.${this.fileType}`;
+    const cleanProgramName =
+      this.selectedProgramName
+        .trim()
+        .replace(/\s+/g, '');
+
+    let fileName = '';
+
+    if (
+      cleanProgramName &&
+      cleanDate &&
+      this.fileType
+    ) {
+      fileName =
+        `${cleanProgramName}${cleanDate}.${this.fileType}`;
+    }
+
+    this.programSelected.emit({
+
+      programId: this.programId,
+
+      programName: cleanProgramName,
+
+      categoryId: this.selectedCategoryId,
+
+      typedText: this.typedText,
+
+      fileName: fileName,
+
+      title: this.title,
+
+      subtitle: this.subtitle,
+
+      thumbnailFile: this.thumbnailFile,
+
+      thumbnailType: this.selectedType,
+
+      isValid: !this.errors.subtitle,
+
+      fullData: this.poadcastProgramList.find(
+        p => p.ProgramID === this.programId
+      ),
+    });
+
+    this.cdr.markForCheck();
   }
-
-  console.log('Podcast emitData', {
-    selectedProgramName: this.selectedProgramName,
-    cleanDate,
-    fileType: this.fileType,
-    generatedFileName: fileName
-  });
-
-  this.programSelected.emit({
-
-    programId: this.programId,
-
-    programName: cleanProgramName,
-
-    categoryId: this.selectedCategoryId,
-
-    typedText: this.typedText,
-
-    fileName: fileName,
-
-    title: this.title,
-
-    subtitle: this.subtitle,
-
-    thumbnailFile: this.thumbnailFile,
-
-    thumbnailType: this.selectedType,
-
-    fullData: this.poadcastProgramList.find(
-      p => p.ProgramID === this.programId
-    ),
-  });
-}
 
   getPodcastCategory(): Promise<void> {
     return new Promise((resolve) => {
@@ -399,10 +402,15 @@ emitData() {
   }
 
   onSubtitleChange(value: string) {
+
     this.subtitle = value;
+
+    if (this.subtitle?.trim()) {
+      delete this.errors.subtitle;
+    }
+
     this.emitData();
   }
-
   onThumbnailTypeChange(type: string) {
 
     this.selectedType = type;

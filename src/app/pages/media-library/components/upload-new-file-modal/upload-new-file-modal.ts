@@ -196,29 +196,39 @@ export class UploadNewFileModal implements OnInit {
   get isPrefilledMode(): boolean {
     return !!this.data?.programData?.length;
   }
+  private generateFileName(extension: string): string {
+    
+    const programName = (this.title)
+      .replace(/[^\p{L}\p{N}\s]/gu, '')
+      .trim()
+      .replace(/\s+/g, '_');
 
+    const date = new Date()
+      .toISOString()
+      .split('T')[0];
+
+    return `${programName}_${date}.${extension}`;
+  }
 
   renameFile() {
-    if (!this.selectedFile || !this.finalfileName) return;
 
-    const safeName = this.finalfileName
-      .trim()
-      .replace(/[^\w\s\-().]/g, '')
-      .trim();
+    if (!this.selectedFile) return;
 
-    if (!safeName) return;
+    const extension =
+      this.selectedFile.name.split('.').pop() || '';
 
-    const parts = this.selectedFile.name.split('.');
-    const extension = parts.length > 1 ? parts.pop() : '';
-    const newFileName = extension ? `${safeName}.${extension}` : safeName;
+    const newFileName =
+      this.generateFileName(extension);
 
     this.selectedFile = new File(
       [this.selectedFile],
       newFileName,
-      { type: this.selectedFile.type }
+      {
+        type: this.selectedFile.type
+      }
     );
 
-    this.finalfileName = safeName;
+    this.fileName = newFileName;
   }
 
   updateFileName() {
@@ -321,8 +331,14 @@ export class UploadNewFileModal implements OnInit {
 
 
   addmediaPre(): void {
+
     if (!this.selectedFile) return;
+
+    this.renameFile();
+
     const file = this.selectedFile;
+    console.log('Uploading:', this.selectedFile?.name);
+
     this.loading = true;
     this.tv = [
       { T: 'dk1', V: this.programId },
@@ -337,11 +353,10 @@ export class UploadNewFileModal implements OnInit {
 
           if (r.Status === 1 && r.Data?.length) {
             this.id = r.Data[0]?.[0]?.MediaID || this.programId;
-            // Upload Main Video
             const success = await this.srv.handleFileUpload(
               this.id,
               this.userId,
-              file,
+              this.selectedFile!,
               '5'
             );
 
@@ -442,7 +457,11 @@ export class UploadNewFileModal implements OnInit {
 
   addmediaPodcast(): void {
     if (!this.selectedFile) return;
-    const file = this.selectedFile;
+
+    if (this.finalfileName?.trim()) {
+      this.renameFile();
+    }
+
     this.loading = true;
     this.tv = [
       { T: 'dk1', V: this.programId },
@@ -463,7 +482,7 @@ export class UploadNewFileModal implements OnInit {
             const success = await this.srv.handleFileUpload(
               this.id,
               this.userId,
-              file,
+              this.selectedFile!,
               '6'
             );
 
@@ -537,7 +556,10 @@ export class UploadNewFileModal implements OnInit {
 
   addVideos(): void {
     if (!this.selectedFile) return;
-    const file = this.selectedFile;
+
+    if (this.finalfileName?.trim()) {
+      this.renameFile();
+    }
     const payload = {
       Title: this.title,
       Subtitle: this.subtitle
@@ -557,7 +579,7 @@ export class UploadNewFileModal implements OnInit {
             const videoSuccess = await this.srv.handleFileUpload(
               this.id,
               this.userId,
-              file,
+              this.selectedFile!,
               '4'
             );
 

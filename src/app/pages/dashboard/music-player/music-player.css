@@ -554,49 +554,89 @@ mat-slider {
   font-weight: 500;
 }
 
+.like-stat {
+  position: relative;
+}
+
 .floating-thumbs {
   position: absolute;
-  bottom: 45px;
-  right: 20px;
+  top: 10px;
+  width: 60px;
+  height: 100px;
   pointer-events: none;
 }
 
 .thumb-float {
-  background-color: #ff3366;
-  border-radius: 50%;
-  padding: -2.16px;
-  width: 13px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: absolute;
+  width: 30px;
+  height: 30px;
+  opacity: 0;
 }
 
-.thumb-float mat-icon {
-  font-size: 10px;
-  width: 10px;
-  height: 10px;
-  margin: 0;
-  color: white;
+.thumb-float img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .t1 {
-  bottom: 10px;
-  right: 20px;
-  transform: scale(0.9);
+  animation: floatLike1 3s infinite ease-in-out;
 }
 
 .t2 {
-  bottom: 35px;
-  right: 5px;
-  transform: scale(1.1);
+  animation: floatLike2 3s infinite ease-in-out 1s;
 }
 
 .t3 {
-  bottom: 65px;
-  right: 15px;
-  transform: scale(0.8);
+  animation: floatLike3 3s infinite ease-in-out 2s;
+}
+
+@keyframes floatLike1 {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.8);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-10px, -80px) scale(1.3);
+  }
+}
+
+@keyframes floatLike2 {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.8);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(10px, -90px) scale(1.4);
+  }
+}
+
+@keyframes floatLike3 {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.8);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-5px, -100px) scale(1.5);
+  }
 }
 
 .favorites-row {
@@ -910,7 +950,7 @@ input:checked+.slider:before {
   right: 10px;
   color: white;
   display: flex;
-  gap: 10px;
+  gap: 40px;
 }
 
 .host-img {

@@ -109,7 +109,7 @@ export class PodcastFile implements OnInit {
 
       // subtitle
       this.subtitle =
-        this.prefillData?.HostName || '';
+        this.prefillData?.Subtitle || '';
 
       if (this.prefillDate) {
         this.typedText = this.prefillDate;
@@ -123,7 +123,6 @@ export class PodcastFile implements OnInit {
           ? 'program'
           : 'custom';
 
-      // get full program details
       const selected =
         this.poadcastProgramList.find(
           p => p.DataValue == this.selectedProgramId

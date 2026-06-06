@@ -170,9 +170,6 @@ export class MusicPlayer implements OnInit, OnChanges {
 
     const ext = this.getFileExtension(url);
 
-    console.log('Program URL:', url);
-    console.log('Extension:', ext);
-
     // AUDIO
     if (
       ext === 'mp3' ||
@@ -253,6 +250,7 @@ export class MusicPlayer implements OnInit, OnChanges {
         }
 
         this.programDetails = data[0];
+        
         const bytes = Number(this.programDetails?.size || 0);
 
         this.mb = (bytes / (1024 * 1024)).toFixed(2);

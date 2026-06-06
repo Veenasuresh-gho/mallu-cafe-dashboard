@@ -64,52 +64,56 @@ export class Navbar {
 
   getSongs(): void {
 
-    const tv = [
-      { T: 'dk2', V: '' },
-      { T: 'c10', V: '12' }
-    ];
+  const tv = [
+    { T: 'dk2', V: '' },
+    { T: 'c10', V: '12' }
+  ];
 
-    this.srv.getdata('teammember', tv)
-      .subscribe({
-        next: (res) => {
+  this.srv.getdata('teammember', tv)
+    .subscribe({
+      next: (res) => {
+        const list = res?.Data?.[0] || [];
 
-          const list = res?.Data?.[0] || [];
-          if (!list.length) {
-            this.currentSong = null;
-            this.nextSong = null;
-            return;
-          }
-
-          const currentIndex = list.findIndex(
-            (item: any) => item.IsStreaming === 1
-          );
-
-          const current =
-            currentIndex !== -1 ? list[currentIndex] : null;
-
-          // Don't loop to first item
-          const next =
-            currentIndex !== -1
-              ? list[currentIndex + 1]
-              : null;
-
-          this.currentSong = current
-            ? { title: current.Title }
-            : null;
-
-          this.nextSong = next
-            ? { title: next.Title }
-            : null;
-        },
-
-        error: (err) => {
-          console.error('Song API Error:', err);
-
+        if (!list.length) {
           this.currentSong = null;
           this.nextSong = null;
+          return;
         }
-      });
-  }
+
+        const currentIndex = list.findIndex(
+          (item: any) => item.IsStreaming === 1
+        );
+
+        if (currentIndex !== -1) {
+          const current = list[currentIndex];
+          const next = list[currentIndex + 1];
+
+          this.currentSong = {
+            title: current.Title
+          };
+
+          this.nextSong = next
+            ? {
+                title: next.Title
+              }
+            : null;
+        } else {
+          this.currentSong = null;
+
+          this.nextSong = {
+            title: list[0].Title
+          };
+        }
+      },
+
+      error: (err) => {
+        console.error('Song API Error:', err);
+
+        this.currentSong = null;
+        this.nextSong = null;
+      }
+    });
+}
 
     navigateToProfile() {
     this.router.navigate(['/profile']);

@@ -1,5 +1,13 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  Output
+} from '@angular/core';import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
@@ -33,8 +41,7 @@ import { ghoresult, tags } from '../../../../../../../model/ghomodel';
   templateUrl: './podcast-file.html',
   styleUrls: ['./podcast-file.css'],
 })
-export class PodcastFile implements OnInit {
-
+export class PodcastFile implements OnInit, OnChanges {
   constructor(
     private dialogRef: MatDialogRef<PodcastFile>,
     private dialog: MatDialog
@@ -142,6 +149,18 @@ export class PodcastFile implements OnInit {
       this.emitData();
     }
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+  if (changes['fileType']?.currentValue) {
+
+    console.log('Podcast fileType changed:', this.fileType);
+
+    this.emitData();
+
+    this.cdr.markForCheck();
+  }
+}
 
   async patchEditData(): Promise<void> {
 
@@ -292,50 +311,59 @@ export class PodcastFile implements OnInit {
     });
   }
 
-  emitData() {
+emitData() {
 
-    const cleanDate =
-      this.typedText.replace(/\//g, '');
+  const cleanDate =
+    this.typedText.replace(/\//g, '');
 
-    const cleanProgramName =
-      this.selectedProgramName.replace(/\s+/g, '');
+  const cleanProgramName =
+    this.selectedProgramName
+      .trim()
+      .replace(/\s+/g, '');
 
-    let fileName = '';
+  let fileName = '';
 
-    if (
-      cleanProgramName &&
-      cleanDate &&
-      this.fileType
-    ) {
-      fileName =
-        `${cleanProgramName}${cleanDate}.${this.fileType}`;
-    }
-
-    this.programSelected.emit({
-
-      programId: this.programId,
-
-      programName: cleanProgramName,
-
-      categoryId: this.selectedCategoryId,
-
-      typedText: this.typedText,
-
-      fileName: fileName,
-
-      title: this.title,
-
-      subtitle: this.subtitle,
-
-      thumbnailFile: this.thumbnailFile,
-
-      thumbnailType: this.selectedType,
-
-      fullData: this.poadcastProgramList.find(
-        p => p.ProgramID === this.programId
-      ),
-    });
+  if (
+    cleanProgramName &&
+    cleanDate &&
+    this.fileType
+  ) {
+    fileName =
+      `${cleanProgramName}${cleanDate}.${this.fileType}`;
   }
+
+  console.log('Podcast emitData', {
+    selectedProgramName: this.selectedProgramName,
+    cleanDate,
+    fileType: this.fileType,
+    generatedFileName: fileName
+  });
+
+  this.programSelected.emit({
+
+    programId: this.programId,
+
+    programName: cleanProgramName,
+
+    categoryId: this.selectedCategoryId,
+
+    typedText: this.typedText,
+
+    fileName: fileName,
+
+    title: this.title,
+
+    subtitle: this.subtitle,
+
+    thumbnailFile: this.thumbnailFile,
+
+    thumbnailType: this.selectedType,
+
+    fullData: this.poadcastProgramList.find(
+      p => p.ProgramID === this.programId
+    ),
+  });
+}
 
   getPodcastCategory(): Promise<void> {
     return new Promise((resolve) => {

@@ -70,23 +70,26 @@ export class PreScheduled implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    // ✅ Sync date whenever prefillDate changes
-    if (changes['prefillDate']?.currentValue) {
-      this.typedText = changes['prefillDate'].currentValue;
-    }
+ngOnChanges(changes: SimpleChanges) {
 
-    // ✅ Apply prefill once programList arrives (parent loads it async)
-    if (
-      !this.prefillApplied &&
-      this.prefillData &&
-      this.programList?.length
-    ) {
-      this.applyPrefill();
-    }
-
-    this.cdr.detectChanges();
+  if (changes['prefillDate']?.currentValue) {
+    this.typedText = changes['prefillDate'].currentValue;
   }
+
+  if (
+    !this.prefillApplied &&
+    this.prefillData &&
+    this.programList?.length
+  ) {
+    this.applyPrefill();
+  }
+
+  if (changes['fileType']?.currentValue) {
+    this.emitData();
+  }
+
+  this.cdr.detectChanges();
+}
 
   // ✅ Single method that reliably patches all prefill fields
   private applyPrefill(): void {
@@ -275,8 +278,13 @@ export class PreScheduled implements OnInit, OnChanges {
 
   emitData() {
     const isValid = this.validateForm();
+
     const cleanDate = this.typedText.replace(/\//g, '');
-    const cleanProgramName = this.selectedProgramName.replace(/\s+/g, '');
+
+    const cleanProgramName = this.selectedProgramName
+      .trim()
+      .replace(/\s+/g, '');
+
     let fileName = '';
 
     if (cleanProgramName && cleanDate && this.fileType) {
@@ -290,10 +298,10 @@ export class PreScheduled implements OnInit, OnChanges {
       fileName,
       thumbnailType: this.selectedType,
       thumbnailFile: this.thumbnailFile,
-      fullData: this.programList.find(p => p.DataValue == this.selectedProgramId),
+      fullData: this.programList.find(
+        p => p.DataValue == this.selectedProgramId
+      ),
       isValid
     });
-
-    this.validationChange.emit(isValid);
   }
 }

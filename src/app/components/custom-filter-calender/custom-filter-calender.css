@@ -373,3 +373,24 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+.disabled-weekday {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  min-width: 100px;
+  height: 40px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #374151;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: #f3f4f6;
+}

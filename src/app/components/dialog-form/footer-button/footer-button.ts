@@ -10,7 +10,8 @@ import { Component, Input } from '@angular/core';
   styleUrl: './footer-button.css',
 })
 export class FooterButton {
-   @Input() text: string = 'Button';       // button label
+  @Input() text: string = 'Button';       // button label
   @Input() icon: string = '';             // icon src path
   @Input() type: 'button' | 'submit' | 'reset' = 'button'; 
+  @Input() disabled: boolean = false;
 }

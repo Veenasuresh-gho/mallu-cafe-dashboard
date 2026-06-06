@@ -119,8 +119,8 @@ export class UpdateFileUpload {
 
       this.startUpload(file);
 
-      console.log('Selected file:', file);
-      console.log('Final filename:', finalName);
+      // console.log('Selected file:', file);
+      // console.log('Final filename:', finalName);
     }
   }
 

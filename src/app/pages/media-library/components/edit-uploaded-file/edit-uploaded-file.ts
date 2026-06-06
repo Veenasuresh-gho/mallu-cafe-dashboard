@@ -694,7 +694,6 @@ export class EditUploadedFile implements OnInit {
 
     updateShorts(): void {
     this.loading = true;
-    console.log('shortsData',this.shortsData);
     this.tv = [
       { T: 'dk1', V: this.ds?.id },
       { T: 'c1', V: this.shortsData?.title || ''},

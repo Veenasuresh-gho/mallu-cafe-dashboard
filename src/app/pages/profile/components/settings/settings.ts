@@ -37,8 +37,8 @@ export class Settings {
 
 confirmLogout() {
   this.srv.clearsession(); 
+  localStorage.removeItem('permissions');
   this.router.navigate(['/sign-in'], { replaceUrl: true });
-
   this.closeLogoutDialog();
 }
 

@@ -91,9 +91,6 @@ export class Shorts implements OnChanges {
   }
 
   patchEditData(): void {
-
-    console.log('shorts edit', this.editData);
-
     this.title =
       this.editData?.Title || '';
 

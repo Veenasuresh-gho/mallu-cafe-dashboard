@@ -25,7 +25,7 @@ import { SelectDropDown } from '../../components/select-drop-down/select-drop-do
 @Component({
   selector: 'app-media-library',
   imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule, MatInputModule, MatSelectModule,
-    FormsModule, PrimaryButton, MatButtonModule, MatMenuModule, MatDividerModule,CustomFilterCalender,SelectDropDown],
+    FormsModule, PrimaryButton, MatButtonModule, MatMenuModule, MatDividerModule, CustomFilterCalender, SelectDropDown],
   templateUrl: './media-library.html',
   styleUrl: './media-library.css',
 })
@@ -44,6 +44,11 @@ export class MediaLibrary implements OnInit {
   hosts: any[] = [];
   hostOptions: any[] = [];
 
+  canUploadMedia = false;
+  canManageAds = false;
+  canManagePrograms = false;
+  canManageMembers = false;
+
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
@@ -54,37 +59,206 @@ export class MediaLibrary implements OnInit {
   ngOnInit(): void {
     this.getMediaLibrary();
     this.getTeamMemberList()
+
+    const permissions = JSON.parse(
+      localStorage.getItem('permissions') || '{}'
+    );
+
+    this.canUploadMedia =
+      permissions.MediaUploadPermission === 1;
+
+    this.canManageAds =
+      permissions.AdManagementPermission === 1;
+
+    this.canManagePrograms =
+      permissions.ProgramManagementPermission === 1;
+
+    this.canManageMembers =
+      permissions.MemberManagementPermission === 1;
   }
   constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
 
-  
+
   programsDropdown: string = 'today';
   tempProgramSelection: string = 'today';
   isCalendarOpen: boolean = false;
   dayLabel = 'Today';
   // searchText = '';
 
+  //   onProgramChange(value: string) {
+  //   if (value === 'date') {
+  //     this.isCalendarOpen = true;
+  //     this.tempProgramSelection = value;
+  //   } else {
+  //     this.programsDropdown = value;
+  //     this.tempProgramSelection = value;
+  //     this.isCalendarOpen = false;
+  //   }
+  // }
+
+  // onFilterApplied(data: any) {
+  //   this.isCalendarOpen = false;
+  //   if (data.type === 'single') {
+  //     const date = new Date(data.value);
+  //     this.dayLabel =
+  //       date.toLocaleDateString('en-GB');
+
+  //     this.day = this.dayLabel;
+  //   }
+  // }
+
   onProgramChange(value: string) {
-  if (value === 'date') {
-    this.isCalendarOpen = true;
-    this.tempProgramSelection = value;
-  } else {
-    this.programsDropdown = value;
-    this.tempProgramSelection = value;
+    if (value === 'date') {
+      this.isCalendarOpen = true;
+    } else {
+      this.day = value;
+      this.isCalendarOpen = false;
+
+      this.fromDate = '';
+      this.toDate = '';
+
+      this.applyFilters();
+    }
+  }
+
+  onFilterApplied(data: any) {
     this.isCalendarOpen = false;
-  }
-}
+    this.day = 'date';
 
-onFilterApplied(data: any) {
-  this.isCalendarOpen = false;
-  if (data.type === 'single') {
-    const date = new Date(data.value);
-    this.dayLabel =
-      date.toLocaleDateString('en-GB');
+    if (data.type === 'weekday' || data.type === 'single') {
+      const selectedDate = new Date(data.value);
 
-    this.day = this.dayLabel;
+      this.fromDate = selectedDate.toISOString().split('T')[0];
+      this.toDate = selectedDate.toISOString().split('T')[0];
+
+      this.dayLabel = selectedDate.toLocaleDateString('en-GB');
+    }
+    else if (data.type === 'range') {
+      const startDate = new Date(data.start);
+      const endDate = new Date(data.end);
+
+      this.fromDate = startDate.toISOString().split('T')[0];
+      this.toDate = endDate.toISOString().split('T')[0];
+
+      this.dayLabel =
+        `${startDate.toLocaleDateString('en-GB')} - ${endDate.toLocaleDateString('en-GB')}`;
+    }
+
+    this.applyFilters();
   }
-}
+
+
+  applyFilters() {
+
+    const tags = [
+      { T: 'dk1', V: '0' },
+
+      // Search
+      {
+        T: 'dk2',
+        V: this.searchText || ''
+      },
+
+      // Publish Status
+      {
+        T: 'c1',
+        V:
+          this.status === 'published'
+            ? '1'
+            : this.status === 'draft'
+              ? '2'
+              : ''
+      },
+
+      // Category
+      {
+        T: 'c2',
+        V:
+          this.category === 'pre-Scheduled'
+            ? '1'
+            : this.category === 'poadcast'
+              ? '2'
+              : this.category === 'Featured'
+                ? '3'
+                : this.category === 'shorts'
+                  ? '4'
+                  : ''
+      },
+
+      // Host
+      {
+        T: 'c3',
+        V: this.host !== 'all'
+          ? this.host
+          : ''
+      },
+
+      // Date Filter
+      {
+        T: 'c4',
+        V:
+          this.day === 'today'
+            ? '1'
+            : this.day === 'tomorrow'
+              ? '2'
+              : this.day === 'date'
+                ? '3'
+                : ''
+      },
+
+      {
+        T: 'c5',
+        V: this.fromDate || ''
+      },
+
+      {
+        T: 'c6',
+        V: this.toDate || ''
+      },
+
+      {
+        T: 'c10',
+        V: '15'
+      }
+    ];
+
+    this.loading = true;
+
+    this.srv.getdata('program', tags)
+      .subscribe({
+        next: (r) => {
+
+          this.ds = r.Data[0] || [];
+
+          this.dataSource.data = this.ds;
+          this.dataSource._updateChangeSubscription();
+
+          this.loading = false;
+          this.cdr.markForCheck();
+        },
+
+        error: (err) => {
+          console.error(err);
+          this.loading = false;
+        }
+      });
+  }
+
+  clearFilters() {
+
+    this.searchText = '';
+    this.status = 'all';
+    this.category = 'all';
+    this.host = 'all';
+    this.day = 'all';
+
+    this.fromDate = '';
+    this.toDate = '';
+
+    this.dayLabel = 'All Media';
+
+    this.getMediaLibrary();
+  }
 
   ViewFileModal(id: string) {
     const dialogRef = this.dialog.open(ViewFile, {
@@ -118,29 +292,32 @@ onFilterApplied(data: any) {
   }
 
   openUpdateMediaLibraryModal(id: string) {
-  const dialogRef = this.dialog.open(EditUploadedFile, {
-    width: '90%',
-    maxWidth: '600px',
-    maxHeight: '95vh',
-    disableClose: true,
-    data: {
-      id: id
-    }
-  });
+    const dialogRef = this.dialog.open(EditUploadedFile, {
+      width: '90%',
+      maxWidth: '600px',
+      maxHeight: '95vh',
+      disableClose: true,
+      data: {
+        id: id
+      }
+    });
 
-  dialogRef.afterClosed().subscribe((result) => {
-    if (result) {
-      this.getMediaLibrary();
-    }
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getMediaLibrary();
+      }
 
-  });
-}
+    });
+  }
 
   searchText = '';
   status = 'all';
   category = 'all';
   members = 'all';
   period = 'all';
+  fromDate = '';
+  toDate = '';
+
 
   columns: string[] = [
     'media',
@@ -150,6 +327,12 @@ onFilterApplied(data: any) {
     'status',
     'actions'
   ];
+
+  closeCalendar() {
+    this.isCalendarOpen = false;
+    this.day = 'all';
+  }
+
 
   addPublish(library: any) {
     this.loading = true;
@@ -162,7 +345,6 @@ onFilterApplied(data: any) {
       .subscribe({
         next: (r: any) => {
           this.loading = false;
-          console.log(r);
           if (r.Status === 1) {
             this.toast.show({
               title: 'File published successfully! 🎉',
@@ -257,26 +439,26 @@ onFilterApplied(data: any) {
   }
 
   getTeamMemberList(): Promise<void> {
-  return new Promise((resolve) => {
-    this.tv = [
-      { T: 'c10', V: '3' }
-    ];
-    this.srv.getdata('teammember', this.tv)
-      .subscribe({
-        next: (r) => {
-          const data = r.Data[0];
-          this.hostOptions = [
-            { label: 'All Host', value: 'all' },
-            ...data.map((item: any) => ({
-              label: item.FullName,
-              value: item.id
-            }))
-          ];
+    return new Promise((resolve) => {
+      this.tv = [
+        { T: 'c10', V: '3' }
+      ];
+      this.srv.getdata('teammember', this.tv)
+        .subscribe({
+          next: (r) => {
+            const data = r.Data[0];
+            this.hostOptions = [
+              { label: 'All Host', value: 'all' },
+              ...data.map((item: any) => ({
+                label: item.FullName,
+                value: item.id
+              }))
+            ];
 
-          resolve();
-        },
-        error: () => resolve()
-      });
-  });
-}
+            resolve();
+          },
+          error: () => resolve()
+        });
+    });
+  }
 } 

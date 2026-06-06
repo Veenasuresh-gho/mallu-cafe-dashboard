@@ -3,7 +3,7 @@
 
     <app-form-select label="Podcast Category Name" style="width:530px;" [options]="catogories" optionLabel="DisplayText"
         optionValue="DataValue" placeholder="e.g., Music / Entertainment / Sports" name="host"
-        [(model)]="selectedCategoryId" (modelChange)="onCategoryChange($event)" [disabled]="readOnly">
+        [(model)]="selectedCategoryId" (modelChange)="onCategoryChange($event)" [disabled]="readOnly || !!editData">
     </app-form-select>
 
 </div>

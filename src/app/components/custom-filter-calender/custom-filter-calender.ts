@@ -16,16 +16,15 @@ export class CustomFilterCalender {
   viewMode: ViewMode = 'date';
   isOpen = false;
   currentDate: Date = new Date();
-
   startDate: Date | null = null;
   endDate: Date | null = null;
 
   months = [
-    'January','February','March','April','May','June',
-    'July','August','September','October','November','December'
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  weekDays = ['M','T','W','T','F','S','S'];
+  weekDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
   selectedWeekDays: Date[] = []; // store full Date objects
   selectedWeekDayIndex: number | null = null;
 
@@ -34,22 +33,31 @@ export class CustomFilterCalender {
   @Input() inlineMode: boolean = false;
   @Input() enableWeekdaySelection: boolean = true;
   @Output() filterApplied = new EventEmitter<any>();
+  @Input() showCancelButton: boolean = false;
+
+  @Output() calendarClosed = new EventEmitter<void>();
+cancelSelection() {
+  this.startDate = null;
+  this.endDate = null;
+  this.selectedWeekDays = [];
+  this.selectedWeekDayIndex = null;
+
+  this.calendarClosed.emit();
+}
+
   constructor() {
     this.generateYears();
   }
 
   ngOnInit() {
-  if (this.inlineMode) {
-    this.isOpen = true; // always open
+    if (this.inlineMode) {
+      this.isOpen = true; // always open
+    }
   }
-}
-toggleCalendar() {
-  if (this.inlineMode) return; // disable toggle
-  this.isOpen = !this.isOpen;
-}
-
-
-
+  toggleCalendar() {
+    if (this.inlineMode) return; // disable toggle
+    this.isOpen = !this.isOpen;
+  }
 
 
   // toggleCalendar() { this.isOpen = !this.isOpen; }
@@ -113,37 +121,30 @@ toggleCalendar() {
     const days: { date: Date; currentMonth: boolean }[] = [];
     const start = firstDay === 0 ? 6 : firstDay - 1;
 
-    // for (let i = start - 1; i >= 0; i--) days.push({ date: new Date(year, month - 1, prevMonthDays - i), currentMonth: false });
-
-    // for (let i = 1; i <= totalDays; i++) days.push({ date: new Date(year, month, i), currentMonth: true });
-
-    // const remaining = 42 - days.length;
-    // for (let i = 1; i <= remaining; i++) days.push({ date: new Date(year, month + 1, i), currentMonth: false });
-
     // previous month's days
-for (let i = start - 1; i >= 0; i--) {
-  days.push({
-    date: new Date(year, month - 1, prevMonthDays - i, 12, 0, 0),
-    currentMonth: false
-  });
-}
+    for (let i = start - 1; i >= 0; i--) {
+      days.push({
+        date: new Date(year, month - 1, prevMonthDays - i, 12, 0, 0),
+        currentMonth: false
+      });
+    }
 
-// current month's days
-for (let i = 1; i <= totalDays; i++) {
-  days.push({
-    date: new Date(year, month, i, 12, 0, 0),
-    currentMonth: true
-  });
-}
+    // current month's days
+    for (let i = 1; i <= totalDays; i++) {
+      days.push({
+        date: new Date(year, month, i, 12, 0, 0),
+        currentMonth: true
+      });
+    }
 
-// next month's days
-const remaining = 42 - days.length;
-for (let i = 1; i <= remaining; i++) {
-  days.push({
-    date: new Date(year, month + 1, i, 12, 0, 0),
-    currentMonth: false
-  });
-}
+    // next month's days
+    const remaining = 42 - days.length;
+    for (let i = 1; i <= remaining; i++) {
+      days.push({
+        date: new Date(year, month + 1, i, 12, 0, 0),
+        currentMonth: false
+      });
+    }
 
     return days;
   }
@@ -152,24 +153,20 @@ for (let i = 1; i <= remaining; i++) {
   selectDate(date: Date, currentMonth: boolean) {
     if (!currentMonth) return;
 
-    console.log('Clicked Date Object:', date);
-  console.log('Local Date:', date.toLocaleDateString());
-  console.log('ISO Date:', date.toISOString());
-
     // clear weekday selection
     this.selectedWeekDays = [];
     this.selectedWeekDayIndex = null;
 
-    if (!this.startDate) { 
-      this.startDate = date; 
-      this.endDate = null; 
-      return; 
+    if (!this.startDate) {
+      this.startDate = date;
+      this.endDate = null;
+      return;
     }
 
     if (this.startDate && !this.endDate) {
-      if (date.getTime() === this.startDate.getTime()) { 
-        this.startDate = null; 
-        this.endDate = null; 
+      if (date.getTime() === this.startDate.getTime()) {
+        this.startDate = null;
+        this.endDate = null;
       }
       else if (date > this.startDate) this.endDate = date;
       else { this.endDate = this.startDate; this.startDate = date; }
@@ -201,7 +198,34 @@ for (let i = 1; i <= remaining; i++) {
   //   this.endDate = null;
   // }
 
+  // selectWeekday(dayIndex: number) {
+  //   const year = this.currentDate.getFullYear();
+  //   const month = this.currentDate.getMonth();
+  //   const totalDays = new Date(year, month + 1, 0).getDate();
+
+  //   this.selectedWeekDays = [];
+  //   this.selectedWeekDayIndex = dayIndex;
+
+  //   const jsDayIndex = (dayIndex + 1) % 7;
+
+  //   for (let day = 1; day <= totalDays; day++) {
+  //     const date = new Date(year, month, day, 12, 0, 0);
+
+  //     if (date.getDay() === jsDayIndex) {
+  //       this.selectedWeekDays.push(date);
+  //     }
+  //   }
+
+  //   this.startDate = null;
+  //   this.endDate = null;
+  // }
+
   selectWeekday(dayIndex: number) {
+
+  if (!this.enableWeekdaySelection) {
+    return;
+  }
+
   const year = this.currentDate.getFullYear();
   const month = this.currentDate.getMonth();
   const totalDays = new Date(year, month + 1, 0).getDate();
@@ -222,6 +246,14 @@ for (let i = 1; i <= remaining; i++) {
   this.startDate = null;
   this.endDate = null;
 }
+// cancelSelection() {
+//   this.startDate = null;
+//   this.endDate = null;
+//   this.selectedWeekDays = [];
+//   this.selectedWeekDayIndex = null;
+
+//   this.closeCalendar();
+// }
 
   // SINGLE / RANGE HELPERS
   isSelected(date: Date, currentMonth: boolean): boolean {
@@ -252,60 +284,60 @@ for (let i = 1; i <= remaining; i++) {
   // WEEKDAY HELPERS
   isWeekdayStart(date: Date) {
     return this.selectedWeekDays.length > 0 &&
-           date.getTime() === this.selectedWeekDays[0].getTime();
+      date.getTime() === this.selectedWeekDays[0].getTime();
   }
 
   isWeekdayEnd(date: Date) {
     return this.selectedWeekDays.length > 0 &&
-           date.getTime() === this.selectedWeekDays[this.selectedWeekDays.length - 1].getTime();
+      date.getTime() === this.selectedWeekDays[this.selectedWeekDays.length - 1].getTime();
   }
 
   isWeekdayInRange(date: Date) {
     return this.selectedWeekDays.some(d => d.getTime() === date.getTime());
   }
 
-  hasSelectedDates(): boolean { 
-    return !!this.startDate || this.selectedWeekDays.length > 0 || !!this.endDate; 
+  hasSelectedDates(): boolean {
+    return !!this.startDate || this.selectedWeekDays.length > 0 || !!this.endDate;
   }
 
 
-applyFilter() {
-  if (!this.hasSelectedDates()) return;
+  applyFilter() {
+    if (!this.hasSelectedDates()) return;
 
-  let payload: any;
+    let payload: any;
 
-  if (this.selectedWeekDays.length > 0) {
-    payload = {
-      type: 'weekday',
-      value: this.selectedWeekDays[0]
-    };
-  }
-  else if (this.endDate) {
-    payload = {
-      type: 'range',
-      start: this.startDate,
-      end: this.endDate
-    };
-  }
-  else {
-    payload = {
-      type: 'single',
-      value: this.startDate
-    };
-  }
+    if (this.selectedWeekDays.length > 0) {
+      payload = {
+        type: 'weekday',
+        value: this.selectedWeekDays[0]
+      };
+    }
+    else if (this.endDate) {
+      payload = {
+        type: 'range',
+        start: this.startDate,
+        end: this.endDate
+      };
+    }
+    else {
+      payload = {
+        type: 'single',
+        value: this.startDate
+      };
+    }
 
-  this.filterApplied.emit(payload);
+    this.filterApplied.emit(payload);
 
-  if (!this.inlineMode) {
-    this.closeCalendar();
+    if (!this.inlineMode) {
+      this.closeCalendar();
+    }
   }
-}
 
   formatDate() {
     if (this.selectedWeekDays.length > 0) return 'Weekday Selection';
     if (!this.startDate) return 'Select date';
-    if (!this.endDate) return this.startDate.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
-    return `${this.startDate.toLocaleDateString('en-US',{month:'short',day:'numeric'})} - ${this.endDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}`;
+    if (!this.endDate) return this.startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return `${this.startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${this.endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
   }
 
 }

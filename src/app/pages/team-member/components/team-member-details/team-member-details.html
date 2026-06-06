@@ -32,15 +32,15 @@
                         <input (change)="onFileSelected($event)"  type="file" class="d-none">
                     </label> -->
 
-                      <label class="upload-btn mb-0 d-flex align-items-center gap-2" [class.disabled]="isUploading">
+                      <label class="upload-btn mb-0 d-flex align-items-center gap-2" [class.disabled]="isUploading || !canManageMembers">
                         <img *ngIf="!isUploading" src="/program/upload-icon.svg" alt="">
                         <div *ngIf="isUploading" class="spinner"></div>
                         {{ isUploading ? 'Uploading...' : 'Upload new image' }}
-                        <input (change)="onFileSelected($event)" type="file" class="d-none" [disabled]="isUploading"
+                        <input  (change)="onFileSelected($event)" type="file" class="d-none" [disabled]="isUploading"
                             accept="image/*">
                     </label>
 
-                    <button (click)="deleteProfilePic(profile?.fid)" class="btn btn-create delete-btn border d-flex align-items-center gap-2">
+                    <button [disabled]="!canManageMembers" (click)="deleteProfilePic(profile?.fid)" class="btn btn-create delete-btn border d-flex align-items-center gap-2">
                         <img src="/profile/trash-gray.svg" alt="">
 
                         Delete
@@ -85,13 +85,13 @@
     <!-- RIGHT BUTTONS -->
     <div class="d-flex flex-column flex-sm-row gap-2 ">
 
-        <button class="btn-manage-member d-flex gap-1 align-items-center justify-content-center" (click)="openModal()">
+        <button [disabled]="!canManageMembers" class="btn-manage-member d-flex gap-1 align-items-center justify-content-center" (click)="openModal()">
             <span class="material-symbols-outlined icon">border_color</span>
             Manage Member
         </button>
 
 
-        <app-footer-button style="width: 129px;" (click)="openModalDeleteMember()" text="Delete Member"
+        <app-footer-button [disabled]="!canManageMembers" style="width: 129px;" (click)="openModalDeleteMember()" text="Delete Member"
             icon="/profile/trash.svg" type="button">
         </app-footer-button>
 

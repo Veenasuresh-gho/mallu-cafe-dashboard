@@ -6,9 +6,9 @@
         <span>{{ formatDate() }}</span>
     </div> -->
     <div class="input-box" *ngIf="!inlineMode" (click)="toggleCalendar()">
-    <img src="/calendar/icon.png" class="icon" />
-    <span>{{ formatDate() }}</span>
-</div>
+        <img src="/calendar/icon.png" class="icon" />
+        <span>{{ formatDate() }}</span>
+    </div>
 
     <!-- POPUP -->
     <div class="calendar" *ngIf="inlineMode || isOpen">
@@ -93,9 +93,17 @@
         <ng-container *ngIf="viewMode === 'date'">
 
             <!-- WEEKDAY SELECTION -->
-            <div class="week" *ngIf="enableWeekdaySelection">
+            <!-- <div class="week" *ngIf="enableWeekdaySelection">
                 <div *ngFor="let d of weekDays; let i = index" (click)="selectWeekday(i)"
                     [class.selected-weekday]="selectedWeekDayIndex === i" class="week-day">
+                    {{ d }}
+                </div>
+            </div> -->
+
+            <div class="week">
+                <div *ngFor="let d of weekDays; let i = index" (click)="selectWeekday(i)"
+                    [class.selected-weekday]="selectedWeekDayIndex === i"
+                    [class.disabled-weekday]="!enableWeekdaySelection" class="week-day">
                     {{ d }}
                 </div>
             </div>
@@ -112,12 +120,21 @@
         </ng-container>
 
         <!-- APPLY BUTTON -->
-        <div class="footer d-flex justify-content-center align-items-center">
+        <div class="footer d-flex justify-content-between align-items-center">
+            <!-- <button class="cancel-btn" (click)="cancelSelection()">
+                Cancel
+            </button> -->
+                <button
+        class="cancel-btn"
+        (click)="cancelSelection()">
+        Cancel
+    </button>
             <button [class.active-btn]="hasSelectedDates()" [disabled]="!hasSelectedDates()" (click)="applyFilter()">
                 Apply Filter
             </button>
+            
         </div>
 
     </div>
-    
+
 </div>

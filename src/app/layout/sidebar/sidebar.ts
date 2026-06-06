@@ -56,11 +56,11 @@ export class Sidebar {
       icon: "/main/sidebar/setting-muted.png",
       link: "privacy-policy",
     },
-    {
-      title: "Help",
-      icon: "/main/sidebar/info-circle-muted.png",
-      link: "#",
-    },
+    // {
+    //   title: "Help",
+    //   icon: "/main/sidebar/info-circle-muted.png",
+    //   link: "#",
+    // },
   ]
 
   isActive(link: string): boolean {

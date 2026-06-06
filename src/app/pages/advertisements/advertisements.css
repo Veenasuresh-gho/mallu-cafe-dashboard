@@ -278,4 +278,5 @@ mat-divider {
 .calendar-wrapper {
   position: relative;
   overflow: visible;
+  top: 11px; 
 }

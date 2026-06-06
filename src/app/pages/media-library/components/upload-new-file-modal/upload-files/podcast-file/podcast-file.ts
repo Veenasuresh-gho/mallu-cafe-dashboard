@@ -92,7 +92,6 @@ export class PodcastFile implements OnInit {
     }
 
     if (this.prefillData) {
-      console.log(this.prefillDate)
       // category
       this.selectedCategoryId =
         this.prefillData?.PodcastCategoryID?.toString() || '';
@@ -145,9 +144,6 @@ export class PodcastFile implements OnInit {
   }
 
   async patchEditData(): Promise<void> {
-
-    console.log('editdata', this.editData);
-
     this.selectedCategoryId =
       this.editData?.PodcastCategoryid?.toString() || '';
 

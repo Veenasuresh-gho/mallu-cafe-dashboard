@@ -6,7 +6,7 @@
                 <p>Manage radio hosts and staff involved in programs and live shows.</p>
             </div>
 
-            <app-primary-button label="Add new member" iconSrc="/main/add.svg"
+            <app-primary-button [disabled]="!canManageMembers"  label="Add new member" iconSrc="/main/add.svg"
                 (clicked)="openModal()"></app-primary-button>
         </div>
 

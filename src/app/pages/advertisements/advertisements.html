@@ -6,7 +6,7 @@
                 <p>Manage advertiser campaigns, upload ad files and schedule broadcast slots.</p>
             </div>
 
-            <app-primary-button label="Upload ad file" iconSrc="/main/upload-icon.svg"
+            <app-primary-button [disabled]="!canManageAds"  label="Upload ad file" iconSrc="/main/upload-icon.svg"
                 (click)="openModal()"></app-primary-button>
         </div>
 
@@ -18,20 +18,21 @@
                     <span matPrefix class="search-icon">
                         <img src="/main/searchIcon.svg" alt="search" />
                     </span>
-                    <input matInput placeholder="Search here..." [(ngModel)]="searchText" />
+                    <input matInput placeholder="Search here..." [(ngModel)]="searchText" (ngModelChange)="applyFilters()"/>
                 </mat-form-field>
 
                 <!-- Dropdowns -->
 
-                <app-select-drop-down placeholder="All Status" [(value)]="status" [options]="[
+                <app-select-drop-down placeholder="All Status" [(value)]="status" (valueChange)="applyFilters()" [options]="[
      { label: 'All Status', value: 'allStatus' },
     { label: 'Active', value: 'active' },
+    { label: 'Published', value: 'published' },
     { label: 'Wating-list', value: 'waiting-list' },
      { label: 'Expired', value: 'expired' },
   ]">
                 </app-select-drop-down>
 
-                <app-select-drop-down placeholder="All Category" [(value)]="category" [options]="[
+                <app-select-drop-down placeholder="All Category" [(value)]="category" (valueChange)="applyFilters()" [options]="[
     { label: 'All Category', value: 'all' },
     { label: 'Audio', value: 'audio' },
     { label: 'Video', value: 'video' },
@@ -41,14 +42,15 @@
 
                 <app-select-drop-down [placeholder]="dayLabel" [(value)]="day" [options]="[
                   { label: 'All Advertisements', value: 'all' },
-      { label: 'Today', value: 'today' },
-      { label: 'Tomorrow', value: 'tomorrow' },
-      { label: 'Custom date', value: 'date' }
-    ]" (valueChange)="onProgramChange($event)">
+                  { label: 'Today', value: 'today' },
+                  { label: 'Tomorrow', value: 'tomorrow' },
+                  { label: 'Custom date', value: 'date' }
+                  ]" (valueChange)="onProgramChange($event)">
                 </app-select-drop-down>
 
                 <div class="calendar-wrapper" *ngIf="isCalendarOpen">
-                    <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)">
+                    <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)" 
+                     (calendarClosed)="closeCalendar()" [enableWeekdaySelection]="false">
                     </app-custom-filter-calender>
                 </div>
 
@@ -147,48 +149,9 @@
 
             <td mat-cell *matCellDef="let row">
 
-                <button mat-icon-button [matMenuTriggerFor]="menu">
+                <button [disabled]="!canManageAds"  mat-icon-button [matMenuTriggerFor]="menu">
                     <mat-icon>more_horiz</mat-icon>
                 </button>
-
-                <!-- <mat-menu #menu="matMenu">
-
-                      <button (click)="publishAdvertisement(row.ID)"  mat-menu-item>
-                        <span class="menu-content-left">
-                            <span class="menu-text px-2">Publish AD</span>
-                             <img class="menu-img" src="/program/publish.svg" alt="">
-                        </span>
-                    </button>
-
-                    <mat-divider></mat-divider>
-
-                    <button mat-menu-item (click)="editAdvertisement(row)">
-                        <span class="menu-content-left">
-                            <span class="menu-text px-2">Edit</span>
-                            <img class="menu-img" src="/program/edit-2.svg" alt="">
-
-                        </span>
-                    </button>
-
-                    <mat-divider></mat-divider>
-
-                    <button (click)="closeAdvertisement(row.ID)" mat-menu-item>
-                        <span class="menu-content-left">
-                            <span class="menu-text px-2">Close Ad</span>
-                           <img class="menu-img" src="/program/close.svg" alt="">
-                        </span>
-                    </button>
-
-                    <mat-divider></mat-divider>
-
-                    <button mat-menu-item (click)="deleteAdvertisement(row.ID)">
-                        <span class="menu-content-left">
-                            <span class="menu-text px-2">Delete</span>
-                            <img class="menu-img" src="/program/trash.svg" alt="">
-                        </span>
-                    </button>
-
-                </mat-menu> -->
 
                 <mat-menu #menu="matMenu" class="custom-menu" xPosition="before">
 

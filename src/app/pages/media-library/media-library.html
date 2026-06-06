@@ -6,7 +6,7 @@
                 <p>Upload and monitor all broadcast-ready content in one place.</p>
             </div>
 
-            <app-primary-button label="Upload new file" iconSrc="/main/add.svg"
+            <app-primary-button [disabled]="!canUploadMedia" label="Upload new file" iconSrc="/main/add.svg"
                 (clicked)="openModal()"></app-primary-button>
         </div>
 
@@ -90,7 +90,7 @@
                 </app-select-drop-down>
 
                 <div class="calendar-wrapper" *ngIf="isCalendarOpen">
-                    <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)">
+                    <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)" (calendarClosed)="closeCalendar()">
                     </app-custom-filter-calender>
                 </div>
             </div>
@@ -174,7 +174,7 @@
 
             <td mat-cell *matCellDef="let row">
 
-                <button mat-icon-button [matMenuTriggerFor]="menu">
+                <button  [disabled]="!canUploadMedia" mat-icon-button [matMenuTriggerFor]="menu">
                     <mat-icon>more_horiz</mat-icon>
                 </button>
 

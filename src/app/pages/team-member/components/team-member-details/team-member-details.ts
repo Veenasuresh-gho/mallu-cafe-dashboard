@@ -45,6 +45,7 @@ export class TeamMemberDetails {
   toast = inject(ToastService);
   route = inject(ActivatedRoute);
   isUploading = false;
+  canManageMembers = false;
 
   constructor(private dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef, private cd: ChangeDetectorRef) { }
 
@@ -112,6 +113,11 @@ export class TeamMemberDetails {
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     this.getProfile();
+          const permissions = JSON.parse(
+      localStorage.getItem('permissions') || '{}'
+    );
+    this.canManageMembers =
+      permissions.MemberManagementPermission === 1;
   }
 
   clearError(field: string) {

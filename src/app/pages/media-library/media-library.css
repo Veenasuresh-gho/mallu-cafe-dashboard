@@ -335,6 +335,7 @@ mat-divider {
 .calendar-wrapper {
   position: relative;
   overflow: visible;
+  top: 12px;  
 }
 .clear-btn{
     cursor: pointer;

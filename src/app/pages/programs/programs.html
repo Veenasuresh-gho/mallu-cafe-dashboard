@@ -6,7 +6,7 @@
                 <p>Manage, upload and schedule broadcast programs.</p>
             </div>
 
-            <app-primary-button label="Add new program" iconSrc="/main/add.svg"
+            <app-primary-button [disabled]="!canManagePrograms" label="Add new program" iconSrc="/main/add.svg"
                 (clicked)="openModal()"></app-primary-button>
         </div>
 
@@ -35,14 +35,6 @@
 </app-select-drop-down> -->
 
 
-                <!-- <app-select-drop-down placeholder="All Category" [(value)]="category" [options]="[
-    { label: 'All Category', value: 'all' },
-    { label: 'Pre-Scheduled', value: 'pre_scheduled' },
-    { label: 'Podcast', value: 'podcast' },
-    { label: 'Live', value: 'live' }
-  ]">
-                </app-select-drop-down> -->
-
                 <app-select-drop-down placeholder="All Category" [(value)]="category" (valueChange)="applyFilters()"
                     [options]="[
     { label: 'All Category', value: 'all' },
@@ -58,7 +50,8 @@
                 </app-select-drop-down>
 
                 <div class="calendar-wrapper" *ngIf="isCalendarOpen">
-                    <app-custom-filter-calender [inlineMode]="true"  [enableWeekdaySelection]="true" (filterApplied)="onFilterApplied($event)">
+                    <app-custom-filter-calender [inlineMode]="true" [enableWeekdaySelection]="true"
+                        (calendarClosed)="closeCalendar()" (filterApplied)="onFilterApplied($event)">
                     </app-custom-filter-calender>
                 </div>
 
@@ -140,12 +133,12 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="actions">
+        <ng-container  matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef></th>
 
-            <td mat-cell *matCellDef="let row">
+            <td  mat-cell *matCellDef="let row">
 
-                <button mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" xPosition="before"
+                <button  [disabled]="!canManagePrograms"  mat-icon-button [disableRipple]="true" [matMenuTriggerFor]="menu" xPosition="before"
                     yPosition="below">
                     <mat-icon>more_horiz</mat-icon>
                 </button>

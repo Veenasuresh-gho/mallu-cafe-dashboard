@@ -10,6 +10,8 @@ import { ghoresult, tags } from '../../../../model/ghomodel';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { PublishAd } from '../../advertisements/components/publish-ad/publish-ad';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -74,8 +76,18 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
     private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private dialog: MatDialog,
   ) { }
+
+    openPublishADModal() {
+      this.dialog.open(PublishAd, {
+        width: '1020px',
+        maxWidth: '1020px',
+        maxHeight: '95vh',
+        disableClose: true,
+      });
+    }
 
   getFileExtension(url: string): string {
     try {

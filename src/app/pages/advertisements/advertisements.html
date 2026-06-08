@@ -24,20 +24,20 @@
                 <!-- Dropdowns -->
 
                 <app-select-drop-down placeholder="All Status" [(value)]="status" (valueChange)="applyFilters()" [options]="[
-     { label: 'All Status', value: 'allStatus' },
-    { label: 'Active', value: 'active' },
-    { label: 'Published', value: 'published' },
-    { label: 'Wating-list', value: 'waiting-list' },
-     { label: 'Expired', value: 'expired' },
-  ]">
+             { label: 'All Status', value: 'allStatus' },
+              { label: 'Active', value: 'active' },
+               { label: 'Published', value: 'published' },
+              { label: 'Wating-list', value: 'waiting-list' },
+             { label: 'Expired', value: 'expired' },
+               ]">
                 </app-select-drop-down>
 
                 <app-select-drop-down placeholder="All Category" [(value)]="category" (valueChange)="applyFilters()" [options]="[
-    { label: 'All Category', value: 'all' },
-    { label: 'Audio', value: 'audio' },
-    { label: 'Video', value: 'video' },
-     { label: 'Image', value: 'image' },
-  ]">
+                { label: 'All Category', value: 'all' },
+                { label: 'Audio', value: 'audio' },
+                { label: 'Video', value: 'video' },
+                { label: 'Image', value: 'image' },
+               ]">
                 </app-select-drop-down>
 
                 <app-select-drop-down [placeholder]="dayLabel" [(value)]="day" [options]="[

@@ -90,7 +90,7 @@ export class UploadNewFileModal implements OnInit {
     if (this.data?.programData?.length) {
 
       const program = this.data.programData[0];
-  this.originalPrefillData = program;   // only real prefill
+      this.originalPrefillData = program;   // only real prefill
 
       this.selectedProgramData = program;
 
@@ -150,6 +150,29 @@ export class UploadNewFileModal implements OnInit {
   thumbnailFile: File | null = null;
   broadcastDate: string = '';
   originalPrefillData: any = null;
+  mediaDuration = 0;
+
+  private getMediaDuration(file: File): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const isVideo = file.type.startsWith('video');
+      const media = document.createElement(isVideo ? 'video' : 'audio');
+
+      media.preload = 'metadata';
+
+      media.onloadedmetadata = () => {
+        const duration = Math.floor(media.duration || 0);
+        URL.revokeObjectURL(media.src);
+        resolve(duration);
+      };
+
+      media.onerror = () => {
+        URL.revokeObjectURL(media.src);
+        reject(0);
+      };
+
+      media.src = URL.createObjectURL(file);
+    });
+  }
 
   removeFile() {
     if (this.previewUrl) {
@@ -193,51 +216,54 @@ export class UploadNewFileModal implements OnInit {
     this.typedText = event.target.innerText;
   }
 
-get isPrefilledMode(): boolean {
-  return !!this.data?.programData?.length;
-}
+  get isPrefilledMode(): boolean {
+    return !!this.data?.programData?.length;
+  }
 
 
   renameFile() {
-    if (!this.selectedFile || !this.finalfileName) return;
-    if (this.selectedFile.name === this.finalfileName) return;
+    if (!this.selectedFile || !this.finalfileName) {
+      return;
+    }
+
     this.selectedFile = new File(
       [this.selectedFile],
       this.finalfileName,
-      { type: this.selectedFile.type }
+      {
+        type: this.selectedFile.type
+      }
     );
+
+    this.fileName = this.finalfileName;
   }
+
   updateFileName() {
-    this.fileName =
-      this.finalfileName ||
-      this.selectedFile?.name ||
-      '';
+    this.fileName = this.selectedFile?.name || '';
   }
 
- onProgramSelected(data: any) {
-  this.selectedProgramId = data.programId;
-  this.selectedProgramName = data.programName;
-  this.selectedCategoryId = data.categoryId;
-  this.programId = data?.programId;
+  onProgramSelected(data: any) {
+    this.selectedProgramId = data.programId;
+    this.selectedProgramName = data.programName;
+    this.selectedCategoryId = data.categoryId;
+    this.programId = data?.programId;
 
-  this.title = data.title;
-  this.subtitle = data.subtitle;
+    this.title = data.title;
+    this.subtitle = data.subtitle;
 
-  this.finalfileName = data?.fileName || '';
-  this.broadcastDate = data?.typedText || '';
+    this.finalfileName = data?.fileName || '';
+    this.broadcastDate = data?.typedText || '';
 
-  this.thumbnailFile = data.thumbnailFile || null;
+    this.thumbnailFile = data.thumbnailFile || null;
 
-  // ✅ Remove this line — don't lock category on manual selection
-  // this.isPrefilledProgram = !!data.programId;
+    console.log('Generated filename:', data.fileName);
 
-  if (this.selectedFile && this.finalfileName) {
-    this.renameFile();
+    if (this.selectedFile && this.finalfileName) {
+      this.renameFile();
+    }
+
+    this.updateFileName();
+    this.cdr.markForCheck();
   }
-
-  this.updateFileName();
-  this.cdr.markForCheck();
-}
 
   isImageType(): boolean {
     return this.fileType.startsWith('image');
@@ -245,25 +271,39 @@ get isPrefilledMode(): boolean {
   isVideoType(): boolean {
     return this.fileType.startsWith('video');
   }
-  onFileSelected(file: File) {
+  async onFileSelected(file: File) {
     if (!file) return;
 
     if (file.size > this.maxSize) {
       this.errors.file = 'File size should be less than 1.5 GB';
-
       return;
     }
 
     if (this.errors.file) delete this.errors.file;
 
-    this.selectedFile = file;
     this.originalFileName = file.name;
 
+    const extension = file.name.split('.').pop();
+
     if (this.finalfileName) {
-      this.renameFile();
+      const renamedFileName = this.finalfileName.includes('.')
+        ? this.finalfileName
+        : `${this.finalfileName}.${extension}`;
+
+      this.selectedFile = new File(
+        [file],
+        renamedFileName,
+        { type: file.type }
+      );
+
+      this.fileName = renamedFileName;
+    } else {
+      this.selectedFile = file;
+      this.fileName = file.name;
     }
 
     this.updateFileName();
+
     this.previewUrl = URL.createObjectURL(file);
     this.fileSize = (file.size / 1024 / 1024).toFixed(2) + ' MB';
     this.fileType = file.type;
@@ -271,26 +311,51 @@ get isPrefilledMode(): boolean {
 
     this.dimension = '';
 
-    const isVideo = file.type.startsWith('video');
-    const media = document.createElement(isVideo ? 'video' : 'audio');
-    const url = URL.createObjectURL(file);
+    const isMedia =
+      file.type.startsWith('audio') ||
+      file.type.startsWith('video');
 
-    media.onloadedmetadata = () => {
-      const duration = Math.floor(media.duration) + ' sec';
+    if (isMedia) {
+      try {
+        this.mediaDuration = await this.getMediaDuration(file);
 
-      if (isVideo) {
-        const width = (media as HTMLVideoElement).videoWidth;
-        const height = (media as HTMLVideoElement).videoHeight;
-        this.dimension = `${width} x ${height} • ${duration}`;
-      } else {
-        this.dimension = duration;
+        const minutes = Math.floor(this.mediaDuration / 60);
+        const seconds = this.mediaDuration % 60;
+
+        console.log('Duration (seconds):', this.mediaDuration);
+        console.log(
+          'Duration:',
+          `${minutes}:${seconds.toString().padStart(2, '0')}`
+        );
+
+        const isVideo = file.type.startsWith('video');
+
+        const media = document.createElement(isVideo ? 'video' : 'audio');
+        const url = URL.createObjectURL(file);
+
+        media.onloadedmetadata = () => {
+          const durationText = `${this.mediaDuration} sec`;
+
+          if (isVideo) {
+            const width = (media as HTMLVideoElement).videoWidth;
+            const height = (media as HTMLVideoElement).videoHeight;
+
+            this.dimension = `${width} x ${height} • ${durationText}`;
+          } else {
+            this.dimension = durationText;
+          }
+
+          URL.revokeObjectURL(url);
+          this.cdr.markForCheck();
+        };
+
+        media.src = url;
+      } catch (err) {
+        console.error('Failed to read duration', err);
       }
+    }
 
-      URL.revokeObjectURL(url);
-      this.cdr.markForCheck();
-    };
-
-    media.src = url;
+    this.cdr.markForCheck();
   }
   uploadFile() {
     if (!this.validateForm()) return;
@@ -327,7 +392,8 @@ get isPrefilledMode(): boolean {
               this.id,
               this.userId,
               file,
-              '5'
+              '5',
+              this.mediaDuration
             );
 
             this.loading = false;
@@ -449,7 +515,8 @@ get isPrefilledMode(): boolean {
               this.id,
               this.userId,
               file,
-              '6'
+              '6',
+              this.mediaDuration
             );
 
             this.loading = false;
@@ -543,7 +610,8 @@ get isPrefilledMode(): boolean {
               this.id,
               this.userId,
               file,
-              '4'
+              '4',
+              this.mediaDuration
             );
 
             if (!videoSuccess) {
@@ -649,22 +717,22 @@ get isPrefilledMode(): boolean {
       });
   }
 
-onMediaTypeChange(value: string) {
+  onMediaTypeChange(value: string) {
 
-  this.selectedMediaType = value;
+    this.selectedMediaType = value;
 
-  this.isPrefilledProgram = false;
+    this.isPrefilledProgram = false;
 
-  this.selectedProgramId = '';
-  this.selectedProgramName = '';
-  this.selectedProgramData = null;
+    this.selectedProgramId = '';
+    this.selectedProgramName = '';
+    this.selectedProgramData = null;
 
-  if (!value) {
-    return;
+    if (!value) {
+      return;
+    }
+
+    this.getProgramList();
   }
-
-  this.getProgramList();
-}
   getProgramList(): Promise<void> {
     return new Promise((resolve) => {
       this.tv = [

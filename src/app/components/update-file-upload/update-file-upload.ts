@@ -43,7 +43,7 @@ export class UpdateFileUpload {
   close = new EventEmitter<void>();
 
   loading = false;
-
+  isFinishingUpload = false;
   isUploading = false;
   uploadProgress = 0;
 
@@ -152,41 +152,49 @@ export class UpdateFileUpload {
       return;
     }
 
-    const finalFileName =
-      this.item?.FileName?.trim()
-        ? this.item.FileName
-        : `${this.item?.Title}.mp3`;
+    this.isFinishingUpload = true;
 
-    const renamedFile = new File(
-      [this.selectedFile],
-      finalFileName,
-      { type: this.selectedFile.type }
-    );
+    try {
 
-    console.log('Renamed File:', renamedFile);
+      const finalFileName =
+        this.item?.FileName?.trim()
+          ? this.item.FileName
+          : `${this.item?.Title}.mp3`;
 
-    const success = await this.srv.handleFileUpload(
-      this.item?.ProgramID,
-      this.srv.getsession('id'),
-      renamedFile,
-      this.getDeleteType()
-    );
-    if (success) {
-      this.toast.show({
-        title: 'File Replaced successfully! ',
-        description: 'File has been successfully replaced',
-        variant: 'success',
-        position: 'toast-bottom-center'
-      });
-    } else {
-      this.toast.show({
-        title: 'Failed to replace file ❌ ',
-        description: 'Something went wrong',
-        variant: 'error',
-        position: 'toast-bottom-center'
-      });
+      const renamedFile = new File(
+        [this.selectedFile],
+        finalFileName,
+        { type: this.selectedFile.type }
+      );
+
+      const success = await this.srv.handleFileUpload(
+        this.item?.ProgramID,
+        this.srv.getsession('id'),
+        renamedFile,
+        this.getDeleteType()
+      );
+
+      if (success) {
+        this.toast.show({
+          title: 'File Replaced successfully!',
+          description: 'File has been successfully replaced',
+          variant: 'success',
+          position: 'toast-bottom-center'
+        });
+
+        this.close.emit();
+      } else {
+        this.toast.show({
+          title: 'Failed to replace file ❌',
+          description: 'Something went wrong',
+          variant: 'error',
+          position: 'toast-bottom-center'
+        });
+      }
+
+    } finally {
+      this.isFinishingUpload = false;
     }
-
   }
 
   getDeleteType(): string {

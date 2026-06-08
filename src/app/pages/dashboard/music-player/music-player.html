@@ -16,7 +16,12 @@
 <div class="main-body schedules-content">
   <div class="card-header ">
     <div class="title-block">
-      <h2 class="title">{{programDetails?.Title}}</h2>
+      <h2 class="title">
+        {{ programDetails?.Title }}
+        @if (programDetails?.CategoryName === 'Podcast') {
+        <span>(Ep {{ programDetails?.EpisodeNo }})</span>
+        }
+      </h2>
       <p class="subtitle"> {{programDetails?.Schedule}} </p>
     </div>
     <div class="on-air-status">
@@ -40,12 +45,12 @@
         </div>
 
         @if(programDetails?.CategoryName === 'Pre-Scheduled'){
-        <p class="card-subtitle pt-1">Current Active Listeners: <span class="fw-[700]">400+</span></p>
+        <p class="card-subtitle pt-1">Current Active Listeners: <span class="fw-[700]">-</span></p>
         }
       </div>
-      <div class="">
-        <span class="card-OnAir px-2 py-1 rounded"> ON AIR</span>
-      </div>
+      @if(programDetails?.CategoryName === 'Live'){
+      <span class="card-OnAir px-2 py-1 rounded">ON AIR</span>
+      }
     </div>
     <div class="audio-player-container d-flex align-items-center gap-3 py-3">
       <div class="play-btn" (click)="toggleAudio()">
@@ -180,21 +185,31 @@
 
     <div class="overlay-bottom-right p-1">
       <div class="stat">
-        <mat-icon>shortcut</mat-icon>
+        <img src="/main/share.png" width="20" height="20" alt="" />
         <span>{{ shareCount }}</span>
       </div>
       <div class="stat">
-        <mat-icon>visibility</mat-icon>
+        <img src="/main/eye.png" width="20" height="20" alt="" />
         <span>{{ viewCount }}</span>
       </div>
       <div class="stat">
-        <div class="floating-thumbs">
-          <div class="thumb-float t1"><mat-icon>thumb_up</mat-icon></div>
-          <div class="thumb-float t2"><mat-icon>thumb_up</mat-icon></div>
-          <div class="thumb-float t3"><mat-icon>thumb_up</mat-icon></div>
+        <div class="stat like-stat">
+          <div class="floating-thumbs">
+            <div class="thumb-float t1">
+              <img src="/main/floating-thumb.png" alt="">
+            </div>
+
+            <div class="thumb-float t2">
+              <img src="/main/floating-thumb.png" alt="">
+            </div>
+
+            <div class="thumb-float t3">
+              <img src="/main/floating-thumb.png" alt="">
+            </div>
+          </div>
+
         </div>
-        <mat-icon>thumb_up_off_alt</mat-icon>
-        <span>{{ likeCount }}</span>
+        <img src="/main/like.png" width="20" height="20" alt="" /> <span>{{ likeCount }}</span>
       </div>
     </div>
   </div>

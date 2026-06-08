@@ -88,7 +88,8 @@
           </span>
         </div>
 
-        <app-primary-button (click)="finishUpload()" [label]="'Finish upload'" iconSrc="/main/uploaded.svg">
+        <app-primary-button [label]="isFinishingUpload ? 'Uploading...' : 'Finish upload'" iconSrc="/main/uploaded.svg"
+          [loading]="isFinishingUpload" [disabled]="isFinishingUpload" (clicked)="finishUpload()">
         </app-primary-button>
 
       </div>

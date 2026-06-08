@@ -1,5 +1,13 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  Output
+} from '@angular/core'; import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
@@ -33,8 +41,7 @@ import { ghoresult, tags } from '../../../../../../../model/ghomodel';
   templateUrl: './podcast-file.html',
   styleUrls: ['./podcast-file.css'],
 })
-export class PodcastFile implements OnInit {
-
+export class PodcastFile implements OnInit, OnChanges {
   constructor(
     private dialogRef: MatDialogRef<PodcastFile>,
     private dialog: MatDialog
@@ -57,7 +64,7 @@ export class PodcastFile implements OnInit {
   @Input() selectedDate: string = '';
   @Output() programSelected = new EventEmitter<any>();
   @Input() readOnly: boolean = false;
-  
+
   typedText: string = '';
   selectedType: string = '';
   subtitle: string = '';
@@ -108,7 +115,7 @@ export class PodcastFile implements OnInit {
 
       // subtitle
       this.subtitle =
-        this.prefillData?.HostName || '';
+        this.prefillData?.Subtitle || '';
 
       if (this.prefillDate) {
         this.typedText = this.prefillDate;
@@ -122,7 +129,6 @@ export class PodcastFile implements OnInit {
           ? 'program'
           : 'custom';
 
-      // get full program details
       const selected =
         this.poadcastProgramList.find(
           p => p.DataValue == this.selectedProgramId
@@ -140,6 +146,18 @@ export class PodcastFile implements OnInit {
       this.cdr.detectChanges();
 
       this.emitData();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (changes['fileType']?.currentValue) {
+
+      console.log('Podcast fileType changed:', this.fileType);
+
+      this.emitData();
+
+      this.cdr.markForCheck();
     }
   }
 
@@ -291,11 +309,19 @@ export class PodcastFile implements OnInit {
 
   emitData() {
 
+    this.errors = {};
+
+    if (!this.subtitle?.trim()) {
+      this.errors.subtitle = 'Subtitle is required';
+    }
+
     const cleanDate =
       this.typedText.replace(/\//g, '');
 
     const cleanProgramName =
-      this.selectedProgramName.replace(/\s+/g, '');
+      this.selectedProgramName
+        .trim()
+        .replace(/\s+/g, '');
 
     let fileName = '';
 
@@ -328,10 +354,14 @@ export class PodcastFile implements OnInit {
 
       thumbnailType: this.selectedType,
 
+      isValid: !this.errors.subtitle,
+
       fullData: this.poadcastProgramList.find(
         p => p.ProgramID === this.programId
       ),
     });
+
+    this.cdr.markForCheck();
   }
 
   getPodcastCategory(): Promise<void> {
@@ -368,10 +398,15 @@ export class PodcastFile implements OnInit {
   }
 
   onSubtitleChange(value: string) {
+
     this.subtitle = value;
+
+    if (this.subtitle?.trim()) {
+      delete this.errors.subtitle;
+    }
+
     this.emitData();
   }
-
   onThumbnailTypeChange(type: string) {
 
     this.selectedType = type;

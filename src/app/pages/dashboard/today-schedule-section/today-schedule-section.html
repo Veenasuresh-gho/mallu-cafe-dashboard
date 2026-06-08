@@ -48,19 +48,20 @@
         }
         @else {
         @if(currentProgram) {
+
         <div class="d-flex flex-column gap-2 px-3 py-2 on-air-content border">
 
-            @if(isToday && currentProgram) {
-<div class="on-air d-flex align-items-center mt-2 gap-2">
-    <p class="mb-2 small">🟢 Broadcast Status</p>
-    <p class="mb-2 d-flex align-items-center gap-1">
-        <span class="material-icons" style="font-size:16px;color: var(--success);">
-            radio_button_checked
-        </span>
-        <span class="on-air-text small">On Air</span>
-    </p>
-</div>
-}
+            @if(isToday && currentProgram && currentProgram.IsFileUploaded) {
+            <div class="on-air d-flex align-items-center mt-2 gap-2">
+                <p class="mb-2 small">🟢 Broadcast Status</p>
+                <p class="mb-2 d-flex align-items-center gap-1">
+                    <span class="material-icons" style="font-size:16px;color: var(--success);">
+                        radio_button_checked
+                    </span>
+                    <span class="on-air-text small">On Air</span>
+                </p>
+            </div>
+            }
 
             <div class="d-flex justify-content-between w-100">
                 <div class="d-flex align-items-center gap-2">
@@ -96,10 +97,21 @@
 
 
             <div class="d-flex justify-content-between align-items-center">
+                @if(currentProgram.IsFileUploaded){
                 <p class="listeners mb-0">
                     Current Active Listeners:
-                    <span class="fw-bold" style="color: var(--primary-text);">400+</span>
+                    <span class="fw-bold" style="color: var(--primary-text);">-</span>
                 </p>
+                }@else{
+                <div>
+                    <img src="/main/update.svg">
+                    <span (click)="openModal(currentProgram)" style="color: var(--primary-text); font-size: 10px;">
+                        Upload
+                    </span>
+                </div>
+
+                }
+
                 @if(currentProgram.CategoryName!=='Live'){
                 @if(currentProgram.IsFileUploaded) {
 
@@ -116,6 +128,7 @@
                 }
 
             </div>
+
             @if(currentProgram.CategoryName==="Live"){
             <div class="live-text-started d-flex align-items-center gap-1">
                 <p class="mb-0">Streaming Started</p>

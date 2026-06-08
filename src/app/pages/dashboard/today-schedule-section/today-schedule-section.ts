@@ -46,15 +46,15 @@ export interface Schedule {
 })
 export class TodayScheduleSection implements OnInit {
 
-  constructor(private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
+    constructor(private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
 
-  urlValue: string = '';
-  srv = inject(GHOService);
-  utl = inject(GHOUtitity);
-  @Output() publishStatus = new EventEmitter<{ isPublic: boolean, url: string, isPublish: boolean }>();
+    urlValue: string = '';
+    srv = inject(GHOService);
+    utl = inject(GHOUtitity);
+    @Output() publishStatus = new EventEmitter<{ isPublic: boolean, url: string, isPublish: boolean }>();
 
-  tv: tags[] = [];
-  res: ghoresult = new ghoresult();
+    tv: tags[] = [];
+    res: ghoresult = new ghoresult();
   publishLoading = false;
   loading = false;
   schedules: Schedule[] = [];

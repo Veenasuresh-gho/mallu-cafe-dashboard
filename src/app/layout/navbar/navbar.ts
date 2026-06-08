@@ -1,7 +1,12 @@
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { ghoresult, tags } from '../../../model/ghomodel';
 import { GHOService } from '../../services/ghosrvs';
-import { GHOUtitity } from '../../services/utilities';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -12,12 +17,12 @@ import { Router } from '@angular/router';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar {
+export class Navbar implements OnInit, OnDestroy {
 
   srv = inject(GHOService);
-  // utl = inject(GHOUtitity);
+  cdr = inject(ChangeDetectorRef);
+
   tv: tags[] = [];
-  // res: ghoresult = new ghoresult();
   loading = false;
   ds: [] = [];
   profile: any = {};
@@ -27,13 +32,28 @@ export class Navbar {
   selectedFile!: File;
   fileName: string = '';
   errors: any = {};
-  id: any = ''
+  id: any = '';
+
+  currentSong: any = null;
+  nextSong: any = null;
+
+  private songsInterval: any;
 
   constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.getProfile();
     this.getSongs();
+
+    this.songsInterval = setInterval(() => {
+      this.getSongs();
+    }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.songsInterval) {
+      clearInterval(this.songsInterval);
+    }
   }
 
   getProfile(): void {
@@ -51,6 +71,7 @@ export class Navbar {
         next: (r) => {
           const data = r.Data;
           this.profile = data[0]?.[0] || {};
+          this.loading = false;
         },
         error: (err) => {
           console.error('API Error:', err);
@@ -59,64 +80,72 @@ export class Navbar {
       });
   }
 
-  currentSong: any = null;
-  nextSong: any = null;
-
   getSongs(): void {
 
-  const tv = [
-    { T: 'dk2', V: '' },
-    { T: 'c10', V: '12' }
-  ];
+    const tv = [
+      { T: 'dk2', V: '' },
+      { T: 'c10', V: '12' }
+    ];
 
-  this.srv.getdata('teammember', tv)
-    .subscribe({
-      next: (res) => {
-        const list = res?.Data?.[0] || [];
+    this.srv.getdata('teammember', tv)
+      .subscribe({
+        next: (res) => {
 
-        if (!list.length) {
+          const list = res?.Data?.[0] || [];
+
+          if (!list.length) {
+            this.currentSong = null;
+            this.nextSong = null;
+            this.cdr.detectChanges();
+            return;
+          }
+
+          const currentIndex = list.findIndex(
+            (item: any) => Number(item.IsStreaming) === 1
+          );
+
+          if (currentIndex >= 0) {
+
+            const current = list[currentIndex];
+
+            this.currentSong = {
+              title: current.Title
+            };
+
+            const next = list
+              .slice(currentIndex + 1)
+              .find((item: any) => Number(item.IsStreaming) !== 1);
+
+            this.nextSong = next
+              ? {
+                  title: next.Title
+                }
+              : null;
+
+          } else {
+
+            this.currentSong = null;
+
+            this.nextSong = {
+              title: list[0].Title
+            };
+          }
+
+          this.cdr.detectChanges();
+        },
+
+        error: (err) => {
+          console.error('Song API Error:', err);
+
           this.currentSong = null;
           this.nextSong = null;
-          return;
+
+          this.cdr.detectChanges();
         }
-
-        const currentIndex = list.findIndex(
-          (item: any) => item.IsStreaming === 1
-        );
-
-        if (currentIndex !== -1) {
-          const current = list[currentIndex];
-          const next = list[currentIndex + 1];
-
-          this.currentSong = {
-            title: current.Title
-          };
-
-          this.nextSong = next
-            ? {
-                title: next.Title
-              }
-            : null;
-        } else {
-          this.currentSong = null;
-
-          this.nextSong = {
-            title: list[0].Title
-          };
-        }
-      },
-
-      error: (err) => {
-        console.error('Song API Error:', err);
-
-        this.currentSong = null;
-        this.nextSong = null;
-      }
-    });
-}
-
-    navigateToProfile() {
-    this.router.navigate(['/profile']);
+      });
   }
 
+  navigateToProfile() {
+    this.router.navigate(['/profile']);
+  }
 }

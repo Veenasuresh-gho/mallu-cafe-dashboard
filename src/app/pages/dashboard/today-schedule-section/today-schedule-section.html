@@ -51,7 +51,7 @@
 
         <div class="d-flex flex-column gap-2 px-3 py-2 on-air-content border">
 
-            @if(isToday && currentProgram && currentProgram.IsFileUploaded) {
+            @if(isToday && currentProgram && currentProgram.IsFileUploaded || currentProgram?.IsStreaming) {
             <div class="on-air d-flex align-items-center mt-2 gap-2">
                 <p class="mb-2 small">🟢 Broadcast Status</p>
                 <p class="mb-2 d-flex align-items-center gap-1">
@@ -103,12 +103,15 @@
                     <span class="fw-bold" style="color: var(--primary-text);">-</span>
                 </p>
                 }@else{
+                @if(currentProgram?.CategoryName !=='Live'){
                 <div>
                     <img src="/main/update.svg">
                     <span (click)="openModal(currentProgram)" style="color: var(--primary-text); font-size: 10px;">
                         Upload
                     </span>
                 </div>
+                }
+
 
                 }
 

@@ -66,14 +66,13 @@ export class TodayScheduleSection implements OnInit {
 
 
   ViewFileModal(item: any) {
-    console.log('Selected Item:', item);
     const dialogRef = this.dialog.open(ViewFile, {
       width: '90%',
       maxWidth: '650px',
       maxHeight: '95vh',
       disableClose: true,
       data: {
-        id: item.MediaID
+        id: item?.MediaID
       }
     });
     dialogRef.afterClosed().subscribe((result) => {

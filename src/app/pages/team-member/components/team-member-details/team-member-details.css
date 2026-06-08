@@ -81,3 +81,35 @@
     width: 100%;
   }
 }
+
+
+.upload-btn.disabled {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ccc;
+  border-top: 2px solid #000;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.upload-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn-manage-member:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -34,6 +34,16 @@ export class Advertisements {
   status = 'allStatus';
   category = 'all';
   day = 'all';
+  searchText = '';
+  fromDate = '';
+  toDate = '';
+  dayLabel = 'Today';
+
+  canUploadMedia = false;
+  canManageAds = false;
+  canManagePrograms = false;
+  canManageMembers = false;
+
   constructor(private dialog: MatDialog) { }
 
   toast = inject(ToastService);
@@ -52,6 +62,148 @@ export class Advertisements {
     });
   }
 
+  onProgramChange(value: string) {
+    if (value === 'date') {
+      this.isCalendarOpen = true;
+      this.tempProgramSelection = value;
+    } else {
+      this.day = value;
+      this.isCalendarOpen = false;
+      const today = new Date();
+      if (value === 'today') {
+        const date = today.toISOString().split('T')[0];
+        this.fromDate = date;
+        this.toDate = date;
+      } else if (value === 'tomorrow') {
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+        const date = tomorrow.toISOString().split('T')[0];
+        this.fromDate = date;
+        this.toDate = date;
+      } else {
+        this.fromDate = '';
+        this.toDate = '';
+      }
+      this.applyFilters();
+    }
+  }
+
+  onFilterApplied(data: any) {
+    this.isCalendarOpen = false;
+    if (data.type === 'single') {
+      const selectedDate = new Date(data.value);
+      this.fromDate = selectedDate.toISOString().split('T')[0];
+      this.toDate = selectedDate.toISOString().split('T')[0];
+      this.dayLabel =
+        selectedDate.toLocaleDateString('en-GB');
+    }
+
+    else if (data.type === 'range') {
+      const startDate = new Date(data.start);
+      const endDate = new Date(data.end);
+
+      this.fromDate = startDate.toISOString().split('T')[0];
+      this.toDate = endDate.toISOString().split('T')[0];
+
+      this.dayLabel =
+        `${startDate.toLocaleDateString('en-GB')} - ${endDate.toLocaleDateString('en-GB')}`;
+    }
+
+
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    const tags = [
+
+      // Status
+      {
+        T: 'dk1',
+        V:
+          this.status === 'active'
+            ? '1'
+            : this.status === 'waiting-list'
+              ? '2'
+              : this.status === 'published'
+                ? '3'
+                : this.status === 'expired'
+                  ? '4'
+                  : ''
+      },
+      {
+        T: 'dk2',
+        V:
+          this.category === 'audio'
+            ? '1'
+            : this.category === 'video'
+              ? '2'
+              : this.category === 'image'
+                ? '3'
+                : ''
+      },
+
+      // From Date
+      {
+        T: 'c1',
+        V: this.fromDate || ''
+      },
+
+      // To Date
+      {
+        T: 'c2',
+        V: this.toDate || ''
+      },
+
+      {
+        T: 'c10',
+        V: '3'
+      }
+    ];
+
+    this.loading = true;
+    this.srv.getdata('advertisement', tags).subscribe({
+      next: (r) => {
+        let data = (r.Data?.[0] || []).map((item: any) => ({
+          ...item,
+          adStatusClass: this.getStatusClass(item.Status)
+        }));
+
+        // Local Search Filter
+        if (this.searchText) {
+          const search = this.searchText.toLowerCase();
+          data = data.filter((item: any) =>
+            item.FileName?.toLowerCase().includes(search) ||
+            item.AdvertiserName?.toLowerCase().includes(search)
+          );
+        }
+        this.ds = data;
+        this.dataSource.data = data;
+        this.dataSource._updateChangeSubscription();
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+      }
+    });
+  }
+
+  clearFilters(): void {
+    this.searchText = '';
+    this.status = 'allStatus';
+    this.category = 'all';
+    this.day = 'all';
+    this.fromDate = '';
+    this.toDate = '';
+    this.dayLabel = 'Today';
+    this.getAdvertisements();
+  }
+
+  closeCalendar() {
+    this.isCalendarOpen = false;
+     this.day = 'all';   
+  }
+
   editAdvertisement(row: any) {
     this.dialog.open(UploadAdFile, {
       width: '90%',
@@ -68,39 +220,9 @@ export class Advertisements {
     });
   }
 
-  // programsDropdown: string = 'all';
-  // tempProgramSelection: string = 'all';
-  // isCalendarOpen: boolean = false;
-
   programsDropdown: string = 'today';
   tempProgramSelection: string = 'today';
   isCalendarOpen: boolean = false;
-  dayLabel = 'Today';
-  searchText = '';
-
-  onProgramChange(value: string) {
-  if (value === 'date') {
-    this.isCalendarOpen = true;
-    this.tempProgramSelection = value;
-  } else {
-    this.programsDropdown = value;
-    this.tempProgramSelection = value;
-    this.isCalendarOpen = false;
-  }
-}
-
-onFilterApplied(data: any) {
-  this.isCalendarOpen = false;
-
-  if (data.type === 'single') {
-    const date = new Date(data.value);
-
-    this.dayLabel =
-      date.toLocaleDateString('en-GB');
-
-    this.day = this.dayLabel;
-  }
-}
 
   columns: string[] = [
     'advertisements',
@@ -123,7 +245,6 @@ onFilterApplied(data: any) {
         return '/main/image.svg';
     }
   }
-
 
   getStatusClass(status: string): string {
     switch (status) {
@@ -170,6 +291,20 @@ onFilterApplied(data: any) {
 
   ngOnInit(): void {
     this.getAdvertisements();
+        const permissions = JSON.parse(
+      localStorage.getItem('permissions') || '{}'
+    );
+    this.canUploadMedia =
+      permissions.MediaUploadPermission === 1;
+
+    this.canManageAds =
+      permissions.AdManagementPermission === 1;
+
+    this.canManagePrograms =
+      permissions.ProgramManagementPermission === 1;
+
+    this.canManageMembers =
+      permissions.MemberManagementPermission === 1;
   }
 
   getAdvertisements(): void {

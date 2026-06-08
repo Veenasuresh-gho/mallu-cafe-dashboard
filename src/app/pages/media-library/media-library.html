@@ -6,7 +6,7 @@
                 <p>Upload and monitor all broadcast-ready content in one place.</p>
             </div>
 
-            <app-primary-button label="Upload new file" iconSrc="/main/add.svg"
+            <app-primary-button [disabled]="!canUploadMedia" label="Upload new file" iconSrc="/main/add.svg"
                 (clicked)="openModal()"></app-primary-button>
         </div>
 
@@ -29,11 +29,11 @@
                 <p class="mb-0">Published: </p>
                 <span>128</span>
             </div>
-            <div class="total-contents">
+            <!-- <div class="total-contents">
                 <img src="/main/bag-tick-filled.png" alt="">
                 <p class="mb-0">Private: </p>
                 <span>6</span>
-            </div>
+            </div> -->
         </div>
 
         <div class="d-flex justify-content-between align-items-center">
@@ -42,28 +42,43 @@
                     <span matPrefix class="search-icon">
                         <img src="/main/searchIcon.svg" alt="search" />
                     </span>
-                    <input matInput placeholder="Search videos.." [(ngModel)]="searchText" />
+                    <input matInput placeholder="Search videos.." [(ngModel)]="searchText"
+                        (ngModelChange)="applyFilters()" />
                 </mat-form-field>
 
-                <app-select-drop-down placeholder="All upload status" [(value)]="status" [options]="[
+                <!-- <app-select-drop-down placeholder="All upload status" [(value)]="status" (valueChange)="applyFilters()"
+                    [options]="[
     { label: 'All upload status', value: 'all' },
      { label: 'Published', value: 'published' },
     { label: 'Draft', value: 'draft' },
-    { label: 'Private', value: 'private' },
    
   ]">
-                </app-select-drop-down>
+                </app-select-drop-down> -->
 
-                <app-select-drop-down placeholder="All Category" [(value)]="category" [options]="[
+                <app-select-drop-down
+  placeholder="All upload status"
+  [(value)]="status"
+  (valueChange)="applyFilters()"
+  [options]="[
+    { label: 'All upload status', value: 'all' },
+    { label: 'Published', value: 'published' },
+    { label: 'Draft', value: 'draft' }
+  ]">
+</app-select-drop-down>
+
+                <app-select-drop-down placeholder="All Category" [(value)]="category" (valueChange)="applyFilters()"
+                    [options]="[
     { label: 'All Category', value: 'all' },
      { label: 'Pre-Scheduled', value: 'pre-Scheduled' },
+       { label: 'Poadcast', value: 'poadcast' },
     { label: 'Featured-Videos', value: 'Featured' },
     { label: 'Shorts', value: 'shorts' },
    
   ]">
                 </app-select-drop-down>
 
-                <app-select-drop-down placeholder="All Host" [(value)]="host" [options]="hostOptions">
+                <app-select-drop-down placeholder="All Host" [(value)]="host" (valueChange)="applyFilters()"
+                    [options]="hostOptions">
                 </app-select-drop-down>
 
                 <app-select-drop-down [placeholder]="dayLabel" [(value)]="day" [options]="[
@@ -75,11 +90,11 @@
                 </app-select-drop-down>
 
                 <div class="calendar-wrapper" *ngIf="isCalendarOpen">
-                    <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)">
+                    <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)" (calendarClosed)="closeCalendar()">
                     </app-custom-filter-calender>
                 </div>
             </div>
-            <div class="d-flex align-items-center gap-1 pt-3">
+            <div  (click)="clearFilters()" class="clear-btn d-flex align-items-center gap-1 pt-3">
                 <p style="font-size: 12px; font-weight: 500; color: #757575;">Clear filters</p>
                 <mat-icon style="font-size: 12px; color: #757575; cursor: pointer;" class="mb-1">cancel</mat-icon>
             </div>
@@ -159,7 +174,7 @@
 
             <td mat-cell *matCellDef="let row">
 
-                <button mat-icon-button [matMenuTriggerFor]="menu">
+                <button  [disabled]="!canUploadMedia" mat-icon-button [matMenuTriggerFor]="menu">
                     <mat-icon>more_horiz</mat-icon>
                 </button>
 

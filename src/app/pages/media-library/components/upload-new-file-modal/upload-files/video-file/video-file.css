@@ -10,7 +10,7 @@
   flex-direction: column;
   gap: 6px;
 }
-.input-prefix-wrapper {
+/* .input-prefix-wrapper {
   display: flex;
   align-items: center;
   border: 1px solid #ccc;
@@ -23,7 +23,7 @@
 
 .prefix {
   color: #757575;
-  user-select: none; /* prevent editing */
+  user-select: none; 
   margin-right: 4px;
 }
 
@@ -31,7 +31,44 @@
   outline: none;
   flex-grow: 1;
   color: #000;
+} */
+
+
+.input-prefix-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 10px;
+  min-height: 36px;
+  font-size: 12px;
+  font-family: Poppins, sans-serif;
+  width: 100%;
 }
+
+.prefix {
+  color: #757575;
+  user-select: none;
+
+  /* Allow shrinking */
+  min-width: 0;
+  max-width: 250px; /* adjust as needed */
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editable-part-input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+
+  width: 65px;
+  flex-shrink: 0;
+  padding: 0;
+}
+
 /* Show placeholder when empty */
 .editable-part:empty::before {
   content: attr(data-placeholder);

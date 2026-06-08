@@ -30,7 +30,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatPaginatorModule, MatTableModule, CommonModule, MatIconModule,
     MatInputModule, MatSelectModule, FormsModule, PrimaryButton, SelectDropDown,
-    MatProgressSpinnerModule, CustomFilterCalender, MatMenuModule, MatDividerModule, MatButtonModule,MatTooltipModule],
+    MatProgressSpinnerModule, CustomFilterCalender, MatMenuModule, MatDividerModule, MatButtonModule, MatTooltipModule],
   templateUrl: './programs.html',
   styleUrl: './programs.css',
 })
@@ -47,6 +47,8 @@ export class Programs implements OnInit {
   host = 'all';
   program = 'all';
   dayLabel = 'Today';
+  fromDate = '';
+  toDate = '';
 
   loading = false;
   ds: [] = [];
@@ -54,7 +56,12 @@ export class Programs implements OnInit {
   hosts: any[] = [];
   hostOptions: any[] = [];
 
-    columns: string[] = [
+  canUploadMedia = false;
+  canManageAds = false;
+  canManagePrograms = false;
+  canManageMembers = false;
+
+  columns: string[] = [
     'program',
     'category',
     'host',
@@ -70,6 +77,28 @@ export class Programs implements OnInit {
 
   constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
 
+  ngOnInit(): void {
+    this.getProgramList();
+    this.getTeamMemberList()
+    const permissions = JSON.parse(
+      localStorage.getItem('permissions') || '{}'
+    );
+
+    this.canUploadMedia =
+      permissions.MediaUploadPermission === 1;
+
+    this.canManageAds =
+      permissions.AdManagementPermission === 1;
+
+    this.canManagePrograms =
+      permissions.ProgramManagementPermission === 1;
+
+    this.canManageMembers =
+      permissions.MemberManagementPermission === 1;
+  }
+
+
+
 
 
   openModal() {
@@ -82,6 +111,94 @@ export class Programs implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.getProgramList();
+      }
+    });
+  }
+
+  closeCalendar() {
+    this.isCalendarOpen = false;
+    this.program = 'all';
+  }
+
+
+  applyFilters(): void {
+    const tags: any[] = [
+      { T: 'dk1', V: '0' },
+
+      // Search Text
+      {
+        T: 'dk2',
+        V: this.searchText || ''
+      },
+
+      // Category
+      {
+        T: 'c2',
+        V:
+          this.category === 'pre_scheduled'
+            ? '1'
+            : this.category === 'podcast'
+              ? '2'
+              : this.category === 'live'
+                ? '3'
+                : ''
+      },
+      // Host
+      {
+        T: 'c3',
+        V: this.host !== 'all' ? this.host : ''
+      },
+      {
+        T: 'c4',
+        V:
+          this.program === 'today'
+            ? '1'
+            : this.program === 'tomorrow'
+              ? '2'
+              : this.program === 'date'
+                ? '3'
+                : ''
+      },
+      {
+        T: 'c5',
+        V: this.fromDate || ''
+      },
+      {
+        T: 'c6',
+        V: this.toDate || ''
+      },
+      { T: 'c10', V: '3' }
+    ];
+    this.loading = true;
+    this.srv.getdata('program', tags).subscribe({
+      next: (r) => {
+        let data = r.Data[0] || [];
+        if (this.status !== 'all') {
+          data = data.filter((item: any) => {
+            switch (this.status) {
+              case 'active':
+                return item.IsActive;
+
+              case 'completed':
+                return item.IsCompleted;
+
+              case 'upcoming':
+                return !item.IsCompleted;
+
+              default:
+                return true;
+            }
+          });
+        }
+        this.ds = data;
+        this.dataSource.data = data;
+        this.dataSource._updateChangeSubscription();
+        this.loading = false;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
       }
     });
   }
@@ -103,10 +220,7 @@ export class Programs implements OnInit {
       }
     });
   }
-  ngOnInit(): void {
-    this.getProgramList();
-    this.getTeamMemberList()
-  }
+
 
 
   @ViewChild(MatPaginator) set matPaginator(p: MatPaginator) {
@@ -137,43 +251,71 @@ export class Programs implements OnInit {
   }
 
   getHostDisplay(hosts: string): string {
-  if (!hosts) return '';
-  const hostArray = hosts.split(',').map(h => h.trim());
-  if (hostArray.length <= 1) {
-    return hostArray[0];
+    if (!hosts) return '';
+    const hostArray = hosts.split(',').map(h => h.trim());
+    if (hostArray.length <= 1) {
+      return hostArray[0];
+    }
+    return `${hostArray[0]}, +${hostArray.length - 1}`;
   }
-  return `${hostArray[0]}, +${hostArray.length - 1}`;
-}
   get showPaginator(): boolean {
     return this.dataSource.data.length > 7;
   }
 
-
-
   onProgramChange(value: string) {
     if (value === 'date') {
       this.isCalendarOpen = true;
-      // store temporarily, DON'T apply yet
       this.tempProgramSelection = value;
     } else {
+      this.program = value;
       this.programsDropdown = value;
       this.tempProgramSelection = value;
       this.isCalendarOpen = false;
+      this.fromDate = '';
+      this.toDate = '';
+
+      this.applyFilters();
     }
   }
 
+  onFilterApplied(data: any) {
+    this.isCalendarOpen = false;
+    this.program = 'date';
+    if (data.type === 'weekday') {
+      const selectedDate = new Date(data.value);
+      this.fromDate = selectedDate.toISOString().split('T')[0];
+      this.toDate = selectedDate.toISOString().split('T')[0];
+      this.dayLabel = selectedDate.toLocaleDateString('en-GB');
+    }
+    else if (data.type === 'single') {
+      const selectedDate = new Date(data.value);
+      this.fromDate = selectedDate.toISOString().split('T')[0];
+      this.toDate = selectedDate.toISOString().split('T')[0];
+      this.dayLabel = selectedDate.toLocaleDateString('en-GB');
+    }
+    else if (data.type === 'range') {
+      const startDate = new Date(data.start);
+      const endDate = new Date(data.end);
+      this.fromDate = startDate.toISOString().split('T')[0];
+      this.toDate = endDate.toISOString().split('T')[0];
+      this.dayLabel =
+        `${startDate.toLocaleDateString('en-GB')} - ${endDate.toLocaleDateString('en-GB')}`;
+    }
 
-
-  
-onFilterApplied(data: any) {
-  this.isCalendarOpen = false;
-  if (data.type === 'single') {
-    const date = new Date(data.value);
-    this.dayLabel =
-      date.toLocaleDateString('en-GB');
-    this.program = this.dayLabel;
+    this.applyFilters();
   }
-}
+
+  clearFilters(): void {
+    this.searchText = '';
+    this.status = 'all';
+    this.category = 'all';
+    this.host = 'all';
+    this.program = 'all';
+    this.fromDate = '';
+    this.toDate = '';
+    this.dayLabel = 'Today';
+    this.getProgramList();
+  }
 
   deleteProgram(id: any) {
     this.loading = true;
@@ -214,28 +356,28 @@ onFilterApplied(data: any) {
     });
   }
 
-getTeamMemberList(): Promise<void> {
-  return new Promise((resolve) => {
-    this.tv = [
-      { T: 'c10', V: '3' }
-    ];
-    this.srv.getdata('teammember', this.tv)
-      .subscribe({
-        next: (r) => {
-          const data = r.Data[0];
-          this.hostOptions = [
-            { label: 'All Host', value: 'all' },
-            ...data.map((item: any) => ({
-              label: item.FullName,
-              value: item.id
-            }))
-          ];
+  getTeamMemberList(): Promise<void> {
+    return new Promise((resolve) => {
+      this.tv = [
+        { T: 'c10', V: '3' }
+      ];
+      this.srv.getdata('teammember', this.tv)
+        .subscribe({
+          next: (r) => {
+            const data = r.Data[0];
+            this.hostOptions = [
+              { label: 'All Host', value: 'all' },
+              ...data.map((item: any) => ({
+                label: item.FullName,
+                value: item.id
+              }))
+            ];
 
-          resolve();
-        },
-        error: () => resolve()
-      });
-  });
-}
+            resolve();
+          },
+          error: () => resolve()
+        });
+    });
+  }
 
 }

@@ -70,26 +70,19 @@ export class Profile {
 
   getProfile(): void {
     this.loading = true;
-
     const userId = this.srv.getsession('id');
-
     const tv = [
       { T: 'dk1', V: userId },
       { T: 'c10', V: '3' }
     ];
-
     this.srv.getdata('teammember', tv)
       .subscribe({
         next: (r) => {
 
           const data = r.Data;
-
           this.profile = data[0]?.[0] || {};
-
           this.assignedPrograms = data[1] || [];
-
           this.performance = data[2] || [];
-
           this.media = data[3] || [];
           this.cdr.detectChanges();
           this.loading = false;
@@ -106,52 +99,6 @@ export class Profile {
       delete this.errors[field];
     }
   }
-
-  // async onFileSelected(event: any) {
-  //   const file = event.target.files[0];
-  //   if (!file) return;
-  //   if (!file.type.startsWith('image/')) {
-  //     this.errors.file = 'Only images are allowed';
-  //     return;
-  //   }
-  //   this.selectedFile = file;
-  //   this.fileName = file.name;
-  //   this.clearError('file');
-  //   try {
-  //     const userId = this.srv.getsession('id');
-  //     const success = await this.srv.handleFileUpload(
-  //       this.id,
-  //       userId,
-  //       this.selectedFile,
-  //       '9'
-  //     );
-
-  //     if (success) {
-  //       this.getProfile();
-  //       this.toast.show({
-  //         title: 'Profile picture uploaded successfully 🎉',
-  //         description: '',
-  //         variant: 'success',
-  //         position: 'toast-bottom-center'
-  //       });
-  //     } else {
-  //       this.toast.show({
-  //         title: 'Upload failed ❌',
-  //         description: 'Unable to upload profile picture',
-  //         variant: 'error',
-  //         position: 'toast-bottom-center'
-  //       });
-  //     }
-
-  //   } catch (error) {
-  //     this.toast.show({
-  //       title: 'Something went wrong ❌',
-  //       description: 'Please try again',
-  //       variant: 'error',
-  //       position: 'toast-bottom-center'
-  //     });
-  //   }
-  // }
 
 
   async onFileSelected(event: any) {

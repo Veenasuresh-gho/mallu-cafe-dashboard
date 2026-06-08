@@ -15,3 +15,7 @@
   border-radius: 4px;
   background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
+.btn-create:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

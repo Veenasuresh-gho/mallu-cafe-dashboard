@@ -663,8 +663,6 @@ onPodcastCategoryChange(value: string) {
 
   this.selectedPodcastCategory = value;
 
-  console.log('Podcast Category:', value);
-
 }
 
   openModalAddPodcast() {

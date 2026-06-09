@@ -153,7 +153,6 @@ export class PodcastFile implements OnInit, OnChanges {
 
     if (changes['fileType']?.currentValue) {
 
-      console.log('Podcast fileType changed:', this.fileType);
 
       this.emitData();
 

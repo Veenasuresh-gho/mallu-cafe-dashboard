@@ -9,20 +9,18 @@ import { Permission } from './components/permission/permission';
 import { MatDialog } from '@angular/material/dialog';
 import { ManageMember } from './components/manage-member/manage-member';
 import { DeleteMember } from './components/delete-member/delete-member';
-import { FooterButton } from '../../components/dialog-form/footer-button/footer-button';
 import { GHOService } from '../../services/ghosrvs';
 import { GHOUtitity } from '../../services/utilities';
 import { ghoresult, tags } from '../../../model/ghomodel';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../services/toastService';
-// import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [MatDividerModule, ProfileInfo, AssignedPrgm, Perfomance, MediaContribution, Settings,
-    Permission, FooterButton, FormsModule, MatDivider, CommonModule,],
+    Permission, FormsModule, MatDivider, CommonModule,],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })

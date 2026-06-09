@@ -34,7 +34,7 @@ export class AddPodcast implements OnInit {
   fileName: string = '';
   toast = inject(ToastService);
 
-  
+
 
   constructor(private dialogRef: MatDialogRef<AddPodcast>) { }
 
@@ -42,24 +42,22 @@ export class AddPodcast implements OnInit {
     this.userId = JSON.parse(sessionStorage.getItem('id') || '""');
   }
 
-  addCategory() {
-    this.loading = true;
+addCategory() {
+  this.loading = true;
 
-    this.tv = [
-      { T: 'dk1', V: this.categoryName },
-      { T: 'c10', V: '7' }
-    ];
+  this.tv = [
+    { T: 'dk1', V: this.categoryName },
+    { T: 'c10', V: '7' }
+  ];
 
-    this.srv.getdata('lists', this.tv)
-      .subscribe({
-        next: async (r) => {
-          const data = r.Data[0][0];
-          this.id = data.id;
+  this.srv.getdata('lists', this.tv)
+    .subscribe({
+      next: async (r) => {
+        if (r.Status === 1) {
+          this.id = r.Data[0][0].id;
 
-          if (r.Status === 1) {
-
-            this.id = r.Data[0][0].id;
-
+          // ✅ Only upload if a file was selected
+          if (this.selectedFile) {
             const success = await this.srv.handleFileUpload(
               this.id,
               this.userId,
@@ -67,33 +65,43 @@ export class AddPodcast implements OnInit {
               '10'
             );
 
-            this.loading = false;
-
-            if (success) {
-              this.toast.show({
-                title: 'Podcast category added successfully! 🎉',
-                description: 'Podcast category added successfully!',
-                variant: 'success',
-                position: 'toast-bottom-right'
-              });
-
-              this.dialogRef.close(true);
-            } else {
+            if (!success) {
               this.toast.show({
                 title: 'Upload failed ❌',
                 description: 'File upload failed',
                 variant: 'error',
                 position: 'toast-bottom-right'
               });
+              this.loading = false;
+              return;
             }
           }
 
-        },
-        error: (err) => {
-          console.error('API error:', err);
+          this.toast.show({
+            title: 'Podcast category added successfully! 🎉',
+            description: 'Podcast category added successfully!',
+            variant: 'success',
+            position: 'toast-bottom-right'
+          });
+          this.dialogRef.close(true);
+
+        } else {
+          this.toast.show({
+            title: 'Something went wrong ❌',
+            description: 'Unexpected response from server',
+            variant: 'error',
+            position: 'toast-bottom-right'
+          });
         }
-      });
-  }
+
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('API error:', err);
+        this.loading = false;
+      }
+    });
+}
   close() {
     this.dialogRef.close();
   }

@@ -13,7 +13,6 @@ import { DialogHeaderComponent } from '../../../../components/dialog-form/dialog
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
 import { SchedulePicker } from '../../../../components/dialog-form/schedule-picker/schedule-picker';
-import { FooterButton } from '../../../../components/dialog-form/footer-button/footer-button';
 import { CancelButton } from '../../../../components/dialog-form/cancel-button/cancel-button';
 import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 
@@ -24,7 +23,6 @@ import { ToastService } from '../../../../services/toastService';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
 
 import { MatIconModule } from '@angular/material/icon';
-import { InputTime } from '../../../../components/dialog/input-time/input-time';
 import { AddPodcast } from '../../../media-library/components/add-podcast/add-podcast';
 import { EditPoadcast } from '../../../media-library/components/edit-poadcast/edit-poadcast';
 
@@ -43,11 +41,9 @@ import { EditPoadcast } from '../../../media-library/components/edit-poadcast/ed
     FormInput,
     FormSelect,
     SchedulePicker,
-    FooterButton,
     CancelButton,
     PrimaryButton,
     MatIconModule,
-    InputTime
   ],
   templateUrl: './add-new-program.html',
   styleUrls: ['./add-new-program.css'],

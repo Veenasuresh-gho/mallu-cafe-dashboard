@@ -4,7 +4,6 @@ import { AssignedPrgm } from '../../../profile/components/assigned-prgm/assigned
 import { MediaContribution } from '../../../profile/components/media-contribution/media-contribution';
 import { Perfomance } from '../../../profile/components/perfomance/perfomance';
 import { Permission } from '../../../profile/components/permission/permission';
-import { Settings } from '../../../profile/components/settings/settings';
 import { MatDivider } from '@angular/material/divider';
 import { ManageMember } from '../../../profile/components/manage-member/manage-member';
 import { DeleteMember } from '../../../profile/components/delete-member/delete-member';
@@ -19,7 +18,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-team-member-details',
-  imports: [ProfileInfo, AssignedPrgm, MediaContribution, Perfomance, Permission, Settings,
+  imports: [ProfileInfo, AssignedPrgm, MediaContribution, Perfomance, Permission,
     MatDivider, FooterButton,CommonModule
   ],
   templateUrl: './team-member-details.html',

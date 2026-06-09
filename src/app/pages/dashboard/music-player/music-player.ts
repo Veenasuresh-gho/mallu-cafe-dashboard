@@ -160,9 +160,6 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
 
         this.duration = this.audio.duration || 0;
 
-        console.log('Audio Duration:', this.audio.duration);
-        console.log('Seek Time:', this.programDetails?.SeekTime);
-
         this.cdr.detectChanges();
 
       });

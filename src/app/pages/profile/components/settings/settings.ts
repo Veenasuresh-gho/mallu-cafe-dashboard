@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { MatDivider } from '@angular/material/divider';
 import { Router } from '@angular/router';
 import { GHOService } from '../../../../services/ghosrvs';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,7 +6,7 @@ import { ChangePassword } from '../change-password/change-password';
 
 @Component({
   selector: 'app-settings',
-  imports: [MatDivider],
+  imports: [],
   templateUrl: './settings.html',
   styleUrl: './settings.css',
 })

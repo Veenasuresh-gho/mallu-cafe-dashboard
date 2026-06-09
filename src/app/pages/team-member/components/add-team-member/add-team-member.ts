@@ -2,14 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatOption, MatSelect, MatSelectTrigger } from '@angular/material/select';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
+import {  MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
-import { FooterButton } from '../../../../components/dialog-form/footer-button/footer-button';
 import { GHOService } from '../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
@@ -20,9 +16,9 @@ import { ToastService } from '../../../../services/toastService';
 
 @Component({
   selector: 'app-add-team-member',
-  imports: [MatDialogContent, MatDialogActions, MatDialogClose, FormsModule, CommonModule,
-    MatFormField, MatLabel, MatSelect, MatOption, MatSelectTrigger, MatChipsModule, MatSlideToggle, PrimaryButton,
-    FormInput, FormSelect, FooterButton,FormMultiSelect
+  imports: [MatDialogContent, FormsModule, CommonModule,
+    MatChipsModule, PrimaryButton,
+    FormInput, FormSelect,FormMultiSelect
   ],
   templateUrl: './add-team-member.html',
   styleUrl: './add-team-member.css',

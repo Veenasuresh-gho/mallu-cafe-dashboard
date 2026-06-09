@@ -24,7 +24,12 @@ export const routes: Routes = [
       import('./pages/auth/forgot-password/forgot-password')
         .then(m => m.ForgotPassword)
   },
-
+  {
+    path: 'privacy-policy',
+    loadComponent: () =>
+      import('./pages/privacy-policy/privacy-policy')
+        .then(m => m.PrivacyPolicy)
+  },
 
   {
     path: '',

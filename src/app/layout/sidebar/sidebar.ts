@@ -54,7 +54,7 @@ export class Sidebar {
     {
       title: "Settings",
       icon: "/main/sidebar/setting-muted.png",
-      link: "privacy-policy",
+      link: "settings",
     },
     // {
     //   title: "Help",

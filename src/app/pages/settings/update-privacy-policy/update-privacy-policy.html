@@ -1,0 +1,40 @@
+  <div class="dialog-wrapper">
+
+    <!-- Header -->
+    <div class="dialog-header">
+      <div>
+        <p class="main-title">Update Privacy Policy</p>
+        <p class="main-subtitle">{{ subtitle }}</p>
+      </div>
+      <button class="icon-btn" (click)="close()">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <circle cx="11" cy="11" r="10" stroke="#636363" stroke-width="1.4" />
+          <path d="M7.5 7.5l7 7M14.5 7.5l-7 7" stroke="#636363" stroke-width="1.4" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Editor -->
+    <div class="editor-wrapper">
+      <div class="editor-scroll">
+        <quill-editor theme="bubble" [(ngModel)]="htmlContent" [modules]="editorModules"
+          (onEditorCreated)="onEditorCreated($event)" (onContentChanged)="onContentChanged($event)"
+          placeholder="Start typing your privacy policy...">
+        </quill-editor>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="dialog-footer">
+      <button class="cancel-btn" (click)="close()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7" stroke="#636363" stroke-width="1.2" />
+          <path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="#636363" stroke-width="1.2" stroke-linecap="round" />
+        </svg>
+        Cancel
+      </button>
+      <app-primary-button [label]="'Save Changes'"  [loading]="isSaving" iconSrc="/dash/publish.svg" (click)="updatePrivacyPolicy()">
+      </app-primary-button>
+    </div>
+
+  </div>

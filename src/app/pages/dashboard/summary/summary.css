@@ -9,6 +9,7 @@
     font-size: 10px;
 }
 
+
 .summary-content h6 {
     font-weight: 600;
     font-size: 14px;
@@ -34,6 +35,28 @@
     box-shadow: 0px 0px 4px 0px #0000001F;
 }
 
+.skeleton-card {
+    flex: 1;
+    min-height: 110px;
+    border-radius: 4px;
+    background: #f3f4f6;
+    animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: .6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: .6;
+    }
+}
+
 .card-body {
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
@@ -51,13 +74,15 @@
     font-weight: 400;
     font-size: 10px;
     line-height: 10px;
-color: var(--muted-input);}
+    color: var(--muted-input);
+}
 
 ::ng-deep .stats span {
     font-weight: 400;
     font-size: 10px;
     line-height: 10px;
-color: var(--muted-input);}
+    color: var(--muted-input);
+}
 
 ::ng-deep .info span {
     font-weight: 700;
@@ -116,7 +141,7 @@ mat-card {
     border-radius: 4px;
     opacity: 1;
     background-color: #FFFFFF;
-    
+
 }
 
 .mat-mdc-card-content {

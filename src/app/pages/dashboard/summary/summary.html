@@ -5,8 +5,10 @@
     </div>
 
     <div class="divider mb-2"></div>
-
-    <div class="d-flex gap-2  summary-cards">
+    <div *ngIf="loading" class="d-flex gap-2 summary-cards">
+        <div class="skeleton-card" *ngFor="let i of [1,2,3,4]"></div>
+    </div>
+    <div *ngIf="!loading" class="d-flex gap-2 summary-cards">
         @for(item of summary; track item){
         <mat-card appearance="outlined">
             <mat-card-header class="header custom-header" [style.backgroundColor]="item.color">

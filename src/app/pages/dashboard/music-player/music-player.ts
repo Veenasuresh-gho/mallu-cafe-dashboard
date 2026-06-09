@@ -110,16 +110,27 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
         const duration = Number(newProgram?.Duration || 0);
 
         if (duration > 0 && seekTime >= duration) {
-
-          console.log('Program completed');
-
           this.stopProgram();
+          return;
+        }
 
+        // Program changed
+        if (
+          this.programDetails?.ID !== newProgram?.ID ||
+          this.programDetails?._url !== newProgram?._url
+        ) {
+          this.programDetails = newProgram;
+          this.loadCurrentProgram();
           return;
         }
 
         this.programDetails = newProgram;
 
+        // Sync player position when paused
+        if (this.audio.paused) {
+          this.audio.currentTime = seekTime;
+          this.currentTime = seekTime;
+        }
       }
     });
   }
@@ -351,27 +362,25 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  toggleAudio() {
+toggleAudio() {
 
-    if (this.audio.paused) {
+  if (this.audio.paused) {
 
-      this.audio.play().then(() => {
+    this.audio.currentTime = Number(this.programDetails?.SeekTime || 0);
 
-        this.isPlaying = true;
-        this.cdr.detectChanges();
-
-      });
-
-    } else {
-
-      this.audio.pause();
-
-      this.isPlaying = false;
+    this.audio.play().then(() => {
+      this.isPlaying = true;
       this.cdr.detectChanges();
+    });
 
-    }
+  } else {
+
+    this.audio.pause();
+    this.isPlaying = false;
+    this.cdr.detectChanges();
 
   }
+}
   // 🎚️ SEEK
   onSeek(event: any) {
     const value = event.target.value;

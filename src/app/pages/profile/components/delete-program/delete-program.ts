@@ -2,10 +2,7 @@ import { ChangeDetectorRef, Component, Inject, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger } from '@angular/material/select';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
-import { FooterButton } from '../../../../components/dialog-form/footer-button/footer-button';
+import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { CancelButton } from '../../../../components/dialog-form/cancel-button/cancel-button';
 import { GHOService } from '../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../services/utilities';
@@ -15,9 +12,9 @@ import { PrimaryButton } from '../../../../components/primary-button/primary-but
 
 @Component({
   selector: 'app-delete-program',
-  imports: [MatDialogContent, MatDialogActions, MatDialogClose, FormsModule, CommonModule,
-    MatFormField, MatLabel, MatSelect, MatOption, MatSelectTrigger, MatChipsModule, MatSlideToggle,
-    CancelButton, PrimaryButton, FooterButton],
+  imports: [MatDialogContent, FormsModule, CommonModule,
+        MatChipsModule,
+    CancelButton, PrimaryButton],
   templateUrl: './delete-program.html',
   styleUrl: './delete-program.css',
 })

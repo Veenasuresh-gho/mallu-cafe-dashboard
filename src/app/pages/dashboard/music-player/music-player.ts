@@ -461,7 +461,7 @@ toggleAudio() {
   }
 
   onPlayAd() {
-    console.log('Play Ad clicked');
+    // console.log('Play Ad clicked');
   }
 
   onGoToFacebook() {

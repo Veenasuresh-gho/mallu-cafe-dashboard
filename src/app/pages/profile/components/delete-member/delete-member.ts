@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger } from '@angular/material/select';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { CancelButton } from '../../../../components/dialog-form/cancel-button/cancel-button';
 import { GHOService } from '../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../services/utilities';
@@ -17,8 +15,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-delete-member',
-  imports: [MatDialogContent, MatDialogActions, MatDialogClose, FormsModule, CommonModule,
-    MatFormField, MatLabel, MatSelect, MatOption, MatSelectTrigger, MatChipsModule, MatSlideToggle,
+  imports: [MatDialogContent, FormsModule, CommonModule, MatChipsModule,
     CancelButton, PrimaryButton],
   templateUrl: './delete-member.html',
   styleUrl: './delete-member.css',

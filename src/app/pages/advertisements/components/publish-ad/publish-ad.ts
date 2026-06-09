@@ -16,7 +16,7 @@ import { SelectDropDown } from '../../../../components/select-drop-down/select-d
 import { CustomFilterCalender } from '../../../../components/custom-filter-calender/custom-filter-calender';
 import { MatIconModule } from '@angular/material/icon';
 import { PrimaryButton } from '../../../../components/primary-button/primary-button';
-// import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ToastService } from '../../../../services/toastService';
 
 @Component({
   selector: 'app-publish-ad',
@@ -44,6 +44,7 @@ export class PublishAd implements OnInit {
   private utl = inject(GHOUtitity);
 
   loading = false;
+  PublishADloading = false;
   canManageAds = false;
   status = 'allStatus';
   category = 'all';
@@ -58,22 +59,22 @@ export class PublishAd implements OnInit {
   isCalendarOpen: boolean = false;
   selectedAds: any[] = [];
   tv: tags[] = [];
-
+  ds: [] = [];
   advertisements: any[] = [];
-
+  toast = inject(ToastService);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   dataSource = new MatTableDataSource<any>([]);
-
   columns: string[] = [
-     'select',
+    'select',
     'advertisements',
-    // 'advertiser',
-    // 'adType',
     'adStatus'
   ];
 
+  constructor(
+    private dialogRef: MatDialogRef<PublishAd>,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   closeCalendar() {
     this.isCalendarOpen = false;
@@ -82,41 +83,53 @@ export class PublishAd implements OnInit {
 
 
   removeSelectedAd(ad: any): void {
+    this.selectedAds = this.selectedAds.filter(
+      item => item !== ad
+    );
+    ad.selected = false;
+    this.dataSource._updateChangeSubscription();
+  }
 
-  this.selectedAds = this.selectedAds.filter(
-    item => item !== ad
-  );
-
-  ad.selected = false;
-
-  this.dataSource._updateChangeSubscription();
-}
-
-
-
-onSelectAd(row: any, event: Event): void {
-  const checked = (event.target as HTMLInputElement).checked;
-
+toggleSelection(row: any, checked: boolean): void {
   row.selected = checked;
 
   if (checked) {
-
     if (!this.selectedAds.includes(row)) {
       this.selectedAds.push(row);
     }
-
   } else {
-
     this.selectedAds = this.selectedAds.filter(
       ad => ad !== row
     );
-
   }
-
-  console.log('Selected Ads:', this.selectedAds);
 
   this.dataSource._updateChangeSubscription();
 }
+
+onSelectAd(row: any, event: Event): void {
+  const checked = (event.target as HTMLInputElement).checked;
+  this.toggleSelection(row, checked);
+}
+
+toggleRowSelection(row: any): void {
+  this.toggleSelection(row, !row.selected);
+}
+
+  // onSelectAd(row: any, event: Event): void {
+  //   const checked = (event.target as HTMLInputElement).checked;
+  //   row.selected = checked;
+  //   if (checked) {
+  //     if (!this.selectedAds.includes(row)) {
+  //       this.selectedAds.push(row);
+  //     }
+  //   } else {
+  //     this.selectedAds = this.selectedAds.filter(
+  //       ad => ad !== row
+  //     );
+  //   }
+  //   console.log('selectedAds',this.selectedAds);
+  //   this.dataSource._updateChangeSubscription();
+  // }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -149,7 +162,7 @@ onSelectAd(row: any, event: Event): void {
         this.fromDate = '';
         this.toDate = '';
       }
-      // this.applyFilters();
+      this.applyFilters();
     }
   }
 
@@ -162,30 +175,97 @@ onSelectAd(row: any, event: Event): void {
       this.dayLabel =
         selectedDate.toLocaleDateString('en-GB');
     }
-
     else if (data.type === 'range') {
       const startDate = new Date(data.start);
       const endDate = new Date(data.end);
-
       this.fromDate = startDate.toISOString().split('T')[0];
       this.toDate = endDate.toISOString().split('T')[0];
-
       this.dayLabel =
         `${startDate.toLocaleDateString('en-GB')} - ${endDate.toLocaleDateString('en-GB')}`;
     }
 
-
-    // this.applyFilters();
+    this.applyFilters();
   }
 
-  constructor(
-    private dialogRef: MatDialogRef<PublishAd>,
-    private cdr: ChangeDetectorRef
-  ) { }
+  applyFilters(): void {
+    const tags = [
+      // Status
+      {
+        T: 'dk1',
+        V:
+          this.status === 'active'
+            ? '1'
+            : this.status === 'waiting-list'
+              ? '2'
+              : this.status === 'published'
+                ? '3'
+                : this.status === 'expired'
+                  ? '4'
+                  : ''
+      },
+      {
+        T: 'dk2',
+        V:
+          this.category === 'audio'
+            ? '1'
+            : this.category === 'video'
+              ? '2'
+              : this.category === 'image'
+                ? '3'
+                : ''
+      },
+      // From Date
+      {
+        T: 'c1',
+        V: this.fromDate || ''
+      },
+      // To Date
+      {
+        T: 'c2',
+        V: this.toDate || ''
+      },
+
+      {
+        T: 'c10',
+        V: '3'
+      }
+    ];
+
+    this.loading = true;
+    this.srv.getdata('advertisement', tags).subscribe({
+      next: (r) => {
+        let data = (r.Data?.[0] || []).map((item: any) => ({
+          ...item,
+          adStatusClass: this.getStatusClass(item.Status)
+        }));
+        this.loading = false;
+        this.cdr.detectChanges();
+        // Local Search Filter
+        if (this.searchText) {
+          const search = this.searchText.toLowerCase();
+          data = data.filter((item: any) =>
+            item.FileName?.toLowerCase().includes(search) ||
+            item.AdvertiserName?.toLowerCase().includes(search)
+          );
+        }
+        this.ds = data;
+        this.dataSource.data = data;
+        this.dataSource._updateChangeSubscription();
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+
 
   ngOnInit(): void {
     this.getAdvertisements();
-
     const permissions = JSON.parse(
       localStorage.getItem('permissions') || '{}'
     );
@@ -194,71 +274,29 @@ onSelectAd(row: any, event: Event): void {
       permissions?.AdManagementPermission === 1;
   }
 
-  // getAdvertisements(): void {
-  //   this.loading = true;
-
-  //   this.tv = [
-  //     {
-  //       T: 'c10',
-  //       V: '3'
-  //     }
-  //   ];
-
-  //   this.srv.getdata('advertisement', this.tv).subscribe({
-  //     next: (response: any) => {
-
-  //       this.advertisements = (response?.Data?.[0] || []).map(
-  //         (item: any) => ({
-  //           ...item,
-  //           adStatusClass: this.getStatusClass(item.Status)
-  //         })
-  //       );
-
-  //       this.dataSource.data = this.advertisements;
-
-  //       this.loading = false;
-
-  //     this.cdr.detectChanges();
-  //     },
-  //     error: (error) => {
-  //       console.error('Advertisement API Error:', error);
-  //       this.loading = false;
-  //     }
-  //   });
-  // }
-
   getAdvertisements(): void {
-  this.loading = true;
+    this.loading = true;
+    this.tv = [{ T: 'c10', V: '3' }];
+    this.srv.getdata('advertisement', this.tv).subscribe({
+      next: (response: any) => {
+        this.advertisements = (response?.Data?.[0] || []).map(
+          (item: any) => ({
+            ...item,
+            adStatusClass: this.getStatusClass(item.Status)
+          })
+        );
+        this.dataSource.data = this.advertisements;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
 
-  this.tv = [{ T: 'c10', V: '3' }];
-
-  this.srv.getdata('advertisement', this.tv).subscribe({
-    next: (response: any) => {
-
-      this.advertisements = (response?.Data?.[0] || []).map(
-        (item: any) => ({
-          ...item,
-          adStatusClass: this.getStatusClass(item.Status)
-        })
-      );
-
-      this.dataSource.data = this.advertisements;
-
-      this.loading = false;
-
-      this.cdr.detectChanges();
-
-      console.log('Loading:', this.loading);
-      console.log('Rows:', this.dataSource.data.length);
-    },
-
-    error: (err) => {
-      console.error(err);
-      this.loading = false;
-      this.cdr.detectChanges();
-    }
-  });
-}
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
 
   getStatusClass(status: string): string {
     switch (status) {
@@ -281,9 +319,7 @@ onSelectAd(row: any, event: Event): void {
 
   isImage(url: string): boolean {
     if (!url) return false;
-
     const file = url.toLowerCase();
-
     return (
       file.includes('.jpg') ||
       file.includes('.jpeg') ||
@@ -324,4 +360,100 @@ onSelectAd(row: any, event: Event): void {
   close(): void {
     this.dialogRef.close();
   }
+
+publishAds(): void {
+  if (this.selectedAds.length === 0) {
+    alert('Please select at least one advertisement');
+    return;
+  }
+
+  const selectedAdIds = this.selectedAds
+    .map(ad => ad.AdvertisementID)
+    .join(',');
+
+  const teamMemberId = this.srv.getsession('id');
+
+  const queueTags = [
+    { T: 'dk1', V: '' },
+    { T: 'dk2', V: teamMemberId },
+    { T: 'c1', V: selectedAdIds },
+    { T: 'c10', V: '7' }
+  ];
+
+  this.PublishADloading = true;
+  this.cdr.detectChanges();
+  // STEP 1 - Queue Advertisement
+  this.srv.getdata('advertisement', queueTags).subscribe({
+    next: (queueRes) => {
+      const adBreak = queueRes?.Data?.[0]?.[0];
+      if (!adBreak?.AdBreakIDAlt) {
+        this.PublishADloading = false;
+        this.cdr.detectChanges();
+        this.toast.show({
+          title: 'Publishing failed ❌',
+          description: 'Ad Break ID not found',
+          variant: 'error',
+          position: 'toast-bottom-center'
+        });
+
+        return;
+      }
+      const publishTags = [
+        {
+          T: 'dk1',
+          V: adBreak.AdBreakIDAlt
+        },
+        {
+          T: 'c10',
+          V: '9'
+        }
+      ];
+      // STEP 2 - Publish Advertisement
+      this.srv.getdata('advertisement', publishTags).subscribe({
+        next: (publishRes) => {
+          this.PublishADloading = false;
+          this.cdr.detectChanges();
+          if (publishRes?.Status === 1) {
+            this.toast.show({
+              title: 'Advertisement published successfully! 🎉',
+              description: 'Selected advertisements have been published successfully.',
+              variant: 'success',
+              position: 'toast-bottom-center'
+            });
+            this.dialogRef.close(true);
+          } else {
+            this.toast.show({
+              title: 'Publishing failed ❌',
+              description: publishRes?.Info || 'Unable to publish advertisements',
+              variant: 'error',
+              position: 'toast-bottom-center'
+            });
+          }
+        },
+        error: (err) => {
+          this.PublishADloading = false;
+          this.cdr.detectChanges();
+          console.error('Publish API Failed', err);
+          this.toast.show({
+            title: 'Publishing failed ❌',
+            description: 'Something went wrong while publishing advertisements.',
+            variant: 'error',
+            position: 'toast-bottom-center'
+          });
+        }
+      });
+    },
+    error: (err) => {
+      this.PublishADloading = false;
+      this.cdr.detectChanges();
+      console.error('Queue API Failed', err);
+      this.toast.show({
+        title: 'Queue creation failed ❌',
+        description: 'Unable to create advertisement queue.',
+        variant: 'error',
+        position: 'toast-bottom-center'
+      });
+    }
+  });
+}
 }

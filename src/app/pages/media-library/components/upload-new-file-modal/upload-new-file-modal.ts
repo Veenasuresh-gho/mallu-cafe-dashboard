@@ -255,7 +255,6 @@ export class UploadNewFileModal implements OnInit {
 
     this.thumbnailFile = data.thumbnailFile || null;
 
-    console.log('Generated filename:', data.fileName);
 
     if (this.selectedFile && this.finalfileName) {
       this.renameFile();

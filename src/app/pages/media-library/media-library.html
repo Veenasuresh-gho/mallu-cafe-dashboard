@@ -12,22 +12,21 @@
 
 
         <div class="divider"></div>
-
         <div class="total d-flex">
             <div class="total-contents">
                 <img src="/main/video-play-filled.png" alt="">
                 <p class="mb-0">Total Videos: </p>
-                <span>86</span>
+                <span>{{ mediaCount.VideosUploaded || 0 }}</span>
             </div>
             <div class="total-contents">
                 <img src="/main/music-library-filled.png" alt="">
                 <p class="mb-0">Total Audio: </p>
-                <span>140</span>
+                <span>{{ mediaCount.AudiosUploaded || 0 }}</span>
             </div>
             <div class="total-contents">
                 <img src="/main/cloud-connection-filled.png" alt="">
                 <p class="mb-0">Published: </p>
-                <span>128</span>
+                <span>{{ mediaCount.PublishStatus || 0 }}</span>
             </div>
             <!-- <div class="total-contents">
                 <img src="/main/bag-tick-filled.png" alt="">

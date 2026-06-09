@@ -37,6 +37,7 @@ export class MediaLibrary implements OnInit {
   res: ghoresult = new ghoresult();
   loading = false;
   ds: [] = [];
+  mediaCount: any = {};
   toast = inject(ToastService);
 
   host = 'all';
@@ -85,27 +86,6 @@ export class MediaLibrary implements OnInit {
   dayLabel = 'Today';
   // searchText = '';
 
-  //   onProgramChange(value: string) {
-  //   if (value === 'date') {
-  //     this.isCalendarOpen = true;
-  //     this.tempProgramSelection = value;
-  //   } else {
-  //     this.programsDropdown = value;
-  //     this.tempProgramSelection = value;
-  //     this.isCalendarOpen = false;
-  //   }
-  // }
-
-  // onFilterApplied(data: any) {
-  //   this.isCalendarOpen = false;
-  //   if (data.type === 'single') {
-  //     const date = new Date(data.value);
-  //     this.dayLabel =
-  //       date.toLocaleDateString('en-GB');
-
-  //     this.day = this.dayLabel;
-  //   }
-  // }
 
   onProgramChange(value: string) {
     if (value === 'date') {
@@ -127,19 +107,15 @@ export class MediaLibrary implements OnInit {
 
     if (data.type === 'weekday' || data.type === 'single') {
       const selectedDate = new Date(data.value);
-
       this.fromDate = selectedDate.toISOString().split('T')[0];
       this.toDate = selectedDate.toISOString().split('T')[0];
-
       this.dayLabel = selectedDate.toLocaleDateString('en-GB');
     }
     else if (data.type === 'range') {
       const startDate = new Date(data.start);
       const endDate = new Date(data.end);
-
       this.fromDate = startDate.toISOString().split('T')[0];
       this.toDate = endDate.toISOString().split('T')[0];
-
       this.dayLabel =
         `${startDate.toLocaleDateString('en-GB')} - ${endDate.toLocaleDateString('en-GB')}`;
     }
@@ -149,7 +125,6 @@ export class MediaLibrary implements OnInit {
 
 
   applyFilters() {
-
     const tags = [
       { T: 'dk1', V: '0' },
 
@@ -245,18 +220,14 @@ export class MediaLibrary implements OnInit {
   }
 
   clearFilters() {
-
     this.searchText = '';
     this.status = 'all';
     this.category = 'all';
     this.host = 'all';
     this.day = 'all';
-
     this.fromDate = '';
     this.toDate = '';
-
     this.dayLabel = 'All Media';
-
     this.getMediaLibrary();
   }
 
@@ -340,7 +311,6 @@ export class MediaLibrary implements OnInit {
       { T: 'dk1', V: library?.AltID },
       { T: 'c10', V: '14' }
     ];
-
     this.srv.getdata('podcast', this.tv)
       .subscribe({
         next: (r: any) => {
@@ -384,10 +354,12 @@ export class MediaLibrary implements OnInit {
       .subscribe({
         next: (r) => {
           this.ds = r.Data[0];
+          this.mediaCount = r.Data[1]?.[0] || {};
           this.dataSource.data = this.ds;
           this.dataSource._updateChangeSubscription();
           this.loading = false;
           this.cdr.markForCheck();
+          console.log('mediaCount',this.mediaCount);
         },
         error: (err) => {
           console.error('API Error:', err);

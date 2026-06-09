@@ -84,7 +84,7 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
       this.dialog.open(PublishAd, {
         width: '1020px',
         maxWidth: '1020px',
-        maxHeight: '95vh',
+        maxHeight: '90vh',
         disableClose: true,
       });
     }

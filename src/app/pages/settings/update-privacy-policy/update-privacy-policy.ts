@@ -1,19 +1,15 @@
-import { Component, ViewEncapsulation, Inject } from '@angular/core';
+import { Component, ViewEncapsulation, Inject, inject } from '@angular/core';
 import { QuillModule } from 'ngx-quill';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { PrimaryButton } from '../../../components/primary-button/primary-button';
-import Quill from 'quill';
+import { GHOService } from '../../../services/ghosrvs';
+import { GHOUtitity } from '../../../services/utilities';
+import { ghoresult, tags } from '../../../../model/ghomodel';
 
-const Font = Quill.import('formats/font') as any;
-const Size = Quill.import('attributors/style/size') as any;
 
-Font.whitelist = ['inter', 'poppins', 'arial', 'times-new-roman'];
-Size.whitelist = ['8px', '10px', '12px', '14px', '16px', '18px', '20px'];
 
-Quill.register(Font, true);
-Quill.register(Size, true);
 
 @Component({
   selector: 'app-update-privacy-policy',
@@ -31,6 +27,11 @@ Quill.register(Size, true);
 })
 export class UpdatePrivacyPolicy {
 
+  srv = inject(GHOService);
+  utl = inject(GHOUtitity);
+  tv: tags[] = [];
+  res: ghoresult = new ghoresult();
+
   content = '';
   quillEditor: any;
 
@@ -42,24 +43,80 @@ export class UpdatePrivacyPolicy {
       ['italic', 'bold', 'underline', 'strike'],
       [{ list: 'ordered' }, { list: 'bullet' }],
       ['link'],
+      [{ size: ['small', false, 'large', 'huge'] }],
       [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }]
     ]
   };
+
+  isSaving = false;
+
+
+  updatePrivacyPolicy(): void {
+    this.isSaving = true;
+    this.tv = [
+      { T: 'c1', V: this.htmlContent },
+      { T: 'c10', V: '13' }
+    ];
+    this.srv.getdata('teammember', this.tv)
+      .subscribe({
+        next: (r) => {
+          this.isSaving = false;
+          this.dialogRef.close(this.htmlContent);
+        },
+        error: (err) => {
+          this.isSaving = false;
+          console.error('API Error:', err);
+        }
+      });
+  }
 
   constructor(
     private dialogRef: MatDialogRef<UpdatePrivacyPolicy>,
     @Inject(MAT_DIALOG_DATA) public data: { content?: string; subtitle?: string }
   ) {
-    this.content = data?.content ?? this.defaultContent();
+    this.content = data?.content ?? '';
     this.subtitle = data?.subtitle ?? "Mallu Cafe's Privacy Policy";
     this.htmlContent = this.content;
   }
 
-onEditorCreated(editor: any) {
-  setTimeout(() => {
-    editor.blur();
-  });
-}
+  onEditorCreated(editor: any) {
+    this.quillEditor = editor;
+
+    // Reposition tooltip above selected text
+    editor.on('selection-change', (range: any) => {
+      if (range && range.length > 0) {
+        setTimeout(() => {
+          const tooltip = document.querySelector('.ql-bubble .ql-tooltip') as HTMLElement;
+          if (!tooltip) return;
+
+          const selection = window.getSelection();
+          if (!selection || selection.rangeCount === 0) return;
+
+          const rect = selection.getRangeAt(0).getBoundingClientRect();
+
+          const tooltipWidth = tooltip.offsetWidth;
+          const tooltipHeight = tooltip.offsetHeight;
+
+          let top = rect.top - tooltipHeight - 10;  // 10px above selection
+          let left = rect.left + (rect.width / 2) - (tooltipWidth / 2);  // centered
+
+          // Prevent going off screen left/right
+          if (left < 8) left = 8;
+          if (left + tooltipWidth > window.innerWidth - 8) {
+            left = window.innerWidth - tooltipWidth - 8;
+          }
+
+          // If not enough space above, show below
+          if (top < 8) {
+            top = rect.bottom + 10;
+          }
+
+          tooltip.style.top = `${top}px`;
+          tooltip.style.left = `${left}px`;
+        }, 10);
+      }
+    });
+  }
   onContentChanged(event: any) {
     this.htmlContent = event.html ?? '';
   }
@@ -72,37 +129,4 @@ onEditorCreated(editor: any) {
     this.dialogRef.close();
   }
 
-  private defaultContent(): string {
-    return `<h2>Information We Collect</h2>
-<p>We collect only the information required to create and manage your account:</p>
-<ul>
-  <li>Name</li>
-  <li>Email address</li>
-  <li>No other personal data.</li>
-</ul>
-
-<h2>How We Use Your Information</h2>
-<p>Your information is used only to:</p>
-<ul>
-  <li>Create and manage your account</li>
-  <li>Provide access to app features</li>
-  <li>Communicate important updates if needed</li>
-</ul>
-
-<h2>No Data Selling or Sharing</h2>
-<p>We do not sell, trade, or share your personal information with third parties.</p>
-
-<h2>Data Security</h2>
-<p>We take reasonable steps to protect your information and keep it secure.</p>
-
-<h2>Your Control</h2>
-<p>You can:</p>
-<ul>
-  <li>Update your profile information</li>
-  <li>Request deletion of your account</li>
-</ul>
-
-<h2>Third-Party Services</h2>
-<p>We may use third-party services that collect information used to identify you. These services have their own privacy policies.</p>`;
-  }
 }

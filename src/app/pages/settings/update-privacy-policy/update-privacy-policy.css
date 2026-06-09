@@ -54,7 +54,7 @@
 .editor-wrapper {
   border: 1px solid #E4E4E4;
   border-radius: 8px;
-  overflow: visible;
+  overflow: visible !important;
   position: relative;
 }
 
@@ -66,6 +66,9 @@
   scrollbar-width: none;
 }
 
+.editor-scroll::-webkit-scrollbar {
+  display: none;
+}
 .editor-scroll::-webkit-scrollbar {
   display: none;
 }
@@ -120,7 +123,9 @@
 }
 
 .ql-bubble .ql-tooltip {
-  z-index: 9999 !important;
+  position: fixed !important;
+  z-index: 100000 !important;
+  transition: none !important; /* prevent animation fighting the reposition */
 }
 
 .ql-editor {
@@ -131,6 +136,7 @@
 .ql-container {
   position: relative;
 }
+
 
 /* ── Footer ── */
 .dialog-footer {

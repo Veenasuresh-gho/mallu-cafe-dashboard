@@ -52,10 +52,9 @@ body {
   font-family: 'Poppins', sans-serif !important;
 }
 
-/* Force ALL dialogs to have border radius */
 .mat-mdc-dialog-container .mdc-dialog__surface {
   border-radius: 10px !important;
-  overflow: hidden;
+
 }
 
 .mat-mdc-radio-button .mdc-radio__inner-circle {
@@ -176,6 +175,7 @@ body {
 .policy-dialog .mdc-dialog__surface {
   width: 100% !important;
   padding: 0 !important;
+  overflow: visible !important;
 }
 
 .policy-dialog .mdc-dialog__container {
@@ -215,11 +215,6 @@ quill-editor .ql-container.ql-bubble {
   border: 1px solid #E4E4E4 !important;
   border-radius: 8px !important;
   min-height: 450px !important;
-}
-
-/* Bubble toolbar fixes */
-.ql-bubble .ql-tooltip {
-  z-index: 9999 !important;
 }
 
 .ql-bubble .ql-tooltip .ql-toolbar {
@@ -265,7 +260,7 @@ quill-editor .ql-container.ql-bubble {
   border-radius: 24px !important;
 }
 
-/* Dialog overflow */
-.policy-dialog .mdc-dialog__surface {
-  overflow: visible !important;
-}
+/* Global Quill size rendering */
+.ql-size-small  { font-size: 0.75em !important; }
+.ql-size-large  { font-size: 1.5em !important; }
+.ql-size-huge   { font-size: 2.5em !important; }

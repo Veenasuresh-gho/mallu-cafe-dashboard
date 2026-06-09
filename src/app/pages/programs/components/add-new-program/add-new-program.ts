@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -95,7 +95,7 @@ export class AddNewProgram implements OnInit {
     fromTime: '',
     toTime: ''
   };
-
+  @ViewChild('categoryDropdown') categoryDropdown: any;
 
   clearError(field: string) {
     if (this.errors[field]) delete this.errors[field];
@@ -123,6 +123,50 @@ export class AddNewProgram implements OnInit {
       }
     });
   }
+
+deletePoadcastCategory(category: { DisplayText: string; DataValue: number }): void {
+  console.log('categoryId',category);
+    const categoryId = category?.DataValue;
+
+  console.log('categoryId', categoryId);
+  this.tv = [
+    { T: 'dk1', V: categoryId.toString() }, 
+    { T: 'c10', V: '8' }         
+  ];
+  this.srv.getdata('lists', this.tv).subscribe({
+    next: (r) => {
+      if (r.Status === 1) {
+        this.toast.show({
+          title: 'Category deleted successfully! 🗑️',
+          description: 'Podcast category deleted successfully.',
+          variant: 'success',
+          position: 'toast-bottom-right'
+        });
+        this.getPodcastCategory();
+          setTimeout(() => {
+    this.cdr.detectChanges();
+  });
+
+      } else {
+        this.toast.show({
+          title: 'Delete failed ❌',
+          description: r.Info || 'Unable to delete category.',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
+      }
+    },
+    error: (err) => {
+      console.error('Delete API error:', err);
+      this.toast.show({
+        title: 'Delete failed ❌',
+        description: 'Something went wrong while deleting the category.',
+        variant: 'error',
+        position: 'toast-bottom-right'
+      });
+    }
+  });
+}
 
 
   getProgramDetails(id: string): void {
@@ -643,6 +687,7 @@ if (
             DisplayText: item.Name,
             DataValue: item.PodcastcategoryID
           }));
+           this.cdr.detectChanges();
         }
       })
   }
@@ -660,7 +705,6 @@ onProgramCategoryChange(value: string) {
 }
 
 onPodcastCategoryChange(value: string) {
-
   this.selectedPodcastCategory = value;
 
 }

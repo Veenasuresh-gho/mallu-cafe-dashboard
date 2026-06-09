@@ -16,7 +16,7 @@ export class DialogHeaderComponent {
   @Output() closeClicked = new EventEmitter<void>();
 
   ngOnInit() {
-  console.log('TITLE:', this.title);
+  // console.log('TITLE:', this.title);
 }
 
   onClose() {

@@ -19,12 +19,14 @@ export class FormSelect {
   @Input() optionValue: string = '';
 
   @Input() disabled: boolean = false; 
+  @Input() showDeleteButton: boolean = false;
 
   @Output() modelChange = new EventEmitter<string>();
 
   @Input() showEditButton: boolean = false;
 
   @Output() editClicked = new EventEmitter<any>();
+  @Output() deleteClicked = new EventEmitter<any>();
 
   open = false;
 
@@ -56,4 +58,10 @@ export class FormSelect {
   event.stopPropagation();
   this.editClicked.emit(item);
 }
+
+onDelete(item: any, event: Event) {
+  event.stopPropagation();
+  this.deleteClicked.emit(item);
+}
+
 }

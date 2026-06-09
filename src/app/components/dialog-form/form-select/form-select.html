@@ -4,55 +4,53 @@
   <div class="select-wrapper">
 
     <!-- Selected display -->
-    <div 
-      class="input-field"  
-      tabindex="0" 
-      (click)="toggleDropdown()"
-      [ngClass]="{ 
+    <div class="input-field" tabindex="0" (click)="toggleDropdown()" [ngClass]="{ 
         'selected-border': model,
         'selected-text': model,
         'disabled': disabled
-      }"
-    >
+      }">
       {{ getSelectedLabel() || model || placeholder || ('Select ' + label) }}
     </div>
 
-    <!-- Dropdown -->
-    <!-- <div class="dropdown" *ngIf="open">
-      <div
-        class="option"
-        *ngFor="let item of options"
-        (click)="select(item)"
-      >
-        {{ getLabel(item) }}
-      </div>
-    </div> -->
 
     <div class="dropdown" *ngIf="open">
 
-  <div
-    class="option d-flex justify-content-between align-items-center"
-    *ngFor="let item of options"
-    (click)="select(item)"
-  >
+      <!-- <div class="option d-flex justify-content-between align-items-center" *ngFor="let item of options"
+        (click)="select(item)">
 
-    <span>
-      {{ getLabel(item) }}
-    </span>
+        <span>
+          {{ getLabel(item) }}
+        </span>
 
-    <button
-      *ngIf="showEditButton"
-      type="button"
-      class="edit-btn"
-      (click)="onEdit(item, $event)"
-    >
-     <img class="menu-img" src="/program/edit-2.svg" alt="">
+        <button *ngIf="showEditButton" type="button" class="edit-btn" (click)="onEdit(item, $event)">
+          <img class="menu-img" src="/program/edit-2.svg" alt="">
 
-    </button>
+        </button>
 
-  </div>
+      </div> -->
 
-</div>
+      <div class="option d-flex justify-content-between align-items-center" *ngFor="let item of options"
+        (click)="select(item)">
+
+        <span>
+          {{ getLabel(item) }}
+        </span>
+
+        <div class="d-flex align-items-center gap-3">
+
+          <button *ngIf="showEditButton" type="button" class="action-btn" (click)="onEdit(item, $event)">
+            <img class="menu-img" src="/program/edit-2.svg" alt="Edit">
+          </button>
+
+          <button *ngIf="showDeleteButton" type="button" class="action-btn" (click)="onDelete(item, $event)">
+            <img class="menu-img" src="/program/trash.svg" alt="Delete">
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
 
     <img src="/program/dropdown.svg" class="dropdown-icon" alt="">
   </div>

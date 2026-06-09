@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
+@import 'quill/dist/quill.core.css';
+@import 'quill/dist/quill.bubble.css';
 
 body {
   background-color: #F5F5F5;
@@ -22,7 +24,7 @@ body {
   --success-dark: #39B54A;
   --border-color: #0000001F;
   --border: #E4E4E4;
-  --accent:#FFA800;
+  --accent: #FFA800;
   --secondary-font: 'Red Hat Display', sans-serif;
 }
 
@@ -102,7 +104,8 @@ body {
   font-weight: 600 !important;
   font-size: 14px !important;
   line-height: 16px !important;
-  color: #02692C !important; /* Dark green title */
+  color: #02692C !important;
+  /* Dark green title */
   margin: 0;
 }
 
@@ -111,18 +114,20 @@ body {
   font-weight: 400 !important;
   font-size: 10px !important;
   line-height: 14px !important;
-  color: #357A51 !important; 
+  color: #357A51 !important;
   margin: 0;
   word-wrap: break-word;
   white-space: normal !important;
 }
 
 .toast-error .toast-title {
-  font-family: 'Inter', sans-serif !important; /* different font for error */
+  font-family: 'Inter', sans-serif !important;
+  /* different font for error */
   font-weight: 600 !important;
   font-size: 14px !important;
   line-height: 16px !important;
-  color: #D80905 !important; /* Bright red title */
+  color: #D80905 !important;
+  /* Bright red title */
   margin: 0;
 }
 
@@ -131,7 +136,8 @@ body {
   font-weight: 400 !important;
   font-size: 10px !important;
   line-height: 14px !important;
-  color: #8E0707 !important; /* Darker red for description */
+  color: #8E0707 !important;
+  /* Darker red for description */
   margin: 0;
   word-wrap: break-word;
   white-space: normal !important;
@@ -165,3 +171,101 @@ body {
   bottom: 40px !important;
 }
 
+
+
+.policy-dialog .mdc-dialog__surface {
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+.policy-dialog .mdc-dialog__container {
+  width: 100% !important;
+}
+
+quill-editor .ql-editor {
+  min-height: 450px !important;
+  width: 100% !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  color: #312F2F !important;
+  writing-mode: horizontal-tb !important;
+  white-space: normal !important;
+  padding: 16px !important;
+}
+
+quill-editor .ql-editor.ql-blank::before {
+  font-style: normal !important;
+  color: #9A9A9A !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+}
+
+/* Allow bubble toolbar to overflow dialog bounds */
+.policy-dialog .mat-mdc-dialog-container {
+  overflow: visible !important;
+}
+
+quill-editor {
+  display: block;
+  position: relative;
+}
+
+/* Keep editor selectable area */
+quill-editor .ql-container.ql-bubble {
+  border: 1px solid #E4E4E4 !important;
+  border-radius: 8px !important;
+  min-height: 450px !important;
+}
+
+/* Bubble toolbar fixes */
+.ql-bubble .ql-tooltip {
+  z-index: 9999 !important;
+}
+
+.ql-bubble .ql-tooltip .ql-toolbar {
+  display: flex !important;
+  align-items: center;
+  gap: 4px;
+}
+
+.ql-bubble .ql-tooltip {
+  pointer-events: auto;
+  z-index: 99999;
+}
+
+.ql-editor {
+  cursor: text;
+}
+
+/* Restore icons */
+.ql-bubble .ql-tooltip button svg {
+  width: 18px !important;
+  height: 18px !important;
+  display: block !important;
+}
+
+.ql-bubble .ql-tooltip button svg path,
+.ql-bubble .ql-tooltip button svg line,
+.ql-bubble .ql-tooltip button svg polyline,
+.ql-bubble .ql-tooltip button svg rect {
+  stroke: #ffffff !important;
+  fill: none !important;
+}
+
+/* Active button */
+.ql-bubble .ql-tooltip button.ql-active svg path,
+.ql-bubble .ql-tooltip button.ql-active svg line,
+.ql-bubble .ql-tooltip button.ql-active svg polyline {
+  stroke: #ffffff !important;
+}
+
+/* Toolbar background */
+.ql-bubble .ql-tooltip {
+  background: #444 !important;
+  border-radius: 24px !important;
+}
+
+/* Dialog overflow */
+.policy-dialog .mdc-dialog__surface {
+  overflow: visible !important;
+}

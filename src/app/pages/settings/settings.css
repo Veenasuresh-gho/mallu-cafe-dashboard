@@ -1,24 +1,39 @@
-.h1 {
-    font-weight: 700;
-    font-style: Bold;
-    font-size: 16px;
-    line-height: 10px;
+.privacy-policy h1 {
+    font-family: Poppins;
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 14px;
+    line-height: 12px;
     letter-spacing: 0%;
-    vertical-align: middle;
+
 }
 
-.p {
-    font-weight: 500;
-    font-style: Medium;
+.privacy-policy p {
+    font-family: Poppins;
+    font-weight: 400;
+    font-style: Regular;
     font-size: 10px;
     line-height: 14px;
     letter-spacing: 0%;
+
 }
 
-.h2 {
-    font-weight: 700;
-    font-style: Bold;
-    font-size: 16px;
-    line-height: 12px;
+.privacy-policy h2 {
+    font-family: Inter;
+    font-weight: 600;
+    font-style: Semi Bold;
+    font-size: 14px;
+    line-height: 100%;
     letter-spacing: 0%;
+
+}
+
+.privacy-policy ul li {
+    font-family: Poppins;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0%;
+
 }

@@ -1,9 +1,16 @@
-<div class="p-4">
-    <div>
-        <h1>PRIVACY POLICY</h1>
-        <p>We value your privacy. This Privacy Policy explains how we handle your information when you use our radio
-            app.</p>
+<div class="p-4 privacy-policy">
+    <div class="d-flex align-items-center justify-content-between">
+        <div>
+            <h1 class="heading">PRIVACY POLICY</h1>
+            <p>We value your privacy. This Privacy Policy explains how we handle your information when you use our radio
+                app.</p>
+        </div>
+        <div>
+            <app-primary-button class="btn-auto" [label]="'Update Privacy Policy'" iconSrc="/dash/logout.png" (click)="openUpdatePolicy()">
+            </app-primary-button>
+        </div>
     </div>
+
 
     <div>
         <h2>Information We Collect</h2>
@@ -39,7 +46,7 @@
     </div>
     <div>
         <h2>Your Control</h2>
-        You can:
+        <p>You can:</p>
         <ul>
             <li> Update your profile information</li>
             <li>Request deletion of your account</li>

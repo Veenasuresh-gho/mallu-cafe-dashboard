@@ -25,12 +25,7 @@ export const routes: Routes = [
         .then(m => m.ForgotPassword)
   },
 
-  {
-    path: 'privacy-policy',
-    loadComponent: () =>
-      import('./pages/settings/settings')
-        .then(m => m.Settings)
-  },
+
   {
     path: '',
     canActivate: [authGuard],
@@ -43,6 +38,12 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/dashboard/dashboard')
             .then(m => m.Dashboard)
+      },
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./pages/settings/settings')
+            .then(m => m.Settings)
       },
       {
         path: 'profile',

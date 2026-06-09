@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FormSelect } from '../form-select/form-select';
 import { CustomCalendar } from '../../custom-calendar/custom-calendar';
 
 @Component({
   selector: 'app-schedule-picker',
   standalone: true,
-  imports: [CommonModule, FormsModule, FormSelect, CustomCalendar],
+  imports: [CommonModule, FormsModule, CustomCalendar],
   templateUrl: './schedule-picker.html',
   styleUrls: ['./schedule-picker.css'],
 })

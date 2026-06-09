@@ -12,11 +12,9 @@ import { FormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 
 import { FormSelect } from '../../../../../../components/dialog-form/form-select/form-select';
 import { StepBadge } from '../../../../../../components/dialog-form/step-badge/step-badge';
-import { FormInput } from '../../../../../../components/dialog-form/form-input/form-input';
 
 import { AddPodcast } from '../../../add-podcast/add-podcast';
 
@@ -32,10 +30,7 @@ import { ghoresult, tags } from '../../../../../../../model/ghomodel';
   imports: [
     CommonModule,
     FormSelect,
-    FormInput,
     StepBadge,
-    MatRadioButton,
-    MatRadioGroup,
     FormsModule
   ],
   templateUrl: './podcast-file.html',
@@ -153,7 +148,6 @@ export class PodcastFile implements OnInit, OnChanges {
 
     if (changes['fileType']?.currentValue) {
 
-      console.log('Podcast fileType changed:', this.fileType);
 
       this.emitData();
 

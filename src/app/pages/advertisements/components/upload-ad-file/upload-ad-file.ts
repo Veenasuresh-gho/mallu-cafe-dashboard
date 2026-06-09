@@ -1,15 +1,10 @@
 import { ChangeDetectorRef, Component, Inject, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
-import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
-import { MatOption, MatSelect } from '@angular/material/select';
 import { StepBadge } from '../../../../components/dialog-form/step-badge/step-badge';
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { UploadBox } from '../../../../components/dialog-form/upload-box/upload-box';
-import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
-import { SchedulePicker } from '../../../../components/dialog-form/schedule-picker/schedule-picker';
 import { Checkbox } from '../../../../components/dialog-form/checkbox/checkbox';
 import { ScheduleDateRange } from '../../../../components/dialog-form/schedule-date-range/schedule-date-range';
 import { CommonModule } from '@angular/common';
@@ -17,19 +12,16 @@ import { ToastService } from '../../../../services/toastService';
 import { GHOService } from '../../../../services/ghosrvs';
 import { GHOUtitity } from '../../../../services/utilities';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
-import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { InputTime } from '../../../../components/dialog/input-time/input-time';
 
 @Component({
   selector: 'app-upload-ad-file',
   standalone: true,
   imports: [
-    MatDialogContent, MatRadioGroup, FormsModule, MatRadioButton,
-    MatFormField, MatSelect, MatOption, MatIcon,
-    StepBadge, FormInput, UploadBox, FormSelect,
-    SchedulePicker, Checkbox, ScheduleDateRange,
-    CommonModule, PrimaryButton, MatProgressSpinnerModule, InputTime
+    MatDialogContent, FormsModule,
+     MatIcon,StepBadge, FormInput, UploadBox,
+     Checkbox, ScheduleDateRange,
+    CommonModule, MatProgressSpinnerModule
   ],
   templateUrl: './upload-ad-file.html',
   styleUrl: './upload-ad-file.css',
@@ -267,7 +259,7 @@ export class UploadAdFile implements OnInit {
   ) {
     try {
       this.mediaDuration = await this.getMediaDuration(file);
-      console.log('Duration:', this.mediaDuration, 'seconds');
+      
     } catch (err) {
       console.error('Failed to read duration', err);
       this.mediaDuration = 0;

@@ -9,14 +9,11 @@ import {
 
 import {
   MAT_DIALOG_DATA,
-  MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
 
-import { DialogHeaderComponent } from '../../../../components/dialog-form/dialog-header/dialog-header-component';
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { CancelButton } from '../../../../components/dialog-form/cancel-button/cancel-button';
-import { FooterButton } from '../../../../components/dialog-form/footer-button/footer-button';
 import { FileUpload } from '../../../../components/dialog-form/file-upload/file-upload';
 import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 
@@ -30,11 +27,8 @@ import { ToastService } from '../../../../services/toastService';
   standalone: true,
   imports: [
     CommonModule,
-    MatDialogContent,
-    DialogHeaderComponent,
     FormInput,
     CancelButton,
-    FooterButton,
     FileUpload,
     PrimaryButton,
   ],

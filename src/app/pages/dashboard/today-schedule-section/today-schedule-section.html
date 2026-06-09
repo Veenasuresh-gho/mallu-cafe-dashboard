@@ -104,7 +104,7 @@
                 </p>
                 }@else{
                 @if(currentProgram?.CategoryName !=='Live'){
-                <div>
+                <div class="upload-btn">
                     <img src="/main/update.svg">
                     <span (click)="openModal(currentProgram)" style="color: var(--primary-text); font-size: 10px;">
                         Upload
@@ -261,7 +261,7 @@
 
                         }
 
-                        <div>
+                        <div class="upload-btn">
                             @if(item.IsFileUploaded) {
                             <img src="/main/update.svg">
                             <span (click)="openDialog(item)" class="px-1">

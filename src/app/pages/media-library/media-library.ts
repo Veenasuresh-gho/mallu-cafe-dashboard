@@ -359,7 +359,6 @@ export class MediaLibrary implements OnInit {
           this.dataSource._updateChangeSubscription();
           this.loading = false;
           this.cdr.markForCheck();
-          console.log('mediaCount',this.mediaCount);
         },
         error: (err) => {
           console.error('API Error:', err);

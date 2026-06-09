@@ -19,6 +19,6 @@ export class Default {
 
 onTextChange(event: any) {
   this.typedText = event.target.innerText;
-  // console.log('Full value:', 'ProgramName//' + this.typedText);
+
 }
 }

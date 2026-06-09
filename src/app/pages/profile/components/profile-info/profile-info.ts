@@ -45,7 +45,6 @@ export class ProfileInfo {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['profile']) {
-
     }
   }
 

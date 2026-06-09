@@ -25,7 +25,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { StepBadge } from '../../../../components/dialog-form/step-badge/step-badge';
 import { UploadBox } from '../../../../components/dialog-form/upload-box/upload-box';
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
-import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { PrimaryButton } from '../../../../components/primary-button/primary-button';
 
 import { GHOService } from '../../../../services/ghosrvs';
@@ -57,7 +56,6 @@ import { VideoFile } from '../upload-new-file-modal/upload-files/video-file/vide
     StepBadge,
     UploadBox,
     FormSelect,
-    FormInput,
     PrimaryButton,
 
     PreScheduled,

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { StepBadge } from '../../../../../../components/dialog-form/step-badge/step-badge';
 import { FormInput } from '../../../../../../components/dialog-form/form-input/form-input';
-import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { FileUpload } from '../../../../../../components/dialog-form/file-upload/file-upload';
 import { GHOService } from '../../../../../../services/ghosrvs';
@@ -11,7 +10,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-video-file',
-  imports: [CommonModule, StepBadge, FormInput, MatRadioButton, MatRadioGroup, FormsModule, FileUpload],
+  imports: [CommonModule, StepBadge, FormInput, FormsModule, FileUpload],
   templateUrl: './video-file.html',
   styleUrl: './video-file.css',
 })

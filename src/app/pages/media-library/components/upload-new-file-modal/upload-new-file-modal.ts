@@ -2,16 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { AddPodcast } from '../add-podcast/add-podcast';
-import { MatSelect } from '@angular/material/select';
-import { SelectDropDown } from '../../../../components/select-drop-down/select-drop-down';
 import { StepBadge } from '../../../../components/dialog-form/step-badge/step-badge';
 import { UploadBox } from '../../../../components/dialog-form/upload-box/upload-box';
 import { FormSelect } from '../../../../components/dialog-form/form-select/form-select';
-import { FormCategory } from '../../../../components/dialog-form/form-category/form-category';
-import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
-import { Default } from './upload-files/default/default';
 import { Shorts } from './upload-files/shorts/shorts';
 import { PodcastFile } from './upload-files/podcast-file/podcast-file';
 import { VideoFile } from './upload-files/video-file/video-file';
@@ -29,11 +23,10 @@ import { PreScheduled } from './upload-files/pre-scheduled/pre-scheduled';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule, SelectDropDown,
-    FormsModule, MatSelect,
+    CommonModule,
+    FormsModule,
     MatDialogContent,
-    MatRadioGroup, StepBadge, FormSelect,
-    MatRadioButton, UploadBox, FormCategory, FormInput, Default, PreScheduled,
+    StepBadge, FormSelect, UploadBox, PreScheduled,
     Shorts, VideoFile, PodcastFile, PrimaryButton
   ],
   templateUrl: './upload-new-file-modal.html',
@@ -320,12 +313,6 @@ export class UploadNewFileModal implements OnInit {
 
         const minutes = Math.floor(this.mediaDuration / 60);
         const seconds = this.mediaDuration % 60;
-
-        console.log('Duration (seconds):', this.mediaDuration);
-        console.log(
-          'Duration:',
-          `${minutes}:${seconds.toString().padStart(2, '0')}`
-        );
 
         const isVideo = file.type.startsWith('video');
 

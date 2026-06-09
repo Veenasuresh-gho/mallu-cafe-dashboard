@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angula
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -24,7 +24,6 @@ import { ToastService } from '../../../../services/toastService';
   imports: [
     CommonModule,
     FormsModule,
-    MatDialogContent,
     MatTableModule,
     MatInputModule,
     MatSelectModule,

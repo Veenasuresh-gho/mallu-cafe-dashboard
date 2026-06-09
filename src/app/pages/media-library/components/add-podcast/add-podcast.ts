@@ -1,9 +1,7 @@
 import { Component, Inject, inject, OnInit } from '@angular/core';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import { DialogHeaderComponent } from '../../../../components/dialog-form/dialog-header/dialog-header-component';
 import { FormInput } from '../../../../components/dialog-form/form-input/form-input';
 import { CancelButton } from '../../../../components/dialog-form/cancel-button/cancel-button';
-import { FooterButton } from '../../../../components/dialog-form/footer-button/footer-button';
 import { FileUpload } from '../../../../components/dialog-form/file-upload/file-upload';
 import { CommonModule } from '@angular/common';
 import { ghoresult, tags } from '../../../../../model/ghomodel';
@@ -14,7 +12,7 @@ import { PrimaryButton } from '../../../../components/primary-button/primary-but
 
 @Component({
   selector: 'app-add-podcast',
-  imports: [MatDialogContent, DialogHeaderComponent, FormInput, CancelButton, FooterButton,
+  imports: [MatDialogContent, FormInput, CancelButton,
     FileUpload, CommonModule, PrimaryButton
   ],
   templateUrl: './add-podcast.html',
@@ -34,7 +32,7 @@ export class AddPodcast implements OnInit {
   fileName: string = '';
   toast = inject(ToastService);
 
-  
+
 
   constructor(private dialogRef: MatDialogRef<AddPodcast>) { }
 
@@ -42,24 +40,19 @@ export class AddPodcast implements OnInit {
     this.userId = JSON.parse(sessionStorage.getItem('id') || '""');
   }
 
-  addCategory() {
-    this.loading = true;
+addCategory() {
+  this.loading = true;
+  this.tv = [
+    { T: 'dk1', V: this.categoryName },
+    { T: 'c10', V: '7' }
+  ];
 
-    this.tv = [
-      { T: 'dk1', V: this.categoryName },
-      { T: 'c10', V: '7' }
-    ];
-
-    this.srv.getdata('lists', this.tv)
-      .subscribe({
-        next: async (r) => {
-          const data = r.Data[0][0];
-          this.id = data.id;
-
-          if (r.Status === 1) {
-
-            this.id = r.Data[0][0].id;
-
+  this.srv.getdata('lists', this.tv)
+    .subscribe({
+      next: async (r) => {
+        if (r.Status === 1) {
+          this.id = r.Data[0][0].id;
+          if (this.selectedFile) {
             const success = await this.srv.handleFileUpload(
               this.id,
               this.userId,
@@ -67,34 +60,43 @@ export class AddPodcast implements OnInit {
               '10'
             );
 
-            this.loading = false;
-
-            if (success) {
-              this.toast.show({
-                title: 'Podcast category added successfully! 🎉',
-                description: 'Podcast category added successfully!',
-                variant: 'success',
-                position: 'toast-bottom-right'
-              });
-
-              this.dialogRef.close(true);
-            } else {
+            if (!success) {
               this.toast.show({
                 title: 'Upload failed ❌',
                 description: 'File upload failed',
                 variant: 'error',
                 position: 'toast-bottom-right'
               });
+              this.loading = false;
+              return;
             }
           }
 
-        },
-        error: (err) => {
-          console.error('API error:', err);
+          this.toast.show({
+            title: 'Podcast category added successfully! 🎉',
+            description: 'Podcast category added successfully!',
+            variant: 'success',
+            position: 'toast-bottom-right'
+          });
+          this.dialogRef.close(true);
+
+        } else {
+          this.toast.show({
+            title: 'Something went wrong ❌',
+            description: 'Unexpected response from server',
+            variant: 'error',
+            position: 'toast-bottom-right'
+          });
         }
-      });
-  }
-  
+
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('API error:', err);
+        this.loading = false;
+      }
+    });
+}
   close() {
     this.dialogRef.close();
   }

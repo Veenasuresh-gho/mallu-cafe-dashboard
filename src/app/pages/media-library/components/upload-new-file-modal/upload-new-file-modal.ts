@@ -255,7 +255,6 @@ export class UploadNewFileModal implements OnInit {
 
     this.thumbnailFile = data.thumbnailFile || null;
 
-    console.log('Generated filename:', data.fileName);
 
     if (this.selectedFile && this.finalfileName) {
       this.renameFile();
@@ -369,14 +368,30 @@ export class UploadNewFileModal implements OnInit {
     }
   }
 
+  getMediaFileType(): number {
+  if (!this.selectedFile) return 0;
+
+  if (this.selectedFile.type.startsWith('video/')) {
+    return 1; // Video
+  }
+
+  if (this.selectedFile.type.startsWith('audio/')) {
+    return 0; // Audio
+  }
+
+  return 0;
+}
+
 
   addmediaPre(): void {
     if (!this.selectedFile) return;
     const file = this.selectedFile;
+    const mediaFlag = this.getMediaFileType();
     this.loading = true;
     this.tv = [
       { T: 'dk1', V: this.programId },
       { T: 'c1', V: this.broadcastDate },
+      { T: 'c4', V: mediaFlag.toString() },
       { T: 'c10', V: '10' }
     ];
 
@@ -494,6 +509,7 @@ export class UploadNewFileModal implements OnInit {
   addmediaPodcast(): void {
     if (!this.selectedFile) return;
     const file = this.selectedFile;
+    const mediaFlag = this.getMediaFileType();
     this.loading = true;
     this.tv = [
       { T: 'dk1', V: this.programId },
@@ -501,9 +517,9 @@ export class UploadNewFileModal implements OnInit {
       { T: 'c1', V: this.title },
       { T: 'c2', V: this.subtitle },
       { T: 'c3', V: this.broadcastDate },
+      { T: 'c4', V: mediaFlag.toString() },
       { T: 'c10', V: '20' }
     ];
-
     this.srv.getdata('program', this.tv)
       .subscribe({
 

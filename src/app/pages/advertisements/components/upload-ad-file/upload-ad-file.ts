@@ -73,7 +73,7 @@ export class UploadAdFile implements OnInit {
   id: string = '';
   advertisementID: string = "";
   isEditMode = false;
-
+  mediaDuration = 0;
   
 
   statusMap: any = {
@@ -110,13 +110,9 @@ export class UploadAdFile implements OnInit {
       toTime: this.formatTimeForInput(ad.EndTime),
     };
     this.fid = ad.fid;
-
-    // Optional preview
     this.fileName = ad.FileName;
-
     this.id = ad.id1;
     this.advertisementID = ad.id1
-    // If you have delivery flags from API
     this.adsEnabled = ad.IsAudioVideoAd === 1 || ad.IsAudioVideoAd === 3;
     const promo = +ad.IsLatestPromotion;
     this.adsEnabled = [1, 3].includes(promo);
@@ -213,23 +209,75 @@ export class UploadAdFile implements OnInit {
     return Object.keys(this.errors).length === 0;
   }
 
-  onFileSelected(file: File) {
-    if (!file) return;
+  private getMediaDuration(file: File): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const isVideo = file.type.startsWith('video');
+    const media = document.createElement(isVideo ? 'video' : 'audio');
 
-    if (
-      !file.type.startsWith('image/') &&
-      !file.type.startsWith('audio/') &&
-      !file.type.startsWith('video/')
-    ) {
-      this.errors.file = 'Only image, audio, or video files are allowed';
-      return;
-    }
+    media.preload = 'metadata';
 
-    this.selectedFile = file;
-    this.fileName = file.name;
+    media.onloadedmetadata = () => {
+      const duration = Math.floor(media.duration || 0);
+      URL.revokeObjectURL(media.src);
+      resolve(duration);
+    };
 
-    this.clearError('file');
+    media.onerror = () => {
+      URL.revokeObjectURL(media.src);
+      reject(0);
+    };
+
+    media.src = URL.createObjectURL(file);
+  });
+}
+
+  // onFileSelected(file: File) {
+  //   if (!file) return;
+  //   if (
+  //     !file.type.startsWith('image/') &&
+  //     !file.type.startsWith('audio/') &&
+  //     !file.type.startsWith('video/')
+  //   ) {
+  //     this.errors.file = 'Only image, audio, or video files are allowed';
+  //     return;
+  //   }
+
+  //   this.selectedFile = file;
+  //   this.fileName = file.name;
+
+  //   this.clearError('file');
+  // }
+
+  async onFileSelected(file: File) {
+  if (!file) return;
+  if (
+    !file.type.startsWith('image/') &&
+    !file.type.startsWith('audio/') &&
+    !file.type.startsWith('video/')
+  ) {
+    this.errors.file = 'Only image, audio, or video files are allowed';
+    return;
   }
+  this.selectedFile = file;
+  this.fileName = file.name;
+  // Calculate duration only for audio/video
+  if (
+    file.type.startsWith('audio/') ||
+    file.type.startsWith('video/')
+  ) {
+    try {
+      this.mediaDuration = await this.getMediaDuration(file);
+      console.log('Duration:', this.mediaDuration, 'seconds');
+    } catch (err) {
+      console.error('Failed to read duration', err);
+      this.mediaDuration = 0;
+    }
+  } else {
+    this.mediaDuration = 0;
+  }
+
+  this.clearError('file');
+}
 
   addAdvertisement(): void {
     if (!this.validateAdvertisementForm()) {
@@ -253,7 +301,6 @@ export class UploadAdFile implements OnInit {
     };
 
     const userId = this.srv.getsession('id');
-
     this.tv = [
       { T: 'c1', V: JSON.stringify(payload) },
       { T: 'c10', V: '1' }
@@ -265,14 +312,13 @@ export class UploadAdFile implements OnInit {
 
           if (r.Status === 1) {
             this.id = r.Data[0][0].Id;
-
             const success = await this.srv.handleFileUpload(
               this.id,
               userId,
               this.selectedFile,
-              '7'
+              '7',
+              this.mediaDuration
             );
-
             this.loading = false;
             this.cd.detectChanges();
             if (success) {
@@ -339,7 +385,8 @@ export class UploadAdFile implements OnInit {
               this.advertisementID,
               userId,
               this.selectedFile,
-              '7'
+              '7',
+               this.mediaDuration
             );
             if (!success) {
               this.loading = false;

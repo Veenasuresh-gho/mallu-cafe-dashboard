@@ -1,0 +1,266 @@
+<div class="dialog-box">
+
+    <!-- Header -->
+    <div class="dialog-header">
+        <div>
+            <h4 class="dialog-title mb-0">Publish AD</h4>
+            <p class="dialog-subtitle mb-0">
+                Select advertisement and publish it to available slots.
+            </p>
+        </div>
+
+        <button class="close-btn" (click)="close()">
+            <img src="/program/close-circle.svg" alt="Close" />
+        </button>
+    </div>
+
+    <div class="custom-line"></div>
+
+    <div class="publish-content">
+
+        <!-- LEFT SIDE -->
+        <div class="ad-list-section">
+
+            <div class="section-header">
+                <div class="filter-container mx-3 mt-2">
+
+                    <mat-form-field appearance="outline" class="search-field">
+                        <span matPrefix class="search-icon">
+                            <img src="/main/searchIcon.svg" alt="search" />
+                        </span>
+                        <input matInput placeholder="Search here..." [(ngModel)]="searchText"
+                            (ngModelChange)="applyFilters()" />
+                    </mat-form-field>
+
+                    <app-select-drop-down placeholder="All Status" [(value)]="status" (valueChange)="applyFilters()"
+                        [options]="[
+                            { label: 'All Status', value: 'allStatus' },
+                            { label: 'Active', value: 'active' },
+                            { label: 'Published', value: 'published' },
+                            { label: 'Waiting-list', value: 'waiting-list' },
+                            { label: 'Expired', value: 'expired' }
+                        ]">
+                    </app-select-drop-down>
+
+                    <app-select-drop-down [placeholder]="dayLabel" [(value)]="day" [options]="[
+                            { label: 'All Advertisements', value: 'all' },
+                            { label: 'Today', value: 'today' },
+                            { label: 'Tomorrow', value: 'tomorrow' },
+                            { label: 'Custom date', value: 'date' }
+                        ]" (valueChange)="onProgramChange($event)">
+                    </app-select-drop-down>
+
+                    <div class="calendar-wrapper" *ngIf="isCalendarOpen">
+                        <app-custom-filter-calender [inlineMode]="true" [enableWeekdaySelection]="false"
+                            (filterApplied)="onFilterApplied($event)" (calendarClosed)="closeCalendar()">
+                        </app-custom-filter-calender>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="table-container">
+
+                @if (loading) {
+                <div class="spinner-container">
+                    <mat-spinner diameter="40"></mat-spinner>
+                </div>
+                }
+
+                @if (!loading) {
+
+                <table mat-table [dataSource]="dataSource" class="custom-table">
+
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Ads
+                        </th>
+
+                        <td mat-cell *matCellDef="let row">
+                            <!-- <input type="checkbox" [checked]="row.selected" (change)="onSelectAd(row, $event)"
+                                class="ad-checkbox"> -->
+                            <input
+    type="checkbox"
+    [checked]="row.selected"
+    (click)="$event.stopPropagation()"
+    (change)="onSelectAd(row, $event)"
+    class="ad-checkbox">
+                        </td>
+                    </ng-container>
+
+                    <!-- Advertisement -->
+                    <ng-container matColumnDef="advertisements">
+                        <th mat-header-cell *matHeaderCellDef>
+
+                        </th>
+
+                        <td mat-cell *matCellDef="let row">
+
+                            <div class="advertisement-cell">
+
+                                <ng-container *ngIf="isAudio(row._url); else mediaContent">
+                                    <img src="/advertise/audio.svg" class="avatar" alt="audio">
+                                </ng-container>
+
+                                <ng-template #mediaContent>
+
+                                    <img *ngIf="isImage(row._url)" [src]="row._url" class="avatar"
+                                        (error)="onImgError($event)">
+
+                                    <video *ngIf="isVideo(row._url)" [src]="row._url" class="avatar" muted>
+                                    </video>
+
+                                    <img *ngIf="!isImage(row._url) && !isVideo(row._url)" src="/main/no-image.png"
+                                        class="avatar">
+                                </ng-template>
+
+                                <div class="advertisement-info">
+
+                                    <div class="advertiser-name">
+                                        {{ row.AdvertiserName || 'Unknown Advertiser' }}
+                                    </div>
+
+                                    <div class="advertisement-name">
+                                        {{ row.FileName || 'No file added' }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+                    </ng-container>
+
+                    <!-- Status -->
+                    <ng-container matColumnDef="adStatus">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Status
+                        </th>
+
+                        <td mat-cell *matCellDef="let row">
+
+                            <span class="adStatus" [ngClass]="row.adStatusClass">
+
+                                <mat-icon *ngIf="row.Status === 'Active'">
+                                    fiber_manual_record
+                                </mat-icon>
+
+                                <mat-icon *ngIf="row.Status === 'Waiting List'">
+                                    warning
+                                </mat-icon>
+
+                                <mat-icon *ngIf="row.Status === 'Published'">
+                                    check_circle
+                                </mat-icon>
+
+                                <mat-icon *ngIf="row.Status === 'Expired'">
+                                    info
+                                </mat-icon>
+
+                                {{ row.Status }}
+
+                            </span>
+
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columns">
+                    </tr>
+                    <!-- <tr mat-row *matRowDef="let row; columns: columns" [class.selected-row]="row.selected">
+                    </tr> -->
+                    <tr mat-row
+    *matRowDef="let row; columns: columns"
+    [class.selected-row]="row.selected"
+    (click)="toggleRowSelection(row)">
+</tr>
+
+                </table>
+                <!-- 
+                <mat-paginator [pageSize]="6" [pageSizeOptions]="[7,14,21]" showFirstLastButtons>
+                </mat-paginator> -->
+                }
+            </div>
+        </div>
+        <!-- RIGHT SIDE -->
+        <div class="selected-ad-section">
+            <div class="section-header my-3 px-2">
+                <p class="content-title mb-0">
+                    Selected Ads
+                    <span *ngIf="selectedAds.length > 0" class="selected-count">
+                        {{ selectedAds.length }}
+                    </span>
+                </p>
+                <p *ngIf="selectedAds.length > 0" class="selection-note mb-0">
+                    Advertisements will be published in the order shown below. To change the publishing order, adjust
+                    the selection order before publishing.
+                </p>
+            </div>
+
+            <div class="selected-ad-body">
+
+                <ng-container *ngIf="selectedAds.length > 0; else noSelection">
+
+                    <div class="selected-ads-list">
+                        <div class="selected-card" *ngFor="let ad of selectedAds">
+
+                            <div class="preview-wrapper">
+
+                                <img *ngIf="isImage(ad._url)" [src]="ad._url" class="selected-preview"
+                                    (error)="onImgError($event)">
+
+                                <video *ngIf="isVideo(ad._url)" [src]="ad._url" class="selected-preview" muted>
+                                </video>
+
+                                <img *ngIf="!ad._url || (!isImage(ad._url) && !isVideo(ad._url) && !isAudio(ad._url))"
+                                    src="/main/no-image.png" class="selected-preview">
+
+                                <img *ngIf="isAudio(ad._url)" src="/advertise/audio.svg" class="selected-preview">
+
+                            </div>
+
+                            <!-- Content -->
+                            <div class="selected-content">
+
+                                <h4 class="ad-name">
+                                    {{ ad.AdvertiserName }}
+                                </h4>
+
+                                <p class="file-name">
+                                    {{ ad.FileName }}
+                                </p>
+
+                            </div>
+                            <!-- Delete Button -->
+                            <button class="delete-btn" (click)="removeSelectedAd(ad)">
+                                <img src="/profile/trash-gray.svg">
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-template #noSelection>
+                    <div class="empty-state ">
+                        <p>No advertisements selected</p>
+                    </div>
+                </ng-template>
+            </div>
+
+            <div class="selected-ad-footer" *ngIf="selectedAds.length > 0">
+                <div class="d-flex gap-4">
+
+                    <button (click)="close()" class="close-btn btn-cancel">
+                        <img src="/program/close-circle.svg" width="16" alt="">
+                        <span>Cancel</span>
+                    </button>
+
+                    <app-primary-button (click)="publishAds()" [loading]="PublishADloading" [label]="'Publish AD'"
+                        iconSrc="/dash/cloud-connection.svg">
+                    </app-primary-button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

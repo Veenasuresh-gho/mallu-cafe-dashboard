@@ -26,7 +26,7 @@ color: var(--muted-input);
     background-color: color-mix(in srgb, var(--primary-color) 10%, transparent);
 }
 
-/* DIVIDER */
+
 .divider {
     height: 1px;
     background-color: #E4E4E4;

@@ -70,7 +70,17 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
   programDetails: any;
   isLoading = true;
   noProgram = false;
+  private adCompleted = false;
+  isAdvertisement = false;
 
+  // Add them here
+  get isAdvertisementAudio(): boolean {
+    return this.isAdvertisement && this.isAudio;
+  }
+
+  get isAdvertisementVideo(): boolean {
+    return this.isAdvertisement && !this.isAudio;
+  }
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -80,14 +90,14 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
     private dialog: MatDialog,
   ) { }
 
-    openPublishADModal() {
-      this.dialog.open(PublishAd, {
-        width: '1020px',
-        maxWidth: '1020px',
-        maxHeight: '90vh',
-        disableClose: true,
-      });
-    }
+  openPublishADModal() {
+    this.dialog.open(PublishAd, {
+      width: '1020px',
+      maxWidth: '1020px',
+      maxHeight: '90vh',
+      disableClose: true,
+    });
+  }
 
   getFileExtension(url: string): string {
     try {
@@ -118,12 +128,53 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
 
         const newProgram = data[0];
 
+
+        this.isAdvertisement =
+          newProgram?.IsAdvertisement === 1 ||
+          newProgram?.CategoryName === 'AdvertisementVideo' ||
+          newProgram?.CategoryName === 'AdvertisementAudio';
+
+        const isAdvertisement = this.isAdvertisement;
+
+
         const seekTime = Number(newProgram?.SeekTime || 0);
         const duration = Number(newProgram?.Duration || 0);
 
+        // if (duration > 0 && seekTime >= duration) {
+        //   this.stopProgram();
+        //   return;
+        // }
+
+        // const isAdvertisement =
+        //   newProgram?.IsAdvertisement === 1 ||
+        //   newProgram?.CategoryName === 'AdvertisementVideo';
+
+
+
         if (duration > 0 && seekTime >= duration) {
-          this.stopProgram();
+
+          if (isAdvertisement) {
+
+            if (!this.adCompleted) {
+
+              this.adCompleted = true;
+
+              this.loadNextAdvertisement();
+
+            }
+
+          } else {
+
+            this.stopProgram();
+
+          }
+
           return;
+        }
+
+        // Reset when a new non-ad program starts
+        if (!isAdvertisement) {
+          this.adCompleted = false;
         }
 
         // Program changed
@@ -160,12 +211,122 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  initAudio(url: string) {
+  // initAudio(url: string) {
+
+  //   this.audio.src = url;
+  //   this.audio.load();
+
+  //   // ✅ metadata loaded
+  //   this.audio.onloadedmetadata = () => {
+
+  //     this.ngZone.run(() => {
+
+  //       this.duration = this.audio.duration || 0;
+
+  //       this.cdr.detectChanges();
+
+  //     });
+
+  //   };
+
+  //   this.audio.oncanplay = () => {
+
+  //     if (!this.hasSeeked && this.programDetails?.SeekTime) {
+
+  //       const seekValue = Math.min(
+  //         this.programDetails.SeekTime,
+  //         this.audio.duration || 0
+  //       );
+
+  //       this.audio.currentTime = seekValue;
+
+  //       this.hasSeeked = true;
+  //     }
+
+  //   };
+
+  //   // ✅ progress update
+  //   this.audio.ontimeupdate = () => {
+
+  //     this.ngZone.run(() => {
+
+  //       this.currentTime = this.audio.currentTime || 0;
+  //       this.cdr.detectChanges();
+
+  //     });
+
+  //   };
+
+  //   // ✅ ended
+  //   this.audio.onended = () => {
+
+  //     this.ngZone.run(() => {
+
+  //       this.isPlaying = false;
+  //       this.currentTime = 0;
+  //       this.hasSeeked = false;
+
+  //       this.cdr.detectChanges();
+
+  //     });
+
+  //   };
+
+  // }
+
+  initAudio(url: string): void {
 
     this.audio.src = url;
     this.audio.load();
 
-    // ✅ metadata loaded
+    // Can play
+    this.audio.oncanplay = () => {
+
+      if (!this.hasSeeked && this.programDetails?.SeekTime) {
+
+        const seekValue = Math.min(
+          this.programDetails.SeekTime,
+          this.audio.duration || 0
+        );
+
+        this.audio.currentTime = seekValue;
+        this.hasSeeked = true;
+      }
+
+      // Auto play advertisement
+      if (this.isAdvertisementAudio) {
+
+        this.audio.muted = false;
+        this.isMuted = false;
+
+        this.audio.play()
+          .then(() => {
+
+            this.isPlaying = true;
+            this.cdr.detectChanges();
+
+          })
+          .catch(err => console.error('Ad autoplay failed', err));
+      }
+    };
+
+    // Prevent pausing advertisement
+    this.audio.onpause = () => {
+
+      if (this.isAdvertisementAudio) {
+
+        this.audio.play()
+          .then(() => {
+
+            this.isPlaying = true;
+            this.cdr.detectChanges();
+
+          })
+          .catch(err => console.error(err));
+      }
+    };
+
+    // Metadata loaded
     this.audio.onloadedmetadata = () => {
 
       this.ngZone.run(() => {
@@ -178,35 +339,20 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
 
     };
 
-    this.audio.oncanplay = () => {
-
-      if (!this.hasSeeked && this.programDetails?.SeekTime) {
-
-        const seekValue = Math.min(
-          this.programDetails.SeekTime,
-          this.audio.duration || 0
-        );
-
-        this.audio.currentTime = seekValue;
-
-        this.hasSeeked = true;
-      }
-
-    };
-
-    // ✅ progress update
+    // Progress update
     this.audio.ontimeupdate = () => {
 
       this.ngZone.run(() => {
 
         this.currentTime = this.audio.currentTime || 0;
+
         this.cdr.detectChanges();
 
       });
 
     };
 
-    // ✅ ended
+    // Audio ended
     this.audio.onended = () => {
 
       this.ngZone.run(() => {
@@ -216,6 +362,11 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
         this.hasSeeked = false;
 
         this.cdr.detectChanges();
+
+        // Load next ad automatically
+        if (this.isAdvertisementAudio) {
+          this.loadNextAdvertisement();
+        }
 
       });
 
@@ -369,34 +520,71 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
       },
       error: (err) => console.error(err)
     });
+    if (this.isAdvertisementAudio) {
+      this.audio.play()
+        .then(() => this.isPlaying = true)
+        .catch(err => console.error(err));
+    }
   }
 
-toggleAudio() {
+  // toggleAudio() {
 
-  if (this.audio.paused) {
+  //   if (this.audio.paused) {
 
-    this.audio.currentTime = Number(this.programDetails?.SeekTime || 0);
+  //     this.audio.currentTime = Number(this.programDetails?.SeekTime || 0);
 
-    this.audio.play().then(() => {
+  //     this.audio.play().then(() => {
+  //       this.isPlaying = true;
+  //       this.cdr.detectChanges();
+  //     });
+
+  //   } else {
+
+  //     this.audio.pause();
+  //     this.isPlaying = false;
+  //     this.cdr.detectChanges();
+
+  //   }
+  // }
+
+  toggleAudio(): void {
+
+    if (this.isAdvertisementAudio) {
+      return;
+    }
+
+    if (this.audio.paused) {
+
+      this.audio.play();
       this.isPlaying = true;
-      this.cdr.detectChanges();
-    });
 
-  } else {
+    } else {
 
-    this.audio.pause();
-    this.isPlaying = false;
-    this.cdr.detectChanges();
+      this.audio.pause();
+      this.isPlaying = false;
 
+    }
   }
-}
-  // 🎚️ SEEK
+
   onSeek(event: any) {
+
+    if (this.isAdvertisementAudio) {
+      return;
+    }
+
     const value = event.target.value;
+
     if (this.duration) {
       this.audio.currentTime = (value / 100) * this.duration;
     }
   }
+  // 🎚️ SEEK
+  // onSeek(event: any) {
+  //   const value = event.target.value;
+  //   if (this.duration) {
+  //     this.audio.currentTime = (value / 100) * this.duration;
+  //   }
+  // }
 
   // ⏱️ FORMAT TIME
   formatTime(time: number): string {
@@ -476,6 +664,64 @@ toggleAudio() {
     this.isMuted = !this.isMuted;
     // Audio mute
     this.audio.muted = this.isMuted;
+  }
+
+  // loadNextAdvertisement(): void {
+  //   const tags = [{ T: 'c10', V: '10' }];
+  //   this.srv.getdata('advertisement', tags).subscribe({
+  //     next: (res) => {
+
+  //       console.log('Next advertisement response', res);
+
+  //       // Refresh player with returned media
+  //       this.loadCurrentProgram();
+
+  //     },
+  //     error: (err) => {
+  //       console.error('Failed to load next advertisement', err);
+  //     }
+  //   });
+  // }
+
+  loadNextAdvertisement(): void {
+
+    const tags = [{ T: 'c10', V: '10' }];
+
+    this.srv.getdata('advertisement', tags).subscribe({
+      next: (res) => {
+
+        const nextAd = res?.Data?.[0]?.[0];
+
+        if (nextAd) {
+
+          this.programDetails = nextAd;
+
+          // IMPORTANT
+          this.isAdvertisement =
+            nextAd?.IsAdvertisement === 1 ||
+            nextAd?.CategoryName === 'AdvertisementVideo' ||
+            nextAd?.CategoryName === 'AdvertisementAudio';
+
+          this.audio.pause();
+          this.audio.currentTime = 0;
+          this.hasSeeked = false;
+
+          this.handleMedia(nextAd._url);
+
+          this.cdr.detectChanges();
+
+        } else {
+
+          this.isAdvertisement = false;
+
+          // No more ads → return to program stream
+          this.loadCurrentProgram();
+        }
+      },
+      error: () => {
+        this.isAdvertisement = false;
+      }
+    });
   }
 }
 

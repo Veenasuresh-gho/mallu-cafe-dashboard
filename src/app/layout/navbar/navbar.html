@@ -30,9 +30,71 @@
         </div>
         <div class="profile d-flex align-items-center gap-4">
 
-            <div class="notification">
+            <!-- <div class="notification">
                 <img src="/main/bell.svg" class="bell-icon" />
+            </div> -->
+            <div class="notification">
+                <button class="notification-btn" mat-icon-button [matMenuTriggerFor]="notificationMenu"
+                    [matBadge]="notifications.length" [matBadgeHidden]="notifications.length === 0"
+                    matBadgeColor="warn">
+
+                    <img src="/main/bell.svg" class="bell-icon" />
+                </button>
             </div>
+
+            <mat-menu #notificationMenu="matMenu" class="notification-menu">
+
+                <div class="notification-header px-3 py-1">
+                    <h4 class="notification-heading pt-2">Notifications</h4>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <!-- No Notifications -->
+                <div *ngIf="notifications.length === 0" class="text-center p-3 text-muted">
+                    No notifications
+                </div>
+
+                <!-- Notifications List -->
+                <div *ngIf="notifications.length > 0" class="notification-list">
+
+                    <button mat-menu-item *ngFor="let notification of displayedNotifications">
+
+                        <div class="notification-item">
+                            <div class="notification-title">
+                                {{ notification.Title }}
+                            </div>
+
+                            <div class="notification-message">
+                                {{ notification.Message }}
+                            </div>
+
+                            <small class="text-muted">
+                                {{ notification.CreatedAtDate }}
+                                •
+                                {{ notification.CreatedAtTime }}
+                            </small>
+                        </div>
+                    </button>
+                </div>
+
+                <mat-divider *ngIf="notifications.length > 3"></mat-divider>
+
+                <!-- View More -->
+                <button   mat-menu-item *ngIf="notifications.length > 3 && !showAllNotifications"
+                    (click)="$event.stopPropagation(); showAllNotifications = true">
+                    <span class="notification-view">View More</span>
+                  
+                </button>
+
+                <!-- View Less -->
+                <button  mat-menu-item *ngIf="showAllNotifications && notifications.length > 3"
+                    (click)="$event.stopPropagation(); showAllNotifications = false">
+                  <span class="notification-view"> View Less</span>
+                   
+                </button>
+
+            </mat-menu>
 
 
             <div (click)="navigateToProfile()" class="d-flex align-items-center gap-1">

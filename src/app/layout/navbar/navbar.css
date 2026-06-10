@@ -101,3 +101,63 @@
     opacity: 1;
   }
 }
+
+.bell-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.notification-menu {
+  width: 300px;
+}
+.notification-btn{
+  border: none;
+}
+.notification-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  flex-direction: column;
+  white-space: normal;
+  line-height: 1.4;
+}
+
+.notification-title {
+  font-weight: 500;
+  font-size: 14px;
+   font-family: 'Poppins', sans-serif;
+}
+
+.notification-message {
+  font-size: 13px;
+  color: #666;
+  margin: 2px 0;
+   font-family: 'Poppins', sans-serif;
+}
+
+::ng-deep .notification-menu {
+  min-width: 280px !important;
+  max-width: 280px !important;
+}
+
+.notification-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.notification-heading{
+     font-size: 14px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+.notification-view{
+   font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+}

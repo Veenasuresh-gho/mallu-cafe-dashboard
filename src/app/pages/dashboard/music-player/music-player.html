@@ -12,7 +12,135 @@
 </div>
 }
 @else{
-@if(isAudio){
+@if(isAdvertisementAudio){
+<div class="main-body schedules-content">
+  <div class="card-header">
+    <div class="title-block">
+      <h2 class="title">
+        Advertisement
+      </h2>
+      <p class="subtitle">
+        {{ programDetails?.Title }}
+      </p>
+    </div>
+
+    <div class="on-air-status">
+      <span class="dot"></span>
+      Sponsored
+    </div>
+  </div>
+
+  <div class="p-4 rounded my-3 custom-card-bg" [ngStyle]="{
+      'background-image': programDetails?.ThumbnailUrl
+        ? 'url(' + programDetails?.ThumbnailUrl + ')'
+        : 'linear-gradient(to right, #B84141, #950000)'
+    }" style="background-size: cover; background-position: center;">
+
+    <div class="d-flex justify-content-between">
+      <div class="text-white">
+        <div class="d-flex gap-2">
+          <img src="/dash/playlist.svg" alt="">
+          <p class="card-title">{{ programDetails?.Title }}</p>
+        </div>
+
+        <p class="card-subtitle pt-1">
+          Sponsored Advertisement
+        </p>
+      </div>
+
+      <span class="card-OnAir px-2 py-1 rounded">
+        AD
+      </span>
+    </div>
+
+    <div class="audio-player-container d-flex align-items-center gap-3 py-3">
+      <!-- <div class="play-btn" (click)="toggleAudio()"> -->
+      <div class="play-btn" [style.pointer-events]="isAdvertisementAudio ? 'none' : 'auto'" (click)="toggleAudio()">
+        <mat-icon>
+          {{ isPlaying ? 'pause' : 'play_arrow' }}
+        </mat-icon>
+      </div>
+
+      <div class="flex-grow-1">
+        <input type="range" class="custom-range" min="0" max="100"
+          [value]="duration ? (currentTime / duration) * 100 : 0" [disabled]="isAdvertisementAudio"
+          (input)="onSeek($event)">
+
+        <div class="d-flex justify-content-between duration mt-1">
+          <span>{{ formatTime(currentTime) }}</span>
+          <span>{{ formatTime(duration) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end align-items-center mt-4">
+      <button class="mute-btn" (click)="toggleMute()">
+        <mat-icon>
+          {{ isMuted ? 'volume_off' : 'volume_up' }}
+        </mat-icon>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+}
+
+@else if(isAdvertisementVideo){
+
+<div class="live-stream-card mt-2">
+
+  <div class="card-header">
+    <div class="title-block">
+      <h2 class="title">
+        Advertisement
+      </h2>
+      <p class="subtitle">
+        {{ programDetails?.Title }}
+      </p>
+    </div>
+
+    <div class="on-air-status">
+      <span class="dot"></span>
+      Sponsored
+    </div>
+  </div>
+
+  <div class="image-container">
+
+    <div class="iframe-wrapper">
+
+      <div class="video-loader" *ngIf="isVideoLoading">
+        <div class="spinner"></div>
+      </div>
+
+      <iframe *ngIf="showVideo" [src]="videoUrl" width="100%" height="450" frameborder="0"
+        allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen (load)="onIframeLoad()">
+      </iframe>
+
+    </div>
+
+    <div class="overlay-gradient"></div>
+
+    <div class="overlay-top-left">
+      <div class="program-title">
+        <img src="/dash/playlist.svg" alt="">
+        <h3>{{ programDetails?.Title }}</h3>
+      </div>
+
+      <div class="mt-2">
+        <span class="card-OnAir px-2 py-1 rounded">
+          Sponsored Advertisement
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+}
+@else if(isAudio){
 <div class="main-body schedules-content">
   <div class="card-header ">
     <div class="title-block">
@@ -75,7 +203,9 @@
           </span>
           <span class="pt-1"> Play Ad</span>
         </p>
+
       </div>
+
       <div class="d-flex align-items-center gap-3">
         <img [src]="programDetails?.HostUrl || '/main/no-image.png'" class="rounded-circle" width="40" height="40"
           alt="" />
@@ -132,7 +262,7 @@
 </div>
 }
 
-@if(!isAudio){
+@else{
 <div class="live-stream-card mt-2">
   <div class="card-header">
     <div class="title-block">
@@ -172,10 +302,11 @@
       </div>
     </div>
 
-    <div class="overlay-bottom-left p-2">
-      <button class="play-ad-btn" (click)="onPlayAd()">
-        <img src="/dash/video-btn.svg" width="16px" height="16px" alt=""> Play Ad
-      </button>
+    <div class="pt-3 px-4">
+      <!-- <button class="play-ad-btn" (click)="openPublishADModal()">
+        <img src="/dash/video-btn.svg" width="16" height="16" alt="">
+        Play Ad
+      </button> -->
     </div>
 
     <div class="overlay-top-right">

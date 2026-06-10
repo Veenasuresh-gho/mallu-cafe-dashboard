@@ -9,11 +9,13 @@ import { ghoresult, tags } from '../../../model/ghomodel';
 import { GHOService } from '../../services/ghosrvs';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatBadgeModule } from '@angular/material/badge';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,MatMenuModule,MatDividerModule,MatBadgeModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
@@ -33,6 +35,8 @@ export class Navbar implements OnInit, OnDestroy {
   fileName: string = '';
   errors: any = {};
   id: any = '';
+  notifications: any[] = [];
+  showAllNotifications = false;
 
   currentSong: any = null;
   nextSong: any = null;
@@ -44,6 +48,7 @@ export class Navbar implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getProfile();
     this.getSongs();
+    this.getNotifications()
 
     this.songsInterval = setInterval(() => {
       this.getSongs();
@@ -145,7 +150,32 @@ export class Navbar implements OnInit, OnDestroy {
       });
   }
 
+getNotifications(): void {
+  const userId = this.srv.getsession('id');
+  const tv = [
+    { T: 'dk1', V: userId },
+    { T: 'c10', V: '2' }
+  ];
+  this.srv.getdata('notification', tv).subscribe({
+    next: (r) => {
+      this.notifications = r.Data?.[0] || [];
+    },
+    error: (err) => {
+      console.error(err);
+      this.loading = false;
+    }
+  });
+}
+
+get displayedNotifications() {
+  return this.showAllNotifications
+    ? this.notifications
+    : this.notifications.slice(0, 3);
+}
+
   navigateToProfile() {
     this.router.navigate(['/profile']);
   }
+
+
 }

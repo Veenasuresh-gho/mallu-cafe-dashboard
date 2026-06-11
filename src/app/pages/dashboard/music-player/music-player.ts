@@ -12,6 +12,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { PublishAd } from '../../advertisements/components/publish-ad/publish-ad';
 import { MatDialog } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @Component({
@@ -22,7 +23,8 @@ import { MatDialog } from '@angular/material/dialog';
     MatSlideToggleModule,
     MatIconModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './music-player.html',
   styleUrls: ['./music-player.css'],
@@ -70,8 +72,10 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
   programDetails: any;
   isLoading = true;
   noProgram = false;
+  isMediaTransitionLoading = false;
   private adCompleted = false;
   isAdvertisement = false;
+
 
   // Add them here
   get isAdvertisementAudio(): boolean {
@@ -114,29 +118,19 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
   }
 
   refreshProgram(): void {
-
     this.tv = [{ T: 'c10', V: '13' }];
-
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
-
         const data = r?.Data?.[0];
-
         if (!data?.length) {
           return;
         }
-
         const newProgram = data[0];
-
-
         this.isAdvertisement =
           newProgram?.IsAdvertisement === 1 ||
           newProgram?.CategoryName === 'AdvertisementVideo' ||
           newProgram?.CategoryName === 'AdvertisementAudio';
-
         const isAdvertisement = this.isAdvertisement;
-
-
         const seekTime = Number(newProgram?.SeekTime || 0);
         const duration = Number(newProgram?.Duration || 0);
 
@@ -148,18 +142,16 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
         // const isAdvertisement =
         //   newProgram?.IsAdvertisement === 1 ||
         //   newProgram?.CategoryName === 'AdvertisementVideo';
-
-
-
         if (duration > 0 && seekTime >= duration) {
-
           if (isAdvertisement) {
-
             if (!this.adCompleted) {
-
               this.adCompleted = true;
-
-              this.loadNextAdvertisement();
+              // this.isMediaTransitionLoading = true;
+              // this.loadNextAdvertisement();
+              setTimeout(() => {
+                this.isMediaTransitionLoading = true;
+                this.loadNextAdvertisement();
+              });
 
             }
 
@@ -168,7 +160,6 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
             this.stopProgram();
 
           }
-
           return;
         }
 
@@ -365,7 +356,12 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
 
         // Load next ad automatically
         if (this.isAdvertisementAudio) {
-          this.loadNextAdvertisement();
+          // this.isMediaTransitionLoading = true;
+          // this.loadNextAdvertisement();
+          setTimeout(() => {
+            this.isMediaTransitionLoading = true;
+            this.loadNextAdvertisement();
+          });
         }
 
       });
@@ -375,7 +371,6 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
   }
 
   handleMedia(url: string) {
-
     if (!url) {
       this.noProgram = true;
       return;
@@ -443,17 +438,15 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
   }
 
   loadCurrentProgram(): void {
-
     this.isLoading = true;
     this.noProgram = false;
-
     this.tv = [{ T: 'c10', V: '13' }];
-
     this.srv.getdata('program', this.tv).subscribe({
       next: (r) => {
+        this.isMediaTransitionLoading = false;
         const data = r?.Data?.[0];
         if (!data || !Array.isArray(data) || data.length === 0) {
-
+          
           this.programDetails = null;
           this.noProgram = true;
           this.isAudio = false;
@@ -469,7 +462,7 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
         }
 
         this.programDetails = data[0];
-
+        this.noProgram = false;
         const bytes = Number(this.programDetails?.size || 0);
 
         this.mb = (bytes / (1024 * 1024)).toFixed(2);
@@ -492,7 +485,7 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
       },
 
       error: (err) => {
-
+        this.isMediaTransitionLoading = false;
         console.error(err);
 
         this.programDetails = null;
@@ -666,62 +659,41 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
     this.audio.muted = this.isMuted;
   }
 
-  // loadNextAdvertisement(): void {
-  //   const tags = [{ T: 'c10', V: '10' }];
-  //   this.srv.getdata('advertisement', tags).subscribe({
-  //     next: (res) => {
-
-  //       console.log('Next advertisement response', res);
-
-  //       // Refresh player with returned media
-  //       this.loadCurrentProgram();
-
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to load next advertisement', err);
-  //     }
-  //   });
-  // }
 
   loadNextAdvertisement(): void {
+  const tags = [{ T: 'c10', V: '10' }];
+  this.srv.getdata('advertisement', tags).subscribe({
+    next: (res) => {
 
-    const tags = [{ T: 'c10', V: '10' }];
+      const nextAd = res?.Data?.[0]?.[0];
 
-    this.srv.getdata('advertisement', tags).subscribe({
-      next: (res) => {
+      if (nextAd && nextAd._url) {
 
-        const nextAd = res?.Data?.[0]?.[0];
+        this.noProgram = false;
+        this.isMediaTransitionLoading = false;
 
-        if (nextAd) {
+        this.programDetails = nextAd;
 
-          this.programDetails = nextAd;
+        this.isAdvertisement =
+          nextAd?.IsAdvertisement === 1 ||
+          nextAd?.CategoryName === 'AdvertisementVideo' ||
+          nextAd?.CategoryName === 'AdvertisementAudio';
 
-          // IMPORTANT
-          this.isAdvertisement =
-            nextAd?.IsAdvertisement === 1 ||
-            nextAd?.CategoryName === 'AdvertisementVideo' ||
-            nextAd?.CategoryName === 'AdvertisementAudio';
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.hasSeeked = false;
 
-          this.audio.pause();
-          this.audio.currentTime = 0;
-          this.hasSeeked = false;
+        this.handleMedia(nextAd._url);
 
-          this.handleMedia(nextAd._url);
+      } else {
 
-          this.cdr.detectChanges();
-
-        } else {
-
-          this.isAdvertisement = false;
-
-          // No more ads → return to program stream
-          this.loadCurrentProgram();
-        }
-      },
-      error: () => {
         this.isAdvertisement = false;
+        this.isMediaTransitionLoading = false;
+
+        this.loadCurrentProgram();
       }
-    });
-  }
+    }
+  });
+}
 }
 

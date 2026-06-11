@@ -53,7 +53,7 @@ export class AddNewProgram implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<AddNewProgram>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private cdr: ChangeDetectorRef,private dialog: MatDialog
+    private cdr: ChangeDetectorRef, private dialog: MatDialog
   ) { }
   loading = false;
   initialLoading = false;
@@ -102,11 +102,11 @@ export class AddNewProgram implements OnInit {
 
     if (!this.programTitle?.trim()) this.errors.programTitle = 'Program title is required';
     // if (!this.selectedHost) this.errors.host = 'Please select a host / RJ';
-      if (!this.isEditMode && !this.selectedHost) {
-    this.errors.host = 'Please select a host / RJ';
-  }
+    if (!this.isEditMode && !this.selectedHost) {
+      this.errors.host = 'Please select a host / RJ';
+    }
     if (!this.selectedCategory) this.errors.category = 'Please select a program category';
-    if (!this.selectedType) this.errors.type = 'Please choose a call option';
+    // if (!this.selectedType) this.errors.type = 'Please choose a call option';
     return Object.keys(this.errors).length === 0;
   }
 
@@ -120,46 +120,46 @@ export class AddNewProgram implements OnInit {
     });
   }
 
-deletePoadcastCategory(category: { DisplayText: string; DataValue: number }): void {
+  deletePoadcastCategory(category: { DisplayText: string; DataValue: number }): void {
     const categoryId = category?.DataValue;
-  this.tv = [
-    { T: 'dk1', V: categoryId.toString() }, 
-    { T: 'c10', V: '8' }         
-  ];
-  this.srv.getdata('lists', this.tv).subscribe({
-    next: (r) => {
-      if (r.Status === 1) {
-        this.toast.show({
-          title: 'Category deleted successfully! 🗑️',
-          description: 'Podcast category deleted successfully.',
-          variant: 'success',
-          position: 'toast-bottom-right'
-        });
-        this.getPodcastCategory();
+    this.tv = [
+      { T: 'dk1', V: categoryId.toString() },
+      { T: 'c10', V: '8' }
+    ];
+    this.srv.getdata('lists', this.tv).subscribe({
+      next: (r) => {
+        if (r.Status === 1) {
+          this.toast.show({
+            title: 'Category deleted successfully! 🗑️',
+            description: 'Podcast category deleted successfully.',
+            variant: 'success',
+            position: 'toast-bottom-right'
+          });
+          this.getPodcastCategory();
           setTimeout(() => {
-    this.cdr.detectChanges();
-  });
+            this.cdr.detectChanges();
+          });
 
-      } else {
+        } else {
+          this.toast.show({
+            title: 'Delete failed ❌',
+            description: r.Info || 'Unable to delete category.',
+            variant: 'error',
+            position: 'toast-bottom-right'
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Delete API error:', err);
         this.toast.show({
           title: 'Delete failed ❌',
-          description: r.Info || 'Unable to delete category.',
+          description: 'Something went wrong while deleting the category.',
           variant: 'error',
           position: 'toast-bottom-right'
         });
       }
-    },
-    error: (err) => {
-      console.error('Delete API error:', err);
-      this.toast.show({
-        title: 'Delete failed ❌',
-        description: 'Something went wrong while deleting the category.',
-        variant: 'error',
-        position: 'toast-bottom-right'
-      });
-    }
-  });
-}
+    });
+  }
 
 
   getProgramDetails(id: string): void {
@@ -171,16 +171,13 @@ deletePoadcastCategory(category: { DisplayText: string; DataValue: number }): vo
     this.srv.getdata('program', this.tv)
       .subscribe({
         next: (r) => {
-
           this.loading = false;
-
           if (r?.Status === 1 && r?.Data?.[0]?.length) {
             const program = r.Data[0][0];
             this.programDetailsID = program.id;
             this.getTeamMemberList().then(() => {
               this.assignedHosts = r?.Data?.[1] || [];
               this.populateForm(program);
-
             });
             this.populateForm(program);
           } else {
@@ -191,7 +188,6 @@ deletePoadcastCategory(category: { DisplayText: string; DataValue: number }): vo
               position: 'toast-bottom-right'
             });
           }
-
           this.cdr.detectChanges();
         },
 
@@ -204,7 +200,6 @@ deletePoadcastCategory(category: { DisplayText: string; DataValue: number }): vo
             variant: 'error',
             position: 'toast-bottom-right'
           });
-
           this.cdr.detectChanges();
         }
       });
@@ -212,72 +207,72 @@ deletePoadcastCategory(category: { DisplayText: string; DataValue: number }): vo
 
 
   populateForm(program: any) {
-  this.programTitle = program?.Title || '';
-  const selectedHostObj = this.hosts.find(
-    h => h.DisplayText === program.HostName
-  );
-  this.selectedHost = selectedHostObj?.DataValue || '';
-  const selectedCategoryObj = this.categoryOptions.find(
-    c => c.DisplyText === program.CategoryName
-  );
-  this.selectedCategory = selectedCategoryObj?.DataValue || '';
-  // ADD THIS BLOCK
-  if (this.selectedCategory === '2') {
-    this.getPodcastCategory();
-    setTimeout(() => {
-      const selectedPodcastObj = this.catogories.find(
-        (c: any) => c.DisplayText === program.PodcastCategory
-      );
-      this.selectedPodcastCategory =
-        selectedPodcastObj?.DataValue || '';
-      this.cdr.detectChanges();
-    }, 300);
+    this.programTitle = program?.Title || '';
+    const selectedHostObj = this.hosts.find(
+      h => h.DisplayText === program.HostName
+    );
+    this.selectedHost = selectedHostObj?.DataValue || '';
+    const selectedCategoryObj = this.categoryOptions.find(
+      c => c.DisplyText === program.CategoryName
+    );
+    this.selectedCategory = selectedCategoryObj?.DataValue || '';
+    // ADD THIS BLOCK
+    if (this.selectedCategory === '2') {
+      this.getPodcastCategory();
+      setTimeout(() => {
+        const selectedPodcastObj = this.catogories.find(
+          (c: any) => c.DisplayText === program.PodcastCategory
+        );
+        this.selectedPodcastCategory =
+          selectedPodcastObj?.DataValue || '';
+        this.cdr.detectChanges();
+      }, 300);
+    }
+
+    const dayMap: any = {
+      Mon: '1',
+      Tue: '2',
+      Wed: '3',
+      Thu: '4',
+      Fri: '5',
+      Sat: '6',
+      Sun: '7'
+    };
+
+    let fromDay = '';
+    let toDay = '';
+
+    if (program?.DayRange) {
+      const [from, to] = program.DayRange.split(' - ');
+      fromDay = dayMap[from] || '';
+      toDay = dayMap[to] || '';
+    }
+
+    let fromTime = '';
+    let toTime = '';
+
+    if (program?.TimeRange) {
+      const [fromT, toT] = program.TimeRange.split(' - ');
+      fromTime = fromT || '';
+      toTime = toT || '';
+    }
+
+    this.selectedSchedule = {
+      fromDay,
+      toDay,
+      fromTime,
+      toTime
+    };
+
+    this.fid = program.fid;
+    this.programID = program.ProgramID;
+    this.selectedType = program?.IsCallAllowed ? 'allow' : 'disable';
+    this.id = program?.id || '';
+    this.existingImageUrl = program?._url || '';
+    this.fileName = program?.filename || '';
+
+    this.cdr.detectChanges();
   }
-
-  const dayMap: any = {
-    Mon: '1',
-    Tue: '2',
-    Wed: '3',
-    Thu: '4',
-    Fri: '5',
-    Sat: '6',
-    Sun: '7'
-  };
-
-  let fromDay = '';
-  let toDay = '';
-
-  if (program?.DayRange) {
-    const [from, to] = program.DayRange.split(' - ');
-    fromDay = dayMap[from] || '';
-    toDay = dayMap[to] || '';
-  }
-
-  let fromTime = '';
-  let toTime = '';
-
-  if (program?.TimeRange) {
-    const [fromT, toT] = program.TimeRange.split(' - ');
-    fromTime = fromT || '';
-    toTime = toT || '';
-  }
-
-  this.selectedSchedule = {
-    fromDay,
-    toDay,
-    fromTime,
-    toTime
-  };
-
-  this.fid = program.fid;
-  this.programID = program.ProgramID;
-  this.selectedType = program?.IsCallAllowed ? 'allow' : 'disable';
-  this.id = program?.id || '';
-  this.existingImageUrl = program?._url || '';
-  this.fileName = program?.filename || '';
-
-  this.cdr.detectChanges();
-}
 
   getInitialData(): Promise<void> {
     this.initialLoading = true;
@@ -334,7 +329,7 @@ deletePoadcastCategory(category: { DisplayText: string; DataValue: number }): vo
     });
   }
 
- 
+
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -365,7 +360,8 @@ deletePoadcastCategory(category: { DisplayText: string; DataValue: number }): vo
       StartTime: this.selectedSchedule.fromTime,
       EndTime: this.selectedSchedule.toTime,
       HostID: this.selectedHost,
-      IsCallAllowed: this.selectedType === "allow" ? 1 : 0
+      // IsCallAllowed: this.selectedType === "allow" ? 1 : 0
+      IsCallAllowed: 0
     };
 
     this.tv = [
@@ -456,29 +452,30 @@ deletePoadcastCategory(category: { DisplayText: string; DataValue: number }): vo
       StartTime: this.selectedSchedule.fromTime,
       EndTime: this.selectedSchedule.toTime,
       // HostID: this.selectedHost,
-      HostID:'0',
-      IsCallAllowed: this.selectedType === "allow" ? 1 : 0
+      HostID: '0',
+      // IsCallAllowed: this.selectedType === "allow" ? 1 : 0
+      IsCallAllowed: 0
     };
 
     const assignedHostIds = this.assignedHosts.map(
-  host => host.HostID
-);
+      host => host.HostID
+    );
 
-const allHostIds = [...assignedHostIds];
+    const allHostIds = [...assignedHostIds];
 
-if (
-  this.selectedHost &&
-  !allHostIds.includes(this.selectedHost)
-) {
-  allHostIds.push(this.selectedHost);
-}
+    if (
+      this.selectedHost &&
+      !allHostIds.includes(this.selectedHost)
+    ) {
+      allHostIds.push(this.selectedHost);
+    }
 
     this.tv = [
       { T: 'dk1', V: this.id },
       { T: 'c1', V: JSON.stringify(payload) },
       { T: 'c2', V: this.selectedHost },
       { T: 'c3', V: this.selectedPodcastCategory || '' },
-        // { T: 'c2', V: JSON.stringify(allHostIds) },
+      // { T: 'c2', V: JSON.stringify(allHostIds) },
       { T: 'c10', V: '2' }
     ];
 
@@ -625,52 +622,52 @@ if (
 
 
   deleteHostMember(hostID: any): void {
-  this.cdr.markForCheck();
-  this.tv = [
-    { T: 'dk1', V: this.programDetailsID },
-    { T: 'dk2', V: hostID },
-    { T: 'c10', V: '17' }
-  ];
-  this.srv.getdata('program', this.tv).subscribe({
-    next: (r) => {
-      this.cdr.markForCheck();
-      if (r.Status == 1) {
+    this.cdr.markForCheck();
+    this.tv = [
+      { T: 'dk1', V: this.programDetailsID },
+      { T: 'dk2', V: hostID },
+      { T: 'c10', V: '17' }
+    ];
+    this.srv.getdata('program', this.tv).subscribe({
+      next: (r) => {
+        this.cdr.markForCheck();
+        if (r.Status == 1) {
+          this.toast.show({
+            title: 'Host Member removed ✅',
+            description: 'Host Member deleted successfully',
+            variant: 'success',
+            position: 'toast-bottom-right'
+          });
+
+          this.getProgramDetails(this.data.id);
+
+        } else {
+
+          this.toast.show({
+            title: 'Delete failed ❌',
+            description: r?.Info || 'Unable to remove Host Member',
+            variant: 'error',
+            position: 'toast-bottom-right'
+          });
+        }
+      },
+
+      error: (err) => {
+
+        console.error('API Error:', err);
+        this.cdr.markForCheck();
+
         this.toast.show({
-          title: 'Host Member removed ✅',
-          description: 'Host Member deleted successfully',
-          variant: 'success',
-          position: 'toast-bottom-right'
-        });
-
-         this.getProgramDetails(this.data.id);
-
-      } else {
-
-        this.toast.show({
-          title: 'Delete failed ❌',
-          description: r?.Info || 'Unable to remove Host Member',
+          title: 'Server error 🚨',
+          description: 'Please try again later',
           variant: 'error',
           position: 'toast-bottom-right'
         });
       }
-    },
+    });
+  }
 
-    error: (err) => {
-
-      console.error('API Error:', err);
-      this.cdr.markForCheck();
-
-      this.toast.show({
-        title: 'Server error 🚨',
-        description: 'Please try again later',
-        variant: 'error',
-        position: 'toast-bottom-right'
-      });
-    }
-  });
-}
-
- getPodcastCategory() {
+  getPodcastCategory() {
     this.tv = [{ T: 'c10', V: '4' }];
     this.srv.getdata('lists', this.tv)
       .subscribe({
@@ -680,27 +677,27 @@ if (
             DisplayText: item.Name,
             DataValue: item.PodcastcategoryID
           }));
-           this.cdr.detectChanges();
+          this.cdr.detectChanges();
         }
       })
   }
 
 
-onProgramCategoryChange(value: string) {
+  onProgramCategoryChange(value: string) {
 
-  this.selectedCategory = value;
+    this.selectedCategory = value;
 
-  if (value === '2') {
+    if (value === '2') {
 
-    this.getPodcastCategory();
+      this.getPodcastCategory();
+
+    }
+  }
+
+  onPodcastCategoryChange(value: string) {
+    this.selectedPodcastCategory = value;
 
   }
-}
-
-onPodcastCategoryChange(value: string) {
-  this.selectedPodcastCategory = value;
-
-}
 
   openModalAddPodcast() {
     const dialogRef = this.dialog.open(AddPodcast, {
@@ -717,20 +714,20 @@ onPodcastCategoryChange(value: string) {
   }
 
 
-openEditPodcast(item: any) {
+  openEditPodcast(item: any) {
 
-  const dialogRef = this.dialog.open(EditPoadcast, {
-    width: '550px',
-    data: item
-  });
+    const dialogRef = this.dialog.open(EditPoadcast, {
+      width: '550px',
+      data: item
+    });
 
-  dialogRef.afterClosed().subscribe((res) => {
+    dialogRef.afterClosed().subscribe((res) => {
 
-    if (res) {
-      this. getPodcastCategory();
-    }
+      if (res) {
+        this.getPodcastCategory();
+      }
 
-  });
-}
+    });
+  }
 
 }

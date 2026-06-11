@@ -103,8 +103,8 @@ export class UploadAdFile implements OnInit {
     };
     this.fid = ad.fid;
     this.fileName = ad.FileName;
-    this.id = ad.id1;
-    this.advertisementID = ad.id1
+    this.id = ad.AdvertisementID;
+    this.advertisementID = ad.AdvertisementID;
     this.adsEnabled = ad.IsAudioVideoAd === 1 || ad.IsAudioVideoAd === 3;
     const promo = +ad.IsLatestPromotion;
     this.adsEnabled = [1, 3].includes(promo);
@@ -329,13 +329,19 @@ export class UploadAdFile implements OnInit {
                 title: 'Upload failed ❌',
                 description: 'File upload failed',
                 variant: 'error',
-                position: 'toast-bottom-center'
+                position: 'toast-bottom-right'
               });
             }
           }
         },
         error: () => {
           this.loading = false;
+           this.toast.show({
+                title: 'Upload failed ❌',
+                description: 'File upload failed',
+                variant: 'error',
+                position: 'toast-bottom-right'
+              });
         }
       });
 
@@ -411,6 +417,12 @@ export class UploadAdFile implements OnInit {
       error: () => {
         this.loading = false;
         this.cd.detectChanges();
+        this.toast.show({
+                title: 'Upload failed ❌',
+                description: 'File upload failed',
+                variant: 'error',
+                position: 'toast-bottom-right'
+              });
       }
     });
   }

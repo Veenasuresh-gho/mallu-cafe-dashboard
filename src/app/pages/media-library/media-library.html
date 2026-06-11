@@ -54,16 +54,13 @@
   ]">
                 </app-select-drop-down> -->
 
-                <app-select-drop-down
-  placeholder="All upload status"
-  [(value)]="status"
-  (valueChange)="applyFilters()"
-  [options]="[
+                <app-select-drop-down placeholder="All upload status" [(value)]="status" (valueChange)="applyFilters()"
+                    [options]="[
     { label: 'All upload status', value: 'all' },
     { label: 'Published', value: 'published' },
     { label: 'Draft', value: 'draft' }
   ]">
-</app-select-drop-down>
+                </app-select-drop-down>
 
                 <app-select-drop-down placeholder="All Category" [(value)]="category" (valueChange)="applyFilters()"
                     [options]="[
@@ -89,11 +86,12 @@
                 </app-select-drop-down>
 
                 <div class="calendar-wrapper" *ngIf="isCalendarOpen">
-                    <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)" (calendarClosed)="closeCalendar()">
+                    <app-custom-filter-calender [inlineMode]="true" (filterApplied)="onFilterApplied($event)"
+                        (calendarClosed)="closeCalendar()">
                     </app-custom-filter-calender>
                 </div>
             </div>
-            <div  (click)="clearFilters()" class="clear-btn d-flex align-items-center gap-1 pt-3">
+            <div (click)="clearFilters()" class="clear-btn d-flex align-items-center gap-1 pt-3">
                 <p style="font-size: 12px; font-weight: 500; color: #757575;">Clear filters</p>
                 <mat-icon style="font-size: 12px; color: #757575; cursor: pointer;" class="mb-1">cancel</mat-icon>
             </div>
@@ -109,8 +107,8 @@
                 <div class="media-cell">
                     <img [src]="row.ThumbnailUrl || '/main/no-image.png'" class="avatar" />
                     <div>
-                        <p class="media-name mb-0 file-name">{{ row.FileName }}</p>
-                        <p class="mb-0 media-size">{{ row.Size }}</p>
+                        <p class="media-name mb-0 file-name">{{ formatFileName(row.FileName) }}</p>
+                        <p class="mb-0 media-size">{{ row.FileSize }}</p>
                     </div>
                 </div>
             </td>
@@ -136,15 +134,25 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="likes">
+        <!-- <ng-container matColumnDef="likes">
             <th mat-header-cell *matHeaderCellDef>Likes</th>
             <td mat-cell *matCellDef="let row" class="likes-cell">
                 <mat-icon class="like-icon ">favorite</mat-icon>
                 {{ row.Likes }}
             </td>
-        </ng-container>
+        </ng-container> -->
 
-
+        <ng-container matColumnDef="likes">
+    <th mat-header-cell *matHeaderCellDef>Likes</th>
+    <td mat-cell *matCellDef="let row" class="likes-cell">
+        <mat-icon
+            class="like-icon"
+            [class.liked]="row.Likes > 0">
+            favorite
+        </mat-icon>
+        {{ row.Likes }}
+    </td>
+</ng-container>
         <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef>Upload Status</th>
 
@@ -173,7 +181,7 @@
 
             <td mat-cell *matCellDef="let row">
 
-                <button  [disabled]="!canUploadMedia" mat-icon-button [matMenuTriggerFor]="menu">
+                <button [disabled]="!canUploadMedia" mat-icon-button [matMenuTriggerFor]="menu">
                     <mat-icon>more_horiz</mat-icon>
                 </button>
 

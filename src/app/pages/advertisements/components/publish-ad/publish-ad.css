@@ -216,6 +216,10 @@ mat-paginator {
     text-overflow: ellipsis;
 }
 
+.advertiser-name{
+    font-size: 13px;
+    font-weight: 500; 
+}
 .mat-column-select {
     width: 60px;
     max-width: 60px;

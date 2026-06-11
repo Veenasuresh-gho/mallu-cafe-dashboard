@@ -69,12 +69,31 @@ export class Summary implements OnInit {
         const videosUploaded = Number(data.VideosUploaded ?? 0);
 
         this.summary = [
+          // {
+          //   show: 'tick',
+          //   color: '#4375FF',
+          //   image: '/main/radio.png',
+          //   title: 'Programs',
+          //   statistics: `${scheduledPrograms} <span>Scheduled | ${completedPrograms}</span>`,
+          //   info: `<span>${Math.max(
+          //     scheduledPrograms - uploadedPrograms,
+          //     0
+          //   )}</span> Program Missing Audio File`
+          // },
           {
             show: 'tick',
             color: '#4375FF',
             image: '/main/radio.png',
             title: 'Programs',
-            statistics: `${scheduledPrograms} <span>Scheduled | ${completedPrograms}</span>`,
+            statistics: `
+    ${scheduledPrograms}
+    <span>
+      Scheduled | ${completedPrograms}
+      ${completedPrograms > 0
+                ? '<img src="/main/tick-circle.svg" class="completed-icon" alt="completed">'
+                : ''}
+    </span>
+  `,
             info: `<span>${Math.max(
               scheduledPrograms - uploadedPrograms,
               0

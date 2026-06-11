@@ -79,12 +79,8 @@
                         <td mat-cell *matCellDef="let row">
                             <!-- <input type="checkbox" [checked]="row.selected" (change)="onSelectAd(row, $event)"
                                 class="ad-checkbox"> -->
-                            <input
-    type="checkbox"
-    [checked]="row.selected"
-    (click)="$event.stopPropagation()"
-    (change)="onSelectAd(row, $event)"
-    class="ad-checkbox">
+                            <input type="checkbox" [checked]="row.selected" (click)="$event.stopPropagation()"
+                                (change)="onSelectAd(row, $event)" class="ad-checkbox">
                         </td>
                     </ng-container>
 
@@ -168,11 +164,9 @@
                     </tr>
                     <!-- <tr mat-row *matRowDef="let row; columns: columns" [class.selected-row]="row.selected">
                     </tr> -->
-                    <tr mat-row
-    *matRowDef="let row; columns: columns"
-    [class.selected-row]="row.selected"
-    (click)="toggleRowSelection(row)">
-</tr>
+                    <tr mat-row *matRowDef="let row; columns: columns" [class.selected-row]="row.selected"
+                        (click)="toggleRowSelection(row)">
+                    </tr>
 
                 </table>
                 <!-- 

@@ -89,46 +89,31 @@ export class PublishAd implements OnInit {
     this.dataSource._updateChangeSubscription();
   }
 
-toggleSelection(row: any, checked: boolean): void {
-  row.selected = checked;
+  toggleSelection(row: any, checked: boolean): void {
+    row.selected = checked;
 
-  if (checked) {
-    if (!this.selectedAds.includes(row)) {
-      this.selectedAds.push(row);
+    if (checked) {
+      if (!this.selectedAds.includes(row)) {
+        this.selectedAds.push(row);
+      }
+    } else {
+      this.selectedAds = this.selectedAds.filter(
+        ad => ad !== row
+      );
     }
-  } else {
-    this.selectedAds = this.selectedAds.filter(
-      ad => ad !== row
-    );
+
+    this.dataSource._updateChangeSubscription();
   }
 
-  this.dataSource._updateChangeSubscription();
-}
+  onSelectAd(row: any, event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.toggleSelection(row, checked);
+  }
 
-onSelectAd(row: any, event: Event): void {
-  const checked = (event.target as HTMLInputElement).checked;
-  this.toggleSelection(row, checked);
-}
+  toggleRowSelection(row: any): void {
+    this.toggleSelection(row, !row.selected);
+  }
 
-toggleRowSelection(row: any): void {
-  this.toggleSelection(row, !row.selected);
-}
-
-  // onSelectAd(row: any, event: Event): void {
-  //   const checked = (event.target as HTMLInputElement).checked;
-  //   row.selected = checked;
-  //   if (checked) {
-  //     if (!this.selectedAds.includes(row)) {
-  //       this.selectedAds.push(row);
-  //     }
-  //   } else {
-  //     this.selectedAds = this.selectedAds.filter(
-  //       ad => ad !== row
-  //     );
-  //   }
-  //   console.log('selectedAds',this.selectedAds);
-  //   this.dataSource._updateChangeSubscription();
-  // }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -275,7 +260,10 @@ toggleRowSelection(row: any): void {
 
   getAdvertisements(): void {
     this.loading = true;
-    this.tv = [{ T: 'c10', V: '3' }];
+    this.tv = [
+      { T: 'c3', V: '1' },
+      { T: 'c10', V: '3' }
+    ];
     this.srv.getdata('advertisement', this.tv).subscribe({
       next: (response: any) => {
         this.advertisements = (response?.Data?.[0] || []).map(
@@ -288,7 +276,6 @@ toggleRowSelection(row: any): void {
         this.loading = false;
         this.cdr.detectChanges();
       },
-
       error: (err) => {
         console.error(err);
         this.loading = false;
@@ -301,16 +288,12 @@ toggleRowSelection(row: any): void {
     switch (status) {
       case 'Active':
         return 'active';
-
       case 'Waiting List':
         return 'waiting';
-
       case 'Published':
         return 'published';
-
       case 'Expired':
         return 'expired';
-
       default:
         return '';
     }
@@ -360,99 +343,99 @@ toggleRowSelection(row: any): void {
     this.dialogRef.close();
   }
 
-publishAds(): void {
-  if (this.selectedAds.length === 0) {
-    alert('Please select at least one advertisement');
-    return;
-  }
+  publishAds(): void {
+    if (this.selectedAds.length === 0) {
+      alert('Please select at least one advertisement');
+      return;
+    }
 
-  const selectedAdIds = this.selectedAds
-    .map(ad => ad.AdvertisementID)
-    .join(',');
+    const selectedAdIds = this.selectedAds
+      .map(ad => ad.AdvertisementID)
+      .join(',');
 
-  const teamMemberId = this.srv.getsession('id');
+    const teamMemberId = this.srv.getsession('id');
 
-  const queueTags = [
-    { T: 'dk1', V: '' },
-    { T: 'dk2', V: teamMemberId },
-    { T: 'c1', V: selectedAdIds },
-    { T: 'c10', V: '7' }
-  ];
+    const queueTags = [
+      { T: 'dk1', V: '' },
+      { T: 'dk2', V: teamMemberId },
+      { T: 'c1', V: selectedAdIds },
+      { T: 'c10', V: '7' }
+    ];
 
-  this.PublishADloading = true;
-  this.cdr.detectChanges();
-  // STEP 1 - Queue Advertisement
-  this.srv.getdata('advertisement', queueTags).subscribe({
-    next: (queueRes) => {
-      const adBreak = queueRes?.Data?.[0]?.[0];
-      if (!adBreak?.AdBreakIDAlt) {
-        this.PublishADloading = false;
-        this.cdr.detectChanges();
-        this.toast.show({
-          title: 'Publishing failed ❌',
-          description: 'Ad Break ID not found',
-          variant: 'error',
-          position: 'toast-bottom-center'
-        });
-
-        return;
-      }
-      const publishTags = [
-        {
-          T: 'dk1',
-          V: adBreak.AdBreakIDAlt
-        },
-        {
-          T: 'c10',
-          V: '9'
-        }
-      ];
-      // STEP 2 - Publish Advertisement
-      this.srv.getdata('advertisement', publishTags).subscribe({
-        next: (publishRes) => {
+    this.PublishADloading = true;
+    this.cdr.detectChanges();
+    // STEP 1 - Queue Advertisement
+    this.srv.getdata('advertisement', queueTags).subscribe({
+      next: (queueRes) => {
+        const adBreak = queueRes?.Data?.[0]?.[0];
+        if (!adBreak?.AdBreakIDAlt) {
           this.PublishADloading = false;
           this.cdr.detectChanges();
-          if (publishRes?.Status === 1) {
-            this.toast.show({
-              title: 'Advertisement published successfully! 🎉',
-              description: 'Selected advertisements have been published successfully.',
-              variant: 'success',
-              position: 'toast-bottom-center'
-            });
-            this.dialogRef.close(true);
-          } else {
+          this.toast.show({
+            title: 'Publishing failed ❌',
+            description: 'Ad Break ID not found',
+            variant: 'error',
+            position: 'toast-bottom-center'
+          });
+
+          return;
+        }
+        const publishTags = [
+          {
+            T: 'dk1',
+            V: adBreak.AdBreakIDAlt
+          },
+          {
+            T: 'c10',
+            V: '9'
+          }
+        ];
+        // STEP 2 - Publish Advertisement
+        this.srv.getdata('advertisement', publishTags).subscribe({
+          next: (publishRes) => {
+            this.PublishADloading = false;
+            this.cdr.detectChanges();
+            if (publishRes?.Status === 1) {
+              this.toast.show({
+                title: 'Advertisement published successfully',
+                description: 'Selected advertisements have been published successfully.',
+                variant: 'success',
+                position: 'toast-bottom-center'
+              });
+              this.dialogRef.close(true);
+            } else {
+              this.toast.show({
+                title: 'Publishing failed ❌',
+                description: publishRes?.Info || 'Unable to publish advertisements',
+                variant: 'error',
+                position: 'toast-bottom-center'
+              });
+            }
+          },
+          error: (err) => {
+            this.PublishADloading = false;
+            this.cdr.detectChanges();
+            console.error('Publish API Failed', err);
             this.toast.show({
               title: 'Publishing failed ❌',
-              description: publishRes?.Info || 'Unable to publish advertisements',
+              description: 'Something went wrong while publishing advertisements.',
               variant: 'error',
               position: 'toast-bottom-center'
             });
           }
-        },
-        error: (err) => {
-          this.PublishADloading = false;
-          this.cdr.detectChanges();
-          console.error('Publish API Failed', err);
-          this.toast.show({
-            title: 'Publishing failed ❌',
-            description: 'Something went wrong while publishing advertisements.',
-            variant: 'error',
-            position: 'toast-bottom-center'
-          });
-        }
-      });
-    },
-    error: (err) => {
-      this.PublishADloading = false;
-      this.cdr.detectChanges();
-      console.error('Queue API Failed', err);
-      this.toast.show({
-        title: 'Queue creation failed ❌',
-        description: 'Unable to create advertisement queue.',
-        variant: 'error',
-        position: 'toast-bottom-center'
-      });
-    }
-  });
-}
+        });
+      },
+      error: (err) => {
+        this.PublishADloading = false;
+        this.cdr.detectChanges();
+        console.error('Queue API Failed', err);
+        this.toast.show({
+          title: 'Queue creation failed ❌',
+          description: 'Unable to create advertisement queue.',
+          variant: 'error',
+          position: 'toast-bottom-center'
+        });
+      }
+    });
+  }
 }

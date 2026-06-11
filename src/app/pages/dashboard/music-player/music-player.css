@@ -988,3 +988,13 @@ input:checked+.slider:before {
   position: relative;
   z-index: 10000;
 }
+
+.audio-loading-container{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  min-height:120px;
+  gap:12px;
+  color:#fff;
+}

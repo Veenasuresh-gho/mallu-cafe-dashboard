@@ -53,8 +53,7 @@
       </span>
     </div>
 
-    <div class="audio-player-container d-flex align-items-center gap-3 py-3">
-      <!-- <div class="play-btn" (click)="toggleAudio()"> -->
+    <!-- <div class="audio-player-container d-flex align-items-center gap-3 py-3">
       <div class="play-btn" [style.pointer-events]="isAdvertisementAudio ? 'none' : 'auto'" (click)="toggleAudio()">
         <mat-icon>
           {{ isPlaying ? 'pause' : 'play_arrow' }}
@@ -71,7 +70,41 @@
           <span>{{ formatTime(duration) }}</span>
         </div>
       </div>
+    </div> -->
+    @if(isMediaTransitionLoading){
+
+    <div class="audio-loading-container">
+      <div class="spinner"></div>
+      <p>Loading next advertisement...</p>
     </div>
+
+    }
+    @else{
+
+    <div class="audio-player-container d-flex align-items-center gap-3 py-3">
+
+      <!-- <div class="play-btn" [style.pointer-events]="isAdvertisementAudio ? 'none' : 'auto'" (click)="toggleAudio()">
+        <mat-icon>
+          {{ isPlaying ? 'pause' : 'play_arrow' }}
+        </mat-icon>
+      </div> -->
+
+      <div class="flex-grow-1">
+
+        <input type="range" class="custom-range" min="0" max="100"
+          [value]="duration ? (currentTime / duration) * 100 : 0" [disabled]="isAdvertisementAudio"
+          (input)="onSeek($event)">
+
+        <div class="d-flex justify-content-between duration mt-1">
+          <span>{{ formatTime(currentTime) }}</span>
+          <span>{{ formatTime(duration) }}</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    }
 
     <div class="d-flex justify-content-end align-items-center mt-4">
       <button class="mute-btn" (click)="toggleMute()">
@@ -108,7 +141,7 @@
 
   <div class="image-container">
 
-    <div class="iframe-wrapper">
+    <!-- <div class="iframe-wrapper">
 
       <div class="video-loader" *ngIf="isVideoLoading">
         <div class="spinner"></div>
@@ -117,6 +150,29 @@
       <iframe *ngIf="showVideo" [src]="videoUrl" width="100%" height="450" frameborder="0"
         allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen (load)="onIframeLoad()">
       </iframe>
+
+    </div> -->
+
+    <div class="iframe-wrapper">
+
+      @if(isMediaTransitionLoading){
+
+      <div class="audio-loading-container">
+        <div class="spinner"></div>
+        <p>Loading next advertisement...</p>
+      </div>
+
+      } @else {
+
+      <div class="video-loader" *ngIf="isVideoLoading">
+        <div class="spinner"></div>
+      </div>
+
+      <iframe *ngIf="showVideo" [src]="videoUrl" width="100%" height="450" frameborder="0"
+        allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen (load)="onIframeLoad()">
+      </iframe>
+
+      }
 
     </div>
 

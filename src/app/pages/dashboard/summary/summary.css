@@ -151,3 +151,10 @@ mat-card {
     padding: 4px 10px !important;
     gap: 12px;
 }
+
+::ng-deep .completed-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 1px;
+  vertical-align: middle;
+}

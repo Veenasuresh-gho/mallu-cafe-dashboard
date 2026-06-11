@@ -340,3 +340,11 @@ mat-divider {
 .clear-btn{
     cursor: pointer;
 }
+
+.like-icon {
+    color: #bdbdbd; 
+}
+
+.like-icon.liked {
+    color: red;
+}

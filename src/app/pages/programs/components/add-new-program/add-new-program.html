@@ -16,12 +16,6 @@
             <img src="/program/warn.svg " class="small mb-1"> {{ errors.programTitle }}
         </div>
 
-        <!-- <app-form-select label="Host / RJ *" (modelChange)="clearError('host')" [options]="hosts"
-            optionLabel="DisplayText" optionValue="DataValue" placeholder="Select host / RJ" name="host"
-            [(model)]="selectedHost">
-        </app-form-select> -->
-        <!-- Assigned Hosts -->
-
         <app-form-select label="Host / RJ *" (modelChange)="clearError('host')" [options]="hosts"
             optionLabel="DisplayText" optionValue="DataValue" placeholder="Select host / RJ" name="host"
             [(model)]="selectedHost">

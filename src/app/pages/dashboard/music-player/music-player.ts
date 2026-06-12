@@ -659,6 +659,14 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
     this.audio.muted = this.isMuted;
   }
 
+  onVideoLoaded(): void {
+    this.isVideoLoading = false;
+  }
+
+    onVideoEnded(): void {
+
+  
+  }
 
   loadNextAdvertisement(): void {
   const tags = [{ T: 'c10', V: '10' }];

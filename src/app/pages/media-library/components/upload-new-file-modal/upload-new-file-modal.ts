@@ -263,6 +263,7 @@ export class UploadNewFileModal implements OnInit {
   isVideoType(): boolean {
     return this.fileType.startsWith('video');
   }
+
   async onFileSelected(file: File) {
     if (!file) return;
 

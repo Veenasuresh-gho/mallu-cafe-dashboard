@@ -154,9 +154,7 @@
     </div> -->
 
     <div class="iframe-wrapper">
-
       @if(isMediaTransitionLoading){
-
       <div class="audio-loading-container">
         <div class="spinner"></div>
         <p>Loading next advertisement...</p>
@@ -168,9 +166,12 @@
         <div class="spinner"></div>
       </div>
 
-      <iframe *ngIf="showVideo" [src]="videoUrl" width="100%" height="450" frameborder="0"
+      <!-- <iframe *ngIf="showVideo" [src]="videoUrl" width="100%" height="450" frameborder="0"
         allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen (load)="onIframeLoad()">
-      </iframe>
+      </iframe> -->
+      <video *ngIf="showVideo" #adVideo [src]="videoUrl" class="advertisement-video" autoplay muted playsinline
+        (loadeddata)="onVideoLoaded()" (ended)="onVideoEnded()">
+      </video>
 
       }
 

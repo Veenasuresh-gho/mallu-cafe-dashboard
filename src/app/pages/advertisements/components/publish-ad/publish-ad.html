@@ -184,10 +184,13 @@
                         {{ selectedAds.length }}
                     </span>
                 </p>
-                <p *ngIf="selectedAds.length > 0" class="selection-note mb-0">
+                <!-- <p *ngIf="selectedAds.length > 0" class="selection-note mb-0">
                     Advertisements will be published in the order shown below. To change the publishing order, adjust
                     the selection order before publishing.
-                </p>
+                </p> -->
+                <p *ngIf="selectedAds.length > 0" class="selection-note mb-0">
+    A single advertisement can be published at a time. Select the advertisement you want to publish and proceed.
+</p>
             </div>
 
             <div class="selected-ad-body">

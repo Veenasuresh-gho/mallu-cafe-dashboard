@@ -34,6 +34,7 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
   @ViewChild('audioPlayer') audioPlayer!: ElementRef<HTMLAudioElement>;
   @Input() publishInfo!: { isPublic: boolean; url: string; isPublish: boolean } | null;
   private pollInterval: any;
+  private autoPlayAfterAd = false;
 
   videoUrl!: SafeResourceUrl;
   showVideo: boolean = false;
@@ -284,7 +285,7 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
         this.hasSeeked = true;
       }
 
-      // Auto play advertisement
+      // Advertisement autoplay
       if (this.isAdvertisementAudio) {
 
         this.audio.muted = false;
@@ -298,9 +299,25 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
 
           })
           .catch(err => console.error('Ad autoplay failed', err));
+
+        return;
+      }
+
+      // Normal program autoplay ONLY after ad sequence completed
+      if (this.autoPlayAfterAd) {
+
+        this.autoPlayAfterAd = false;
+
+        this.audio.play()
+          .then(() => {
+
+            this.isPlaying = true;
+            this.cdr.detectChanges();
+
+          })
+          .catch(err => console.error('Autoplay after ad failed', err));
       }
     };
-
     // Prevent pausing advertisement
     this.audio.onpause = () => {
 
@@ -446,7 +463,7 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
         this.isMediaTransitionLoading = false;
         const data = r?.Data?.[0];
         if (!data || !Array.isArray(data) || data.length === 0) {
-          
+
           this.programDetails = null;
           this.noProgram = true;
           this.isAudio = false;
@@ -663,45 +680,46 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
     this.isVideoLoading = false;
   }
 
-    onVideoEnded(): void {
+  onVideoEnded(): void {
 
-  
+
   }
 
   loadNextAdvertisement(): void {
-  const tags = [{ T: 'c10', V: '10' }];
-  this.srv.getdata('advertisement', tags).subscribe({
-    next: (res) => {
+    const tags = [{ T: 'c10', V: '10' }];
+    this.srv.getdata('advertisement', tags).subscribe({
+      next: (res) => {
 
-      const nextAd = res?.Data?.[0]?.[0];
+        const nextAd = res?.Data?.[0]?.[0];
 
-      if (nextAd && nextAd._url) {
+        if (nextAd && nextAd._url) {
 
-        this.noProgram = false;
-        this.isMediaTransitionLoading = false;
+          this.noProgram = false;
+          this.isMediaTransitionLoading = false;
 
-        this.programDetails = nextAd;
+          this.programDetails = nextAd;
 
-        this.isAdvertisement =
-          nextAd?.IsAdvertisement === 1 ||
-          nextAd?.CategoryName === 'AdvertisementVideo' ||
-          nextAd?.CategoryName === 'AdvertisementAudio';
+          this.isAdvertisement =
+            nextAd?.IsAdvertisement === 1 ||
+            nextAd?.CategoryName === 'AdvertisementVideo' ||
+            nextAd?.CategoryName === 'AdvertisementAudio';
 
-        this.audio.pause();
-        this.audio.currentTime = 0;
-        this.hasSeeked = false;
+          this.audio.pause();
+          this.audio.currentTime = 0;
+          this.hasSeeked = false;
 
-        this.handleMedia(nextAd._url);
+          this.handleMedia(nextAd._url);
+        } else {
 
-      } else {
+          this.isAdvertisement = false;
+          this.isMediaTransitionLoading = false;
 
-        this.isAdvertisement = false;
-        this.isMediaTransitionLoading = false;
+          this.autoPlayAfterAd = true;
 
-        this.loadCurrentProgram();
+          this.loadCurrentProgram();
+        }
       }
-    }
-  });
-}
+    });
+  }
 }
 

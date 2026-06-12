@@ -89,22 +89,46 @@ export class PublishAd implements OnInit {
     this.dataSource._updateChangeSubscription();
   }
 
+  // toggleSelection(row: any, checked: boolean): void {
+  //   row.selected = checked;
+
+  //   if (checked) {
+  //     if (!this.selectedAds.includes(row)) {
+  //       this.selectedAds.push(row);
+  //     }
+  //   } else {
+  //     this.selectedAds = this.selectedAds.filter(
+  //       ad => ad !== row
+  //     );
+  //   }
+
+  //   this.dataSource._updateChangeSubscription();
+  // }
+
   toggleSelection(row: any, checked: boolean): void {
-    row.selected = checked;
 
-    if (checked) {
-      if (!this.selectedAds.includes(row)) {
-        this.selectedAds.push(row);
-      }
-    } else {
-      this.selectedAds = this.selectedAds.filter(
-        ad => ad !== row
-      );
-    }
+  if (checked) {
 
-    this.dataSource._updateChangeSubscription();
+    // Unselect all other ads
+    this.dataSource.data.forEach((ad: any) => {
+      ad.selected = false;
+    });
+
+    // Select current ad
+    row.selected = true;
+
+    // Keep only one selected ad
+    this.selectedAds = [row];
+
+  } else {
+
+    row.selected = false;
+    this.selectedAds = [];
+
   }
 
+  this.dataSource._updateChangeSubscription();
+}
   onSelectAd(row: any, event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
     this.toggleSelection(row, checked);
@@ -208,7 +232,7 @@ export class PublishAd implements OnInit {
         T: 'c2',
         V: this.toDate || ''
       },
-
+         { T: 'c3', V: '1' },
       {
         T: 'c10',
         V: '3'
@@ -348,20 +372,16 @@ export class PublishAd implements OnInit {
       alert('Please select at least one advertisement');
       return;
     }
-
     const selectedAdIds = this.selectedAds
       .map(ad => ad.AdvertisementID)
       .join(',');
-
     const teamMemberId = this.srv.getsession('id');
-
     const queueTags = [
       { T: 'dk1', V: '' },
       { T: 'dk2', V: teamMemberId },
       { T: 'c1', V: selectedAdIds },
       { T: 'c10', V: '7' }
     ];
-
     this.PublishADloading = true;
     this.cdr.detectChanges();
     // STEP 1 - Queue Advertisement

@@ -35,8 +35,9 @@
 
                     <video *ngIf="isVideoType()" [src]="previewUrl" class="file-icon" muted></video>
 
+
                     <!-- FALLBACK -->
-                    <img *ngIf="!isImageType() && !isVideoType()" src="/upload/file-default.svg" class="file-icon" />
+                    <img *ngIf="!isImageType() && !isVideoType()"  src="/main/no-image.png"  class="file-icon" />
 
 
                     <div class="d-flex file-details justify-content-between align-items-center w-100">

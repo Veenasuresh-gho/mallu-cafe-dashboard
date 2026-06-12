@@ -163,9 +163,8 @@ export class UpdateFileUpload {
         finalFileName,
         { type: this.selectedFile.type }
       );
-
       const success = await this.srv.handleFileUpload(
-        this.item?.ProgramID,
+        this.item?.MediaID,
         this.srv.getsession('id'),
         renamedFile,
         this.getDeleteType()

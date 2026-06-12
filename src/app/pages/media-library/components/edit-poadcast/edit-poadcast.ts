@@ -83,18 +83,14 @@ export class EditPoadcast implements OnInit {
   }
 
   getPodcastCategoryDetails() {
-
     this.tv = [
       { T: 'dk1', V: this.id },
       { T: 'c10', V: '4' }
     ];
-
     this.srv.getdata('lists', this.tv)
       .subscribe({
 
         next: (r) => {
-
-
           const data = r?.Data?.[0] || [];
 
           this.catogories = data.map((item: any) => ({
@@ -119,7 +115,6 @@ export class EditPoadcast implements OnInit {
             this.cdr.detectChanges();
           }
         },
-
         error: (err) => {
           console.error(err);
           this.toast.show({

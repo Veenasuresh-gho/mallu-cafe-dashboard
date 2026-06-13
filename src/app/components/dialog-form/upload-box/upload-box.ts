@@ -22,10 +22,14 @@ export class UploadBox {
   /** Event emitted when a file is selected */
   @Output() fileSelected = new EventEmitter<File>();
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.fileSelected.emit(file);
-    }
+ onFileSelected(event: any) {
+  console.log('change fired', event);
+
+  const file = event.target.files?.[0];
+  console.log('selected file', file);
+
+  if (file) {
+    this.fileSelected.emit(file);
   }
+}
 }

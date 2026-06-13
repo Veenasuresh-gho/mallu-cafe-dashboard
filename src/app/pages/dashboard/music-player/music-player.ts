@@ -127,10 +127,16 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
           return;
         }
         const newProgram = data[0];
+        // this.isAdvertisement =
+        //   newProgram?.IsAdvertisement === 1 ||
+        //   newProgram?.CategoryName === 'AdvertisementVideo' ||
+        //   newProgram?.CategoryName === 'AdvertisementAudio';
+
         this.isAdvertisement =
-          newProgram?.IsAdvertisement === 1 ||
+          Number(newProgram?.IsAdvertisement) === 1 ||
           newProgram?.CategoryName === 'AdvertisementVideo' ||
           newProgram?.CategoryName === 'AdvertisementAudio';
+
         const isAdvertisement = this.isAdvertisement;
         const seekTime = Number(newProgram?.SeekTime || 0);
         const duration = Number(newProgram?.Duration || 0);
@@ -478,11 +484,28 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
           return;
         }
 
+        // this.programDetails = data[0];
+        // this.noProgram = false;
+        // const bytes = Number(this.programDetails?.size || 0);
+
+        // this.mb = (bytes / (1024 * 1024)).toFixed(2);
+
         this.programDetails = data[0];
         this.noProgram = false;
-        const bytes = Number(this.programDetails?.size || 0);
 
-        this.mb = (bytes / (1024 * 1024)).toFixed(2);
+        // IMPORTANT
+        this.isAdvertisement =
+          Number(this.programDetails?.IsAdvertisement) === 1 ||
+          this.programDetails?.CategoryName === 'AdvertisementVideo' ||
+          this.programDetails?.CategoryName === 'AdvertisementAudio';
+
+        // console.log('Current Program', {
+        //   category: this.programDetails?.CategoryName,
+        //   isAdvertisement: this.isAdvertisement,
+        //   url: this.programDetails?._url
+        // });
+
+        const bytes = Number(this.programDetails?.size || 0);
 
         const url = this.programDetails?._url;
 
@@ -699,8 +722,13 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
 
           this.programDetails = nextAd;
 
+          // this.isAdvertisement =
+          //   nextAd?.IsAdvertisement === 1 ||
+          //   nextAd?.CategoryName === 'AdvertisementVideo' ||
+          //   nextAd?.CategoryName === 'AdvertisementAudio';
+
           this.isAdvertisement =
-            nextAd?.IsAdvertisement === 1 ||
+            Number(nextAd?.IsAdvertisement) === 1 ||
             nextAd?.CategoryName === 'AdvertisementVideo' ||
             nextAd?.CategoryName === 'AdvertisementAudio';
 

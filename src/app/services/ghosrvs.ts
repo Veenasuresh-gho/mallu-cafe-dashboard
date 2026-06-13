@@ -181,8 +181,7 @@ awsfileuploadinfo(id: string, typ: string): Observable<AwsFileResponse> {
 
       const res1 = await this.getdata('fileupload', tv1).toPromise();
 
-      console.log('fileupload response', res1);
-      console.log('row', res1?.Data?.[0]?.[0]);
+  
 
       const fileUploadId = res1?.Data?.[0]?.[0]?.id;
       const fileType = res1?.Data?.[0]?.[0]?.FileType;

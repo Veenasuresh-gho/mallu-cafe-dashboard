@@ -306,6 +306,23 @@ export class Advertisements {
       permissions.MemberManagementPermission === 1;
   }
 
+    formatFileName(name: string, startLength = 15, endLength = 6): string {
+    if (!name) return '';
+    const extIndex = name.lastIndexOf('.');
+    if (extIndex === -1) return name;
+    const base = name.substring(0, extIndex);
+    const ext = name.substring(extIndex);
+    if (base.length <= startLength + endLength) {
+      return name;
+    }
+    return (
+      base.substring(0, startLength) +
+      '...' +
+      base.substring(base.length - endLength) +
+      ext
+    );
+  }
+
   getAdvertisements(): void {
     this.loading = true;
     this.tv = [{ T: 'c10', V: '3' }];

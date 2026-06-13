@@ -242,8 +242,6 @@ export class UploadAdFile implements OnInit {
 
   async onFileSelected(file: File) {
 
-    console.log('Received file:', file.name);
-  console.log('Received type:', file.type);
   if (!file) return;
   if (
     !file.type.startsWith('image/') &&

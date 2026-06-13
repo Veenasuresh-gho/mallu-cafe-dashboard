@@ -116,11 +116,11 @@ export class GHOService {
     { id: 12, name: 'December' },
   ];
 
-  awsfileuploadinfo(id: string, typ: string): Observable<AwsFileResponse> {
-    return this.http.get<AwsFileResponse>(
-      `https://ghoapps.com/api/file/upload-url?filename=${id}&filetype=${typ}`
-    );
-  }
+awsfileuploadinfo(id: string, typ: string): Observable<AwsFileResponse> {
+  return this.http.get<AwsFileResponse>(
+    `https://ghoapps.com/api/file/upload-url?filename=${encodeURIComponent(id)}&filetype=${encodeURIComponent(typ)}`
+  );
+}
 
   async uploadFile(fileId: string, fileType: string, file: File, fileName: string): Promise<number> {
 
@@ -175,11 +175,14 @@ export class GHOService {
         { T: 'c1', V: documentTypeId },
         { T: 'c2', V: file.name },
         { T: 'c3', V: file.size.toString() },
-        { T: 'c4', V: duration?.toString() ?? '' }, 
+        { T: 'c4', V: duration?.toString() ?? '' },
         { T: 'c10', V: '1' }
       ];
 
       const res1 = await this.getdata('fileupload', tv1).toPromise();
+
+      console.log('fileupload response', res1);
+      console.log('row', res1?.Data?.[0]?.[0]);
 
       const fileUploadId = res1?.Data?.[0]?.[0]?.id;
       const fileType = res1?.Data?.[0]?.[0]?.FileType;

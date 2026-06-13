@@ -168,7 +168,6 @@ export class Advertisements {
           adStatusClass: this.getStatusClass(item.Status)
         }));
 
-        // Local Search Filter
         if (this.searchText) {
           const search = this.searchText.toLowerCase();
           data = data.filter((item: any) =>

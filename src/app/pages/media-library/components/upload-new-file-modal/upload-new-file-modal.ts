@@ -214,31 +214,31 @@ export class UploadNewFileModal implements OnInit {
   }
 
 
-renameFile() {
-  if (!this.selectedFile || !this.finalfileName) {
-    return;
-  }
-
-  const extension = this.selectedFile.name.split('.').pop();
-
-  const sanitizedName = this.finalfileName
-    .replace(/[^\w\s-]/g, '') // remove special chars
-    .trim();
-
-  const finalName = extension
-    ? `${sanitizedName}.${extension}`
-    : sanitizedName;
-
-  this.selectedFile = new File(
-    [this.selectedFile],
-    finalName,
-    {
-      type: this.selectedFile.type
+  renameFile() {
+    if (!this.selectedFile || !this.finalfileName) {
+      return;
     }
-  );
 
-  this.fileName = finalName;
-}
+    const extension = this.selectedFile.name.split('.').pop();
+
+    const sanitizedName = this.finalfileName
+      .replace(/[^\w\s-]/g, '')
+      .trim();
+
+    const finalName = extension
+      ? `${sanitizedName}.${extension}`
+      : sanitizedName;
+
+    this.selectedFile = new File(
+      [this.selectedFile],
+      finalName,
+      {
+        type: this.selectedFile.type
+      }
+    );
+
+    this.fileName = finalName;
+  }
 
   updateFileName() {
     this.fileName = this.selectedFile?.name || '';
@@ -367,18 +367,18 @@ renameFile() {
   }
 
   getMediaFileType(): number {
-  if (!this.selectedFile) return 0;
+    if (!this.selectedFile) return 0;
 
-  if (this.selectedFile.type.startsWith('video/')) {
-    return 1; // Video
+    if (this.selectedFile.type.startsWith('video/')) {
+      return 1; // Video
+    }
+
+    if (this.selectedFile.type.startsWith('audio/')) {
+      return 0; // Audio
+    }
+
+    return 0;
   }
-
-  if (this.selectedFile.type.startsWith('audio/')) {
-    return 0; // Audio
-  }
-
-  return 0;
-}
 
 
   addmediaPre(): void {

@@ -241,6 +241,9 @@ export class UploadAdFile implements OnInit {
   // }
 
   async onFileSelected(file: File) {
+
+    console.log('Received file:', file.name);
+  console.log('Received type:', file.type);
   if (!file) return;
   if (
     !file.type.startsWith('image/') &&
@@ -250,6 +253,7 @@ export class UploadAdFile implements OnInit {
     this.errors.file = 'Only image, audio, or video files are allowed';
     return;
   }
+
   this.selectedFile = file;
   this.fileName = file.name;
   // Calculate duration only for audio/video
@@ -366,6 +370,8 @@ export class UploadAdFile implements OnInit {
     if (this.selectedFile) {
       payload.AdType = this.getFileType(this.selectedFile);
     }
+
+    
 
     const userId = this.srv.getsession('id');
 

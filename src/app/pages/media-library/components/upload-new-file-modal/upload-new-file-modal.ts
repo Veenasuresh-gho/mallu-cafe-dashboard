@@ -214,21 +214,31 @@ export class UploadNewFileModal implements OnInit {
   }
 
 
-  renameFile() {
-    if (!this.selectedFile || !this.finalfileName) {
-      return;
-    }
-
-    this.selectedFile = new File(
-      [this.selectedFile],
-      this.finalfileName,
-      {
-        type: this.selectedFile.type
-      }
-    );
-
-    this.fileName = this.finalfileName;
+renameFile() {
+  if (!this.selectedFile || !this.finalfileName) {
+    return;
   }
+
+  const extension = this.selectedFile.name.split('.').pop();
+
+  const sanitizedName = this.finalfileName
+    .replace(/[^\w\s-]/g, '') // remove special chars
+    .trim();
+
+  const finalName = extension
+    ? `${sanitizedName}.${extension}`
+    : sanitizedName;
+
+  this.selectedFile = new File(
+    [this.selectedFile],
+    finalName,
+    {
+      type: this.selectedFile.type
+    }
+  );
+
+  this.fileName = finalName;
+}
 
   updateFileName() {
     this.fileName = this.selectedFile?.name || '';

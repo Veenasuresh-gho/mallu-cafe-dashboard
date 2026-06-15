@@ -127,7 +127,6 @@ export class Summary implements OnInit {
 
         this.loading = false;
 
-        // Force immediate render
         this.cdr.detectChanges();
       },
 

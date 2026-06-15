@@ -291,7 +291,7 @@ export class UploadNewFileModal implements OnInit {
         .replace(/(mp3|mpeg|wav|aac|m4a|ogg|flac|mp4|mov|avi|mkv)$/i, '')
         .replace(/[^\w\s-]/g, '')
         .trim();
-        
+
       const renamedFileName = `${baseName}.${extension}`;
 
       this.selectedFile = new File(
@@ -487,6 +487,18 @@ export class UploadNewFileModal implements OnInit {
             }
 
             this.cdr.detectChanges();
+          } else {
+
+            this.loading = false;
+
+            this.toast.show({
+              title: 'Unable to upload ❌',
+              description: r.Info || 'Something went wrong',
+              variant: 'error',
+              position: 'toast-bottom-right'
+            });
+
+            this.cdr.detectChanges();
           }
         },
 
@@ -661,6 +673,17 @@ export class UploadNewFileModal implements OnInit {
             });
             this.changeFileUploadStatus()
             this.dialogRef.close(true);
+            this.cdr.detectChanges();
+          } else {
+
+            this.loading = false;
+            this.toast.show({
+              title: 'Unable to upload ❌',
+              description: r.Info || r.Error || 'Something went wrong',
+              variant: 'error',
+              position: 'toast-bottom-right'
+            });
+
             this.cdr.detectChanges();
           }
         },

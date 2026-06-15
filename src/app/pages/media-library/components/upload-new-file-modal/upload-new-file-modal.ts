@@ -213,15 +213,16 @@ export class UploadNewFileModal implements OnInit {
     return !!this.data?.programData?.length;
   }
 
-
   renameFile() {
     if (!this.selectedFile || !this.finalfileName) {
       return;
     }
 
-    const extension = this.selectedFile.name.split('.').pop();
+    const extension = this.selectedFile.name.split('.').pop() || '';
 
     const sanitizedName = this.finalfileName
+      .replace(/\.[^/.]+$/, '')       // Remove existing extension
+      .replace(/(mp3|mpeg|wav|aac|m4a|ogg|flac|mp4|mov|avi|mkv)$/i, '') // Remove extension suffix without dot
       .replace(/[^\w\s-]/g, '')
       .trim();
 
@@ -229,13 +230,9 @@ export class UploadNewFileModal implements OnInit {
       ? `${sanitizedName}.${extension}`
       : sanitizedName;
 
-    this.selectedFile = new File(
-      [this.selectedFile],
-      finalName,
-      {
-        type: this.selectedFile.type
-      }
-    );
+    this.selectedFile = new File([this.selectedFile], finalName, {
+      type: this.selectedFile.type
+    });
 
     this.fileName = finalName;
   }
@@ -289,9 +286,13 @@ export class UploadNewFileModal implements OnInit {
     const extension = file.name.split('.').pop();
 
     if (this.finalfileName) {
-      const renamedFileName = this.finalfileName.includes('.')
-        ? this.finalfileName
-        : `${this.finalfileName}.${extension}`;
+      const baseName = this.finalfileName
+        .replace(/\.[^/.]+$/, '')
+        .replace(/(mp3|mpeg|wav|aac|m4a|ogg|flac|mp4|mov|avi|mkv)$/i, '')
+        .replace(/[^\w\s-]/g, '')
+        .trim();
+        
+      const renamedFileName = `${baseName}.${extension}`;
 
       this.selectedFile = new File(
         [file],

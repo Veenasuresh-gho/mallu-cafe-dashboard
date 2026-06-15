@@ -168,6 +168,14 @@
 
                     <mat-divider></mat-divider>
 
+
+                     <button mat-menu-item (click)="ViewFileModal(row.ID)">
+                        <span class="menu-content-left">
+                            <span class="menu-text ">View</span>
+                            <img class="menu-img" src="/program/eye.svg" alt="">
+                        </span>
+                    </button>
+
                     <button mat-menu-item (click)="editAdvertisement(row)">
                         <span class="menu-content-left">
                             <span class="menu-text ">Edit</span>

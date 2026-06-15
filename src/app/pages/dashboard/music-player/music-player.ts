@@ -499,12 +499,6 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
           this.programDetails?.CategoryName === 'AdvertisementVideo' ||
           this.programDetails?.CategoryName === 'AdvertisementAudio';
 
-        // console.log('Current Program', {
-        //   category: this.programDetails?.CategoryName,
-        //   isAdvertisement: this.isAdvertisement,
-        //   url: this.programDetails?._url
-        // });
-
         const bytes = Number(this.programDetails?.size || 0);
 
         const url = this.programDetails?._url;

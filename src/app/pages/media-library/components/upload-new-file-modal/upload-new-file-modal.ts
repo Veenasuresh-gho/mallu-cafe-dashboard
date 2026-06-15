@@ -413,6 +413,7 @@ export class UploadNewFileModal implements OnInit {
             if (success) {
               this.tv = [
                 { T: 'dk1', V: this.programId },
+                { T: 'dk2', V: this.id },
                 { T: 'c10', V: '16' }
               ];
 
@@ -688,6 +689,7 @@ export class UploadNewFileModal implements OnInit {
   changeFileUploadStatus() {
     this.tv = [
       { T: 'dk1', V: this.programId },
+      { T: 'dk2', V: this.id },
       { T: 'c10', V: '16' }
     ];
 

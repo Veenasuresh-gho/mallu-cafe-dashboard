@@ -113,7 +113,7 @@ export class Summary implements OnInit {
             image: '/main/headphone.png',
             title: 'Ads Overview',
             statistics: `${scheduledAds} <span>Scheduled Today</span>`,
-            info: `<span>${missingAdFiles}</span> Ad Files Not Uploaded`
+            info: `<span>${missingAdFiles}</span> Ad Files Not Published`
           },
           {
             show: '',

@@ -209,7 +209,71 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  // initAudio(url: string) {
+
+  //   this.audio.src = url;
+  //   this.audio.load();
+
+  //   // ✅ metadata loaded
+  //   this.audio.onloadedmetadata = () => {
+
+  //     this.ngZone.run(() => {
+
+  //       this.duration = this.audio.duration || 0;
+
+  //       this.cdr.detectChanges();
+
+  //     });
+
+  //   };
+
+  //   this.audio.oncanplay = () => {
+
+  //     if (!this.hasSeeked && this.programDetails?.SeekTime) {
+
+  //       const seekValue = Math.min(
+  //         this.programDetails.SeekTime,
+  //         this.audio.duration || 0
+  //       );
+
+  //       this.audio.currentTime = seekValue;
+
+  //       this.hasSeeked = true;
+  //     }
+
+  //   };
+
+  //   // ✅ progress update
+  //   this.audio.ontimeupdate = () => {
+
+  //     this.ngZone.run(() => {
+
+  //       this.currentTime = this.audio.currentTime || 0;
+  //       this.cdr.detectChanges();
+
+  //     });
+
+  //   };
+
+  //   // ✅ ended
+  //   this.audio.onended = () => {
+
+  //     this.ngZone.run(() => {
+
+  //       this.isPlaying = false;
+  //       this.currentTime = 0;
+  //       this.hasSeeked = false;
+
+  //       this.cdr.detectChanges();
+
+  //     });
+
+  //   };
+
+  // }
+
   initAudio(url: string): void {
+
     this.audio.src = url;
     this.audio.load();
 
@@ -434,6 +498,12 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
           Number(this.programDetails?.IsAdvertisement) === 1 ||
           this.programDetails?.CategoryName === 'AdvertisementVideo' ||
           this.programDetails?.CategoryName === 'AdvertisementAudio';
+
+        // console.log('Current Program', {
+        //   category: this.programDetails?.CategoryName,
+        //   isAdvertisement: this.isAdvertisement,
+        //   url: this.programDetails?._url
+        // });
 
         const bytes = Number(this.programDetails?.size || 0);
 
@@ -680,4 +750,3 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
     });
   }
 }
-

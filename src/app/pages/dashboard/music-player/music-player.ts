@@ -329,7 +329,6 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
 
   }
 
-
   handleMedia(url: string) {
     if (!url) {
       this.noProgram = true;

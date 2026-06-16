@@ -119,7 +119,7 @@ ngOnChanges(changes: SimpleChanges) {
       : 'custom';
 
     // Thumbnail preview
-    this.thumbnailPreview = data.ThumbnailURL || data.TeamUrl || '';
+    this.thumbnailPreview = data.ThumbnailURL || '';
 
     // Load program thumbnail if using program type
     if (this.selectedType === 'program' && this.programId) {

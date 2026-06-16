@@ -146,10 +146,7 @@ export class EditUploadedFile implements OnInit {
           if (this.ds) {
             this.fileName = this.ds.FileName || '';
             this.fileID = this.ds.fid || '';
-            this.fileSize =
-              this.formatFileSize(
-                Number(this.ds.Size || 0)
-              );
+            this.fileSize = this.ds.FileSize || '';
             this.previewUrl =
               this.ds._url || '';
             this.fileType =

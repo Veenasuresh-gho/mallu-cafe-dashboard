@@ -209,245 +209,126 @@ export class MusicPlayer implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  // initAudio(url: string): void {
-  //   this.audio.src = url;
-  //   this.audio.load();
-
-  //   // Can play
-  //   this.audio.oncanplay = () => {
-
-  //     if (!this.hasSeeked && this.programDetails?.SeekTime) {
-
-  //       const seekValue = Math.min(
-  //         this.programDetails.SeekTime,
-  //         this.audio.duration || 0
-  //       );
-
-  //       this.audio.currentTime = seekValue;
-  //       this.hasSeeked = true;
-  //     }
-
-  //     // Advertisement autoplay
-  //     if (this.isAdvertisementAudio) {
-
-  //       this.audio.muted = false;
-  //       this.isMuted = false;
-
-  //       this.audio.play()
-  //         .then(() => {
-
-  //           this.isPlaying = true;
-  //           this.cdr.detectChanges();
-
-  //         })
-  //         .catch(err => console.error('Ad autoplay failed', err));
-
-  //       return;
-  //     }
-
-  //     // Normal program autoplay ONLY after ad sequence completed
-  //     if (this.autoPlayAfterAd) {
-
-  //       this.autoPlayAfterAd = false;
-
-  //       this.audio.play()
-  //         .then(() => {
-
-  //           this.isPlaying = true;
-  //           this.cdr.detectChanges();
-
-  //         })
-  //         .catch(err => console.error('Autoplay after ad failed', err));
-  //     }
-  //   };
-  //   // Prevent pausing advertisement
-  //   this.audio.onpause = () => {
-
-  //     if (this.isAdvertisementAudio) {
-
-  //       this.audio.play()
-  //         .then(() => {
-
-  //           this.isPlaying = true;
-  //           this.cdr.detectChanges();
-
-  //         })
-  //         .catch(err => console.error(err));
-  //     }
-  //   };
-
-  //   // Metadata loaded
-  //   this.audio.onloadedmetadata = () => {
-
-  //     this.ngZone.run(() => {
-
-  //       this.duration = this.audio.duration || 0;
-
-  //       this.cdr.detectChanges();
-
-  //     });
-
-  //   };
-
-  //   // Progress update
-  //   this.audio.ontimeupdate = () => {
-
-  //     this.ngZone.run(() => {
-
-  //       this.currentTime = this.audio.currentTime || 0;
-
-  //       this.cdr.detectChanges();
-
-  //     });
-
-  //   };
-
-  //   // Audio ended
-  //   this.audio.onended = () => {
-
-  //     this.ngZone.run(() => {
-
-  //       this.isPlaying = false;
-  //       this.currentTime = 0;
-  //       this.hasSeeked = false;
-
-  //       this.cdr.detectChanges();
-
-  //       // Load next ad automatically
-  //       if (this.isAdvertisementAudio) {
-  //         // this.isMediaTransitionLoading = true;
-  //         // this.loadNextAdvertisement();
-  //         setTimeout(() => {
-  //           this.isMediaTransitionLoading = true;
-  //           this.loadNextAdvertisement();
-  //         });
-  //       }
-
-  //     });
-
-  //   };
-
-  // }
-
   initAudio(url: string): void {
-
-  // 🔴 STOP previous audio completely
-  if (this.audio) {
-
-
-    this.audio.pause();
-    this.audio.currentTime = 0;
-
-    // Remove old listeners
-    this.audio.oncanplay = null;
-    this.audio.onpause = null;
-    this.audio.onloadedmetadata = null;
-    this.audio.ontimeupdate = null;
-    this.audio.onended = null;
-
-    this.audio.src = '';
+    this.audio.src = url;
     this.audio.load();
-  }
 
-  // 🟢 Create fresh audio instance (IMPORTANT)
-  this.audio = new Audio();
+    // Can play
+    this.audio.oncanplay = () => {
 
-  this.audio.src = url;
-  this.audio.load();
+      if (!this.hasSeeked && this.programDetails?.SeekTime) {
 
-  this.hasSeeked = false;
+        const seekValue = Math.min(
+          this.programDetails.SeekTime,
+          this.audio.duration || 0
+        );
 
-  // ✅ CAN PLAY
-  this.audio.oncanplay = () => {
+        this.audio.currentTime = seekValue;
+        this.hasSeeked = true;
+      }
 
-    if (!this.hasSeeked && this.programDetails?.SeekTime) {
-      const seekValue = Math.min(
-        this.programDetails.SeekTime,
-        this.audio.duration || 0
-      );
+      // Advertisement autoplay
+      if (this.isAdvertisementAudio) {
 
-      this.audio.currentTime = seekValue;
-      this.hasSeeked = true;
-    }
+        this.audio.muted = false;
+        this.isMuted = false;
 
-    // Advertisement autoplay
-    if (this.isAdvertisementAudio) {
+        this.audio.play()
+          .then(() => {
 
-      this.audio.muted = false;
-      this.isMuted = false;
+            this.isPlaying = true;
+            this.cdr.detectChanges();
 
-      this.audio.play()
-        .then(() => {
-          this.isPlaying = true;
-          this.cdr.detectChanges();
-        })
-        .catch(err => console.error('Ad autoplay failed', err));
+          })
+          .catch(err => console.error('Ad autoplay failed', err));
 
-      return;
-    }
+        return;
+      }
 
-    // Normal autoplay after ad
-    if (this.autoPlayAfterAd) {
+      // Normal program autoplay ONLY after ad sequence completed
+      if (this.autoPlayAfterAd) {
 
-      this.autoPlayAfterAd = false;
+        this.autoPlayAfterAd = false;
 
-      this.audio.play()
-        .then(() => {
-          this.isPlaying = true;
-          this.cdr.detectChanges();
-        })
-        .catch(err => console.error('Autoplay after ad failed', err));
-    }
-  };
+        this.audio.play()
+          .then(() => {
 
-  // 🚫 Prevent pausing ads
-  this.audio.onpause = () => {
+            this.isPlaying = true;
+            this.cdr.detectChanges();
 
-    if (this.isAdvertisementAudio) {
-      this.audio.play()
-        .then(() => {
-          this.isPlaying = true;
-          this.cdr.detectChanges();
-        })
-        .catch(err => console.error(err));
-    }
-  };
-
-  // 📊 Metadata
-  this.audio.onloadedmetadata = () => {
-    this.ngZone.run(() => {
-      this.duration = this.audio.duration || 0;
-      this.cdr.detectChanges();
-    });
-  };
-
-  // ⏱ Progress
-  this.audio.ontimeupdate = () => {
-    this.ngZone.run(() => {
-      this.currentTime = this.audio.currentTime || 0;
-      this.cdr.detectChanges();
-    });
-  };
-
-  // 🔚 Ended
-  this.audio.onended = () => {
-    this.ngZone.run(() => {
-
-      this.isPlaying = false;
-      this.currentTime = 0;
-      this.hasSeeked = false;
-
-      this.cdr.detectChanges();
+          })
+          .catch(err => console.error('Autoplay after ad failed', err));
+      }
+    };
+    // Prevent pausing advertisement
+    this.audio.onpause = () => {
 
       if (this.isAdvertisementAudio) {
-        setTimeout(() => {
-          this.isMediaTransitionLoading = true;
-          this.loadNextAdvertisement();
-        });
+
+        this.audio.play()
+          .then(() => {
+
+            this.isPlaying = true;
+            this.cdr.detectChanges();
+
+          })
+          .catch(err => console.error(err));
       }
-    });
-  };
-}
+    };
+
+    // Metadata loaded
+    this.audio.onloadedmetadata = () => {
+
+      this.ngZone.run(() => {
+
+        this.duration = this.audio.duration || 0;
+
+        this.cdr.detectChanges();
+
+      });
+
+    };
+
+    // Progress update
+    this.audio.ontimeupdate = () => {
+
+      this.ngZone.run(() => {
+
+        this.currentTime = this.audio.currentTime || 0;
+
+        this.cdr.detectChanges();
+
+      });
+
+    };
+
+    // Audio ended
+    this.audio.onended = () => {
+
+      this.ngZone.run(() => {
+
+        this.isPlaying = false;
+        this.currentTime = 0;
+        this.hasSeeked = false;
+
+        this.cdr.detectChanges();
+
+        // Load next ad automatically
+        if (this.isAdvertisementAudio) {
+          // this.isMediaTransitionLoading = true;
+          // this.loadNextAdvertisement();
+          setTimeout(() => {
+            this.isMediaTransitionLoading = true;
+            this.loadNextAdvertisement();
+          });
+        }
+
+      });
+
+    };
+
+  }
+
 
   handleMedia(url: string) {
     if (!url) {

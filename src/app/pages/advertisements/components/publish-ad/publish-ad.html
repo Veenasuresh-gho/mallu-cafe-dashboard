@@ -117,7 +117,8 @@
                                     </div>
 
                                     <div class="advertisement-name">
-                                        {{ row.FileName || 'No file added' }}
+                                        <!-- {{ row.FileName || 'No file added' }} -->
+                                        {{ formatFileName(row.FileName) || 'No file added' }}
                                     </div>
 
                                 </div>

@@ -20,6 +20,7 @@ import { ToastService } from '../../services/toastService';
 import { MatDividerModule } from '@angular/material/divider';
 import { SelectDropDown } from '../../components/select-drop-down/select-drop-down';
 import { CustomFilterCalender } from '../../components/custom-filter-calender/custom-filter-calender';
+import { ViewAdvertisement } from './components/view-advertisement/view-advertisement';
 
 @Component({
   selector: 'app-advertisements',
@@ -61,6 +62,23 @@ export class Advertisements {
       }
     });
   }
+
+    ViewFileModal(id: string) {
+      const dialogRef = this.dialog.open(ViewAdvertisement, {
+        width: '90%',
+        maxWidth: '650px',
+        maxHeight: '95vh',
+        disableClose: true,
+        data: {
+          id: id
+        }
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          // this.getMediaLibrary();
+        }
+      });
+    }
 
   onProgramChange(value: string) {
     if (value === 'date') {

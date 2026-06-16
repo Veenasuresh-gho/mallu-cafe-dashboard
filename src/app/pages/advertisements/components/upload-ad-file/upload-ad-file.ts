@@ -19,8 +19,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   standalone: true,
   imports: [
     MatDialogContent, FormsModule,
-     MatIcon,StepBadge, FormInput, UploadBox,
-     Checkbox, ScheduleDateRange,
+    MatIcon, StepBadge, FormInput, UploadBox,
+    Checkbox, ScheduleDateRange,
     CommonModule, MatProgressSpinnerModule
   ],
   templateUrl: './upload-ad-file.html',
@@ -66,7 +66,7 @@ export class UploadAdFile implements OnInit {
   advertisementID: string = "";
   isEditMode = false;
   mediaDuration = 0;
-  
+
 
   statusMap: any = {
     active: 1,
@@ -84,7 +84,7 @@ export class UploadAdFile implements OnInit {
 
   formatTimeForInput(time: string): string {
     if (!time) return '';
-    return time.slice(0, 5); 
+    return time.slice(0, 5);
   }
 
 
@@ -133,13 +133,43 @@ export class UploadAdFile implements OnInit {
     }
   }
 
+  // getFileType(file: File | null): string {
+  //   if (!file) return '';
+  //   if (file.type.startsWith('audio/')) return '1';
+  //   if (file.type.startsWith('video/')) return '2';
+  //   if (file.type.startsWith('image/')) return '3';
+  //   return '';
+  // }
+
+
   getFileType(file: File | null): string {
     if (!file) return '';
+
+    const ext = file.name.split('.').pop()?.toLowerCase() || '';
+
+    // Audio extensions first
+    if (['mp3', 'wav', 'aac', 'm4a', 'ogg', 'flac'].includes(ext)) {
+      return '1';
+    }
+
+    // Video extensions
+    if (['mp4', 'mpeg', 'mpg', 'avi', 'mov', 'mkv', 'webm'].includes(ext)) {
+      return '2';
+    }
+
+    // Image extensions
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext)) {
+      return '3';
+    }
+
+    // Fallback to MIME type
     if (file.type.startsWith('audio/')) return '1';
     if (file.type.startsWith('video/')) return '2';
     if (file.type.startsWith('image/')) return '3';
+
     return '';
   }
+
 
 
   getAdType(): number {
@@ -202,76 +232,58 @@ export class UploadAdFile implements OnInit {
   }
 
   private getMediaDuration(file: File): Promise<number> {
-  return new Promise((resolve, reject) => {
-    const isVideo = file.type.startsWith('video');
-    const media = document.createElement(isVideo ? 'video' : 'audio');
+    return new Promise((resolve, reject) => {
+      const isVideo = file.type.startsWith('video');
+      const media = document.createElement(isVideo ? 'video' : 'audio');
 
-    media.preload = 'metadata';
+      media.preload = 'metadata';
 
-    media.onloadedmetadata = () => {
-      const duration = Math.floor(media.duration || 0);
-      URL.revokeObjectURL(media.src);
-      resolve(duration);
-    };
+      media.onloadedmetadata = () => {
+        const duration = Math.floor(media.duration || 0);
+        URL.revokeObjectURL(media.src);
+        resolve(duration);
+      };
 
-    media.onerror = () => {
-      URL.revokeObjectURL(media.src);
-      reject(0);
-    };
+      media.onerror = () => {
+        URL.revokeObjectURL(media.src);
+        reject(0);
+      };
 
-    media.src = URL.createObjectURL(file);
-  });
-}
-
-  // onFileSelected(file: File) {
-  //   if (!file) return;
-  //   if (
-  //     !file.type.startsWith('image/') &&
-  //     !file.type.startsWith('audio/') &&
-  //     !file.type.startsWith('video/')
-  //   ) {
-  //     this.errors.file = 'Only image, audio, or video files are allowed';
-  //     return;
-  //   }
-
-  //   this.selectedFile = file;
-  //   this.fileName = file.name;
-
-  //   this.clearError('file');
-  // }
+      media.src = URL.createObjectURL(file);
+    });
+  }
 
   async onFileSelected(file: File) {
+    if (!file) return;
+    if (
+      !file.type.startsWith('image/') &&
+      !file.type.startsWith('audio/') &&
+      !file.type.startsWith('video/')
+    ) {
+      this.errors.file = 'Only image, audio, or video files are allowed';
+      return;
+    }
 
-  if (!file) return;
-  if (
-    !file.type.startsWith('image/') &&
-    !file.type.startsWith('audio/') &&
-    !file.type.startsWith('video/')
-  ) {
-    this.errors.file = 'Only image, audio, or video files are allowed';
-    return;
-  }
+    this.selectedFile = file;
+    this.fileName = file.name;
+    // Calculate duration only for audio/video
+    if (
+      file.type.startsWith('audio/') ||
+      file.type.startsWith('video/')
+    ) {
+      try {
+        this.mediaDuration = await this.getMediaDuration(file);
 
-  this.selectedFile = file;
-  this.fileName = file.name;
-  // Calculate duration only for audio/video
-  if (
-    file.type.startsWith('audio/') ||
-    file.type.startsWith('video/')
-  ) {
-    try {
-      this.mediaDuration = await this.getMediaDuration(file);
-      
-    } catch (err) {
-      console.error('Failed to read duration', err);
+      } catch (err) {
+        console.error('Failed to read duration', err);
+        this.mediaDuration = 0;
+      }
+    } else {
       this.mediaDuration = 0;
     }
-  } else {
-    this.mediaDuration = 0;
-  }
 
-  this.clearError('file');
-}
+    this.clearError('file');
+  }
 
   addAdvertisement(): void {
     if (!this.validateAdvertisementForm()) {
@@ -338,12 +350,12 @@ export class UploadAdFile implements OnInit {
         },
         error: () => {
           this.loading = false;
-           this.toast.show({
-                title: 'Upload failed ❌',
-                description: 'File upload failed',
-                variant: 'error',
-                position: 'toast-bottom-right'
-              });
+          this.toast.show({
+            title: 'Upload failed ❌',
+            description: 'File upload failed',
+            variant: 'error',
+            position: 'toast-bottom-right'
+          });
         }
       });
 
@@ -369,7 +381,7 @@ export class UploadAdFile implements OnInit {
       payload.AdType = this.getFileType(this.selectedFile);
     }
 
-    
+
 
     const userId = this.srv.getsession('id');
 
@@ -388,7 +400,7 @@ export class UploadAdFile implements OnInit {
               userId,
               this.selectedFile,
               '7',
-               this.mediaDuration
+              this.mediaDuration
             );
             if (!success) {
               this.loading = false;
@@ -422,11 +434,11 @@ export class UploadAdFile implements OnInit {
         this.loading = false;
         this.cd.detectChanges();
         this.toast.show({
-                title: 'Upload failed ❌',
-                description: 'File upload failed',
-                variant: 'error',
-                position: 'toast-bottom-right'
-              });
+          title: 'Upload failed ❌',
+          description: 'File upload failed',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
       }
     });
   }

@@ -1,0 +1,171 @@
+<div class="dialog-box">
+
+    <div class="dialog-header">
+
+        <div class="header-left">
+
+            <p class="main-title">
+
+                <!-- <img *ngIf="isImageType()" src="/media/image.svg" alt="image" class="file-icon">
+
+                <img *ngIf="isVideoType()" src="/media/mp4.svg" alt="video" class="file-icon">
+
+                <img *ngIf="isAudioType()" src="/media/audio.svg" alt="audio" class="file-icon"> -->
+
+                {{ ds?.Title }}
+
+            </p>
+
+            <p class="main-subtitle">
+
+                Advertiser
+
+                <span>
+                    {{ ds?.AdvertiserName }}
+                </span>
+
+            </p>
+
+        </div>
+
+        <button class="close-btn" (click)="close()">
+
+            <img src="/program/close-circle.svg" alt="close">
+
+        </button>
+
+    </div>
+
+    <div class="dialog-content">
+
+        <div *ngIf="loading" class="loading-wrapper">
+
+            Loading advertisement...
+
+        </div>
+
+        <div *ngIf="!loading && !ds" class="empty-preview">
+
+            <img src="/upload/file-default.svg">
+
+            <p>
+                No Advertisement Found
+            </p>
+
+        </div>
+
+        <div *ngIf="!loading && ds">
+
+            <!-- IMAGE -->
+            <div *ngIf="isImageType()" class="preview-wrapper">
+
+                <img [src]="ds?._url" class="preview-media" alt="advertisement">
+
+            </div>
+
+            <!-- VIDEO -->
+            <div *ngIf="isVideoType()" class="video-layout">
+
+                <video controls class="video-player">
+
+                    <source [src]="ds?._url">
+
+                </video>
+
+            </div>
+
+            <!-- AUDIO -->
+            <!-- AUDIO -->
+            <div *ngIf="isAudioType()" class="audio-layout">
+
+                <audio #audioPlayer [src]="ds?._url" (timeupdate)="onTimeUpdate(audioPlayer)"
+                    (loadedmetadata)="onLoadedMetadata(audioPlayer)" (ended)="onAudioEnded()">
+                </audio>
+
+                <div class="custom-audio-player">
+
+                    <button class="play-btn" (click)="toggleAudio(audioPlayer)">
+
+                        <mat-icon>
+                            {{ isPlaying ? 'pause' : 'play_arrow' }}
+                        </mat-icon>
+
+                    </button>
+
+                    <div class="audio-info">
+
+                        <input type="range" min="0" [max]="duration" [value]="currentTime"
+                            (input)="seekAudio($event, audioPlayer)" class="progress-bar" [style.background]="
+                'linear-gradient(to right,#ef1c1c 0%,#ef1c1c ' +
+                getProgressPercentage() +
+                '%,#ececec ' +
+                getProgressPercentage() +
+                '%,#ececec 100%)'
+                ">
+
+                        <div class="audio-time">
+
+                            <span>
+                                {{ formatTime(currentTime) }}
+                            </span>
+
+                            <span>
+                                {{ formatTime(duration) }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="advertisement-footer">
+
+                <!-- <div class="advertisement-meta">
+
+                    <div>
+                        <strong>Status:</strong>
+                        {{ ds?.Status }}
+                    </div>
+
+                    <div>
+                        <strong>Type:</strong>
+                        {{ ds?.AdType }}
+                    </div>
+
+                    <div>
+                        <strong>Start Date:</strong>
+                        {{ ds?.StartDate }}
+                    </div>
+
+                    <div>
+                        <strong>End Date:</strong>
+                        {{ ds?.EndDate }}
+                    </div>
+
+                    <div *ngIf="ds?.TotalDays">
+                        <strong>Duration:</strong>
+                        {{ ds?.TotalDays }} Days
+                    </div>
+
+                    <div>
+                        <strong>File Size:</strong>
+                        {{ formatFileSize(ds?.Size) }}
+                    </div>
+
+                    <div *ngIf="ds?.Notes">
+                        <strong>Notes:</strong>
+                        {{ ds?.Notes }}
+                    </div>
+
+                </div> -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

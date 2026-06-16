@@ -535,6 +535,17 @@ export class EditUploadedFile implements OnInit {
 
             this.dialogRef.close(true);
             this.cdr.detectChanges();
+          }else {
+
+            this.loading = false;
+            this.toast.show({
+              title: 'Unable to upload ❌',
+              description: r.Info || r.Error || 'Something went wrong',
+              variant: 'error',
+              position: 'toast-bottom-right'
+            });
+
+            this.cdr.detectChanges();
           }
         },
 
@@ -601,6 +612,17 @@ export class EditUploadedFile implements OnInit {
               position: 'toast-bottom-right'
             });
             this.dialogRef.close(true);
+            this.cdr.detectChanges();
+          }else {
+
+            this.loading = false;
+            this.toast.show({
+              title: 'Unable to upload ❌',
+              description: r.Info || r.Error || 'Something went wrong',
+              variant: 'error',
+              position: 'toast-bottom-right'
+            });
+
             this.cdr.detectChanges();
           }
         },

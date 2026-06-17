@@ -32,10 +32,15 @@ export class SchedulePicker implements OnInit, OnChanges {
   ];
 
   // Times
-  times = Array.from({ length: 24 }, (_, i) => {
-    const hour = i.toString().padStart(2, '0');
-    return `${hour}:00`;
-  });
+  // times = Array.from({ length: 24 }, (_, i) => {
+  //   const hour = i.toString().padStart(2, '0');
+  //   return `${hour}:00`;
+  // });
+
+  times = Array.from({ length: 23 }, (_, i) => {
+  const hour = (i + 1).toString().padStart(2, '0');
+  return `${hour}:00`;
+});
 
   // Form values
   fromDay: string = '';

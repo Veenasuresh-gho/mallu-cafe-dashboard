@@ -253,7 +253,7 @@ export class UpdateFileUpload {
     switch (this.item?.CategoryName?.toLowerCase()) {
       case 'podcast':
         return '6';
-      case 'prescheduled':
+      case 'pre-scheduled':
         return '5';
       case 'shorts':
         return '4';

@@ -63,7 +63,27 @@ export class UpdateFileUpload {
   res: ghoresult = new ghoresult();
 
   toast = inject(ToastService);
+  mediaDuration = 0;
 
+  private getMediaDuration(file: File): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const isVideo = file.type.startsWith('video');
+      const media = document.createElement(isVideo ? 'video' : 'audio');
+      media.preload = 'metadata';
+      media.onloadedmetadata = () => {
+        const duration = Math.floor(media.duration || 0);
+        URL.revokeObjectURL(media.src);
+        resolve(duration);
+      };
+
+      media.onerror = () => {
+        URL.revokeObjectURL(media.src);
+        reject(0);
+      };
+
+      media.src = URL.createObjectURL(file);
+    });
+  }
 
   get progressOffset() {
     return this.circumference -
@@ -95,7 +115,35 @@ export class UpdateFileUpload {
     this.fileInput.nativeElement.click();
   }
 
-  onFileSelected(event: Event) {
+  // onFileSelected(event: Event) {
+
+  //   const input = event.target as HTMLInputElement;
+
+  //   if (input.files?.length) {
+
+  //     const file = input.files[0];
+
+  //     // store selected file
+  //     this.selectedFile = file;
+
+  //     const finalName =
+  //       this.item?.FileName?.trim()
+  //         ? this.item.FileName
+  //         : `${this.item?.Title}.mp3`;
+
+  //     const nameWithoutExt = finalName.replace(/\.[^/.]+$/, "");
+
+  //     this.fileBaseName = nameWithoutExt;
+
+  //     this.isUploading = true;
+
+  //     this.startUpload(file);
+  //   }
+  // }
+
+
+
+  async onFileSelected(event: Event) {
 
     const input = event.target as HTMLInputElement;
 
@@ -103,15 +151,21 @@ export class UpdateFileUpload {
 
       const file = input.files[0];
 
-      // store selected file
       this.selectedFile = file;
+
+      try {
+        this.mediaDuration = await this.getMediaDuration(file);
+      } catch (err) {
+        console.error('Failed to get media duration', err);
+        this.mediaDuration = 0;
+      }
 
       const finalName =
         this.item?.FileName?.trim()
           ? this.item.FileName
           : `${this.item?.Title}.mp3`;
 
-      const nameWithoutExt = finalName.replace(/\.[^/.]+$/, "");
+      const nameWithoutExt = finalName.replace(/\.[^/.]+$/, '');
 
       this.fileBaseName = nameWithoutExt;
 
@@ -120,6 +174,7 @@ export class UpdateFileUpload {
       this.startUpload(file);
     }
   }
+
 
   cancelUpload() {
     this.isUploading = false;
@@ -167,7 +222,8 @@ export class UpdateFileUpload {
         this.item?.MediaID,
         this.srv.getsession('id'),
         renamedFile,
-        this.getDeleteType()
+        this.getDeleteType(),
+        this.mediaDuration
       );
 
       if (success) {
@@ -197,7 +253,7 @@ export class UpdateFileUpload {
     switch (this.item?.CategoryName?.toLowerCase()) {
       case 'podcast':
         return '6';
-      case 'prescheduled':
+      case 'pre-scheduled':
         return '5';
       case 'shorts':
         return '4';

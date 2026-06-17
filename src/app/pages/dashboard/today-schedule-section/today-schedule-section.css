@@ -267,12 +267,9 @@
     .menu-icon {
         width: 18px;
         height: 18px;
-
         background-color: #007bff;
-
         -webkit-mask: url('/dash/publish.svg') no-repeat center;
         -webkit-mask-size: contain;
-
         mask: url('/dash/publish.svg') no-repeat center;
         mask-size: contain;
     }

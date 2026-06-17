@@ -88,14 +88,16 @@
           </span>
         </div>
 
-        <app-primary-button [label]="isFinishingUpload ? 'Uploading...' : 'Finish upload'" iconSrc="/main/uploaded.svg"
+        <div class="pt-1">
+          <app-primary-button [label]="isFinishingUpload ? 'Uploading...' : 'Finish upload'" iconSrc="/main/uploaded.svg"
           [loading]="isFinishingUpload" [disabled]="isFinishingUpload" (clicked)="finishUpload()">
         </app-primary-button>
+        </div>
 
       </div>
     </ng-container>
 
-    <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
+    <input  accept="audio/*" type="file" #fileInput hidden (change)="onFileSelected($event)" />
 
   </div>
 </div>

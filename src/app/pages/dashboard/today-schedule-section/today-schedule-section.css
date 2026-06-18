@@ -1,301 +1,351 @@
-    .date-btn {
-        border: 2px solid #C6C6C6;
-        font-size: 12px;
-        cursor: pointer;
-        font-family: 'Red Hat Display', sans-serif;
-        font-weight: 700;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
+.date-btn {
+    border: 2px solid #C6C6C6;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'Red Hat Display', sans-serif;
+    font-weight: 700;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 
-    .program-schedules h6 {
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 12px;
-    }
+.program-schedules h6 {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 12px;
+}
 
-    .program-schedules p {
-        font-size: 10px;
-        font-weight: 400;
-        line-height: 14px;
-        width: 250px;
-    }
+.program-schedules p {
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 14px;
+    width: 250px;
+}
 
-    .on-air p {
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 16px;
-    }
+.on-air p {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+}
 
-    .on-air-text {
-        color: var(--success);
-        font-weight: 400;
-    }
+.on-air-text {
+    color: var(--success);
+    font-weight: 400;
+}
 
-    .rjImage img {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-        border-radius: 10px;
-    }
+.rjImage img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+}
 
-    .song-name {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 200px;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 10px;
-    }
+.song-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 10px;
+}
 
-    .time {
-        font-size: 10px;
-        color: #9A9A9A;
-    }
+.time {
+    font-size: 10px;
+    color: #9A9A9A;
+}
 
-    .name span {
-        color: var(--primary-color);
-        font-size: 10px;
-    }
+.name span {
+    color: var(--primary-color);
+    font-size: 10px;
+}
 
-    .name img {
-        width: 10px;
-    }
+.name img {
+    width: 10px;
+}
 
-    .schedules-content {
-        border: 1px solid #E4E4E4;
-        border-radius: 10px;
-        overflow: hidden;
-    }
+.schedules-content {
+    border: 1px solid #E4E4E4;
+    border-radius: 10px;
+    overflow: hidden;
+}
 
-    .on-air-content {
-        background-color: #FFFFFF;
-        border: none !important;
-        border-bottom: 1px solid #E4E4E4 !important;
-    }
+.on-air-content {
+    background-color: #FFFFFF;
+    border: none !important;
+    border-bottom: 1px solid #E4E4E4 !important;
+}
 
-    .on-air-section {
-        background-color: #FFFFFF;
-        border: none !important;
-        border-bottom: 1px solid #E4E4E4 !important;
-    }
+.on-air-section {
+    background-color: #FFFFFF;
+    border: none !important;
+    border-bottom: 1px solid #E4E4E4 !important;
+}
 
-    .on-air-content:first-child {
-        border-bottom: none !important;
-    }
+.on-air-content:first-child {
+    border-bottom: none !important;
+}
 
-    .on-air-content:last-child {
-        border-bottom: none !important;
-    }
+.on-air-content:last-child {
+    border-bottom: none !important;
+}
 
-    .rjImage img {
-        width: 50px;
-        height: 50px;
-        border-radius: 8px;
-        object-fit: cover;
-    }
+.rjImage img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+}
 
-    .headphone-icon {
-        width: 14px;
-    }
+.headphone-icon {
+    width: 14px;
+}
 
-    .border-bottom {
-        border-bottom: 1px solid #eee;
-    }
+.border-bottom {
+    border-bottom: 1px solid #eee;
+}
 
-    .listeners {
-        font-size: 12px;
-        font-family: var(--secondary-font);
-        color: #636363;
-    }
+.listeners {
+    font-size: 12px;
+    font-family: var(--secondary-font);
+    color: #636363;
+}
 
-    .count {
-        font-weight: 700;
-        font-style: Bold;
-        font-size: 12px;
-        line-height: 12px;
-        letter-spacing: 0%;
-        color: var(--primary-text);
+.count {
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 0%;
+    color: var(--primary-text);
 
-    }
+}
 
-    .files {
-        font-size: 10px;
-        color: var(--success);
-    }
+.files {
+    font-size: 10px;
+    color: var(--success);
+}
 
-    .files-not {
-        font-size: 10px;
+.files-not {
+    font-size: 10px;
 
-        color: var(--primary-color);
-    }
+    color: var(--primary-color);
+}
 
-    .view span {
-        font-size: 10px;
-    }
+.view span {
+    font-size: 10px;
+}
 
-    .border-b {
-        border-bottom: 1px solid #E4E4E4;
-    }
+.border-b {
+    border-bottom: 1px solid #E4E4E4;
+}
 
-    .scroll-container {
-        min-height: 0px;
-        max-height: 600px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        scrollbar-width: none;
+.scroll-container {
+    min-height: 0px;
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
 
-        -ms-overflow-style: none;
-    }
+    -ms-overflow-style: none;
+}
 
-    .meterial-icons {
-        color: var(--success);
-    }
+.meterial-icons {
+    color: var(--success);
+}
 
-    .past-program {
-        opacity: 0.5;
-        filter: grayscale(100%);
-        pointer-events: none;
-    }
+.past-program {
+    opacity: 0.5;
+    filter: grayscale(100%);
+    pointer-events: none;
+}
 
-    .live-text {
-        color: var(--accent);
-        font-weight: 400;
-        font-style: Regular;
-        font-size: 10px;
-        line-height: 10px;
-        letter-spacing: 0%;
-    }
+.live-text {
+    color: var(--accent);
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 10px;
+    line-height: 10px;
+    letter-spacing: 0%;
+}
 
-    .live-text-started {
-        color: var(--success);
-        font-weight: 400;
-        font-style: Regular;
-        font-size: 10px;
-        line-height: 10px;
-        letter-spacing: 0%;
-    }
+.live-text-started {
+    color: var(--success);
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 10px;
+    line-height: 10px;
+    letter-spacing: 0%;
+}
 
-    .url-row {
-        width: 100%;
-    }
+.url-row {
+    width: 100%;
+}
 
-    .flex-grow {
-        flex: 1;
-        min-width: 0;
-        /* prevents overflow bug */
-    }
+.flex-grow {
+    flex: 1;
+    min-width: 0;
+    /* prevents overflow bug */
+}
 
-    .url-input-wrapper {
-        display: flex;
-        border: 1px solid #CFCFCF;
-        align-items: center;
-        border-radius: 8px;
-        background: white;
-        padding: 8px 12px;
-        width: 100%;
-    }
+.url-input-wrapper {
+    display: flex;
+    border: 1px solid #CFCFCF;
+    align-items: center;
+    border-radius: 8px;
+    background: white;
+    padding: 8px 12px;
+    width: 100%;
+}
 
-    .url-prefix {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        color: var(--muted-text);
-        font-size: 10px;
-        margin-right: 6px;
-        white-space: nowrap;
-    }
+.url-prefix {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--muted-text);
+    font-size: 10px;
+    margin-right: 6px;
+    white-space: nowrap;
+}
 
-    .url-icon {
-        width: 16px;
-        height: 16px;
-        opacity: 0.7;
-    }
+.url-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
 
-    .url-input {
-        border: none;
-        outline: none;
-        background: transparent;
-        width: 100%;
-        font-size: 14px;
-        color: #333;
-    }
+.url-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+}
 
-    .url-input::placeholder {
-        color: var(--muted-input);
-        font-size: 12px;
-    }
+.url-input::placeholder {
+    color: var(--muted-input);
+    font-size: 12px;
+}
 
-    .custom-menu {
-        padding: 8px !important;
-    }
+.custom-menu {
+    padding: 8px !important;
+}
 
-    .custom-menu-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+.custom-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-        padding: 10px 14px;
-        background-color: #f2f2f2;
+    padding: 10px 14px;
+    background-color: #f2f2f2;
 
-        font-size: 14px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-    .custom-menu-item:hover {
-        background-color: #e6e6e6;
-    }
+.custom-menu-item:hover {
+    background-color: #e6e6e6;
+}
 
-    .custom-menu-item mat-icon {
-        font-size: 18px;
-    }
+.custom-menu-item mat-icon {
+    font-size: 18px;
+}
 
-    .no-programs {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
+.no-programs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
-    .no-programs p {
-        color: #666;
-        font-size: 12px;
-    }
+.no-programs p {
+    color: #666;
+    font-size: 12px;
+}
 
-    .menu-icon {
-        width: 18px;
-        height: 18px;
-        background-color: #007bff;
-        -webkit-mask: url('/dash/publish.svg') no-repeat center;
-        -webkit-mask-size: contain;
-        mask: url('/dash/publish.svg') no-repeat center;
-        mask-size: contain;
-    }
+.menu-icon {
+    width: 18px;
+    height: 18px;
+    background-color: #007bff;
+    -webkit-mask: url('/dash/publish.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask: url('/dash/publish.svg') no-repeat center;
+    mask-size: contain;
+}
 
-    /* Target the menu panel */
-    .custom-menu-panel {
-        background-color: #ffffff !important;
-        border-radius: 12px;
-        padding: 8px;
-    }
+/* Target the menu panel */
+.custom-menu-panel {
+    background-color: #ffffff !important;
+    border-radius: 12px;
+    padding: 8px;
+}
 
-    /* Remove default material shadow if you want clean look */
-    .custom-menu-panel .mat-mdc-menu-content {
-        padding: 0 !important;
-    }
+/* Remove default material shadow if you want clean look */
+.custom-menu-panel .mat-mdc-menu-content {
+    padding: 0 !important;
+}
 
-    .custom-menu-item.disabled {
-        opacity: 0.5;
-        pointer-events: none;
-        cursor: not-allowed;
-    }
+.custom-menu-item.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}
 
-    .viewFileBtn {
-        cursor: pointer;
-    }
+.viewFileBtn {
+    cursor: pointer;
+}
 
-    .upload-btn{
-        cursor: pointer;
-    }
+.upload-btn {
+    cursor: pointer;
+}
+
+/* ============================================
+   FIX: more_horiz menu button alignment
+   Previously appeared visually centered against
+   the row (image height) instead of aligning to
+   the top, in line with the program name/title.
+   ============================================ */
+
+/* Ensure the row containing the title block + menu button
+   aligns items to the top, so the button starts at the
+   same line as the song name */
+.on-air-content .d-flex.justify-content-between.align-items-start.w-100,
+.on-air-section .d-flex.justify-content-between.align-items-start {
+    align-items: flex-start !important;
+}
+
+/* Material's mat-icon-button has built-in padding/touch-target
+   that pushes the icon visually toward the vertical center of
+   its own box. Shrinking the button box removes that offset so
+   the icon sits flush with the top of the row (aligned with
+   the program name) instead of appearing centered. */
+.menu-btn {
+    align-self: flex-start !important;
+    width: 24px !important;
+    height: 24px !important;
+    line-height: 24px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0 !important;
+}
+
+/* Neutralize Angular Material's larger invisible touch target
+   that otherwise re-centers the button within a 40-48px box */
+.menu-btn .mat-mdc-button-touch-target {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.menu-btn mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

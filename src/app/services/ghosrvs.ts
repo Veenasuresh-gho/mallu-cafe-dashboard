@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ghoiin, ghoresult, tags } from '../../model/ghomodel';
 import { DialogAlert } from '../components/dialog/dialog';
+import { ToastService } from './toastService';
 
 interface ApiResponse { data: any; /* etc */ }
 interface AwsFileResponse {
@@ -25,6 +26,7 @@ export class GHOService {
   tv: tags[] = [];
   res: ghoresult = new ghoresult();
   url: string = "https://ghoapps.com/mcfm/iin";
+  toast = inject(ToastService);
   saveSession(T: string, V: string) {
     this.ss.set(T, V);
   }
@@ -116,11 +118,11 @@ export class GHOService {
     { id: 12, name: 'December' },
   ];
 
-awsfileuploadinfo(id: string, typ: string): Observable<AwsFileResponse> {
-  return this.http.get<AwsFileResponse>(
-    `https://ghoapps.com/api/file/upload-url?filename=${encodeURIComponent(id)}&filetype=${encodeURIComponent(typ)}`
-  );
-}
+  awsfileuploadinfo(id: string, typ: string): Observable<AwsFileResponse> {
+    return this.http.get<AwsFileResponse>(
+      `https://ghoapps.com/api/file/upload-url?filename=${encodeURIComponent(id)}&filetype=${encodeURIComponent(typ)}`
+    );
+  }
 
   async uploadFile(fileId: string, fileType: string, file: File, fileName: string): Promise<number> {
 
@@ -128,8 +130,19 @@ awsfileuploadinfo(id: string, typ: string): Observable<AwsFileResponse> {
       const getRes = await this.awsfileuploadinfo(fileName, fileType).toPromise();
       const uploadUrl = getRes?.Url;
 
+      // if (!uploadUrl) {
+      //   this.openDialog('Error', 'e', 'Upload URL missing');
+      //   return 0;
+      // }
+
       if (!uploadUrl) {
-        this.openDialog('Error', 'e', 'Upload URL missing');
+        this.toast.show({
+          title: 'Upload failed ❌',
+          description: 'Upload URL missing',
+          variant: 'error',
+          position: 'toast-bottom-right'
+        });
+
         return 0;
       }
 
@@ -181,7 +194,7 @@ awsfileuploadinfo(id: string, typ: string): Observable<AwsFileResponse> {
 
       const res1 = await this.getdata('fileupload', tv1).toPromise();
 
-  
+
 
       const fileUploadId = res1?.Data?.[0]?.[0]?.id;
       const fileType = res1?.Data?.[0]?.[0]?.FileType;

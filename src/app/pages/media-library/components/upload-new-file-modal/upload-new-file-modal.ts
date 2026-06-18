@@ -534,7 +534,6 @@ export class UploadNewFileModal implements OnInit {
     ];
     this.srv.getdata('program', this.tv)
       .subscribe({
-
         next: async (r) => {
           if (r.Status === 1 && r.Data?.length) {
             this.id = r.Data[0]?.[0]?.MediaID || this.programId;
@@ -594,6 +593,18 @@ export class UploadNewFileModal implements OnInit {
                 position: 'toast-bottom-right'
               });
             }
+
+            this.cdr.detectChanges();
+          }
+          else {
+
+            this.loading = false;
+            this.toast.show({
+              title: 'Unable to upload ❌',
+              description: r.Info || r.Error || 'Something went wrong',
+              variant: 'error',
+              position: 'toast-bottom-right'
+            });
 
             this.cdr.detectChanges();
           }
